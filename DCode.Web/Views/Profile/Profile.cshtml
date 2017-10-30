@@ -1,0 +1,226 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Profile</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/Images/tech-x.ico" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://www.cssscript.com/demo/pretty-checkbox-radio-inputs-with-bootstrap-and-awesome-bootstrap-checkbox-css/build.css">
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/all.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/loading-bar.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.0/angular-material.min.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    @Scripts.Render(BundleConfig.JsAngularBundle)
+    @Scripts.Render(BundleConfig.JsAngularAssetsBundle)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.js"></script>
+
+    <!-- Angular Material Dependencies -->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.js"></script>
+
+    
+</head>
+<body ng-app="dCodeApp" class="allow_scroll profileController" ng-controller="ProfileController">
+    <div class="col-sm-10 col-md-10 col-md-offset-1 main no-padding-left-right" ng-cloak>
+        <div class="right-body-top background-color-fff no-padding-left-right">
+            <div class="no-margin-left profile-logo">
+                <img src="~/Content/Images/tech-x-logo.png" height="150px" width="260px" class="logo">
+            </div>
+        </div>
+        <div class="col-md-12 no-padding-left-right skill_tag">
+            <div class="col-md-8 col-md-offset-2 background-color-fff margin-top-25 fst-login" ng-show="isFirstTimeLogin">
+                <h3 class="dark-grey-blue font-size-24">Welcome aboard!</h3>
+                <p class="myDescription margin-bottom-25">To start we’d like you fill in a few important details. <br />Complete your profile and help us cater your feed accordingly.</p>
+            </div>
+            <div class="col-md-8 col-md-offset-2 skill-big-box margin-top-25 no-padding-left-right" id="profilePage" ng-show="!isFirstTimeLogin">
+
+                <div class="col-md-12 background-color-34495e no-padding-left-right">
+                    <div class="margin-top-40 welcome-container">
+                        <h3 class="fontSize24 color-dee1e2 welcome-txt">Welcome Back!</h3>
+                        <div class="left-nav-circle-img background-95a5a6 margin-top-24 color-ecf0f1  margin-left-40">{{userContext.ShortName}}</div>
+                        @*<div class="upload-txt">UPLOAD IMAGE</div>*@
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-8 col-md-offset-2 skill-big-box margin-top-2">
+
+                <div class="col-md-6 Recommended-number font-size-20">
+                    <div class="skill-box margin-bottom-40 margin-top-40">
+                        <div class="heading bold"> Name
+                            <span class="requiredField">*</span>
+                         </div>
+                        <div class="value"> {{userContext.Name}}</div>
+                    </div>
+                    <div class="skill-box margin-bottom-40">
+                        <div class="heading bold"> Position
+                            <span class="requiredField">*</span>
+                        </div>
+                        <div class="value"> {{userContext.Designation}}</div>
+                    </div>
+                    <div class="skill-box margin-bottom-40">
+                        <div class="heading bold"> Work Extension
+                            <span class="requiredField">*</span>
+                        </div>
+                        <div class="value">{{userContext.TelephoneNumber}}</div>
+                    </div>
+                </div>
+                <div class="col-md-6 Recommended-number font-size-20">
+                    <div class="skill-box margin-bottom-40 margin-top-40">
+                        <div class="heading bold"> Email ID
+                            <span class="requiredField">*</span>
+                        </div>
+                        <div class="value">{{userContext.EmailId}}</div>
+                    </div>
+                    <div class="skill-box margin-bottom-40">
+                        <div class="heading bold"> Service Line
+                            <span class="requiredField">*</span>
+                        </div>
+                        <div class="value">{{userContext.Department}}</div>
+                    </div>
+                    <div class="skill-box margin-bottom-40">
+                        <div class="heading bold"> Mobile </div>
+                        <div class="value">{{userContext.MobileNumber}}</div>
+                    </div>
+                    @*<span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>*@
+                </div>
+
+            </div>
+            <form name="form" target="profileSubmit">
+                <div class="col-md-8 col-md-offset-2 skill-big-box ip margin-bottom-25">
+                    <div class="col-md-6 Recommended-number font-size-20">
+                        <div class="skill-box margin-bottom-40 margin-top-40">
+                            <div class="heading bold"> Skill Set
+                                <span class="requiredField">*</span>
+                             <span ng-show="isEditMode" class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span></div>
+                            <div class="value" id="isSkillAdded" ng-show="isEditMode">
+                                <div class="input-group col-md-7 no-padding pull-left">
+                                    <angucomplete-alt id="ex1"
+                                                      placeholder="Search for Skill Set"
+                                                      pause="100"
+                                                      selected-object="selectedSkill"
+                                                      remote-url="/Common/SearchSkill?searchParam="
+                                                      title-field="Value"
+                                                      description-field="email"
+                                                      minlength="1"
+                                                      clear-selected="true"
+                                                      input-class="form-control form-control-small" ng-disabled="test.isEditMode" />
+                                </div>
+                                <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </div>
+                            <span class="error col-md-12">Please add a skill</span>
+                        </div>
+                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
+                            <div class="heading bold"> Project Name
+                                <span class="requiredField">*</span>
+                            </div>
+                            <div class="value col-md-8 no-padding">
+                                <input type="text" ng-show="isEditMode" class="form-control" placeholder="Add the name of the project" ng-model="profile.ProjectName" required>
+                                <div class="value" ng-show="!isEditMode"> {{profile.ProjectName}}</div>
+                            </div>
+                        </div>
+                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
+                            <div class="heading bold"> Project Manager Name
+                                <span class="requiredField">*</span>
+                            </div>
+                            <div class="value col-md-8 no-padding">
+                                <input type="text" ng-show="isEditMode" class="form-control" placeholder="Firstname, Lastname" ng-model="profile.ManagerName" required>
+                                <div class="value" ng-show="!isEditMode" required> {{profile.ManagerName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 Recommended-number font-size-20">
+                        <div class="skill-box edit margin-top-bottom-20">
+                            <span class="skill-item" name="skills" ng-repeat="skill in skillSet">
+                                <span>{{skill.Value}}</span><span ng-show="isEditMode" class="glyphicon glyphicon-remove" ng-click="removeSkill($index)"></span>
+                                <span class="help-inline" ng-show="submitted && form.skills.$error.required">Required</span>
+
+                            </span>
+                        </div>
+                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
+                            <div class="heading bold"> Project Code
+                                <span class="requiredField">*</span>
+                            </div>
+                            <div class="value col-md-8 no-padding">
+                                <input type="text" ng-show="isEditMode" class="form-control" placeholder="WBS Code - CEDXXXXX-XX-XX-XXXX" ng-model="profile.ProjectCode" required>
+                                <div class="value" ng-show="!isEditMode"> {{profile.ProjectCode}}</div>
+                            </div>
+                        </div>
+                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
+                            <div class="heading bold"> Project Manager Email ID
+                                <span class="requiredField">*</span>
+                            </div>
+                            <div class="value col-md-8 no-padding">
+                                <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
+                                <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
+                                <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
+                                <div class="value" ng-show="!isEditMode"> {{profile.ManagerEmailId}}</div>
+                            </div>
+                        </div>
+                        <span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>
+                    </div>
+                    <div class="col-md-12 margin-bottom-25 margin-top-20">
+                        <div class="edit-task-btn pull-left margin-right-40 submit-but" ng-show="!isFirstTimeLogin" onclick="window.history.back();">Back</div>
+                        <input type="submit" class="edit-task-btn pull-left margin-right-40 submit-but" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" ng-controller="ProfileController">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content addSkillDialog">
+
+            <div class="modal-body col-md-12">
+                <form id="form" name="form" class="col-md-12">
+                    <div class="col-md-8">
+                        <label style="color:green" ng-bind="skillModel.successMessage" for="skillName"></label>
+                        <label style="color:red" ng-bind="skillModel.errorMessage" for="skillName"></label>
+                        <input type="text" id="skillName" class="form-control col-md-4" placeholder="Enter Skill Name" ng-model="skillModel.newSkillValue" required>
+                    </div>
+                    <input type="submit" class="edit-task-btn pull-left submit-but col-md-1  margin-top-20" value="Submit" ng-click="insertSkill();">
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="alertModel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content addSkillDialog  col-md-12">
+            <div class="modal-body col-md-12">
+                <h2>Sorry, you skipped some inputs.</h2>  
+                <p>Choose the process that you would like to proceed with.</p>   
+                <div class="edit-task-btn pull-left margin-right-40 col-md-offset-2 submit-but margin-top-20">CONTIUE AS CONTRIBUTOR</div>
+                <div class="edit-task-btn pull-left margin-right-40 submit-but margin-top-20 margin-bottom-25">CONTIUE AS REQUESTOR</div>
+            </div>
+        </div>
+    </div>
+</div>

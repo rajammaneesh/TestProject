@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2e54ab8b08d949fba955778899a78df1" Name="Diagram1">
+        <EntityTypeShape EntityType="DCodeDbContext.applicantskill" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.approvedapplicant" Width="1.5" PointX="6" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.log" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.service_line" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.skill" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.suggestion" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.taskapplicant" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.task" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.taskskill" Width="1.5" PointX="5.25" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DCodeDbContext.user" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="DCodeDbContext.applicantskills_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.applicantskills_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.approvedapplicant_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.approvedapplicant_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.tasks_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.taskskills_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.tasks_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="DCodeDbContext.taskskills_ibfk_1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

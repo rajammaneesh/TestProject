@@ -1,0 +1,133 @@
+diff a/DCode.Services/Common/CommonService.cs b/DCode.Services/Common/CommonService.cs	(rejected hunks)
+@@ -67,130 +67,130 @@
+         }
+ 
+         public UserContext GetCurrentUserContext(string userName = null)
+         {
+             if (SessionHelper.Retrieve(Constants.UserContext) != null)
+             {
+                 _userContext = SessionHelper.Retrieve(Constants.UserContext) as UserContext;
+             }
+             else
+             {
+                 try
+                 {
+                     SearchResultCollection searchResults = null;
+                     var log = new Log();
+                     log.Description = "Name: " + userName + Environment.NewLine;
+                     LogToDatabase(log);
+                     string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), "mrajam");
+                     log.Description = "Path :" + path + Environment.NewLine;
+                     LogToDatabase(log);
+                     var directoryEntry = new DirectoryEntry(path);
+                     log.Description = log.Description + "Authentication Type: " + directoryEntry.AuthenticationType + Environment.NewLine;
+                     LogToDatabase(log);
+                     log.Description = log.Description + "Directory Name: " + directoryEntry.Name + Environment.NewLine;
+                     LogToDatabase(log);
+                     log.Description = log.Description + "DirectoryPath: " + directoryEntry.Path + Environment.NewLine;
+                     LogToDatabase(log);
+                     var directorySearcher = new DirectorySearcher(directoryEntry);
+                     directorySearcher.Filter = string.Format(Constants.SearchFilter, "mrajam");
+                     LogToDatabase(log);
+                     searchResults = directorySearcher.FindAll();
+                     log.Description = log.Description + Environment.NewLine + searchResults.Count;
+                     LogToDatabase(log);
+ 
+                     var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+                     var propertyDescription = new StringBuilder();
+                     foreach (SearchResult result in searchResults)
+                     {
+                         foreach (string propertyName in result.Properties.PropertyNames)
+                         {
+                             if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                             {
+                                 _userContext.EmailId = result.Properties[propertyName][0].ToString();
+                             }
+                             else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                             {
+                                 _userContext.Designation = result.Properties[propertyName][0].ToString();
+                             }
+                             else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                             {
+                                 _userContext.FirstName = result.Properties[propertyName][0].ToString();
+                             }
+                             else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                             {
+                                 _userContext.LastName = result.Properties[propertyName][0].ToString();
+                             }
+                             else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
+                             {
+                                 _userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
+                             }
+                             else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                             {
+                                 _userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                             }
+                         }
+                     }
+                 }
+                 catch(Exception ex)
+                 {
+                      ErrorSignal.FromCurrentContext().Raise(ex);
+                      _userContext = new UserContext { Designation = "DC Manager", FirstName = "No", LastName = "DeloitteNetwork", EmailId = "requestor@deloitte.com" };
+                 }
+                 _userContext.MenuItems = FetchMenuItems(_userContext.Designation);
+                 SessionHelper.Save(Constants.UserContextMenuItems, _userContext.MenuItems);
+             }
+             return _userContext;
+         }
+ 
+         private List<MenuItem> FetchMenuItems(string designation)
+         {
+             var menuItemsList = new List<MenuItem>();
+             var role = string.Empty;
+             if(designation.Contains("senior manager") || designation.Contains("specialist leader"))
+             {
+                 role = "Admin";
+             }
+             else if(designation.ToLowerInvariant().Contains("manager") || designation.ToLowerInvariant().Contains("master"))
+             {
+                 role = "Requestor";
+             }
+             else
+             {
+                 role = "Contributor";
+             }
+             switch(role)
+             {
+                 case "Admin":
+                         
+                     break;
+                 case "Requestor":
+                     menuItemsList.Add(new MenuItem() { MenuItemName = "CREATE NEW TASK", NavigationUrl = "/Requestor/NewTasks", State = "newtasks", CssClass = "" });
+-                    menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "dashboard-disabled@2x.png", State = "dashboard.approval", CssClass = "mytask-icon" });
++                    menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dash-board-disabled.png", State = "dashboard.approval", CssClass = "mytask-icon" });
+                     menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", NavigationUrl = "/Requestor/Projects", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", State = "projects", CssClass = "permission-icon" });
+                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", State = "history", CssClass = "history-icon" });
+                     break;
+                 case "Contributor":
+                     menuItemsList.Add(new MenuItem() { MenuItemName = "DASHBOARD", NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard.svg", State = "dashboard.approval", CssClass = "" });
+                     menuItemsList.Add(new MenuItem() { MenuItemName = "PROJECTS", NavigationUrl = "/Requestor/Projects", ImageUrlActive = "/Content/Images/view-project.svg", State = "projects", CssClass = "" });
+                     menuItemsList.Add(new MenuItem() { MenuItemName = "NEW TASK", NavigationUrl = "/Requestor/NewTasks", ImageUrlActive = "/Content/Images/add-project.svg", State = "newtasks", CssClass = "" });
+                     break;
+                 default:
+                     break;
+             }
+             return menuItemsList;
+         }
+ 
+         public int LogToDatabase(Log logmodel)
+         {
+             var dbLog = _logModelFactory.CreateModel(logmodel);
+             var result = _logRepository.InsertLog(dbLog);
+             return result;
+         }
+ 
+         public IEnumerable<Log> GetDBLogs()
+         {
+             var logs = _logRepository.GetLogs();
+             var result = _logModelFactory.CreateModelList<Log>(logs);
+             return result;
+         }
+     }
+ }

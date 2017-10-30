@@ -1,0 +1,290 @@
+CREATE DATABASE  IF NOT EXISTS `dcode`;
+USE `dcode`;
+drop database dcode;
+create database dcode;
+use dcode;
+CREATE TABLE TASKS(
+	ID int NOT NULL auto_increment,
+	PROJECT_NAME varchar(50) NOT NULL,
+	TASK_NAME varchar(50) NULL,
+	PROJECT_WBS_Code varchar(50) NOT NULL,
+	TYPE varchar(100) NULL,
+	DETAILS varchar(255) NULL,
+	REQUESTOR_EMAIL_ID varchar(255) NOT NULL,
+	HOURS int NULL,
+	SKILLS varchar(255) NULL,
+	COMMENTS varchar(255) NULL,
+	ONBOARDING_DATE datetime NULL,
+	DUE_DATE datetime NULL,
+	GIFTS bit NULL,
+	FIRST_NAME varchar(50) NULL,
+	LAST_NAME varchar(50) NULL,
+	CREATED_BY varchar(100) NULL,
+	CREATED_ON datetime NULL,
+	UPDATED_BY varchar(100) NULL,
+	UPDATED_ON datetime NULL,
+	STATUS varchar(20) NULL,
+	STATUS_DATE datetime NULL,
+	BUFFER_1 varchar(50) NULL,
+	BUFFER_2 varchar(50) NULL,
+primary key (ID)
+) auto_increment=1;
+
+
+
+CREATE TABLE APPLICANTS(
+	ID int NOT NULL auto_increment ,
+	TASK_ID int NOT NULL,
+	FIRST_NAME varchar(50) NULL,
+	LAST_NAME varchar(50) NULL,
+	DESIGNATION varchar(50) NULL,
+	EXPERTISE varchar(50) NULL,
+	EMAIL_ID varchar(255) NOT NULL,
+	MANAGER_EMAIL_ID varchar(255) NOT NULL,
+	IS_APPROVED bit NULL,
+	CREATED_BY varchar(100) NULL,
+	CREATED_ON datetime NULL,
+	UPDATED_BY varchar(100) NULL,
+	UPDATED_ON datetime NULL,
+	STATUS varchar(20) NULL,
+	STATUS_DATE datetime NULL,
+	BUFFER_1 varchar(50) NULL,
+	BUFFER_2 varchar(50) NULL,
+primary key (ID),
+foreign key (TASK_ID) references tasks(ID)
+) auto_increment = 1;
+
+
+CREATE TABLE APPROVEDAPPLICANTS(
+	ID int NOT NULL auto_increment,
+	APPLICANT_ID int NULL,
+	EMAIL_ID varchar(255) NULL,
+	APPLICANT_STATUS varchar(50) NULL,
+	RATING varchar(50) NULL,
+	WORK_AGAIN bit NULL,
+	POINTS int NULL,
+	HOURS_WORKED decimal(5, 1) NULL,
+	COMMENTS varchar(255) NULL,
+	CREATED_BY varchar(100) NULL,
+	CREATED_ON datetime NULL,
+	UPDATED_BY varchar(100) NULL,
+	UPDATED_ON datetime NULL,
+	STATUS varchar(20) NULL,
+	STATUS_DATE datetime NULL,
+	BUFFER_1 varchar(50) NULL,
+	BUFFER_2 varchar(50) NULL,
+primary key (ID),
+foreign key (APPLICANT_ID) references applicants(ID)
+)auto_increment = 1;
+
+																																				
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+( N'TelstraSuper', N'Build CMS solution' ,N'WBS_TEL', N'Need to build server side code to enable CMS', N'Build CMS for the client', N'ahmedabad@deloitte.com', 20, N'Sitecore, Dotnet', N'Need resource with dotnet and sitecore knowledge',CAST(N'2016-07-26 11:24:52.550' AS DateTime) ,CAST(N'2016-07-26 11:24:52.550' AS DateTime),1 ,N'Maneesh', N'Rajam', N'Maneesh Rajam', CAST(N'2016-07-06 11:24:52.550' AS DateTime), N'Test Person', CAST(N'2016-07-06 16:45:00.907' AS DateTime), N'Assigned', CAST(N'2016-07-06 11:24:52.550' AS DateTime));
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(N'VicRoads','Build application', N'WBS_VIC_01_02', N'Backend', N'Details of the porject test', N'Banglore@deloitte.com', 56, N'Dotnet, java', N'Sample Comments', CAST(N'2016-07-26 18:17:25.107' AS DateTime),CAST(N'2016-07-26 18:17:25.107' AS DateTime),1, N'maneesh', N'rajam', NULL, NULL, NULL, NULL, N'Active', CAST(N'2016-07-06 18:17:27.243' AS DateTime));
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(N'Novonordisk','Build sharepoint application', N'WBS_VIC_01_02', N'FrontEnd', N'Details of the porject test', N'Chennai@deloitte.com', 30, N'Dotnet, java', N'Sample Comments', CAST(N'2016-07-26 22:06:59.847' AS DateTime) ,CAST(N'2016-07-26 22:06:59.847' AS DateTime),0 ,N'maneesh', N'rajam', NULL, NULL, NULL, NULL, N'Active', CAST(N'2016-07-06 22:07:01.533' AS DateTime));
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(N'Exxon Mobil','Build Cms using adobe', N'WBS_VIC_01_02', N'Database', N'Details of the porject test', N'ellora@deloitte.com', 40, N'Dotnet, java', N'Sample Comments', CAST(N'2016-07-26 22:12:21.567' AS DateTime),CAST(N'2016-07-26 22:12:21.567' AS DateTime),1, N'maneesh', N'rajam', NULL, NULL, NULL, NULL, N'Active', CAST(N'2016-07-06 22:12:21.567' AS DateTime));
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(N'VM Ware','Build client application', N'WBS_VIC_01_02', N'UX Designs', N'Details of the porject test', N'faridabad@deloitte.com', 50, N'Dotnet, java', N'Sample Comments', CAST(N'2016-07-26 22:12:58.210' AS DateTime),CAST(N'2016-07-26 22:12:58.210' AS DateTime),0, N'maneesh', N'rajam', NULL, NULL, NULL, NULL, N'Active', CAST(N'2016-07-06 22:12:58.210' AS DateTime));
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(N'Amex Solution','Build adobe CQ solution', N'WBS_VIC_01_02', N'CQ', N'Details of the porject test', N'hyderabad@deloitte.com', 70, N'Dotnet, java', N'Sample Comments', CAST(N'2016-07-26 22:13:02.437' AS DateTime),CAST(N'2016-07-26 22:13:02.437' AS DateTime),0, N'maneesh', N'rajam', NULL, NULL, NULL, NULL, N'Active', CAST(N'2016-07-06 22:13:02.437' AS DateTime));
+INSERT TASKS ( PROJECT_NAME,TASK_NAME, PROJECT_WBS_Code, TYPE, DETAILS, REQUESTOR_EMAIL_ID, HOURS, SKILLS, COMMENTS,ONBOARDING_DATE, DUE_DATE,GIFTS, FIRST_NAME, LAST_NAME, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(N'Nu Skin','Build integrated application', N'WBS_VIC_01_02', N'Hybris', N'Details of the porject test', N'requestor@deloitte.com', 60, N'Dotnet, java', N'Sample Comments', CAST(N'2016-07-26 22:13:05.283' AS DateTime),CAST(N'2016-07-26 22:13:05.283' AS DateTime),1, N'maneesh', N'rajam', NULL, NULL, NULL, NULL, N'Active', CAST(N'2016-07-06 22:13:05.283' AS DateTime));
+
+
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (1, N'Alladin', N'Abu', N'abu@alladin.com', N'Banglore@deloitte.com', N'Alladin, Abu', CAST(N'2016-07-08 19:21:34.760' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-08 19:21:34.760' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES 
+(1, N'Jack', N'Abu', N'abu@Jack.com', N'Banglore@deloitte.com', N'Jack, Abu', CAST(N'2016-07-08 19:24:30.980' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-08 19:24:30.980' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (1, N'Rose', N'Abu', N'abu@Rose.com', N'Banglore@deloitte.com', N'Rose, Abu', CAST(N'2016-07-08 19:25:00.953' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-08 19:25:00.953' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (1, N'Jaffa', N'Grover', N'Grover@Jaffa.com', N'Banglore@deloitte.com', N'Jaffa, Grover', CAST(N'2016-07-08 19:27:51.710' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-08 19:27:51.710' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (2, N'Game', N'Grover', N'Grover@Game.com', N'ahmedabad@deloitte.com', N'Game, Grover', CAST(N'2016-07-08 20:32:00.140' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-08 20:32:00.140' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (2, N'Alibaba', N'JackMa', N'Alibaba@JackMa.com', N'ahmedabad@deloitte.com', N'Alibaba, JackMa', CAST(N'2016-07-08 20:32:45.643' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-08 20:32:45.643' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (3, N'Will', N'Smith', N'Will@Smith.com', N'Banglore@deloitte.com', N'Will, Smith', CAST(N'2016-07-09 22:38:51.747' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:38:51.747' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (3, N'Russel', N'Crowe', N'Crowe@Game.com', N'Banglore@deloitte.com', N'Russel, Crowe', CAST(N'2016-07-09 22:38:51.760' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:38:51.760' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (3, N'Jackie', N'Chan', N'Jackie@chan.com', N'Banglore@deloitte.com', N'Jackie, Chan', CAST(N'2016-07-09 22:38:51.760' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:38:51.760' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (4, N'Brad', N'Pitt', N'Brad@Pitt.com', N'Chennai@deloitte.com', N'Brad, Pitt', CAST(N'2016-07-09 22:41:27.857' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:41:27.857' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (5, N'George', N'Clooney', N'George@Game.com', N'ellora@deloitte.com', N'George, Clooney', CAST(N'2016-07-09 22:41:27.857' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:41:27.857' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (5, N'Tom', N'Cruise', N'Tom@Cruise.com', N'ellora@deloitte.com', N'Tom, Cruise', CAST(N'2016-07-09 22:41:27.857' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:41:27.857' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (5, N'Daniel', N'Craig', N'Daniel@Craig.com', N'ellora@deloitte.com', N'Daniel, Craig', CAST(N'2016-07-09 22:44:09.140' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:44:09.140' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (5, N'Tom', N'Hanks', N'Hanks@Tom.com', N'ellora@deloitte.com', N'Tom, Hanks', CAST(N'2016-07-09 22:44:09.140' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:44:09.140' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (5, N'Vin', N'Diesel', N'Diesel@Cruise.com', N'ellora@deloitte.com', N'Vin, Diesel', CAST(N'2016-07-09 22:44:09.140' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:44:09.140' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (6, N'Paul', N'Walker', N'Walker@Paul.com', N'faridabad@deloitte.com', N'Paul, Walker', CAST(N'2016-07-09 22:46:25.570' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:46:25.570' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (6, N'Daniel', N'Radcliffe', N'Radcliffe@Daniel.com', N'faridabad@deloitte.com', N'Daniel, Radcliffe', CAST(N'2016-07-09 22:46:25.573' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:46:25.573' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE)
+VALUES (6, N'Tobey', N'Maguire', N'Tobey@Maguire.com', N'faridabad@deloitte.com', N'Tobey, Maguire', CAST(N'2016-07-09 22:46:25.573' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:46:25.573' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (7, N'Robert', N'Downey', N'Robert@Paul.com', N'hyderabad@deloitte.com', N'Robert, Downey', CAST(N'2016-07-09 22:49:53.437' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:49:53.437' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (7, N'Morgan', N'Freeman', N'Morgan@Daniel.com', N'hyderabad@deloitte.com', N'Morgan, Freeman', CAST(N'2016-07-09 22:49:53.437' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:49:53.437' AS DateTime));
+INSERT APPLICANTS ( TASK_ID, FIRST_NAME, LAST_NAME, EMAIL_ID, MANAGER_EMAIL_ID, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) 
+VALUES (7, N'Samuel', N'Jackson', N'Samuel@Jackson.com', N'hyderabad@deloitte.com', N'Samuel, Jackson', CAST(N'2016-07-09 22:49:53.437' AS DateTime), NULL, NULL, N'Active', CAST(N'2016-07-09 22:49:53.437' AS DateTime));
+
+
+
+
+
+
+INSERT APPROVEDAPPLICANTS ( APPLICANT_ID, APPLICANT_STATUS, RATING, WORK_AGAIN, POINTS, HOURS_WORKED, COMMENTS, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES (1, N'Active', N'2', 0, NULL, NULL, N'asdf', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT APPROVEDAPPLICANTS ( APPLICANT_ID, APPLICANT_STATUS, RATING, WORK_AGAIN, POINTS, HOURS_WORKED, COMMENTS, CREATED_BY, CREATED_ON, UPDATED_BY, UPDATED_ON, STATUS, STATUS_DATE) VALUES (2, N'Active', N'4', 0, NULL, NULL, N'test comments for updatd column', NULL, NULL, N'', CAST(N'2016-07-11 23:01:57.457' AS DateTime), NULL, NULL);
+
+
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE SCHEMA IF NOT EXISTS `dcode` ;
+USE `dcode`;
+
+-- -----------------------------------------------------
+-- Table `elmah`.`elmah_error`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dcode`.`elmah_error` (
+  `ErrorId` CHAR(36) NOT NULL ,
+  `Application` VARCHAR(60) NOT NULL ,
+  `Host` VARCHAR(50) NOT NULL ,
+  `Type` VARCHAR(100) NOT NULL ,
+  `Source` VARCHAR(60) NOT NULL ,
+  `Message` VARCHAR(500) NOT NULL ,
+  `User` VARCHAR(50) NOT NULL ,
+  `StatusCode` INT(10) NOT NULL ,
+  `TimeUtc` DATETIME NOT NULL ,
+  `Sequence` INT(10) NOT NULL AUTO_INCREMENT ,
+  `AllXml` TEXT NOT NULL ,
+  PRIMARY KEY (`Sequence`) ,
+  UNIQUE INDEX `IX_ErrorId` (`ErrorId`(8) ASC) ,
+  INDEX `IX_ELMAH_Error_App_Time_Seql` (`Application`(10) ASC, `TimeUtc` DESC, `Sequence` DESC) ,
+  INDEX `IX_ErrorId_App` (`ErrorId`(8) ASC, `Application`(10) ASC) )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+CHECKSUM = 1
+DELAY_KEY_WRITE = 1
+ROW_FORMAT = DYNAMIC;
+
+
+DELIMITER //
+
+USE dcode//
+
+CREATE PROCEDURE `dcode`.`elmah_GetErrorXml` (
+  IN Id CHAR(36),
+  IN App VARCHAR(60)
+)
+NOT DETERMINISTIC
+READS SQL DATA
+BEGIN
+    SELECT  `AllXml`
+    FROM    `elmah_error`
+    WHERE   `ErrorId` = Id AND `Application` = App;
+END//
+
+USE dcode//
+
+CREATE PROCEDURE `dcode`.`elmah_GetErrorsXml` (
+  IN App VARCHAR(60),
+  IN PageIndex INT(10),
+  IN PageSize INT(10),
+  OUT TotalCount INT(10)
+)
+NOT DETERMINISTIC
+READS SQL DATA
+BEGIN
+    
+    SELECT  count(*) INTO TotalCount
+    FROM    `elmah_error`
+    WHERE   `Application` = App;
+
+    SET @index = PageIndex * PageSize;
+    SET @count = PageSize;
+    SET @app = App;
+    PREPARE STMT FROM '
+    SELECT
+        `ErrorId`,
+        `Application`,
+        `Host`,
+        `Type`,
+        `Source`,
+        `Message`,
+        `User`,
+        `StatusCode`,
+        CONCAT(`TimeUtc`, '' Z'') AS `TimeUtc`
+    FROM
+        `elmah_error` error
+    WHERE
+        `Application` = ?
+    ORDER BY
+        `TimeUtc` DESC,
+        `Sequence` DESC
+    LIMIT
+        ?, ?';
+    EXECUTE STMT USING @app, @index, @count;
+
+END//
+
+USE dcode//
+
+CREATE PROCEDURE `dcode`.`elmah_LogError` (
+    IN ErrorId CHAR(36), 
+    IN Application varchar(60), 
+    IN Host VARCHAR(30), 
+    IN Type VARCHAR(100), 
+    IN Source VARCHAR(60), 
+    IN Message VARCHAR(500), 
+    IN User VARCHAR(50), 
+    IN AllXml TEXT, 
+    IN StatusCode INT(10), 
+    IN TimeUtc DATETIME
+)
+NOT DETERMINISTIC
+MODIFIES SQL DATA
+BEGIN
+    INSERT INTO `elmah_error` (
+        `ErrorId`, 
+        `Application`, 
+        `Host`, 
+        `Type`, 
+        `Source`, 
+        `Message`, 
+        `User`, 
+        `AllXml`, 
+        `StatusCode`, 
+        `TimeUtc`
+    ) VALUES (
+        ErrorId, 
+        Application, 
+        Host, 
+        Type, 
+        Source, 
+        Message, 
+        User, 
+        AllXml, 
+        StatusCode, 
+        TimeUtc
+    );
+END//
+
+DELIMITER ;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

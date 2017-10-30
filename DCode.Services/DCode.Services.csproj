@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D2F6FCFC-AC10-4150-BC8B-A1AF7760A385}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DCode.Services</RootNamespace>
+    <AssemblyName>DCode.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\BaseService.cs" />
+    <Compile Include="Common\CommonService.cs" />
+    <Compile Include="Common\ICommonService.cs" />
+    <Compile Include="Contributor\ContributorService.cs" />
+    <Compile Include="Contributor\IContributorService.cs" />
+    <Compile Include="ModelFactory\ApplicantModelFactory.cs" />
+    <Compile Include="ModelFactory\ApplicantSkillModelFactory.cs" />
+    <Compile Include="ModelFactory\ApprovedApplicantModelFactory.cs" />
+    <Compile Include="ModelFactory\ApprovedContributorModelFactory.cs" />
+    <Compile Include="ModelFactory\CommonFactory\IModelFactory.cs" />
+    <Compile Include="ModelFactory\LogModelFactory.cs" />
+    <Compile Include="ModelFactory\ServiceLineModelFactory.cs" />
+    <Compile Include="ModelFactory\SkillModelFactory.cs" />
+    <Compile Include="ModelFactory\SuggestionModelFactory.cs" />
+    <Compile Include="ModelFactory\TaskApplicantModelFactory.cs" />
+    <Compile Include="ModelFactory\TaskModelFactory.cs" />
+    <Compile Include="ModelFactory\TaskSkillModelFactory.cs" />
+    <Compile Include="ModelFactory\UserModelFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requestor\IRequestorService.cs" />
+    <Compile Include="Requestor\RequestorService.cs" />
+    <Compile Include="Task\ITask.cs" />
+    <Compile Include="Task\Task.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DCode.Common\DCode.Common.csproj">
+      <Project>{cb32fab3-5fba-4051-a704-9d3d8751de58}</Project>
+      <Name>DCode.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCode.Data\DCode.Data.csproj">
+      <Project>{7b1baf3f-e9aa-4bf7-851f-9f37f3065291}</Project>
+      <Name>DCode.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCode.Models\DCode.Models.csproj">
+      <Project>{cd243c46-15de-4426-8c09-601f5f022b15}</Project>
+      <Name>DCode.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

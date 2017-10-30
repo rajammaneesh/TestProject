@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Permissions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="permissionsController">
+    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
+        <div class="main-header">
+            <div class="col-sm-6 col-md-8 no-padding-left-right">
+                <div class="margin-50 col-md-12">
+                    <div class="col-md-12 no-padding">
+                        <img src="/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1 col-md-1"></div>
+            <div class="col-sm-2 col-md-2">
+                <img src="/Content/Images/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <ul class="nav col-sm-7 top-menu">
+                <li class="active pull-left margin-left-right-20 letter-spacing-1" id="approval">
+                    <a ng-click="controlTabsMyTasks('approval')">APPROVAL</a>
+                </li>
+            </ul>
+            <div class="col-sm-5 searchPanel">
+                <div class="form-group no-margin">
+                    <div class="input-group search-by-project padding-bottom-10">
+                        <input type="text" class="form-control" placeholder="Search by Project Name, Task Name" ng-model="searchBox.text" ng-change="filterTaskApplicants();">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="right-body-bottom col-sm-12 permission-container" id="permissionPage">
+            <div class="permission-container background-color-fff" ng-show="AssignedDivModel.Visible">
+                <div class="new-task-box">
+                    <h3 class="dark-grey-blue font-size-24">{{AssignedDivModel.AssigneeName}} has been allowed to work on {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</h3>
+                </div>
+            </div>
+            <div class="permission-container background-color-fff" ng-show="RejectedDivModel.Visible">
+                <div class="new-task-box">
+                    <h3 class="dark-grey-blue font-size-24">{{RejectedDivModel.AssigneeName}} has been rejected to work on {{RejectedDivModel.AssignedTask}} task.</h3>
+                </div>
+            </div>
+            <div class="no-padding-left-right margin-top-20 col-sm-12">
+                <div class="col-md-12 col-sm-12 no-padding track-box" ng-repeat="taskApplicant in taskApplicants track by $index">
+                    <div class="col-sm-12 col-md-12 no-padding" ng-hide="taskApplicant.Status == 'ManagerApproved || ManagerRejected'">
+                        <div class="col-md-9 col-sm-10 no-padding">
+                            <div class="margin-top-24 col-sm-6 col-md-5 title no-padding">
+                                <div class="pull-left col-md-2">
+                                    <div class="circle-txt">{{taskApplicant.Applicant.ShortName}}</div>
+                                </div>
+                                <div class="pull-left col-md-10">
+                                    <div class="col-md-12 col-sm-12">
+                                        <span class="heading color-8e44ad">{{taskApplicant.Applicant.Name}}</span>
+                                        <span class="gray-text">{{taskApplicant.Applicant.Duration}}</span>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 margin-top-25">
+                                        <div class="color-8e44ad heading">{{taskApplicant.Task.ProjectName}}</div>
+                                        <div><span class="gray-text margin-left-0">Project Name</span></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding margin-top-80">
+                                <div class="heading">
+                                    <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                            </div>
+                            <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding margin-top-80">
+                                <div class="heading">
+                                    <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
+                                    <div class="gray-text">Onboarding Date</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-2 margin-top-80 no-padding">
+                            <div class="reject-btn pull-left margin-right-25" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="RejectTask(taskApplicant.Task, taskApplicant.Applicant)">REJECT</div>
+                            <div class="reject-btn-disabled pull-left margin-right-25 disabled" ng-show="taskApplicant.Applicant.Status == 'ManagerRejected'">REJECT</div>
+                            <div class="review-btn-disabled pull-left disabled" ng-show="taskApplicant.Applicant.Status == 'ManagerApproved'">ALLOW</div>
+                            <div class="review-btn pull-left" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="AllowTask(taskApplicant.Task, taskApplicant.Applicant)">ALLOW</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

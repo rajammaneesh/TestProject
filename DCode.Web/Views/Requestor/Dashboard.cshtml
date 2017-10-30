@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="requestorController">
+    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
+        <div class="main-header">
+            <div class="col-sm-6 col-md-8 no-padding-left-right">
+                <div class="margin-50 col-md-12 logo-parent">
+                    <div class="col-md-12 no-padding">
+                        <img src="~/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1 col-md-1"></div>
+            <div class="col-sm-2 col-md-2">
+                <img src="~/Content/Images/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <ul class="nav col-sm-8 top-menu">
+                <li ng-class="classApproval" id="approval">
+                    <a ng-click="controlTabsMyTasks('approval')" class="dark-grey-blue-16">APPLICATIONS<span class="alert-icon margin-left-10" ng-show="applicantsCount > 0">{{applicantsCount}}</span></a>
+                </li>
+                <li ng-class="classTrackStatus" id="trackStatus">
+                    <a ng-click="controlTabsMyTasks('taskstatus')" class="dark-grey-blue-16">TRACK STATUS<span class="alert-icon margin-left-10" ng-show="taskStatusesGlobal.length > 0">{{taskStatusesGlobal.length}}</span></a>
+                </li>
+                <li ng-class="classHistory" id="permissions">
+                    <a ng-click="controlTabsMyTasks('history')" class="dark-grey-blue-16">TRACK HISTORY</a>
+                </li>
+            </ul>
+            <div class="col-sm-4 searchPanel" ng-hide="dashboard.showHistory">
+                <div class="form-group no-margin">
+                    <div class="input-group search-by-project padding-bottom-10">
+                        <input type="text" class="form-control" placeholder="Search by Project Name" ng-model="searchBox.text" ng-change="filterTaskApplicants();">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-sm-12">
+                <div class="col-sm-7 top-menu">
+                    <div class="active pull-left margin-left-right-20 letter-spacing-1">ADD NEW TASK</div>
+                </div>
+            </div>*@
+    </div>
+    <div id="rightcontainer" class="right-container">
+
+        @{Html.RenderPartial("_RequestorTaskApplications");}
+        @{Html.RenderPartial("_RequestorTaskHistory");}
+        @{Html.RenderPartial("_RequestorTaskStatus");}
+
+    </div>
+</div>
+
+@*<script type='text/javascript'>
+    function toggleTab(showModule, hideModule, curr_id, prev_id) {
+
+        document.getElementById(curr_id).classList.add('active');
+
+
+        document.getElementById(prev_id).classList.remove('active');
+        document.getElementById(hideModule).style = "display:none";
+        if (curr_id == 'trackStatus') {
+            document.getElementById(curr_id).querySelector(".alert-icon").style = "display:none";
+        } else {
+            document.getElementById(prev_id).querySelector(".alert-icon").style = "display:inline-block";
+        }
+    }
+
+</script>*@
+

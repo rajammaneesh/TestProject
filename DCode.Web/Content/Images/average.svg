@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>A160112B-4E24-4D82-8AB9-BA3445D27053</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="64" height="64"></rect>
+    </defs>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="track" transform="translate(-964.000000, -619.000000)">
+            <g id="Group-11" transform="translate(953.000000, 608.000000)">
+                <g id="average">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask"></g>
+                    <path d="M42,27 C42,28.6 40.6,30 39,30 C37.4,30 36,28.6 36,27 C36,25.4 37.4,24 39,24 C40.6,24 42,25.4 42,27 M28,27 C28,28.6 26.6,30 25,30 C23.4,30 22,28.6 22,27 C22,25.4 23.4,24 25,24 C26.6,24 28,25.4 28,27 M52,32 C52,43.046 43.046,52 32,52 C20.954,52 12,43.046 12,32 C12,20.954 20.954,12 32,12 C43.046,12 52,20.954 52,32 M48,32 C48,23.164 40.836,16 32,16 C23.164,16 16,23.164 16,32 C16,40.836 23.164,48 32,48 C40.836,48 48,40.836 48,32" id="Page-1" stroke="#FFFFFF" stroke-width="0.64" fill="#34495E" mask="url(#mask-2)"></path>
+                    <path d="M26.5,39.5 L38.5,39.5" id="Line" stroke="#34495E" stroke-width="3" stroke-linecap="square" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

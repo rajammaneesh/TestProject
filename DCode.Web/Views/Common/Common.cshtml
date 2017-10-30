@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Common Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://www.cssscript.com/demo/pretty-checkbox-radio-inputs-with-bootstrap-and-awesome-bootstrap-checkbox-css/build.css">
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/all.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/loading-bar.css" />
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+
+    @*@Scripts.Render(BundleConfig.JsModernizrBundle)
+
+        @Scripts.Render(BundleConfig.JsJqueryValidationBundle)
+        @Scripts.Render(BundleConfig.JsBootstrapBundle)*@
+    @*@Scripts.Render(BundleConfig.JsJqueryBundle)*@
+    @Scripts.Render(BundleConfig.JsAngularBundle)
+    @Scripts.Render(BundleConfig.JsAngularAssetsBundle)
+</head>
+<body ng-app="dCodeApp">
+    <div class="background-color-fff" ng-controller="commonController">
+        <table>
+            <tr>
+                <td>FirstName</td>
+                <td>
+                    <input type="text" class="form-control" ng-model="user.FirstName">
+                </td>
+            </tr>
+            <tr>
+                <td>LastName</td>
+                <td>
+                    <input type="text" class="form-control" ng-model="user.LastName">
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>
+                    <input type="text" class="form-control" ng-model="user.Email">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="button" value="Set User" ng-click="SetUserContext()" /> </td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>Task Id</td>
+                <td><input type="text" class="form-control" ng-model="task.TaskId"></td>
+            </tr>
+            <tr>
+                <td>FirstName</td>
+                <td><input type="text" class="form-control" ng-model="task.FirstName"></td>
+            </tr>
+            <tr>
+                <td>LastName</td>
+                <td><input type="text" class="form-control" ng-model="task.LastName"></td>
+            </tr>
+            <tr>
+                <td>EmailId</td>
+                <td><input type="text" class="form-control" ng-model="task.EmailId"></td>
+            </tr>
+            <tr>
+                <td>Manager Email Id</td>
+                <td><input type="text" class="form-control" ng-model="task.ManagerEmailId"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="Apply" ng-click="Apply()" /> </td>
+                <td></td>
+            </tr>
+            @*<tr>
+                    <td>Task Id</td>
+                    <td><input type="text" class="form-control" ng-model="task.Id"></td>
+                </tr>
+                <tr>
+                    <td>Task Id</td>
+                    <td><input type="text" class="form-control" ng-model="task.Id"></td>
+                </tr>
+                <tr>
+                    <td>Task Id</td>
+                    <td><input type="text" class="form-control" ng-model="task.Id"></td>
+                </tr>*@
+        </table>
+    </div>
+</body>
+</html>

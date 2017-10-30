@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7B1BAF3F-E9AA-4BF7-851F-9F37F3065291}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DCode.Data</RootNamespace>
+    <AssemblyName>DCode.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DCode.Web\ExternalAssemblies\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DCode.Web\ExternalAssemblies\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Web.6.9.9\lib\net45\MySql.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.5840.25917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.6\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="ContributorRepository\ContributorRepository.cs" />
+    <Compile Include="ContributorRepository\IContributorRepository.cs" />
+    <Compile Include="DbContexts\applicantskill.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\approvedapplicant.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\DCodeDbContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DCodeDbContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\DCodeDbContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\DCodeDbContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DCodeDbContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\elmah_error.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\elmah_GetErrorsXml_Result.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\log.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\LogDbContext.cs" />
+    <Compile Include="DbContexts\MetadataDbContext.cs" />
+    <Compile Include="DbContexts\RewardDbContext.cs" />
+    <Compile Include="DbContexts\service_line.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\skill.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\suggestion.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\task.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\taskapplicant.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\TaskDbContext.cs" />
+    <Compile Include="DbContexts\taskskill.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\user.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbContexts\UserDbContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LogRepository\ILogRepository.cs" />
+    <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\IServiceLineRepository.cs" />
+    <Compile Include="MetadataRepository\ServiceLineRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IDataRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="RequestorRepository\IRequestorRepository.cs" />
+    <Compile Include="RequestorRepository\IUserRepository.cs" />
+    <Compile Include="RequestorRepository\RequestorRepository.cs" />
+    <Compile Include="RequestorRepository\UserRepository.cs" />
+    <Compile Include="TaskRepository\ITaskRepository.cs" />
+    <Compile Include="TaskRepository\TaskRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DCode.Common\DCode.Common.csproj">
+      <Project>{cb32fab3-5fba-4051-a704-9d3d8751de58}</Project>
+      <Name>DCode.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="DbContexts\DCodeDbContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DCodeDbContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DbContexts\DCodeDbContext.edmx.diagram">
+      <DependentUpon>DCodeDbContext.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbContexts\DCodeDbContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DCodeDbContext.edmx</DependentUpon>
+      <LastGenOutput>DCodeDbContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DbContexts\DCodeDbContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DCodeDbContext.edmx</DependentUpon>
+      <LastGenOutput>DCodeDbContext.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>C3261254-FA36-4BAB-B7F4-0881438EF562</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="32" height="32"></rect>
+    </defs>
+    <g id="Dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="track" transform="translate(-949.000000, -552.000000)">
+            <g id="Group-13" transform="translate(943.000000, 546.000000)">
+                <g id="not_selected">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask"></g>
+                    <path d="M23.7777778,6 L8.22222222,6 C7,6 6,7 6,8.22222222 L6,23.7777778 C6,25 7,26 8.22222222,26 L23.7777778,26 C25,26 26,25 26,23.7777778 L26,8.22222222 C26,7 25,6 23.7777778,6 L23.7777778,6 Z M8.22222222,23.7777778 L23.7777778,23.7777778 L23.7777778,8.22222222 L8.22222222,8.22222222 L8.22222222,23.7777778 Z" fill="#34495E" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

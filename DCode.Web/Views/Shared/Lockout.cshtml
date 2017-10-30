@@ -1,0 +1,461 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Locked Out";
+}
+
+<hgroup>
+    <h1 class="text-danger">Locked out.</h1>
+    <h2 class="text-danger">This account has been locked out, please try again later.</h2>
+</hgroup>
+
+
+
+<html>
+<head>
+    <title>Approval HTML</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://www.cssscript.com/demo/pretty-checkbox-radio-inputs-with-bootstrap-and-awesome-bootstrap-checkbox-css/build.css">
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="all.css">
+</head>
+<body class="body">
+    <div class="col-md-12 no-padding-left-right background-color-34495e">
+        <div class="col-md-2 col-sm-2 sidebar no-padding-left-right background-color-34495e">
+            <div class="parent-logo background-color-243342">
+                <div class="sidebar-header padding-left-32">
+                    <div class="col-md-12 padding-15-no-left ">
+                        <img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="100px" width="100px" class="border-radious-100 placeholder" />
+                        <img src="img/settings.png" width="20px" height="20px" class="margin-right-25 setting-icon pull-right" />
+                    </div>
+                    <div class="pull-left col-md-12 no-margin-left-right no-padding-left-right margin-top-10">
+                        <div class="pull-left mgr-name col-md-12 row color-dee1e2">Ajay Sharma</div>
+                        <div class="pull-left mgr-deg col-md-12 row">DC Manager</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="left-menu font-size-14 background-color-34495e">
+                <ul class="background-color-34495e no-padding-left-right">
+                    <li class="padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 active"><img src="img/dashboard.svg" /><span class="padding-left-15 menu-text color-9acd66">MY TASKS</span></li>
+                    <li class="padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 "><img src="img/view-project.svg" /><span class="padding-left-15 menu-textdisabled color-fff">MY PROJECTS</span><span class="alert-icon margin-left-10">4</span></li>
+                    <li class="padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1"><img src="img/add-project.svg" /><span class="padding-left-15 menu-text">NEW TASK</span></li>
+                </ul>
+                <div class="col-md-10 contribute-button margin-top-24">
+                    Switch to Contributor
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10 col-md-10 main no-padding-left-right">
+            <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
+                <div class="main-header">
+                    <div class="col-sm-6 col-md-8 no-padding-left-right">
+                        <div class="margin-50 col-md-7">
+                            <div class="col-md-12 no-padding">
+                                <img src="img/dcode-logo.png" height="60px" width="52px" class="pull-left logo">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-1"></div>
+                    <div class="col-sm-2 col-md-2">
+                        <img src="img/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="col-sm-7 top-menu">
+                        <div class="active pull-left margin-left-right-20 letter-spacing-1" id="approval" onclick="toggleTab('approvalContainer','trackStatusContainer', this.id,'trackStatus')">APPROVAL</div>
+                        <div class="pull-left margin-left-right-20 letter-spacing-1" id="trackStatus" onclick="toggleTab('trackStatusContainer','approvalContainer', this.id, 'approval')">TRACK STATUS<span class="alert-icon margin-left-10">4</span></div>
+                    </div>
+                    <div class="col-sm-2 add-task-button hidden">
+                        ADD NEW TASK
+                    </div>
+                    <div class="col-sm-5 searchPanel">
+                        <div class="input-group col-md-11 pull-right">
+                            <input type="text" class="form-control" placeholder="Search by Project Name, Task Name">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-body-bottom col-sm-12 approval-container" id="approvalContainer">
+                <div class="no-padding-left-right margin-top-20 col-sm-12">
+                    <div class="col-md-12 col-sm-12 project-details">
+                        <div class="col-md-10 col-sm-10">
+                            <div class="project-title margin-bottom-25">
+                                <div class="heading  margin-top-24">TELSTRA MRP</div>
+                                <div class="gray-text">2 days ago</div>
+                            </div>
+                            <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="skill-icon"><img src="img/skill@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">UX</span>
+                                    <div class="gray-text">Required skills</div>
+                                </div>
+                            </div>
+                            <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="hours-icon"><img src="img/hours@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">36 hours</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                            </div>
+                            <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="cal-icon"><img src="img/calendar@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">July 12, 2016</span>
+                                    <div class="gray-text">Onboarding Date</div>
+                                </div>
+                            </div>
+                            <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="gift-icon pull-left"><img src="img/gift@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue pull-left">Yes</span>
+                                    <div class="gray-text clear-both">Awards Eligibility</div>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 no-padding margin-top-24">
+                                <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="project-logo margin-top-16"><img src="img/project-logo.png" width="90px" height="90px" /></div>
+                            <div class="response-txt">4 Reponses <img src="img/downward@2x.png" width="8px" height="8px" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-padding-left-right margin-top-bottom-3 col-sm-12">
+                    <div class="col-md-12 col-sm-12 project-details">
+                        <div class="col-md-10 col-sm-10">
+                            <div class="project-title margin-bottom-25">
+                                <div class="heading margin-top-24">JC Penny</div>
+                                <div class="gray-text">4 days ago</div>
+                            </div>
+                            <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="skill-icon"><img src="img/skill@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">QA</span>
+                                    <div class="gray-text">Required skills</div>
+                                </div>
+                            </div>
+                            <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="hours-icon"><img src="img/hours@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">45 hours</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                            </div>
+                            <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="cal-icon"><img src="img/calendar@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">July 43, 2016</span>
+                                    <div class="gray-text">Onboarding Date</div>
+                                </div>
+                            </div>
+                            <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="gift-icon pull-left"><img src="img/gift@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue pull-left">No</span>
+                                    <div class="gray-text clear-both">Awards Eligibility</div>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 no-padding margin-top-24">
+                                <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="project-logo margin-top-16"><img src="img/project-logo.png" width="90px" height="90px" /></div>
+                            <div class="response-txt">3 Reponses <img src="img/upward@2x.png" width="8px" height="8px" /></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 project-details-expand no-padding margin-top-bottom-1 background-color-fff">
+                        <div class="col-md-12 col-sm-12 project-details-expand margin-top-bottom-1 background-color-fff padding-left-right-20">
+                            <div class="col-md-12 border-bottom-dark">
+                                <div class="col-md-3">
+                                    <div class="col-sm-12 col-md-12 no-padding-left-right">
+                                        <div class="pull-left col-md-4 no-padding-left-right">
+                                            <img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="50px" width="50px" class="border-radious-100 placeholder margin-20 no-margin-left">
+                                        </div>
+                                        <div class="pull-left col-sm-8 col-md-8 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                            <div class="pull-left mgr-name col-md-12 row font-size-20 color-8e44ad">Ajay Sharma</div>
+                                            <div class="pull-left mgr-deg col-md-12 row font-size-14">DC Manager</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <div class="pull-left col-sm-12 col-md-12 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                        <div class="pull-left mgr-name col-md-12 row font-size-20">Quality Analyst, Test Script Curator</div>
+                                        <div class="pull-left mgr-deg col-md-12 row font-size-14">Skills</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 margin-top-16">
+                                    <div class="col-md-12 ">
+                                        <div class="col-md-3 no-padding-left-right happy-icon">
+                                            <img src="img/happy@2x.png" class="col-md-6 no-padding-left-right" />
+                                        </div>
+                                        <div class="col-md-4 font-size-20 no-padding-left-right Recommended-number">26</div>
+                                    </div>
+                                    <div class="col-md-12 font-size-14 mgr-deg">Recommended by</div>
+                                </div>
+                                <div class="col-md-2 add-task-button margin-top-24">
+                                    ASSIGN
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 project-details-expand margin-top-bottom-1 background-color-fff padding-left-right-20">
+                            <div class="col-md-12 border-bottom-dark">
+                                <div class="col-md-3">
+                                    <div class="col-sm-12 col-md-12 no-padding-left-right">
+                                        <div class="pull-left col-md-4 no-padding-left-right">
+                                            <img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="50px" width="50px" class="border-radious-100 placeholder margin-20 no-margin-left">
+                                        </div>
+                                        <div class="pull-left col-sm-8 col-md-8 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                            <div class="pull-left mgr-name col-md-12 row font-size-20 color-8e44ad">Ajay Sharma</div>
+                                            <div class="pull-left mgr-deg col-md-12 row font-size-14">DC Manager</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 no-padding">
+                                    <div class="pull-left col-sm-12 col-md-12 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                        <div class="pull-left mgr-name col-md-12 row font-size-20">Quality Analyst, Test Script Curator</div>
+                                        <div class="pull-left mgr-deg col-md-12 row font-size-14">Skills</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 margin-top-16">
+                                    <div class="col-md-12 ">
+                                        <div class="col-md-3 no-padding-left-right happy-icon">
+                                            <img src="img/happy@2x.png" class="col-md-6 no-padding-left-right" />
+                                        </div>
+                                        <div class="col-md-4 font-size-20 no-padding-left-right Recommended-number">26</div>
+                                    </div>
+                                    <div class="col-md-12 font-size-14 mgr-deg">Recommended by</div>
+                                </div>
+                                <div class="col-md-2 add-task-button margin-top-24">
+                                    ASSIGN
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-padding-left-right margin-top-3 col-sm-12">
+                    <div class="col-md-12 col-sm-12 project-details">
+                        <div class="col-md-10 col-sm-10">
+                            <div class="project-title margin-bottom-25">
+                                <div class="heading  margin-top-24">TELSTRA MRP</div>
+                                <div class="gray-text">2 days ago</div>
+                            </div>
+                            <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="skill-icon"><img src="img/skill@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">UX</span>
+                                    <div class="gray-text">Required skills</div>
+                                </div>
+                            </div>
+                            <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="hours-icon"><img src="img/hours@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">36 hours</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                            </div>
+                            <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="cal-icon"><img src="img/calendar@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">July 12, 2016</span>
+                                    <div class="gray-text">Onboarding Date</div>
+                                </div>
+                            </div>
+                            <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="gift-icon pull-left"><img src="img/gift@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue pull-left">Yes</span>
+                                    <div class="gray-text clear-both">Awards Eligibility</div>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 no-padding margin-top-24">
+                                <p class="project-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2">
+                            <div class="project-logo margin-top-16"><img src="img/project-logo.png" width="90px" height="90px" /></div>
+                            <div class="response-txt">4 Reponses <img src="img/downward@2x.png" width="8px" height="8px" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-body-bottom col-sm-12 track-status-container" id="trackStatusContainer">
+                <div class="no-padding-left-right margin-top-20 col-sm-12">
+                    <div class="col-md-12 col-sm-12 no-padding track-box">
+                        <div class="col-sm-12 col-md-12 no-padding">
+                            <div class="col-md-10 col-sm-10">
+                                <div class="margin-top-24 col-sm-6 col-md-6 title no-padding">
+                                    <div class="pull-left col-md-2">
+                                        <img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="50px" width="50px" class="border-radious-100 pull-left margin-right-25">
+                                    </div>
+                                    <div class="pull-left col-md-10">
+                                        <div class="col-md-12 col-sm-12">
+                                            <span class="heading color-8e44ad">Nitu Gupta</span>
+                                            <span class="gray-text">4 days ago</span>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 margin-top-16">
+                                            <div class="dark-grey-blue">Quality Analysis</div>
+                                            <div><span class="dark-grey-blue">for </span><span class="heading color-8e44ad">JC Penny</span></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="billable-hours col-sm-3 col-md-3 pull-left no-padding margin-top-40">
+                                    <div class="col-md-8 heading font-size-20 no-padding">14 <span class="color-95a5a6">of 7 hrs.</span></div>
+                                    <div class="progress col-md-8 no-padding">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="50"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                    </div>
+                                    <div class="gray-text col-md-12 no-padding">Housr Completed</div>
+                                </div>
+                                <div class="margin-top-40 on-boarding-date col-sm-3 col-md-3 pull-left no-padding">
+                                    <div class="heading"><img src="img/calendar@2x.png" width="20px" height="20px" class="margin-right-8" /><span class="date-txt dark-grey-blue">July 12, 2016</span></div>
+                                    <div class="gray-text">Due Date</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 margin-top-40">
+                                <div class="review-btn">REVIEW</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 no-padding track-box">
+                        <div class="col-sm-12 col-md-12 no-padding">
+                            <div class="col-md-10 col-sm-10">
+                                <div class="margin-top-24 col-sm-6 col-md-6 title no-padding">
+                                    <div class="pull-left col-md-2">
+                                        <img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="50px" width="50px" class="border-radious-100 pull-left margin-right-25">
+                                    </div>
+                                    <div class="pull-left col-md-10">
+                                        <div class="col-md-12 col-sm-12">
+                                            <span class="heading color-8e44ad">Nitu Gupta</span>
+                                            <span class="gray-text">4 days ago</span>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 margin-top-16">
+                                            <div class="dark-grey-blue">Quality Analysis</div>
+                                            <div><span class="dark-grey-blue">for </span><span class="heading color-8e44ad">JC Penny</span></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="billable-hours col-sm-3 col-md-3 pull-left no-padding margin-top-40">
+                                    <div class="col-md-8 heading font-size-20 no-padding">14 <span class="color-95a5a6">of 0 hrs.</span></div>
+                                    <div class="progress col-md-8 no-padding">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
+                                    </div>
+                                    <div class="gray-text col-md-12 no-padding">Housr Completed</div>
+                                </div>
+                                <div class="margin-top-40 on-boarding-date col-sm-3 col-md-3 pull-left no-padding">
+                                    <div class="heading"><img src="img/calendar@2x.png" width="20px" height="20px" class="margin-right-8" /><span class="date-txt dark-grey-blue">July 12, 2016</span></div>
+                                    <div class="gray-text">Due Date</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 margin-top-40">
+                                <div class="review-btn">REVIEW</div>
+                            </div>
+                        </div>
+                        <hr class="col-md-offset-1 col-md-11">
+                        <div class="col-sm-12 col-md-12 extend-data no-padding dark-grey-blue">
+                            <div class="col-md-offset-1 col-md-6 margin-top-20 no-padding">Would you like to work with this person again?</div>
+                            <div class="col-md-5 margin-top-20 no-padding">
+                                <div class="checkbox checkbox-primary col-md-6 no-margin no-padding">
+                                    <input id="checkbox1" type="checkbox" checked="true">
+                                    <label for="checkbox1" class="line-height-16">
+                                        Yes
+                                    </label>
+                                </div>
+                                <span class="clear"></span>
+                                <div class="checkbox checkbox-primary col-md-6 no-margin no-padding">
+                                    <input id="checkbox2" type="checkbox" checked="false">
+                                    <label for="checkbox2" class="line-height-16">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 extend-data no-padding dark-grey-blue">
+                            <div class="col-md-offset-1 col-md-5 margin-top-40 no-padding">How did you like the work?</div>
+                            <div class="col-md-6 margin-top-30">
+                                <div class="col-md-4 text-center">
+                                    <img src="img/good@2x.png" width="40px" height="40px">
+                                    <span class="col-md-12 font-size-14 margin-top-10">Good</span>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <img src="img/average@2x.png" width="40px" height="40px">
+                                    <span class="col-md-12 font-size-14 margin-top-10">Average</span>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <img src="img/unsatisfactory@2x.png" width="40px" height="40px">
+                                    <span class="col-md-12 font-size-14 margin-top-10">Unsatisfactory</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 no-padding track-box">
+                        <div class="col-sm-12 col-md-12 no-padding">
+                            <div class="col-md-10 col-sm-10">
+                                <div class="margin-top-24 col-sm-6 col-md-6 title no-padding">
+                                    <div class="pull-left col-md-2">
+                                        <img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="50px" width="50px" class="border-radious-100 pull-left margin-right-25">
+                                    </div>
+                                    <div class="pull-left col-md-10">
+                                        <div class="col-md-12 col-sm-12">
+                                            <span class="heading color-8e44ad">Nitu Gupta</span>
+                                            <span class="gray-text">4 days ago</span>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 margin-top-16">
+                                            <div class="dark-grey-blue">Quality Analysis</div>
+                                            <div><span class="dark-grey-blue">for </span><span class="heading color-8e44ad">JC Penny</span></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="billable-hours col-sm-3 col-md-3 pull-left no-padding margin-top-40">
+                                    <div class="col-md-8 heading font-size-20 no-padding">14 of 14 hrs.</div>
+                                    <div class="progress col-md-8 no-padding">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="100"
+                                             aria-valuemin="0" aria-valuemax="100" style="width:100%"></div>
+                                    </div>
+                                    <div class="gray-text col-md-12 no-padding">Housr Completed</div>
+                                </div>
+                                <div class="margin-top-40 on-boarding-date col-sm-3 col-md-3 pull-left no-padding">
+                                    <div class="heading"><img src="img/calendar@2x.png" width="20px" height="20px" class="margin-right-8" /><span class="date-txt dark-grey-blue">July 12, 2016</span></div>
+                                    <div class="gray-text">Due Date</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 margin-top-40">
+                                <div class="review-btn">REVIEW</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script type='text/javascript'>
+            function toggleTab(showModule, hideModule, curr_id, prev_id) {
+                document.getElementById(showModule).style = "display:block;";
+                document.getElementById(curr_id).classList.add('active');
+
+
+                document.getElementById(prev_id).classList.remove('active');
+                document.getElementById(hideModule).style = "display:none";
+                if (curr_id == 'trackStatus') {
+                    document.getElementById(curr_id).querySelector(".alert-icon").style = "display:none";
+                } else {
+                    document.getElementById(prev_id).querySelector(".alert-icon").style = "display:inline-block";
+                }
+            }
+
+        </script>
+</body>
+</html>
