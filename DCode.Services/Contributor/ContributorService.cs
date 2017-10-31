@@ -90,46 +90,57 @@ namespace DCode.Services.Contributor
             return tasksHistory;
         }
 
-        public int ApplyTask(int taskId, string emailAddress)
+        public int ApplyTask(int taskId, string emailAddress, string statementOfPurpose)
         {
             try
             {
                 var user = _commonService.GetCurrentUserContext();
-                var taskApplicant = new taskapplicant();
-                taskApplicant.APPLICANT_ID = user.UserId;
-                taskApplicant.TASK_ID = taskId;
-                taskApplicant.STATUS = Enums.ApplicantStatus.Active.ToString();
-                taskApplicant.STATUS_DATE = DateTime.Now;
-                MapAuditFields<taskapplicant>(Enums.ActionType.Insert, taskApplicant);
+
+                var taskApplicant = new taskapplicant
+                {
+                    APPLICANT_ID = user.UserId,
+                    TASK_ID = taskId,
+                    STATUS = Enums.ApplicantStatus.Active.ToString(),
+                    STATUS_DATE = DateTime.Now,
+                    STATEMENT_OF_PURPOSE = statementOfPurpose
+                };
+
+                MapAuditFields(Enums.ActionType.Insert, taskApplicant);
+
                 var result = _contributorRepository.ApplyForTask(taskApplicant);
+
                 if (result > 0)
                 {
-
                     var task = _taskRepository.GetTaskById(taskId);
-                    if (string.IsNullOrEmpty(emailAddress))
+
+                    if (string.IsNullOrWhiteSpace(emailAddress))
+                    {
                         emailAddress = user.ManagerEmailId;
+                    }
+
                     var managerName = _commonService.GetNameFromEmailId(emailAddress);
 
                     _commonService.UpdateManagersEmail(user.EmailId, emailAddress, managerName);
 
                     var serviceLine = user.Department;
+
                     var RMGroupEmailAddress = ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + serviceLine];
 
                     EmailHelper.ApplyNotification(
                         managerName,
-                        user.FirstName + Constants.Space + user.LastName,
+                        $"{user.FirstName}{Constants.Space}{user.LastName}",
                         task.TASK_NAME,
                         task.PROJECT_NAME,
-                        task.HOURS.ToString() + "h",
+                        $"{task.HOURS.ToString()}h",
                         task.ONBOARDING_DATE.Value.ToShortDateString(),
                         emailAddress,
-                        user.EmailId + ";" + RMGroupEmailAddress);
+                        $"{user.EmailId};{RMGroupEmailAddress}");
 
 
                 }
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var logDetails = new DCode.Models.Common.Log { Description = ex.Message, Details = ex.ToString() };
                 _commonService.LogToDatabase(logDetails);
@@ -138,7 +149,7 @@ namespace DCode.Services.Contributor
         }
 
 
-        public AssignedTasksResponse GetApprovedTasksForCurrentUser(int currentPageIndex,int recordsCount)
+        public AssignedTasksResponse GetApprovedTasksForCurrentUser(int currentPageIndex, int recordsCount)
         {
             var user = _commonService.GetCurrentUserContext();
             var response = new AssignedTasksResponse();
@@ -197,9 +208,9 @@ namespace DCode.Services.Contributor
                     taskObj.IsApplied = true;
                 }
             }
-            foreach(var dbskill in dbApplicantSkills)
+            foreach (var dbskill in dbApplicantSkills)
             {
-                foreach(var task in taskList.Tasks)
+                foreach (var task in taskList.Tasks)
                 {
                     if (task.Skills.Contains(dbskill.skill.VALUE))
                     {
@@ -210,13 +221,13 @@ namespace DCode.Services.Contributor
             return taskList;
         }
 
-        public TaskHistoryResponse GetTaskHistories(int currentPageIndex,int recordsCount)
+        public TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount)
         {
             var taskHistoryResponse = new TaskHistoryResponse();
             var tasksHistory = new List<TaskHistory>();
             var user = _commonService.GetCurrentUserContext();
             var totalRecords = 0;
-            var dbapprovedapplicants = _contributorRepository.GetTaskHistories(user.UserId,currentPageIndex,recordsCount,out totalRecords);
+            var dbapprovedapplicants = _contributorRepository.GetTaskHistories(user.UserId, currentPageIndex, recordsCount, out totalRecords);
             taskHistoryResponse.TotalRecords = totalRecords;
             foreach (var dbapprovedapplicant in dbapprovedapplicants)
             {

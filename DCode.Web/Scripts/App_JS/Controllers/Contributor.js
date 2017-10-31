@@ -211,7 +211,11 @@
             $http({
                 url: "/Contributor/ApplyTask",
                 method: "POST",
-                data: { taskId: task.Id, emailAddress: managerEmailAddress }
+                data: {
+                    taskId: task.Id,
+                    emailAddress: managerEmailAddress,
+                    statementOfPurpose: statementOfPurpose
+                }
             }).success(function (data, status, headers, config) {
                 if (data != undefined) {
                     if (data != null && data > 0) {

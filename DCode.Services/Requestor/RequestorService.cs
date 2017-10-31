@@ -72,21 +72,43 @@ namespace DCode.Services.Requestor
                 {
                     if (dbApplicant.STATUS == Enums.ApplicantStatus.ManagerApproved.ToString())
                     {
-                        var applicant = new Models.ResponseModels.Contributor.Contributor();
-                        applicant = _taskApplicantModelFactory.CreateModel<Models.ResponseModels.Contributor.Contributor>(dbApplicant);
+                        var applicant = _taskApplicantModelFactory.CreateModel<Models.ResponseModels.Contributor.Contributor>(dbApplicant);
+
                         applicant.TopRatingsCount = _taskRepository.GetTopRatingCountOnEmailId(applicant.EmailId);
+
                         applicant.Expertise = ConvertSkillsToString(_userRepository.GetSkillsByUserId(applicant.ApplicantId));
-                        applicant.Comments = _taskRepository.GetAllCommentsOnEmailId(applicant.EmailId).Select(x=> new ManagerComments() {ManagerId=x.Key , Comment = x.Value }).ToList();
+
+                        applicant.StatementOfPurpose = dbApplicant.STATEMENT_OF_PURPOSE ?? string.Empty;
+
+                        applicant.Comments =
+                            _taskRepository
+                            .GetAllCommentsOnEmailId(applicant.EmailId)
+                            .Select(x => new ManagerComments
+                            {
+                                ManagerId = x.Key,
+                                Comment = x.Value
+                            })
+                            ?.ToList();
+
                         taskApproval.Applicants.Add(applicant);
                     }
                 }
                 taskApprovals.Add(taskApproval);
             }
+
             response.TaskApprovals = taskApprovals;
+
             response.TotalRecords = totalRecords;
+
             var end = DateTime.Now - start;
+
             return response;
         }
+
+        //private List<TaskApproval> ProcessApplicantForTaskApprovals(IList<taskapplicant> taskApplicants)
+        //{
+
+        //}
 
         public int AssignTask(AssignTaskRequest taskRequest)
         {
@@ -101,7 +123,7 @@ namespace DCode.Services.Requestor
             {
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
-                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME,applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId);
+                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId);
             }
             return result;
         }
@@ -117,7 +139,7 @@ namespace DCode.Services.Requestor
             {
                 var taskStatus = new TaskStatus();
                 taskStatus.Applicant = _approvedApplicantModelFactory.CreateModel<DCode.Models.ResponseModels.Contributor.Contributor>(dbApprovedApplicant);
-                taskStatus.Task =  _taskModelFactory.CreateModel<DCode.Models.ResponseModels.Task.Task>(dbApprovedApplicant.task);
+                taskStatus.Task = _taskModelFactory.CreateModel<DCode.Models.ResponseModels.Task.Task>(dbApprovedApplicant.task);
                 taskStatus.ApprovedApplicantId = dbApprovedApplicant.ID;
                 taskStatus.Duration = CommonHelper.CalculateDuration(dbApprovedApplicant.CREATED_ON);
                 taskStatusList.Add(taskStatus);
@@ -138,7 +160,7 @@ namespace DCode.Services.Requestor
             approvedApplicant.COMMENTS = reviewTaskRequest.Comments;
             approvedApplicant.WORK_AGAIN = reviewTaskRequest.WorkAgain;
             var status = _requestorRepository.ReviewTask(approvedApplicant);
-            if(status > 0)
+            if (status > 0)
             {
                 var approved = _requestorRepository.GetTaskApplicantByApplicantId(approvedApplicant.ID);
                 EmailHelper.ReviewNotification(approved.user.FIRST_NAME + Constants.Space + approved.user.LAST_NAME, approved.task.TASK_NAME, approved.task.PROJECT_NAME, approved.user.EMAIL_ID, userContext.EmailId);
@@ -221,7 +243,7 @@ namespace DCode.Services.Requestor
             dbApplicant.TASK_ID = taskRequest.TaskId;
             MapAuditFields<taskapplicant>(Enums.ActionType.Update, dbApplicant);
             var result = _requestorRepository.AllowTask(dbApplicant);
-            if(result > 0)
+            if (result > 0)
             {
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);

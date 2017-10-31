@@ -29,7 +29,6 @@ namespace DCode.Data.DbContexts
     
         public virtual DbSet<applicantskill> applicantskills { get; set; }
         public virtual DbSet<approvedapplicant> approvedapplicants { get; set; }
-        public virtual DbSet<elmah_error> elmah_error { get; set; }
         public virtual DbSet<log> logs { get; set; }
         public virtual DbSet<service_line> service_line { get; set; }
         public virtual DbSet<skill> skills { get; set; }
@@ -38,6 +37,7 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<task> tasks { get; set; }
         public virtual DbSet<taskskill> taskskills { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<elmah_error> elmah_error { get; set; }
     
         public virtual ObjectResult<elmah_GetErrorsXml_Result> elmah_GetErrorsXml(string app, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DCodeDbContext.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DCodeDbContext.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="applicantskills">
           <Key>
             <PropertyRef Name="ID" />
@@ -102,6 +102,7 @@
           <Property Name="APPLICANT_ID" Type="int" Nullable="false" />
           <Property Name="STATUS" Type="varchar" MaxLength="20" />
           <Property Name="STATUS_DATE" Type="datetime" Precision="0" />
+          <Property Name="STATEMENT_OF_PURPOSE" Type="varchar" MaxLength="500" />
           <Property Name="CREATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="CREATED_ON" Type="datetime" Precision="0" />
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
@@ -360,11 +361,82 @@
             <End Role="taskskills" EntitySet="taskskills" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DCodeDbContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="elmah_GetErrorsXml" ReturnType="Collection(DCodeDbContext.elmah_GetErrorsXml_Result)">
+            <Parameter Name="App" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalCount" Mode="Out" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="elmah_LogError">
+            <Parameter Name="ErrorId" Mode="In" Type="String" />
+            <Parameter Name="Application" Mode="In" Type="String" />
+            <Parameter Name="Host" Mode="In" Type="String" />
+            <Parameter Name="Type" Mode="In" Type="String" />
+            <Parameter Name="Source" Mode="In" Type="String" />
+            <Parameter Name="Message" Mode="In" Type="String" />
+            <Parameter Name="User" Mode="In" Type="String" />
+            <Parameter Name="AllXml" Mode="In" Type="String" />
+            <Parameter Name="StatusCode" Mode="In" Type="Int32" />
+            <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="applicantskills" EntityType="DCodeDbContext.applicantskill" />
+          <EntitySet Name="approvedapplicants" EntityType="DCodeDbContext.approvedapplicant" />
+          <EntitySet Name="logs" EntityType="DCodeDbContext.log" />
+          <EntitySet Name="service_line" EntityType="DCodeDbContext.service_line" />
+          <EntitySet Name="skills" EntityType="DCodeDbContext.skill" />
+          <EntitySet Name="suggestions" EntityType="DCodeDbContext.suggestion" />
+          <EntitySet Name="taskapplicants" EntityType="DCodeDbContext.taskapplicant" />
+          <EntitySet Name="tasks" EntityType="DCodeDbContext.task" />
+          <EntitySet Name="taskskills" EntityType="DCodeDbContext.taskskill" />
+          <EntitySet Name="users" EntityType="DCodeDbContext.user" />
+          <AssociationSet Name="applicantskills_ibfk_1" Association="DCodeDbContext.applicantskills_ibfk_1">
+            <End Role="user" EntitySet="users" />
+            <End Role="applicantskill" EntitySet="applicantskills" />
+          </AssociationSet>
+          <AssociationSet Name="applicantskills_ibfk_2" Association="DCodeDbContext.applicantskills_ibfk_2">
+            <End Role="skill" EntitySet="skills" />
+            <End Role="applicantskill" EntitySet="applicantskills" />
+          </AssociationSet>
+          <AssociationSet Name="approvedapplicant_ibfk_1" Association="DCodeDbContext.approvedapplicant_ibfk_1">
+            <End Role="user" EntitySet="users" />
+            <End Role="approvedapplicant" EntitySet="approvedapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="approvedapplicant_ibfk_2" Association="DCodeDbContext.approvedapplicant_ibfk_2">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="approvedapplicant" EntitySet="approvedapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="tasks_ibfk_2" Association="DCodeDbContext.tasks_ibfk_2">
+            <End Role="service_line" EntitySet="service_line" />
+            <End Role="task" EntitySet="tasks" />
+          </AssociationSet>
+          <AssociationSet Name="taskskills_ibfk_2" Association="DCodeDbContext.taskskills_ibfk_2">
+            <End Role="skill" EntitySet="skills" />
+            <End Role="taskskill" EntitySet="taskskills" />
+          </AssociationSet>
+          <AssociationSet Name="taskapplicants_ibfk_1" Association="DCodeDbContext.taskapplicants_ibfk_1">
+            <End Role="user" EntitySet="users" />
+            <End Role="taskapplicant" EntitySet="taskapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="taskapplicants_ibfk_2" Association="DCodeDbContext.taskapplicants_ibfk_2">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="taskapplicant" EntitySet="taskapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="tasks_ibfk_1" Association="DCodeDbContext.tasks_ibfk_1">
+            <End Role="user" EntitySet="users" />
+            <End Role="task" EntitySet="tasks" />
+          </AssociationSet>
+          <AssociationSet Name="taskskills_ibfk_1" Association="DCodeDbContext.taskskills_ibfk_1">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="taskskill" EntitySet="taskskills" />
+          </AssociationSet>
+          <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
+        </EntityContainer>
+        <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
           <Key>
             <PropertyRef Name="ID" />
@@ -378,8 +450,8 @@
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="user" Relationship="Self.applicantskills_ibfk_1" FromRole="applicantskills" ToRole="users" />
-          <NavigationProperty Name="skill" Relationship="Self.applicantskills_ibfk_2" FromRole="applicantskills" ToRole="skills" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.applicantskills_ibfk_1" FromRole="applicantskill" ToRole="user" />
+          <NavigationProperty Name="skill" Relationship="DCodeDbContext.applicantskills_ibfk_2" FromRole="applicantskill" ToRole="skill" />
         </EntityType>
         <EntityType Name="approvedapplicant">
           <Key>
@@ -399,24 +471,8 @@
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="user" Relationship="Self.approvedapplicant_ibfk_1" FromRole="approvedapplicant" ToRole="users" />
-          <NavigationProperty Name="task" Relationship="Self.approvedapplicant_ibfk_2" FromRole="approvedapplicant" ToRole="tasks" />
-        </EntityType>
-        <EntityType Name="elmah_error">
-          <Key>
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="ErrorId" Type="Guid" Nullable="false" />
-          <Property Name="Application" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Host" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Source" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="User" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="StatusCode" Type="Int32" Nullable="false" />
-          <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AllXml" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="approvedapplicant" ToRole="user" />
+          <NavigationProperty Name="task" Relationship="DCodeDbContext.approvedapplicant_ibfk_2" FromRole="approvedapplicant" ToRole="task" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -432,24 +488,24 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tasks" Relationship="Self.tasks_ibfk_2" FromRole="service_line" ToRole="tasks" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_2" FromRole="service_line" ToRole="task" />
         </EntityType>
         <EntityType Name="skill">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VALUE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VALUE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="STATUS_DATE" Type="DateTime" />
           <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="applicantskills" Relationship="Self.applicantskills_ibfk_2" FromRole="skills" ToRole="applicantskills" />
-          <NavigationProperty Name="taskskills" Relationship="Self.taskskills_ibfk_2" FromRole="skills" ToRole="taskskills" />
+          <NavigationProperty Name="applicantskills" Relationship="DCodeDbContext.applicantskills_ibfk_2" FromRole="skill" ToRole="applicantskill" />
+          <NavigationProperty Name="taskskills" Relationship="DCodeDbContext.taskskills_ibfk_2" FromRole="skill" ToRole="taskskill" />
         </EntityType>
         <EntityType Name="suggestion">
           <Key>
@@ -469,12 +525,13 @@
           <Property Name="APPLICANT_ID" Type="Int32" Nullable="false" />
           <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="STATUS_DATE" Type="DateTime" />
+          <Property Name="STATEMENT_OF_PURPOSE" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="user" Relationship="Self.taskapplicants_ibfk_1" FromRole="taskapplicants" ToRole="users" />
-          <NavigationProperty Name="task" Relationship="Self.taskapplicants_ibfk_2" FromRole="taskapplicants" ToRole="tasks" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="taskapplicant" ToRole="user" />
+          <NavigationProperty Name="task" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="taskapplicant" ToRole="task" />
         </EntityType>
         <EntityType Name="task">
           <Key>
@@ -482,9 +539,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="USER_ID" Type="Int32" Nullable="false" />
-          <Property Name="PROJECT_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PROJECT_NAME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TASK_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PROJECT_WBS_Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PROJECT_WBS_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DETAILS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="HOURS" Type="Int32" />
@@ -499,11 +556,11 @@
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="approvedapplicants" Relationship="Self.approvedapplicant_ibfk_2" FromRole="tasks" ToRole="approvedapplicant" />
-          <NavigationProperty Name="service_line" Relationship="Self.tasks_ibfk_2" FromRole="tasks" ToRole="service_line" />
-          <NavigationProperty Name="taskapplicants" Relationship="Self.taskapplicants_ibfk_2" FromRole="tasks" ToRole="taskapplicants" />
-          <NavigationProperty Name="user" Relationship="Self.tasks_ibfk_1" FromRole="tasks" ToRole="users" />
-          <NavigationProperty Name="taskskills" Relationship="Self.taskskills_ibfk_1" FromRole="tasks" ToRole="taskskills" />
+          <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_2" FromRole="task" ToRole="approvedapplicant" />
+          <NavigationProperty Name="service_line" Relationship="DCodeDbContext.tasks_ibfk_2" FromRole="task" ToRole="service_line" />
+          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="task" ToRole="taskapplicant" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="task" ToRole="user" />
+          <NavigationProperty Name="taskskills" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="task" ToRole="taskskill" />
         </EntityType>
         <EntityType Name="taskskill">
           <Key>
@@ -518,8 +575,8 @@
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="skill" Relationship="Self.taskskills_ibfk_2" FromRole="taskskills" ToRole="skills" />
-          <NavigationProperty Name="task" Relationship="Self.taskskills_ibfk_1" FromRole="taskskills" ToRole="tasks" />
+          <NavigationProperty Name="skill" Relationship="DCodeDbContext.taskskills_ibfk_2" FromRole="taskskill" ToRole="skill" />
+          <NavigationProperty Name="task" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="taskskill" ToRole="task" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -529,7 +586,7 @@
           <Property Name="FIRST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LAST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DESIGNATION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMAIL_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EMAIL_ID" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PROJECT_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PROJECT_CODE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="PROJECT_MANAGER_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -540,40 +597,40 @@
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="applicantskills" Relationship="Self.applicantskills_ibfk_1" FromRole="users" ToRole="applicantskills" />
-          <NavigationProperty Name="approvedapplicants" Relationship="Self.approvedapplicant_ibfk_1" FromRole="users" ToRole="approvedapplicant" />
-          <NavigationProperty Name="taskapplicants" Relationship="Self.taskapplicants_ibfk_1" FromRole="users" ToRole="taskapplicants" />
-          <NavigationProperty Name="tasks" Relationship="Self.tasks_ibfk_1" FromRole="users" ToRole="tasks" />
+          <NavigationProperty Name="applicantskills" Relationship="DCodeDbContext.applicantskills_ibfk_1" FromRole="user" ToRole="applicantskill" />
+          <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="user" ToRole="approvedapplicant" />
+          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
+          <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
-          <End Role="users" Type="Self.user" Multiplicity="1" />
-          <End Role="applicantskills" Type="Self.applicantskill" Multiplicity="*" />
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
+          <End Type="DCodeDbContext.applicantskill" Role="applicantskill" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="users">
+            <Principal Role="user">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="applicantskills">
+            <Dependent Role="applicantskill">
               <PropertyRef Name="APPLICANT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="applicantskills_ibfk_2">
-          <End Role="skills" Type="Self.skill" Multiplicity="1" />
-          <End Role="applicantskills" Type="Self.applicantskill" Multiplicity="*" />
+          <End Type="DCodeDbContext.skill" Role="skill" Multiplicity="1" />
+          <End Type="DCodeDbContext.applicantskill" Role="applicantskill" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="skills">
+            <Principal Role="skill">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="applicantskills">
+            <Dependent Role="applicantskill">
               <PropertyRef Name="SKILL_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="approvedapplicant_ibfk_1">
-          <End Role="users" Type="Self.user" Multiplicity="1" />
-          <End Role="approvedapplicant" Type="Self.approvedapplicant" Multiplicity="*" />
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
+          <End Type="DCodeDbContext.approvedapplicant" Role="approvedapplicant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="users">
+            <Principal Role="user">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="approvedapplicant">
@@ -582,10 +639,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="approvedapplicant_ibfk_2">
-          <End Role="tasks" Type="Self.task" Multiplicity="1" />
-          <End Role="approvedapplicant" Type="Self.approvedapplicant" Multiplicity="*" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="1" />
+          <End Type="DCodeDbContext.approvedapplicant" Role="approvedapplicant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tasks">
+            <Principal Role="task">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="approvedapplicant">
@@ -594,332 +651,277 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="tasks_ibfk_2">
-          <End Role="service_line" Type="Self.service_line" Multiplicity="1" />
-          <End Role="tasks" Type="Self.task" Multiplicity="*" />
+          <End Type="DCodeDbContext.service_line" Role="service_line" Multiplicity="1" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="service_line">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="tasks">
+            <Dependent Role="task">
               <PropertyRef Name="SERVICE_LINE_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="taskskills_ibfk_2">
-          <End Role="skills" Type="Self.skill" Multiplicity="1" />
-          <End Role="taskskills" Type="Self.taskskill" Multiplicity="*" />
+          <End Type="DCodeDbContext.skill" Role="skill" Multiplicity="1" />
+          <End Type="DCodeDbContext.taskskill" Role="taskskill" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="skills">
+            <Principal Role="skill">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="taskskills">
+            <Dependent Role="taskskill">
               <PropertyRef Name="SKILL_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="taskapplicants_ibfk_1">
-          <End Role="users" Type="Self.user" Multiplicity="1" />
-          <End Role="taskapplicants" Type="Self.taskapplicant" Multiplicity="*" />
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
+          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="users">
+            <Principal Role="user">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="taskapplicants">
+            <Dependent Role="taskapplicant">
               <PropertyRef Name="APPLICANT_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="taskapplicants_ibfk_2">
-          <End Role="tasks" Type="Self.task" Multiplicity="1" />
-          <End Role="taskapplicants" Type="Self.taskapplicant" Multiplicity="*" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="1" />
+          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tasks">
+            <Principal Role="task">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="taskapplicants">
+            <Dependent Role="taskapplicant">
               <PropertyRef Name="TASK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="tasks_ibfk_1">
-          <End Role="users" Type="Self.user" Multiplicity="1" />
-          <End Role="tasks" Type="Self.task" Multiplicity="*" />
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="users">
+            <Principal Role="user">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="tasks">
+            <Dependent Role="task">
               <PropertyRef Name="USER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="taskskills_ibfk_1">
-          <End Role="tasks" Type="Self.task" Multiplicity="1" />
-          <End Role="taskskills" Type="Self.taskskill" Multiplicity="*" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="1" />
+          <End Type="DCodeDbContext.taskskill" Role="taskskill" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tasks">
+            <Principal Role="task">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="taskskills">
+            <Dependent Role="taskskill">
               <PropertyRef Name="TASK_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="applicantskills" EntityType="Self.applicantskill" />
-          <EntitySet Name="approvedapplicants" EntityType="Self.approvedapplicant" />
-          <EntitySet Name="elmah_error" EntityType="Self.elmah_error" />
-          <EntitySet Name="logs" EntityType="Self.log" />
-          <EntitySet Name="service_line" EntityType="Self.service_line" />
-          <EntitySet Name="skills" EntityType="Self.skill" />
-          <EntitySet Name="suggestions" EntityType="Self.suggestion" />
-          <EntitySet Name="taskapplicants" EntityType="Self.taskapplicant" />
-          <EntitySet Name="tasks" EntityType="Self.task" />
-          <EntitySet Name="taskskills" EntityType="Self.taskskill" />
-          <EntitySet Name="users" EntityType="Self.user" />
-          <AssociationSet Name="applicantskills_ibfk_1" Association="Self.applicantskills_ibfk_1">
-            <End Role="users" EntitySet="users" />
-            <End Role="applicantskills" EntitySet="applicantskills" />
-          </AssociationSet>
-          <AssociationSet Name="applicantskills_ibfk_2" Association="Self.applicantskills_ibfk_2">
-            <End Role="skills" EntitySet="skills" />
-            <End Role="applicantskills" EntitySet="applicantskills" />
-          </AssociationSet>
-          <AssociationSet Name="approvedapplicant_ibfk_1" Association="Self.approvedapplicant_ibfk_1">
-            <End Role="users" EntitySet="users" />
-            <End Role="approvedapplicant" EntitySet="approvedapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="approvedapplicant_ibfk_2" Association="Self.approvedapplicant_ibfk_2">
-            <End Role="tasks" EntitySet="tasks" />
-            <End Role="approvedapplicant" EntitySet="approvedapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="tasks_ibfk_2" Association="Self.tasks_ibfk_2">
-            <End Role="service_line" EntitySet="service_line" />
-            <End Role="tasks" EntitySet="tasks" />
-          </AssociationSet>
-          <AssociationSet Name="taskskills_ibfk_2" Association="Self.taskskills_ibfk_2">
-            <End Role="skills" EntitySet="skills" />
-            <End Role="taskskills" EntitySet="taskskills" />
-          </AssociationSet>
-          <AssociationSet Name="taskapplicants_ibfk_1" Association="Self.taskapplicants_ibfk_1">
-            <End Role="users" EntitySet="users" />
-            <End Role="taskapplicants" EntitySet="taskapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="taskapplicants_ibfk_2" Association="Self.taskapplicants_ibfk_2">
-            <End Role="tasks" EntitySet="tasks" />
-            <End Role="taskapplicants" EntitySet="taskapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="tasks_ibfk_1" Association="Self.tasks_ibfk_1">
-            <End Role="users" EntitySet="users" />
-            <End Role="tasks" EntitySet="tasks" />
-          </AssociationSet>
-          <AssociationSet Name="taskskills_ibfk_1" Association="Self.taskskills_ibfk_1">
-            <End Role="tasks" EntitySet="tasks" />
-            <End Role="taskskills" EntitySet="taskskills" />
-          </AssociationSet>
-          <FunctionImport Name="elmah_GetErrorsXml" ReturnType="Collection(DCodeDbContext.elmah_GetErrorsXml_Result)">
-            <Parameter Name="App" Mode="In" Type="String" />
-            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
-            <Parameter Name="PageSize" Mode="In" Type="Int32" />
-            <Parameter Name="TotalCount" Mode="Out" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="elmah_LogError">
-            <Parameter Name="ErrorId" Mode="In" Type="String" />
-            <Parameter Name="Application" Mode="In" Type="String" />
-            <Parameter Name="Host" Mode="In" Type="String" />
-            <Parameter Name="Type" Mode="In" Type="String" />
-            <Parameter Name="Source" Mode="In" Type="String" />
-            <Parameter Name="Message" Mode="In" Type="String" />
-            <Parameter Name="User" Mode="In" Type="String" />
-            <Parameter Name="AllXml" Mode="In" Type="String" />
-            <Parameter Name="StatusCode" Mode="In" Type="Int32" />
-            <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
-          </FunctionImport>
-        </EntityContainer>
-        <ComplexType Name="elmah_GetErrorsXml_Result" />
+        <EntityType Name="elmah_error">
+          <Key>
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="ErrorId" Type="Guid" Nullable="false" />
+          <Property Name="Application" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StatusCode" Type="Int32" Nullable="false" />
+          <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DCodeDbContextStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="applicantskills">
-            <EntityTypeMapping TypeName="DCodeDbContext.applicantskill">
-              <MappingFragment StoreEntitySet="applicantskills">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
-                <ScalarProperty Name="SKILL_ID" ColumnName="SKILL_ID" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="approvedapplicants">
-            <EntityTypeMapping TypeName="DCodeDbContext.approvedapplicant">
-              <MappingFragment StoreEntitySet="approvedapplicant">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
-                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
-                <ScalarProperty Name="HOURS_WORKED" ColumnName="HOURS_WORKED" />
-                <ScalarProperty Name="RATING" ColumnName="RATING" />
-                <ScalarProperty Name="WORK_AGAIN" ColumnName="WORK_AGAIN" />
-                <ScalarProperty Name="POINTS" ColumnName="POINTS" />
-                <ScalarProperty Name="COMMENTS" ColumnName="COMMENTS" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="elmah_error">
-            <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
-              <MappingFragment StoreEntitySet="elmah_error">
-                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
-                <ScalarProperty Name="Application" ColumnName="Application" />
-                <ScalarProperty Name="Host" ColumnName="Host" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="logs">
-            <EntityTypeMapping TypeName="DCodeDbContext.log">
-              <MappingFragment StoreEntitySet="log">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="details" ColumnName="details" />
-                <ScalarProperty Name="user" ColumnName="user" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="service_line">
-            <EntityTypeMapping TypeName="DCodeDbContext.service_line">
-              <MappingFragment StoreEntitySet="service_line">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="skills">
-            <EntityTypeMapping TypeName="DCodeDbContext.skill">
-              <MappingFragment StoreEntitySet="skills">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="suggestions">
-            <EntityTypeMapping TypeName="DCodeDbContext.suggestion">
-              <MappingFragment StoreEntitySet="suggestion">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="details" ColumnName="details" />
-                <ScalarProperty Name="user" ColumnName="user" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="taskapplicants">
-            <EntityTypeMapping TypeName="DCodeDbContext.taskapplicant">
-              <MappingFragment StoreEntitySet="taskapplicants">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
-                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tasks">
-            <EntityTypeMapping TypeName="DCodeDbContext.task">
-              <MappingFragment StoreEntitySet="tasks">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
-                <ScalarProperty Name="PROJECT_NAME" ColumnName="PROJECT_NAME" />
-                <ScalarProperty Name="TASK_NAME" ColumnName="TASK_NAME" />
-                <ScalarProperty Name="PROJECT_WBS_Code" ColumnName="PROJECT_WBS_Code" />
-                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
-                <ScalarProperty Name="DETAILS" ColumnName="DETAILS" />
-                <ScalarProperty Name="HOURS" ColumnName="HOURS" />
-                <ScalarProperty Name="COMMENTS" ColumnName="COMMENTS" />
-                <ScalarProperty Name="GIFTS" ColumnName="GIFTS" />
-                <ScalarProperty Name="ONBOARDING_DATE" ColumnName="ONBOARDING_DATE" />
-                <ScalarProperty Name="SERVICE_LINE_ID" ColumnName="SERVICE_LINE_ID" />
-                <ScalarProperty Name="DUE_DATE" ColumnName="DUE_DATE" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="taskskills">
-            <EntityTypeMapping TypeName="DCodeDbContext.taskskill">
-              <MappingFragment StoreEntitySet="taskskills">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
-                <ScalarProperty Name="SKILL_ID" ColumnName="SKILL_ID" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="DCodeDbContext.user">
-              <MappingFragment StoreEntitySet="users">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
-                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
-                <ScalarProperty Name="DESIGNATION" ColumnName="DESIGNATION" />
-                <ScalarProperty Name="EMAIL_ID" ColumnName="EMAIL_ID" />
-                <ScalarProperty Name="PROJECT_NAME" ColumnName="PROJECT_NAME" />
-                <ScalarProperty Name="PROJECT_CODE" ColumnName="PROJECT_CODE" />
-                <ScalarProperty Name="PROJECT_MANAGER_NAME" ColumnName="PROJECT_MANAGER_NAME" />
-                <ScalarProperty Name="MANAGER_EMAIL_ID" ColumnName="MANAGER_EMAIL_ID" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="elmah_GetErrorsXml" FunctionName="DCodeDbContext.Store.elmah_GetErrorsXml">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DCodeDbContext.elmah_GetErrorsXml_Result" />
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="elmah_LogError" FunctionName="DCodeDbContext.Store.elmah_LogError" />
+          <EntitySetMapping Name="applicantskills">
+            <EntityTypeMapping TypeName="DCodeDbContext.applicantskill">
+              <MappingFragment StoreEntitySet="applicantskills">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SKILL_ID" ColumnName="SKILL_ID" />
+                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="approvedapplicants">
+            <EntityTypeMapping TypeName="DCodeDbContext.approvedapplicant">
+              <MappingFragment StoreEntitySet="approvedapplicant">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="COMMENTS" ColumnName="COMMENTS" />
+                <ScalarProperty Name="POINTS" ColumnName="POINTS" />
+                <ScalarProperty Name="WORK_AGAIN" ColumnName="WORK_AGAIN" />
+                <ScalarProperty Name="RATING" ColumnName="RATING" />
+                <ScalarProperty Name="HOURS_WORKED" ColumnName="HOURS_WORKED" />
+                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
+                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logs">
+            <EntityTypeMapping TypeName="DCodeDbContext.log">
+              <MappingFragment StoreEntitySet="log">
+                <ScalarProperty Name="user" ColumnName="user" />
+                <ScalarProperty Name="details" ColumnName="details" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="service_line">
+            <EntityTypeMapping TypeName="DCodeDbContext.service_line">
+              <MappingFragment StoreEntitySet="service_line">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="skills">
+            <EntityTypeMapping TypeName="DCodeDbContext.skill">
+              <MappingFragment StoreEntitySet="skills">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suggestions">
+            <EntityTypeMapping TypeName="DCodeDbContext.suggestion">
+              <MappingFragment StoreEntitySet="suggestion">
+                <ScalarProperty Name="user" ColumnName="user" />
+                <ScalarProperty Name="details" ColumnName="details" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taskapplicants">
+            <EntityTypeMapping TypeName="DCodeDbContext.taskapplicant">
+              <MappingFragment StoreEntitySet="taskapplicants">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATEMENT_OF_PURPOSE" ColumnName="STATEMENT_OF_PURPOSE" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
+                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tasks">
+            <EntityTypeMapping TypeName="DCodeDbContext.task">
+              <MappingFragment StoreEntitySet="tasks">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="DUE_DATE" ColumnName="DUE_DATE" />
+                <ScalarProperty Name="SERVICE_LINE_ID" ColumnName="SERVICE_LINE_ID" />
+                <ScalarProperty Name="ONBOARDING_DATE" ColumnName="ONBOARDING_DATE" />
+                <ScalarProperty Name="GIFTS" ColumnName="GIFTS" />
+                <ScalarProperty Name="COMMENTS" ColumnName="COMMENTS" />
+                <ScalarProperty Name="HOURS" ColumnName="HOURS" />
+                <ScalarProperty Name="DETAILS" ColumnName="DETAILS" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="PROJECT_WBS_Code" ColumnName="PROJECT_WBS_Code" />
+                <ScalarProperty Name="TASK_NAME" ColumnName="TASK_NAME" />
+                <ScalarProperty Name="PROJECT_NAME" ColumnName="PROJECT_NAME" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taskskills">
+            <EntityTypeMapping TypeName="DCodeDbContext.taskskill">
+              <MappingFragment StoreEntitySet="taskskills">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SKILL_ID" ColumnName="SKILL_ID" />
+                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="DCodeDbContext.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="MANAGER_EMAIL_ID" ColumnName="MANAGER_EMAIL_ID" />
+                <ScalarProperty Name="PROJECT_MANAGER_NAME" ColumnName="PROJECT_MANAGER_NAME" />
+                <ScalarProperty Name="PROJECT_CODE" ColumnName="PROJECT_CODE" />
+                <ScalarProperty Name="PROJECT_NAME" ColumnName="PROJECT_NAME" />
+                <ScalarProperty Name="EMAIL_ID" ColumnName="EMAIL_ID" />
+                <ScalarProperty Name="DESIGNATION" ColumnName="DESIGNATION" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="elmah_error">
+            <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
+              <MappingFragment StoreEntitySet="elmah_error">
+                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
