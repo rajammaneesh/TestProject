@@ -204,3 +204,4 @@ $RECYCLE.BIN/
 
 #.vs file
 .vs/
+*.config
