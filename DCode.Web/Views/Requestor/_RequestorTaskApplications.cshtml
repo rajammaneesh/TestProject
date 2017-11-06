@@ -1,5 +1,5 @@
 ﻿
-<div class="right-body-bottom col-sm-12 margin-top-20 approval-container" id="approvalContainer" ng-show="dashboard.showApproval" >
+<div class="right-body-bottom col-sm-12 margin-top-20 approval-container" id="approvalContainer" ng-show="dashboard.showApproval">
     <div id="divAssigned" class="success-banner" ng-show="AssignedDivModel.Visible">
         <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</span></h3>
     </div>
@@ -68,8 +68,8 @@
             <div ng-show="isShowing($index)">
                 <div class="col-md-12 col-sm-12 project-details-expand no-padding margin-top-bottom-1 background-color-fff" ng-repeat="applicant in taskApplicant.Applicants" ng-hide="taskApplicant.Task.Status == 'Assigned'">
                     <div class="col-md-12 col-sm-12 project-details-expand margin-top-bottom-1 background-color-fff padding-left-right-20">
-                        <div class="col-md-12 border-bottom-dark no-padding">
-                            <div class="col-md-3 no-padding">
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-4 no-padding">
                                 <div class="col-sm-12 col-md-12 no-padding-left-right">
                                     <div class="pull-left col-md-4 no-padding-left-right">
                                         @*<img src="https://media.licdn.com/media/AAEAAQAAAAAAAAYQAAAAJGZhYzFmZTQ5LTVhMzktNDU4ZS1iYWZhLTIxNzQ0NDMxMzZiNg.jpg" height="50px" width="50px" class="border-radious-100 placeholder margin-20 no-margin-left">*@
@@ -81,30 +81,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 no-padding">
+                            <div class="col-md-6 no-padding">
                                 <div class="pull-left col-sm-12 col-md-12 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
                                     <div class="pull-left mgr-name col-md-12 row font-size-20">{{applicant.Expertise}}</div>
                                     <div class="pull-left mgr-deg col-md-12 row font-size-14">Skills</div>
                                 </div>
                             </div>
-                            <div class="col-md-2 margin-top-16">
-                                <div class="col-md-12 ">
-                                    <div class="col-md-3 no-padding-left-right happy-icon">
-                                        <img src="/Content/Images/happy@2x.png" class="col-md-6 no-padding-left-right" />
-                                    </div>
-                                    <div class="col-md-4 font-size-20 no-padding-left-right Recommended-number">{{applicant.TopRatingsCount}}</div>
-                                </div>
-                                <div class="col-md-12 font-size-14 mgr-deg link">Recommended by </div>
-                            </div>
-                           <!--<label class="col-md-2 add-task-button margin-top-24" taskApplicant.-->
-                            <div class="col-md-2 col-md-offset-1">
+                            <!--<label class="col-md-2 add-task-button margin-top-24" taskApplicant.-->
+                            <div class="col-md-2">
                                 <div class="add-task-button-disabled margin-top-24" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
                                 <div class="add-task-button margin-top-24" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12 border-bottom-dark no-padding" ng-show="applicant.StatementOfPurpose!=null && applicant.StatementOfPurpose.length>0">
+                        <div class="col-md-8 no-padding">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="pull-left col-sm-10 col-md-2">
+                                </div>
+                                <div class="pull-left col-sm-10 col-md-10 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                    <div class="pull-left mgr-name col-md-12 row font-size-20 text-justify">{{applicant.StatementOfPurpose}}</div>
+                                    <div class="pull-left mgr-deg col-md-12 row font-size-14">Statement Of Purpose</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 no-padding"></div>
+                    </div>
                 </div>
-
             </div>
         </div>
         <div class="background-color-fff margin-top-bottom-3 col-md-12" ng-show="taskApplicantsCount < 3">

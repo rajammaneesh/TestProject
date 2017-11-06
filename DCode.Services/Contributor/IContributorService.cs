@@ -10,7 +10,7 @@ namespace DCode.Services.Contributor
     {
         IEnumerable<Models.ResponseModels.Task.Task> GetTasksBasedOnApplicantSkills();
         IEnumerable<TaskHistory> GetTaskHistory();
-        int ApplyTask(int taskId, string emailAddress);
+        int ApplyTask(int taskId, string emailAddress, string statementOfPurpose);
 
         //AssignedTasksResponse GetApprovedTasksForCurrentUser();
         AssignedTasksResponse GetApprovedTasksForCurrentUser(int currentPageIndex, int recordsCount);
