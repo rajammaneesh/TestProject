@@ -83,10 +83,8 @@
             else {
                 $("#isSkillAdded").addClass("invalid");
             }
-            var isvalid = !!$scope.profile.ProjectName && !!$scope.profile.ProjectCode && 
-                 !!$scope.profile.ManagerName && !!$scope.profile.ManagerEmailId && !!$scope.skillSet;
             
-             if (isvalid) {
+            if (!!$scope.skillSet) {
 
 
             $scope.profileRequest = {

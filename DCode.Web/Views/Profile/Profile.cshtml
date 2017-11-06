@@ -125,24 +125,7 @@
                             </div>
                             <span class="error col-md-12">Please add a skill</span>
                         </div>
-                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
-                            <div class="heading bold"> Project Name
-                                <span class="requiredField">*</span>
-                            </div>
-                            <div class="value col-md-8 no-padding">
-                                <input type="text" ng-show="isEditMode" class="form-control" placeholder="Add the name of the project" ng-model="profile.ProjectName" required>
-                                <div class="value" ng-show="!isEditMode"> {{profile.ProjectName}}</div>
-                            </div>
-                        </div>
-                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
-                            <div class="heading bold"> Project Manager Name
-                                <span class="requiredField">*</span>
-                            </div>
-                            <div class="value col-md-8 no-padding">
-                                <input type="text" ng-show="isEditMode" class="form-control" placeholder="Firstname, Lastname" ng-model="profile.ManagerName" required>
-                                <div class="value" ng-show="!isEditMode" required> {{profile.ManagerName}}</div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="col-md-6 Recommended-number font-size-20">
                         <div class="skill-box edit margin-top-bottom-20">
@@ -151,26 +134,6 @@
                                 <span class="help-inline" ng-show="submitted && form.skills.$error.required">Required</span>
 
                             </span>
-                        </div>
-                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
-                            <div class="heading bold"> Project Code
-                                <span class="requiredField">*</span>
-                            </div>
-                            <div class="value col-md-8 no-padding">
-                                <input type="text" ng-show="isEditMode" class="form-control" placeholder="WBS Code - CEDXXXXX-XX-XX-XXXX" ng-model="profile.ProjectCode" required>
-                                <div class="value" ng-show="!isEditMode"> {{profile.ProjectCode}}</div>
-                            </div>
-                        </div>
-                        <div class="skill-box margin-bottom-40 pull-left col-md-12 no-padding">
-                            <div class="heading bold"> Project Manager Email ID
-                                <span class="requiredField">*</span>
-                            </div>
-                            <div class="value col-md-8 no-padding">
-                                <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
-                                <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
-                                <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
-                                <div class="value" ng-show="!isEditMode"> {{profile.ManagerEmailId}}</div>
-                            </div>
                         </div>
                         <span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>
                     </div>
@@ -187,30 +150,6 @@
 
 </body>
 </html>
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog" ng-controller="ProfileController">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content addSkillDialog">
-
-            <div class="modal-body col-md-12">
-                <form id="form" name="form" class="col-md-12">
-                    <div class="col-md-8">
-                        <label style="color:green" ng-bind="skillModel.successMessage" for="skillName"></label>
-                        <label style="color:red" ng-bind="skillModel.errorMessage" for="skillName"></label>
-                        <input type="text" id="skillName" class="form-control col-md-4" placeholder="Enter Skill Name" ng-model="skillModel.newSkillValue" required>
-                    </div>
-                    <input type="submit" class="edit-task-btn pull-left submit-but col-md-1  margin-top-20" value="Submit" ng-click="insertSkill();">
-                </form>
-            </div>
-            <div class="modal-footer">
-
-            </div>
-        </div>
-    </div>
-</div>
 
 <div id="alertModel" class="modal fade" role="dialog">
     <div class="modal-dialog">
