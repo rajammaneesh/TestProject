@@ -226,6 +226,7 @@
     <Content Include="App_Data\Aug_8.sql" />
     <Content Include="App_Data\Aug_9.sql" />
     <Content Include="App_Data\July_30.sql" />
+    <Content Include="App_Data\Nov_06_2017.sql" />
     <Content Include="App_Data\Scripts_July23.txt" />
     <Content Include="App_Data\Sep_21_2017.sql" />
     <Content Include="Content\angucomplete-alt.css" />
@@ -417,6 +418,13 @@
     <Content Include="Views\Contributor\_ContributorTaskStatus.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Task\" />
