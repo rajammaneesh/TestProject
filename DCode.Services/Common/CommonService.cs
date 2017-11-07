@@ -153,6 +153,59 @@ namespace DCode.Services.Common
             return _userContext;
         }
 
+        public UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName)
+        {
+            var userContext = new UserContext();
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
+            var directoryEntry = new DirectoryEntry(path);
+            var directorySearcher = new DirectorySearcher(directoryEntry);
+            directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
+            searchResults = directorySearcher.FindAll();
+            var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+            var propertyDescription = new StringBuilder();
+            foreach (SearchResult result in searchResults)
+            {
+                foreach (string propertyName in result.Properties.PropertyNames)
+                {
+                    if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                    {
+                        userContext.EmailId = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                    {
+                        userContext.Designation = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                    {
+                        userContext.FirstName = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                    {
+                        userContext.LastName = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
+                    {
+                        userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                    {
+                        userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
+                    {
+                        userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
+                    {
+                        userContext.Department = result.Properties[propertyName][0].ToString();
+                    }
+                }
+            }
+            return userContext;
+        }
+
         private void SetAndInsertContext()
         {
             if (_userContext.Designation.Contains("senior manager") || _userContext.Designation.Contains("specialist leader") || _userContext.Designation.Contains("director") || _userContext.Designation.Contains("partner"))
@@ -378,9 +431,9 @@ namespace DCode.Services.Common
             var request = new ProfileRequest
             {
                 UserId = user.ID,
-                ManagerEmailId = managersEmailAddress,
                 ProjectCode = user.PROJECT_CODE,
                 ProjectName = user.PROJECT_NAME,
+                ManagerEmailId = managersEmailAddress,
                 ManagerName = managersName,
                 SkillSet = new List<Skill>()
             };
@@ -400,7 +453,7 @@ namespace DCode.Services.Common
 
                 if(!String.IsNullOrWhiteSpace(userName))
                 {
-                   var userContext = MapDetailsFromDeloitteNetwork(userName);
+                   var userContext = MapDetailsFromDeloitteNetworkWithoutUserContextObject(userName);
                 
                    return userContext.Name;
                 }

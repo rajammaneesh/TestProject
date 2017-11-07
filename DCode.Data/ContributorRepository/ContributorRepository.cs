@@ -72,6 +72,7 @@ namespace DCode.Data.ContributorRepository
             IQueryable<approvedapplicant> query;
             query = Context.Set<approvedapplicant>().Where(x => x.APPLICANT_ID == userId && x.STATUS == Enums.ApplicantStatus.Closed.ToString());
             query.Include(x => x.task).Load();
+            query.Include(x => x.task.service_line).Load();
             query.Include(x => x.user).Load();
             totalRecords = query.Count();
             var filteredRecords = query.OrderByDescending(x => x.task.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
