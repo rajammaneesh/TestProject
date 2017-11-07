@@ -248,6 +248,7 @@
     <Content Include="Content\Images\person-disable.png" />
     <Content Include="Content\Images\tech-x-logo.png" />
     <Content Include="Content\Images\tech-x.ico" />
+    <Content Include="Content\Images\tech-x_old.ico" />
     <Content Include="Content\Images\tech-x-logo-black-bg.png" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="EmailTemplates\email-template.html" />
@@ -417,6 +418,13 @@
     <Content Include="Views\Contributor\_ContributorTaskStatus.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Task\" />
