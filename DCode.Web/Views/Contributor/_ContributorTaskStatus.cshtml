@@ -31,12 +31,11 @@
                         </div>
                         <div class="awards-eligible margin-top-30 col-sm-3 col-md-3 pull-left">
                             <div class="heading">
-                                <span class="gift-icon pull-left"><img src="/Content/Images/gift@2x.png" /></span>
+                                @*<span class="gift-icon pull-left"><img src="/Content/Images/gift@2x.png" /></span>*@
                                 <span class="role-desc dark-grey-blue pull-left">
-                                    <span ng-show="taskStatus.Task.GiftsOrAwards">Yes</span>
-                                    <span ng-show="!taskStatus.Task.GiftsOrAwards">No</span>
+                                    {{taskStatus.Task.ServiceLine}}
                                 </span>
-                                <div class="gray-text clear-both">Awards Eligibility</div>
+                                <div class="gray-text clear-both">Service Line</div>
                             </div>
                         </div>
                         <div class="billable-hours col-sm-3 col-md-3 pull-left margin-top-30">
