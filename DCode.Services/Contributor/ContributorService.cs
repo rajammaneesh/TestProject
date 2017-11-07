@@ -128,7 +128,8 @@ namespace DCode.Services.Contributor
                     var currentUsersServiceLine = string.Empty;
                     foreach(var serviceLine in serviceLines)
                     {
-                        if(department.Split(' ').Contains(serviceLine.Name))
+                        var splitDep = department.Split(' ');
+                        if (splitDep.Contains(serviceLine.Name.ToUpperInvariant()) || splitDep.Contains("EBS"))
                         {
                             currentUsersServiceLine = serviceLine.Name;
                             break;
