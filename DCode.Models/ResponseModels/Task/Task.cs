@@ -20,6 +20,7 @@ namespace DCode.Models.ResponseModels.Task
         public string Comments { get; set; }
         public string OnBoardingDate { get; set; }
         public bool GiftsOrAwards { get; set; }
+        public string ServiceLine { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Status { get; set; }

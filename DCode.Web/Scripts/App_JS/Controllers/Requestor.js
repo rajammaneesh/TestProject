@@ -364,7 +364,8 @@
                 TaskName: "",
                 Hours: "",
                 SkillSet: [],
-                IsRewardsEnabled: false
+                IsRewardsEnabled: false,
+                ServiceLineDisplay:""
             };
         $scope.showDetails = false;
         $scope.showSummary = false;
@@ -506,38 +507,15 @@
                         $("#taskSkill").addClass("invalid");
                     }
 
-                    //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 && $scope.taskRequest.DueDate != null && $scope.taskRequest.OnBoardingDate != null) {
-                    //    var one_day = 1000 * 60 * 60 * 24;
-                    //    var date1 = new Date($scope.taskRequest.OnBoardingDate).getTime();
-                    //    var date2 = new Date($scope.taskRequest.DueDate).getTime();
-                    //    var dateDiff = Math.round((date2 - date1) / one_day);
-                    //    if (dateDiff > 14) {
-                    //        $("#datetimepicker2").addClass("invalid");
-                    //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-                    //        $scope.onBoardingDateReview = false;
-                    //    }
+                    angular.forEach($scope.serviceLines, function (value, index) {
+                        if ($scope.taskRequest.SelectedServiceLine == value.Id)
+                            $scope.taskRequest.ServiceLineDisplay = value.Name;
+                    });
 
-                    //}
-
-                    //if ($scope.taskRequest.WBSCode != "") {
-                    //    var val = $scope.taskRequest.WBSCode.toLocaleLowerCase();
-                    //    if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
-                    //        $("#divWBSCode").addClass("invalid");
-                    //        $scope.WBSCodeValidation = false;
-                    //    }
-                    //    else {
-                    //        $("#divWBSCode").removeClass("invalid");
-                    //        $scope.WBSCodeValidation = true;
-                    //    }
-                    //}
-
-
+                    
                     var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
                         && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
                         && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
-
-
-
 
                     if (isvalid) {
                         $scope.divVisibiltyModel.showSummary = true;
@@ -719,15 +697,6 @@
             $scope.taskHistoryTotalRecords = null;
             $scope.getTaskHistory();
         });
-
-
-       
-
-        //$scope.onLoad = function () {
-        //    $scope.getTaskHistory();
-        //}
-        //$scope.onLoad();
-
     }
 })();
 

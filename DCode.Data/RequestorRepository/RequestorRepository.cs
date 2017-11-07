@@ -42,6 +42,7 @@ namespace DCode.Data.RequestorRepository
             }
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             tasks.Include(x => x.user).Load();
+            tasks.Include(x => x.service_line).Load();
             tasks.Include(x => x.taskapplicants.Select(y => y.user)).Load();
             totalRecords = tasks.Count();
             //Pick records based on the pageindex.
