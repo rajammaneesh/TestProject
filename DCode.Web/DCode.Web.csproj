@@ -226,6 +226,7 @@
     <Content Include="App_Data\Aug_8.sql" />
     <Content Include="App_Data\Aug_9.sql" />
     <Content Include="App_Data\July_30.sql" />
+    <Content Include="App_Data\Nov_06_2017.sql" />
     <Content Include="App_Data\Scripts_July23.txt" />
     <Content Include="App_Data\Sep_21_2017.sql" />
     <Content Include="Content\angucomplete-alt.css" />
@@ -248,6 +249,7 @@
     <Content Include="Content\Images\person-disable.png" />
     <Content Include="Content\Images\tech-x-logo.png" />
     <Content Include="Content\Images\tech-x.ico" />
+    <Content Include="Content\Images\tech-x_old.ico" />
     <Content Include="Content\Images\tech-x-logo-black-bg.png" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="EmailTemplates\email-template.html" />
@@ -417,12 +419,12 @@
     <Content Include="Views\Contributor\_ContributorTaskStatus.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
-    <Content Include="web.config" />
-    <None Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
