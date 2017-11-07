@@ -2,7 +2,7 @@
 
 <div id="trackStatusContainer" class="right-body-bottom margin-top-20 col-sm-12" ng-show="dashboard.showTaskStatus">
     <div id="divReviewSuccess" class="success-banner" ng-show="ReviewedDivModel.Visible">
-        <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{ReviewedDivModel.AssigneeName}} has been reviewed for {{ReviewedDivModel.AssignedTask}}</span>.</h3>
+        <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{ReviewedDivModel.AssignedTask}} is now closed</span>.</h3>
     </div>
     <div class="background-color-fff col-sm-12 no-padding margin-top-25" ng-show="taskStatusVisibility.showFirst">
         <div class="new-task-box no-padding">
@@ -45,52 +45,7 @@
                 </div>
                 <div class="col-md-2 col-sm-2 margin-top-40">
                     <div ng-click="showReviewOptions($index);" ng-hide="taskStatus.ProgressWidth<100">
-                        <button class="review-btn" type="button"> REVIEW </button>
-                    </div>
-                </div>
-            </div>
-            <div ng-show="isShowingReview($index)">
-                <div class="col-sm-12 col-md-12 extend-data no-padding dark-grey-blue">
-                    <div class="col-md-offset-1 col-md-5 margin-top-20 no-padding">Would you like to work with this person again?</div>
-                    <div class="col-md-4 margin-top-20 no-padding selectOption">
-                        <div class="col-md-5 no-margin no-padding">
-                            <input type="radio" name="radio-group_{{$index}}" id="selectYes_{{$index}}" value="true" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
-                            <label for="selectYes_{{$index}}">Yes</label>
-                        </div>
-                        <span class="clear"></span>
-                        <div class="col-md-5 no-margin no-padding">
-                            <input type="radio" name="radio-group_{{$index}}" id="selectNo_{{$index}}" value="false" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
-                            <label for="selectNo_{{$index}}">No</label>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="review-app-btn" type="button" ng-show="taskStatus.EnableReviewApplicant" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId, workAgain[$index], ratingValue[$index], taskStatus.Task.Comments) " ng-disabled="taskStatus.Task.Status == 'Closed'">Review Applicant</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-12 extend-data no-padding dark-grey-blue">
-                    <div class="col-md-offset-1 col-md-5 margin-top-40 no-padding">How did you like the work?</div>
-                    <div class="col-md-5 margin-top-30 review-panel no-padding">
-                        <div class="col-md-4 text-center radio-inline no-margin no-padding" ng-click="changeClassValueOfGood($index)">
-                            <label ng-class="classValueGood">
-                                <input type="radio" name="optradio_{{$index}}" id="good_{{$index}}" value="Good" ng-model="ratingValue[$index]" />
-                                <img src="/Content/Images/good@2x.png" width="40px" height="40px" />
-                                <span>Good</span>
-                            </label>
-                        </div>
-                        <div class="no-margin col-md-4 text-center radio-inline no-padding" ng-click="changeClassValueOfAverage($index)">
-                            <label ng-class="classValueAverage">
-                                <input type="radio" name="optradio_{{$index}}" id="average_{{$index}}" value="Average" ng-model="ratingValue[$index]" />
-                                <img src="/Content/Images/average@2x.png" width="40px" height="40px" />
-                                <span>Average</span>
-                            </label>
-                        </div>
-                        <div class="col-md-4 no-margin text-center radio-inline no-padding" ng-click="changeClassValueOfUnS($index)">
-                            <label ng-class="classValueUnS">
-                                <input type="radio" name="optradio_{{$index}}" id="uns_{{$index}}" value="Unsatisfactory" ng-model="ratingValue[$index]" />
-                                <img src="/Content/Images/unsatisfactory@2x.png" width="40px" height="40px" />
-                                <span>Unsatisfactory</span>
-                            </label>
-                        </div>
+                        <button class="review-btn" type="button" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId)">CLOSE</button>
                     </div>
                 </div>
             </div>

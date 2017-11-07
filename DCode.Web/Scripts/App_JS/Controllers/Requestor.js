@@ -280,16 +280,14 @@
         }
 
 
-        $scope.reviewApplicant = function (task, applicant, approvalApplicantId, wrkAgainValue, rating, comments) {
+        $scope.reviewApplicant = function (task, applicant, approvalApplicantId) {
             $http({
                 method: 'POST',
                 url: '/Requestor/ReviewTask',
                 data: {
                     TaskId: task.Id,
                     ApplicantId: applicant.ApplicantId,
-                    ApprovedApplicantId: approvalApplicantId,
-                    Rating: rating,
-                    WorkAgain: wrkAgainValue
+                    ApprovedApplicantId: approvalApplicantId
                 },
                 async: true,
             }).success(function (data, status, headers, config) {
