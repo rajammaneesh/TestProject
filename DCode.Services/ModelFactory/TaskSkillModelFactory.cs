@@ -44,7 +44,6 @@ namespace DCode.Services.ModelFactory
             task.UpdatedBy = input.task.UPDATED_BY;
             task.UpdatedOn = input.task.UPDATED_ON;
             task.Id = input.task.ID;
-            task.GiftsOrAwards = input.task.GIFTS != null ? Convert.ToBoolean(input.task.GIFTS) : false;
             task.Hours = input.task.HOURS;
             return task;
         }

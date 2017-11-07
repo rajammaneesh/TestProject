@@ -73,7 +73,7 @@ namespace DCode.Services.ModelFactory
                 task.StatusDate = input.STATUS_DATE;
                 task.Type = input.TYPE;
                 task.OnBoardingDate = CommonHelper.ConvertToDateUI(input.ONBOARDING_DATE);
-                task.GiftsOrAwards = input.GIFTS == null ? false : Convert.ToBoolean(input.GIFTS);
+                task.ServiceLine = input.service_line.Name;
                 task.Duration = CommonHelper.CalculateDuration(input.CREATED_ON);
                 task.TaskName = input.TASK_NAME;
             }
@@ -133,7 +133,6 @@ namespace DCode.Services.ModelFactory
                 dbTask.STATUS = Enums.TaskStatus.Active.ToString();
                 dbTask.STATUS_DATE = DateTime.Now;
                 dbTask.TYPE = modelTask.Type;
-                dbTask.GIFTS = modelTask.GiftsOrAwards;
                 dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
             }
             return dbTask;
