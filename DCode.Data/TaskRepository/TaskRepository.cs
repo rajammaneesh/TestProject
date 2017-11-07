@@ -96,6 +96,7 @@ namespace DCode.Data.TaskRepository
             IQueryable<task> tasks;
             tasks = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == Enums.TaskStatus.Closed.ToString());
             tasks.Include(x => x.taskapplicants.Select(y => y.user)).Load();
+            tasks.Include(x => x.taskapplicants.Select(y => y.task.service_line)).Load();
             totalRecords = tasks.Count();
             var filteredRecords = tasks.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             return filteredRecords.ToList();
