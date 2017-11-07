@@ -35,6 +35,7 @@ namespace DCode.Web.Security
         public AuthorizeDCode()
         {
         }
+
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var userIdentity = ConfigurationManager.AppSettings[Constants.UseWindowsIdentity].Equals(Constants.True) ? WindowsIdentity.GetCurrent() : HttpContext.Current.User.Identity;
@@ -46,6 +47,14 @@ namespace DCode.Web.Security
                 {
                     var userName = userIdentity.Name.Substring(userIdentity.Name.IndexOf(@"\") + 1);
                     var userContext = commonService.GetCurrentUserContext(userName);
+
+                    var canSetAndInsertUserContext = commonService.CanSetAndInsertUserContext(userContext, false);
+
+                    if (canSetAndInsertUserContext)
+                    {
+                        commonService.SetAndInsertContext(userContext);
+                    }
+
                     SessionHelper.Save(Constants.UserContext, userContext);
                 }
             }

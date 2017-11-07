@@ -12,7 +12,12 @@ namespace DCode.Services.Common
 {
     public interface ICommonService
     {
-        UserContext GetCurrentUserContext(string userName=null);
+        UserContext GetCurrentUserContext(string userName = null);
+
+        bool SetAndInsertContext(UserContext context);
+
+        bool CanSetAndInsertUserContext(UserContext context, bool userContextGeneratedFromException);
+
         int LogToDatabase(Log logmodel);
         IEnumerable<Log> GetDBLogs();
         UserContext SwitchRole();

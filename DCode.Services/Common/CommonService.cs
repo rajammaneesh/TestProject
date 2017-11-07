@@ -101,6 +101,54 @@ namespace DCode.Services.Common
             return _userContext;
         }
 
+        public bool SetAndInsertContext(UserContext context)
+        {
+
+
+        }
+
+        public bool CanSetAndInsertUserContext(UserContext context, bool userContextGeneratedFromException)
+        {
+            if (SessionHelper.Retrieve(Constants.MockUser) != null)
+            {
+                if (SessionHelper.Retrieve(Constants.UserContext) != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (SessionHelper.Retrieve(Constants.UserContext) != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    if (userContextGeneratedFromException)
+                    {
+                        if (SessionHelper.Retrieve(Constants.MockUser) != null)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+
+
         private UserContext MapDetailsFromDeloitteNetwork(string userName)
         {
             SearchResultCollection searchResults = null;
@@ -147,6 +195,10 @@ namespace DCode.Services.Common
                     else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
                     {
                         _userContext.Department = result.Properties[propertyName][0].ToString();
+                    }
+                    else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
+                    {
+                        _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
                     }
                 }
             }
@@ -398,11 +450,11 @@ namespace DCode.Services.Common
             {
                 userName = emailSplit[0];
 
-                if(!String.IsNullOrWhiteSpace(userName))
+                if (!String.IsNullOrWhiteSpace(userName))
                 {
-                   var userContext = MapDetailsFromDeloitteNetwork(userName);
-                
-                   return userContext.Name;
+                    var userContext = MapDetailsFromDeloitteNetwork(userName);
+
+                    return userContext.Name;
                 }
                 return string.Empty;
             }

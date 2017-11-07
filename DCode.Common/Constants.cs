@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,8 @@ namespace DCode.Common
         public const string MinutesAgo = " minutes ago";
         public const string MinuteAgo = " minute ago";
         public const string Zero = "0";
-        
+        public const string ErrorRedirectType = "ErrorRedirect";
+
         //Layout 
         public const string UrlDashboard = "dashboard";
         public const string UrlPermissions = "permissions";
@@ -51,6 +53,7 @@ namespace DCode.Common
         public const string EmployeeId = "employeeid";
         public const string Department = "department";
         public const string TelephoneNumber = "telephonenumber";
+        public const string MsArchiveName = "msexcharchivename";
         public const string MockUser = "MockUser";
         public static string DcodeEmailId = "DcodeEmailId";
         public static string DcodeEmailPwd = "DcodeEmailPwd";
@@ -88,7 +91,7 @@ namespace DCode.Common
     public static class Enums
     {
         public enum Role { Admin, Requestor, Contributor };
-        public enum TaskStatus{Active, Assigned, Closed};
+        public enum TaskStatus { Active, Assigned, Closed };
         public enum ApplicantStatus { Active, ManagerApproved, Assigned, ManagerRejected, Closed };
         public enum ActionType { Insert, Update };
         public enum SortOrder { ASC, DESC };
@@ -98,8 +101,14 @@ namespace DCode.Common
         public enum UserStatus { Active, Closed };
         public enum TaskApplicant { Active, Closed };
 
-        public enum ApprovedApplicantStatus {Active,Closed };
+        public enum ApprovedApplicantStatus { Active, Closed };
         public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };
-        public enum EmailType { Approved,Rejected}
+        public enum EmailType { Approved, Rejected }
+
+        public enum ErrorRedirectType
+        {
+            [Description("You are not permitted to access this portal as you are not a USI practitioner")]
+            NonUsiPractitioner
+        }
     }
 }
