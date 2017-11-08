@@ -73,7 +73,8 @@
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
-            $location.hash('div' + index);
+            document.getElementById('managerEmail' + index).focus();
+            //$location.hash('div' + index);
         };
 
         $scope.isShowingReview = function (index) {
@@ -231,7 +232,8 @@
                         $scope.divVisibiltyModel.showSuccess = true;
                         $scope.divVisibiltyModel.showSummary = false;
                         $scope.refreshTasks();
-                        $location.hash('divCongrats');
+                        //$location.hash('divCongrats');
+                        $('#divCongrats').modal('show');
                     }
                 }
 
@@ -248,7 +250,7 @@
 
         //will be handled by ng-infinite scroll
         $scope.onLoad = function () {
-            //$scope.getTasks();
+            $scope.getTasks();
             //$scope.getAssignedTasks();
         }
         $scope.onLoad();
