@@ -369,6 +369,7 @@
     <Content Include="fonts\Avenir_Roman.otf" />
     <Content Include="fonts\helvetica-neue-medium.ttf" />
     <None Include="Properties\PublishProfiles\IIS DCode Publish.pubxml" />
+    <None Include="Properties\PublishProfiles\TechX.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
