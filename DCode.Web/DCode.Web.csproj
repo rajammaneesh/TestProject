@@ -244,9 +244,11 @@
     <Content Include="Content\Images\history-active.png" />
     <Content Include="Content\Images\history-icon.png" />
     <Content Include="Content\Images\Loading.gif" />
+    <Content Include="Content\Images\MenuImage.png" />
     <Content Include="Content\Images\my-task-icon.png" />
     <Content Include="Content\Images\permission-icon.png" />
     <Content Include="Content\Images\person-disable.png" />
+    <Content Include="Content\Images\serviceLine.png" />
     <Content Include="Content\Images\tech-x-logo.png" />
     <Content Include="Content\Images\tech-x.ico" />
     <Content Include="Content\Images\tech-x_old.ico" />

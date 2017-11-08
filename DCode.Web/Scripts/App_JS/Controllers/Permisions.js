@@ -172,7 +172,7 @@
         }
 
         $scope.onLoad = function () {
-            //$scope.getApplicants();
+            $scope.getApplicants();
             //$scope.getStatusOftasks();
             //$scope.isFirstTimeUser();
         }
