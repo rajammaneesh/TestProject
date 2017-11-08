@@ -153,15 +153,17 @@
             $scope.skillSet = $rootScope.userContext.SkillSet;
         }
         $scope.checkIfFirstTimeLogin = function(){
-            if ($rootScope.userContext != null && ($rootScope.userContext.ManagerEmailId == null || $rootScope.userContext.ManagerEmailId == "")) {
+            if ($rootScope.userContext != null && $rootScope.userContext.SkillSet != null && $rootScope.userContext.SkillSet.length == 0) {
                 $scope.isFirstTimeLogin = true;
                 $scope.isEditMode = true;
+            }
+            else {
+                $scope.isFirstTimeLogin = false;
             }
         }
         $scope.onLoad = function () {
             $scope.populateFieldsFromUserContext();
             $scope.checkIfFirstTimeLogin();
-            
         }
 
         UserContextService.InitializeUserContext().then(function (data) {
