@@ -3,7 +3,80 @@
     ViewBag.Title = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="historyController">
+
+<div class="main" ng-controller="historyController">
+    <div class="new-style-sai-renderbody-inner">
+        <div class="new-style-sai-main-inner-body">
+            <div class="background-color-ecf0f1" style="padding:30px;" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'>
+                <div ng-init="getTaskHistory()">
+                    <div class="new-style-sai-new-task-background" ng-show="historyVisibility.showFirst">
+                        <div>
+                            <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
+                            <p class="gray-text">This page will give you list of all your previous project tasks that are in completed status. An overview of the hours that made an impact would be displayed here. This would also give information about the resources that have worked on a project task and their skillset.</p>
+                        </div>
+                        <div> &nbsp;</div>
+                        <div>
+                            <div class="new-style-sai-create-btn-side">&nbsp;</div>
+                            <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                            <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="project-details" style="padding:20px;" ng-show="historyVisibility.showHistory">
+                    <div ng-repeat="task in tasksHistory">
+                        <div>
+                            <div>
+                                <div class="new-style-sai-history-proj-small">
+                                    <span class="heading color-8e44ad">{{task.Task.ProjectName}}</span>
+                                </div>
+                                <div class="new-style-sai-history-proj-big">
+                                    <span class="dark-grey-blue">{{task.Task.TaskName}}</span>
+                                    <span class="gray-text">{{task.Task.Duration}}</span>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div>&nbsp;</div>
+                            <div>
+                                <div class="new-style-sai-tracking-main heading">
+                                    <div class="circle-txt">{{task.Applicant.ShortName}}</div>
+                                    <div>
+                                        <div class="color-8e44ad heading">{{task.Applicant.Name}}</div>
+                                    </div>
+                                </div>
+                                <div class="new-style-sai-tracking-main heading">
+                                    <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{task.Task.Hours}}</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                                <div class="new-style-sai-tracking-main heading">
+                                    <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{task.Task.OnBoardingDate}}</span>
+                                    <div class="gray-text">Onboarding Date</div>
+                                </div>
+                                <div class="new-style-sai-tracking-main heading">
+                                    <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{task.Task.DueDate}}</span>
+                                    <div class="gray-text">Due Date</div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div style="clear:both;"></div>
+                        <div style="width:100%;">
+                            <hr style="background:lightgray;" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="historyController">
     <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
         <div class="main-header">
             <div class="col-sm-6 col-md-8 no-padding-left-right">
@@ -67,18 +140,12 @@
                                     <div class="gray-text">Due Date</div>
                                 </div>
                             </div>
-                            <!--<div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
-                    <div class="heading">
-                        <span class="cal-icon"><img src="/Content/Images/gift@2x.png"></span>
-                        <span class="role-desc dark-grey-blue">Apple Watch</span>
-                        <div class="gray-text">Awards Details</div>
-                    </div>
-                </div>-->
+                           
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div>*@
     
