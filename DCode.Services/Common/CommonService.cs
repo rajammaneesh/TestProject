@@ -481,12 +481,5 @@ namespace DCode.Services.Common
 
             return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
         }
-
-        public bool IsUserContextAvailable()
-        {
-            var userContext = SessionHelper.Retrieve(Constants.UserContext) as UserContext;
-
-            return userContext != null;
-        }
     }
 }

@@ -14,8 +14,6 @@ namespace DCode.Services.Common
     {
         UserContext GetCurrentUserContext(string userName = null);
 
-        bool IsUserContextAvailable();
-
         int LogToDatabase(Log logmodel);
         IEnumerable<Log> GetDBLogs();
         UserContext SwitchRole();

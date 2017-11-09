@@ -28,7 +28,9 @@ namespace DCode.Web.Controllers
                 var auth = new AuthorizeDCode();
                 auth.OnAuthorization(new AuthorizationContext());
 
-                if (!_commonService.IsUserContextAvailable()
+                var userContext = _commonService.GetCurrentUserContext();
+
+                if (userContext == null
                     || Convert.ToString(ConfigurationManager.AppSettings[Constants.GenerateRedirectToError]) == "true")
                 {
                     TempData[Constants.ErrorRedirectType]
@@ -37,7 +39,6 @@ namespace DCode.Web.Controllers
                     return RedirectToAction("Index", "Error");
                 }
 
-                var userContext = _commonService.GetCurrentUserContext();
 
                 if (userContext.Role == Enums.Role.Requestor)
                 {
