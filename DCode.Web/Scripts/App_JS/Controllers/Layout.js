@@ -140,25 +140,25 @@
     function IndexController($scope, $http, $rootScope, $location, UserContextService) {
         $scope.user = [];
         $scope.loginOptions = ['Requestor', 'Contributor'];
-        $scope.userMockOption = { login: null };
-        $scope.var = 'Helloo';
-        //$scope.setUserContext = function () {
-        //    $http({
-        //        url: "/Common/SetUserContext",
-        //        method: "POST",
-        //        data: { value: $scope.userMockOption.login }
-        //    }).success(function (data, status, headers, config) {
-        //        var test = data;
-        //        if (data != null) {
-        //            alert('User Profile Set!');
-        //            location.href = '/requestor/NewTasks';
-        //            }
-        //    }).error(function (error) {
-        //    });
-        //}
-        $scope.user = [];
-        //$scope.task = [];
+        $scope.userMockOption = { login: null, department:null };
+        $scope.department = [];
 
+        $scope.PopulateDepartment = function () {
+            $http({
+                method: 'GET',
+                url: '/Common/GetServiceLines',
+                async: true,
+            }).success(function (data, status, config) {
+                if (data != null) {
+                    angular.forEach(data, function (value, index) {
+                        $scope.department.push(value.Name);
+                    });
+                }
+                // handle success things
+            }).error(function (data, status, config) {
+                // handle error things
+            });
+        }
         $scope.SetUserContext = function () {
             $http({
                 method: 'POST',
@@ -168,19 +168,14 @@
                     lastName: $scope.user.LastName,
                     emailId: $scope.user.Email,
                     role: $scope.userMockOption.login,
-                    managerEmailId: $scope.user.ManagerEmailId
+                    managerEmailId: $scope.user.ManagerEmailId,
+                    department: $scope.userMockOption.department
                 },
                 async: true,
             }).success(function (data, status, config) {
                 if (data != null) {
                     alert('user set!');
                     location.href = "/";
-                    //if ($scope.userMockOption.login == 'Contributor') {
-                    //    location.href = '/contributor/dashboard';
-                    //}
-                    //else if ($scope.userMockOption.login == 'Requestor') {
-                    //    location.href = '/requestor/newtasks';
-                    //}
                 }
                 // handle success things
             }).error(function (data, status, config) {
@@ -188,7 +183,11 @@
             });
         }
 
-        
+        $scope.onLoad = function () {
+            $scope.PopulateDepartment();
+        }
+
+        $scope.onLoad();
     }
 
 })();

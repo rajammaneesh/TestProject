@@ -87,6 +87,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>Department</td>
+                    <td>
+                        <select ng-options="item for item in department" ng-model="userMockOption.department"></select>
+                    </td>
+                </tr>
+                <tr>
                     <td><input type="button" value="Set User" ng-click="SetUserContext()" /> </td>
                     <td></td>
                 </tr>
