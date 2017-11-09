@@ -16,6 +16,8 @@ using DCode.Data.RequestorRepository;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Data.MetadataRepository;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DCode.Services.Common
 {
@@ -94,6 +96,7 @@ namespace DCode.Services.Common
                     }
                 }
             }
+
             if (_userContext.MenuItems == null)
             {
                 _userContext.MenuItems = FetchMenuItems(_userContext.Role);
@@ -103,7 +106,7 @@ namespace DCode.Services.Common
 
         private UserContext MapDetailsFromDeloitteNetwork(string userName)
         {
-            SearchResultCollection searchResults = null;
+           SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
             var directoryEntry = new DirectoryEntry(path);
             var directorySearcher = new DirectorySearcher(directoryEntry);
@@ -112,6 +115,7 @@ namespace DCode.Services.Common
             var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
 
             var propertyDescription = new StringBuilder();
+
             foreach (SearchResult result in searchResults)
             {
                 foreach (string propertyName in result.Properties.PropertyNames)
@@ -148,6 +152,10 @@ namespace DCode.Services.Common
                     {
                         _userContext.Department = result.Properties[propertyName][0].ToString();
                     }
+                    else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
+                    {
+                        _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
+                    }                  
                 }
             }
             return _userContext;
@@ -451,7 +459,7 @@ namespace DCode.Services.Common
             {
                 userName = emailSplit[0];
 
-                if(!String.IsNullOrWhiteSpace(userName))
+                if (!String.IsNullOrWhiteSpace(userName))
                 {
                    var userContext = MapDetailsFromDeloitteNetworkWithoutUserContextObject(userName);
                 
@@ -460,6 +468,25 @@ namespace DCode.Services.Common
                 return string.Empty;
             }
             return string.Empty;
+        }
+
+        public bool GetTechXAccess()
+        {
+            if (string.IsNullOrEmpty(_userContext?.MsArchiveName))
+            {
+                throw new InvalidOperationException("User Context has not yet been initiated");
+            }
+
+            var archiveName = _userContext.MsArchiveName;
+
+            return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
+        }
+
+        public bool IsUserContextAvailable()
+        {
+            var userContext = SessionHelper.Retrieve(Constants.UserContext) as UserContext;
+
+            return userContext != null;
         }
     }
 }

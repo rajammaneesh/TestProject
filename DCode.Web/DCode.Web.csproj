@@ -210,6 +210,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContributorController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RequestorController.cs" />
@@ -219,6 +220,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ErrorModule.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,6 +229,7 @@
     <Content Include="App_Data\Aug_9.sql" />
     <Content Include="App_Data\July_30.sql" />
     <Content Include="App_Data\Nov_06_2017.sql" />
+    <Content Include="App_Data\Oct_31.sql" />
     <Content Include="App_Data\Scripts_July23.txt" />
     <Content Include="App_Data\Sep_21_2017.sql" />
     <Content Include="Content\angucomplete-alt.css" />
@@ -390,7 +393,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -423,12 +426,6 @@
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
     <Content Include="Web.config" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Task\" />

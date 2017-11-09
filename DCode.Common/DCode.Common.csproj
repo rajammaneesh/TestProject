@@ -49,6 +49,7 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="EmailHelper.cs" />
+    <Compile Include="EnumerationsHelper.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Predicatebuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

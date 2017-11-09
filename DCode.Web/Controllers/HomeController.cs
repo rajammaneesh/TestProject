@@ -2,11 +2,9 @@
 using DCode.Services.Common;
 using DCode.Web.Security;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using static DCode.Common.Enums;
 
 namespace DCode.Web.Controllers
 {
@@ -17,6 +15,7 @@ namespace DCode.Web.Controllers
         {
             _commonService = commonService;
         }
+
         public ActionResult Index()
         {
             //EmailHelper.SendEmail(Enums.EmailType.RequestorNotification;
@@ -28,16 +27,27 @@ namespace DCode.Web.Controllers
             {
                 var auth = new AuthorizeDCode();
                 auth.OnAuthorization(new AuthorizationContext());
-                var userContext = _commonService.GetCurrentUserContext();
-                if(userContext.Role == Enums.Role.Requestor)
+
+                if (!_commonService.IsUserContextAvailable()
+                    || Convert.ToString(ConfigurationManager.AppSettings[Constants.GenerateRedirectToError]) == "true")
                 {
-                    return RedirectToAction("newtasks","requestor");
+                    TempData[Constants.ErrorRedirectType]
+                       = ErrorRedirectType.NonUsiPractitioner;
+
+                    return RedirectToAction("Index", "Error");
+                }
+
+                var userContext = _commonService.GetCurrentUserContext();
+
+                if (userContext.Role == Enums.Role.Requestor)
+                {
+                    return RedirectToAction("newtasks", "requestor");
                 }
                 else
                 {
-                    if(String.IsNullOrEmpty(userContext.ManagerEmailId))
+                    if (String.IsNullOrEmpty(userContext.ManagerEmailId))
                     {
-                       return RedirectToAction("profile", "profile");
+                        return RedirectToAction("profile", "profile");
                     }
                     return RedirectToAction("dashboard", "contributor");
                 }
