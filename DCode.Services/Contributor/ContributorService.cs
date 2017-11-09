@@ -13,8 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DCode.Services.Contributor
 {
@@ -122,9 +121,22 @@ namespace DCode.Services.Contributor
 
                     _commonService.UpdateManagersEmail(user.EmailId, emailAddress, managerName);
 
-                    var serviceLine = user.Department;
+                    var department = user.Department;
 
-                    var RMGroupEmailAddress = ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + serviceLine];
+                    var serviceLines = _commonService.GetServiceLines();
+
+                    var currentUsersServiceLine = string.Empty;
+                    foreach(var serviceLine in serviceLines)
+                    {
+                        var splitDep = department.Split(' ');
+                        if (splitDep.Contains(serviceLine.Name.ToUpperInvariant()) || splitDep.Contains("EBS"))
+                        {
+                            currentUsersServiceLine = serviceLine.Name;
+                            break;
+                        }
+                    }
+
+                    var RMGroupEmailAddress = ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + currentUsersServiceLine];
 
                     EmailHelper.ApplyNotification(
                         managerName,

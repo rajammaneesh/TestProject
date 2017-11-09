@@ -19,7 +19,18 @@ namespace DCode.Common
                 mail.To.Add(toMailAddress);
                 if (ccMailAddress != null)
                 {
-                    mail.CC.Add(ccMailAddress);
+                    if (ccMailAddress.Contains(";"))
+                    {
+                        var listAddresses = ccMailAddress.Split(';');
+                        foreach (var address in listAddresses)
+                        {
+                            mail.CC.Add(address);
+                        }
+                    }
+                    else
+                    {
+                        mail.CC.Add(ccMailAddress);
+                    }
                 }
                 SmtpServer.Port = 25;
                 SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);

@@ -33,6 +33,8 @@ namespace DCode.Services.Common
 
         int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName);
 
+        UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName);
+
         bool GetTechXAccess();
     }
 }

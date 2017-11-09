@@ -4,13 +4,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="requestorController">
-    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
+<div class="main no-padding-left-right" ng-controller="requestorController">
+    <div style="background:white;width:100%;height:50px;">
+        <div @*class="background-color-fff"*@ class="new-style-sai-dashboard-menu">
+            <div class="top-menu">
+                <ul class="nav">
+                    <li class="link active new-style-sai-dashboard-menu-items" @*ng-class="classApproval"*@ id="approval">
+                        <a ng-click="controlTabsMyTasks('approval')" class="dark-grey-blue-16">APPLICATIONS<span class="alert-icon" ng-show="applicantsCount > 0">{{applicantsCount}}</span></a>
+                    </li>
+                    <li class="link new-style-sai-dashboard-menu-items" @*ng-class="classTrackStatus"*@ id="trackStatus">
+                        <a ng-click="controlTabsMyTasks('taskstatus')" class="dark-grey-blue-16">TRACK STATUS<span class="alert-icon" ng-show="taskStatusesGlobal.length > 0">{{taskStatusesGlobal.length}}</span></a>
+                    </li>
+                    <li class="link new-style-sai-dashboard-menu-items" @*ng-class="classHistory"*@ id="permissions">
+                        <a ng-click="controlTabsMyTasks('history')" class="dark-grey-blue-16">TRACK HISTORY</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div @*class="searchPanel"*@ class="new-style-sai-dashboard-menu-search" ng-hide="dashboard.showHistory">
+            <div class="form-group no-margin">
+                <div class="input-group search-by-project">
+                    <input type="text" class="form-control" placeholder="Search by Project Name" ng-model="searchBox.text" ng-change="filterTaskApplicants();">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+    @*<div>
+            <br />
+        </div>*@
+    <div style="width:100%;">
+        <div class="new-style-sai-renderbody-inner">
+            @{Html.RenderPartial("_RequestorTaskApplications");}
+            @{Html.RenderPartial("_RequestorTaskHistory");}
+            @{Html.RenderPartial("_RequestorTaskStatus");}
+        </div>
+    </div>
+</div>
+
+@*<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="requestorController">
+    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right crop-tech-x-logo">
         <div class="main-header">
             <div class="col-sm-6 col-md-8 no-padding-left-right">
                 <div class="margin-50 col-md-12 logo-parent">
                     <div class="col-md-12 no-padding">
-                        <img src="~/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
+                        <img src="~/Content/Images/tech-x-logo.png" height="260px" width="260px" class="pull-left logo crop-tech-x-logo">
                     </div>
                 </div>
             </div>
@@ -42,11 +84,7 @@
                 </div>
             </div>
         </div>
-        @*<div class="col-sm-12">
-                <div class="col-sm-7 top-menu">
-                    <div class="active pull-left margin-left-right-20 letter-spacing-1">ADD NEW TASK</div>
-                </div>
-            </div>*@
+     
     </div>
     <div id="rightcontainer" class="right-container">
 
@@ -55,7 +93,7 @@
         @{Html.RenderPartial("_RequestorTaskStatus");}
 
     </div>
-</div>
+</div>*@
 
 @*<script type='text/javascript'>
     function toggleTab(showModule, hideModule, curr_id, prev_id) {

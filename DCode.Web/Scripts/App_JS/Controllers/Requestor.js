@@ -280,16 +280,14 @@
         }
 
 
-        $scope.reviewApplicant = function (task, applicant, approvalApplicantId, wrkAgainValue, rating, comments) {
+        $scope.reviewApplicant = function (task, applicant, approvalApplicantId) {
             $http({
                 method: 'POST',
                 url: '/Requestor/ReviewTask',
                 data: {
                     TaskId: task.Id,
                     ApplicantId: applicant.ApplicantId,
-                    ApprovedApplicantId: approvalApplicantId,
-                    Rating: rating,
-                    WorkAgain: wrkAgainValue
+                    ApprovedApplicantId: approvalApplicantId
                 },
                 async: true,
             }).success(function (data, status, headers, config) {
@@ -307,7 +305,7 @@
                     task.Status = "Closed";
                     $scope.refreshTasks();
                     $scope.$broadcast('refresh');
-                    $location.hash('divReviewSuccess');
+                    //$location.hash('divReviewSuccess');
                 }
 
             }).error(function (data, status, headers, config) {
@@ -323,7 +321,7 @@
         };
 
         $scope.onLoad = function () {
-            //$scope.getApplicants();
+            $scope.getApplicants();
             //$scope.getStatusOftasks();
         }
         $scope.onLoad();
@@ -364,7 +362,8 @@
                 TaskName: "",
                 Hours: "",
                 SkillSet: [],
-                IsRewardsEnabled: false
+                IsRewardsEnabled: false,
+                ServiceLineDisplay: ""
             };
         $scope.showDetails = false;
         $scope.showSummary = false;
@@ -506,37 +505,51 @@
                         $("#taskSkill").addClass("invalid");
                     }
 
-                    //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 && $scope.taskRequest.DueDate != null && $scope.taskRequest.OnBoardingDate != null) {
-                    //    var one_day = 1000 * 60 * 60 * 24;
-                    //    var date1 = new Date($scope.taskRequest.OnBoardingDate).getTime();
-                    //    var date2 = new Date($scope.taskRequest.DueDate).getTime();
-                    //    var dateDiff = Math.round((date2 - date1) / one_day);
-                    //    if (dateDiff > 14) {
-                    //        $("#datetimepicker2").addClass("invalid");
-                    //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-                    //        $scope.onBoardingDateReview = false;
-                    //    }
+                    angular.forEach($scope.serviceLines, function (value, index) {
+                        if ($scope.taskRequest.SelectedServiceLine == value.Id)
+                            $scope.taskRequest.ServiceLineDisplay = value.Name;
+                    });
 
-                    //}
+                    if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 && $scope.taskRequest.DueDate != null && $scope.taskRequest.OnBoardingDate != null) {
+                        var one_day = 1000 * 60 * 60 * 24;
+                        var date1 = new Date($scope.taskRequest.OnBoardingDate).getTime();
+                        var date2 = new Date($scope.taskRequest.DueDate).getTime();
+                        var dateDiff = Math.round((date2 - date1) / one_day);
+                        if (dateDiff > 14) {
+                            $("#datetimepicker2").addClass("invalid");
+                            $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
+                            $scope.onBoardingDateReview = false;
+                        }
 
-                    //if ($scope.taskRequest.WBSCode != "") {
-                    //    var val = $scope.taskRequest.WBSCode.toLocaleLowerCase();
-                    //    if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
-                    //        $("#divWBSCode").addClass("invalid");
-                    //        $scope.WBSCodeValidation = false;
-                    //    }
-                    //    else {
-                    //        $("#divWBSCode").removeClass("invalid");
-                    //        $scope.WBSCodeValidation = true;
-                    //    }
-                    //}
+                    }
+                    if ($("#txtHr").val().indexOf('.') > -1) {
+                        //$("#spanHrsError").show();
+                        $("#divHours").addClass("invalid");
+                        $scope.HrsValidation = false;
+                    }
+                    else {
+                        $("#divHours").removeClass("invalid");
+                        //$("#spanHrsError").hide();
+                        $scope.HrsValidation = true;
+                    }
 
+                    //validation to check service line is selected
+                    if ($scope.taskRequest.SelectedServiceLine == null || $scope.taskRequest.SelectedServiceLine == "") {
+                        $("#divServiceLine").addClass("invalid");
+                        $scope.ServiceLineValidation = false;
+                    }
+                    else {
+                        $("#divServiceLine").removeClass("invalid");
+                        $scope.ServiceLineValidation = true;
+                    }
+
+                    //var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
+                    //    && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
+                    //    && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
 
                     var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
-                        && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
-                        && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
-
-
+                      && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours //&& !!$scope.taskRequest.IsRewardsEnabled
+                      && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview && $scope.HrsValidation && $scope.ServiceLineValidation;
 
 
                     if (isvalid) {
@@ -592,10 +605,14 @@
             });
         };
 
+        $("#txtWBSCode").focusout(function () {
+            $scope.GetWBSValidation();
+        });
+
         $scope.GetWBSValidation = function () {
             var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
             var val = $("#txtWBSCode").val().toLocaleLowerCase();
-            if (val.length==19 && regex.test(val)) {
+            if (val.length == 19 && regex.test(val)) {
                 if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
                     $("#divWBSCode").addClass("invalid");
                 }
@@ -620,7 +637,7 @@
                     //commented this to show the tast and project values in the success page.
                     //$scope.taskRequest = null;
                     $scope.$broadcast('angucomplete-alt:clearInput', 'skillsetNewTask');
-                    
+
                 }
             }).error(function (error) {
             });
@@ -719,15 +736,6 @@
             $scope.taskHistoryTotalRecords = null;
             $scope.getTaskHistory();
         });
-
-
-       
-
-        //$scope.onLoad = function () {
-        //    $scope.getTaskHistory();
-        //}
-        //$scope.onLoad();
-
     }
 })();
 

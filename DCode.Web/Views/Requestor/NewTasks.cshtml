@@ -8,265 +8,666 @@
         padding: 15px;
     }
 </style>
-<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="newTaskController">
-    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
-        <div class="main-header">
-            <div class="col-sm-6 col-md-8 no-padding-left-right">
-                <div class="margin-50 col-md-12 logo-parent">
-                    <div class="col-md-12 no-padding">
-                        <img src="~/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-1 col-md-1"></div>
-            <div class="col-sm-2 col-md-2">
-                <img src="~/Content/Images/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <div class="col-sm-7 top-menu">
-                <div class="active pull-left margin-left-right-10 letter-spacing-1 dark-grey-blue-16">ADD NEW TASK</div>
-            </div>
+
+<div class="main" ng-controller="newTaskController">
+
+    <div @*class="background-color-fff"*@ style="padding-left:20px;background:white;">
+        <div class="top-menu">
+            <div class="active dark-grey-blue-16" style="width:120px;">ADD NEW TASK</div>
         </div>
     </div>
-    <div class="right-container">
-        <div class="right-body-bottom col-sm-12 col-md-12 new-task-container margin-top-20">
-            <div class="create-task-container background-color-fff" ng-show="divVisibiltyModel.showCreate">
-                <div class="new-task-box">
-                    <h3 class="dark-grey-blue font-size-24">Let's start with creating a task!</h3>
-                    <p class="gray-text">You can create a task as per your project requirement. You can post your task requirement with specific skill set required to complete the task. You can short list the candidates based on the applicant skill set and choose the right resource to accomplish the task.</p>
-                    <div class="create-new-task-btn" ng-click="showDetailsDiv()">CREATE NEW TASK</div>
-                </div>
-            </div>
-            <div class="create-task-container background-color-fff" ng-show="divVisibiltyModel.showSuccess">
-                <div class="new-task-box" ng-show="divVisibiltyModel.showSuccess">
-                    <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
-                    <div class="gray-text font-size-16 opacity-normal">
-                        <div>Your task, {{taskRequest.TaskName}} for <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> has been posted successfully.</div>
-                        <div>Review applications in <span ng-click="navigateMyTasks()" class="color-8e44ad link">My Tasks.</span></div>
+    <div style="clear:both;"></div>
+    <div class="new-style-sai-renderbody-inner">
+        <div class="new-style-sai-main-inner-body" @*style="padding:20px;"*@>
+
+            @*<div>
+                <div>*@
+            <div style="padding:20px;" ng-show="divVisibiltyModel.showCreate">
+                <div class="new-style-sai-new-task-background">
+                    <div>
+                        <h3 class="dark-grey-blue font-size-24">Let's start with creating a task!</h3>
                     </div>
-                    <div class="margin-top-40">Want to make new task? <span ng-click="showDetailsDiv()" class="color-8e44ad link">Create New Task</span></div>
+                    <div>
+                        <p style="color:darkgrey;">You can create a task as per your project requirement. You can post your task requirement with specific skill set required to complete the task. You can short list the candidates based on the applicant skill set and choose the right resource to accomplish the task.</p>
+                    </div>
+                    <div>
+                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
+                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="showDetailsDiv()">CREATE NEW TASK</div>
+                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+
+                    </div>
                 </div>
             </div>
-            <div ng-show="divVisibiltyModel.showDetails" class="new-task">
+            <div style="padding:20px;" ng-show="divVisibiltyModel.showSuccess">
+                <div class="new-style-sai-new-task-background" ng-show="divVisibiltyModel.showSuccess">
+                    <div>
+                        <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
+                    </div>
+                    <div style="color:darkgrey;">
+                        <p>Your task - <span class="color-8e44ad">{{taskRequest.TaskName}}</span> for project - <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> has been posted successfully.</p>
+                        <p>Review applications in <span ng-click="navigateMyTasks()" class="color-8e44ad link">My Tasks.</span></p>
+                    </div>
+                    <div>
+                        Want to create a new task? <span ng-click="showDetailsDiv()" class="color-8e44ad link">Create New Task</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="divVisibiltyModel.showDetails" class="new-style-sai-new-task">
                 <form name="newTaskForm">
-                    <div class="task-inner-parent">
-                        <div class="inner-new-task col-md-12 background-color-fff input-group no-padding-left-right">
-                            <div class="col-md-4 no-padding-left-right">
+                    <div class="new-style-sai-overall">
+
+                        <div style="width:100%;">
+                            <div class="new-style-sai-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project Name</span>
                                     <span class="requiredField">*</span>
                                 </h3>
-                                <div class="col-md-10 no-padding input-group search-wbs-code">
+                                <div class="input-group search-wbs-code" style="width:100%;">
                                     <input type="text" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the project" required>
                                     <span style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}">add name</span>
                                 </div>
-                                <div class="col-md-2"></div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="new-style-sai-space-column">&nbsp;</div>
+                            <div class="new-style-sai-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
                                     <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
-                                    @*<div class="col-md-1"></div>*@
-                                    <div class="col-md-11 no-padding input-group search-wbs-code" id="divWBSCode">
-                                        <input type="text" id="txtWBSCode" ng-keyup="GetWBSValidation()" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-0000)" required>
-                                        <span style="font-style:italic;font-size:10px;" >XYI, LPX and DCI codes not allowed.</span>
+                                    <div class="input-group search-wbs-code" id="divWBSCode" style="width:100%;">
+                                        <input type="text" id="txtWBSCode" @*ng-keyup="GetWBSValidation()"*@ class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-0000)" required>
+                                        <span style="font-style:italic;font-size:10px;">XYI, LPX and DCI codes not allowed.</span>
                                     </div>
                                     <span class="error">Invalid WBS Code</span>
-                                    @*<div class="col-md-1"></div>*@
                                 </div>
                             </div>
-                            <div class="col-md-4 no-padding-left-right">
-                                @*<div class="col-md-2"></div>*@
-                                <div class="col-md-10 no-padding input-group search-wbs-code skill-set" id="taskSkill">
-                                    <label for="skilSet" class="task-fld-title col-md-12 font-helveticaNeue-medium heading Recommended-number h3">
+                            <div class="new-style-sai-space-column">&nbsp;</div>
+                            <div class="new-style-sai-main-column">
+                                <div>
+                                    <label for="skilSet" class="task-fld-title font-helveticaNeue-medium heading Recommended-number h3">
                                         Skill Set
                                         <span class="requiredField">*</span>
-                                        <span class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>
+                                        @*<span class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>*@
                                     </label>
-                                    <div class="col-md-10 no-padding-right">
-                                        <angucomplete-alt id="skillsetNewTask"
-                                                          placeholder="Search skill"
-                                                          pause="100"
-                                                          selected-object="selectedSkill"
-                                                          remote-url="/Common/SearchSkill?searchParam="
-                                                          title-field="Value"
-                                                          description-field="email"
-                                                          minlength="1"
-                                                          input-class="form-control form-control-small" />
+                                </div>
+                                <div class="form-group datepicker">
+                                    <div style="width:95%;" class="input-group search-wbs-code skill-set" id="taskSkill">
+                                        <div class="new-style-sai-search"
+                                             style="position: absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
+
+                                            <angucomplete-alt id="skillsetNewTask"
+                                                              placeholder="Search skill"
+                                                              pause="100"
+                                                              selected-object="selectedSkill"
+                                                              remote-url="/Common/SearchSkill?searchParam="
+                                                              title-field="Value"
+                                                              description-field="email"
+                                                              minlength="1"
+                                                              input-class="form-control form-control-small" />
+                                        </div>
+
+
+
                                     </div>
-                                    <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                </div>
-                                <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inner-new-task col-md-12 background-color-fff input-group ">
-                        <div class="col-md-12">
-                            <h3>
-                                <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Service Line</span>
-                                <span class="requiredField">*</span>
-                            </h3>
-                            <div class="col-md-5 no-padding">
-                                <select class="form-control" ng-model="taskRequest.SelectedServiceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" required></select>
-                            </div>
-                            <div class="col-md-7 no-padding"></div>
-                        </div>
-                    </div>
-                    <div class="inner-new-task col-md-12 background-color-fff input-group ">
-                        <div class="col-md-5">
-                            <h3>
-                                <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Name</span>
-                                <span class="requiredField">*</span>
-                            </h3>
-                            <div class="col-md-12 no-padding">
-                                <input type="text" class="form-control" ng-model="taskRequest.TaskName" maxlength="50" placeholder="Add the name of the task" required>
-                            </div>
-                        </div>
-                        <div class="col-md-2 no-padding"></div>
-                        <div class="col-md-5">
-                            <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Description</h3>
-                            <div class="col-md-12 no-padding">
-                                <textarea class="form-control" rows="5" maxlength="255" ng-model="taskRequest.Description" placeholder="Add Description"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inner-new-task col-md-12 background-color-fff input-group ">
-                        <div class="col-md-4">
-                            <h3>
-                                <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">On Boarding Date</span>
-                                <span class="requiredField">*</span>
-
-                            </h3>
-                            <div class="form-group">
-                                <div class="input-group date" id="datetimepicker1">
-                                    <input type="text" class="form-control" ng-model="taskRequest.OnBoardingDate" onkeydown="return false" required>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
+                                    <div class="new-style-sai-search-button" style="float:right;">
+                                        <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    </div>
+                                    <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <h3>
-                                <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Due Date</span>
-                                <span class="requiredField">*</span>
+                        <div style="clear:both;"></div>
+                        <div style="width:100%;">
+                            <div class="new-style-sai-main-column">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Service Line</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
+                                <div class="form-group datepicker">
+                                    <div class="input-group search-wbs-code" style="width:100%;" id="divServiceLine">
+                                        <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedServiceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" required></select>
+                                    </div>
+                                    <span class="error">Select Service Line</span>
 
-                            </h3>
-                            <div class="form-group datepicker">
-                                <div class="input-group date" id="datetimepicker2">
-                                    <input type="text" class="form-control" ng-model="taskRequest.DueDate" onkeydown="return false" required>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
                                 </div>
-                                @*<span class="errorDateDiff">Due Date cannot be greater that 2 weeks</span>*@
-                                <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
+                            </div>
+                            <div class="new-style-sai-space-column">&nbsp;</div>
+                            <div class="new-style-sai-main-column">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Name</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
+                                <div class="form-group datepicker">
+                                    <div class="input-group search-wbs-code" style="width:100%;">
+                                        <input type="text" class="form-control" ng-model="taskRequest.TaskName" maxlength="50" placeholder="Add the name of the task" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="new-style-sai-space-column">&nbsp;</div>
+                            <div class="new-style-sai-main-column">
+                                &nbsp;
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <h3>
-                                <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Total Hours</span>
-                                <span class="requiredField">*</span>
+                        <div style="clear:both;"></div>
+                        <div style="width:100%;">
+                            <div class="new-style-sai-description">
+                                <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Description</h3>
+                                <div style="width:100%;">
+                                    <textarea class="form-control" rows="3" maxlength="255" ng-model="taskRequest.Description" placeholder="Add Description" style="resize:none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div style="width:100%;padding-bottom:30px;">
+                            <div class="new-style-sai-main-column">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">On Boarding Date</span>
+                                    <span class="requiredField">*</span>
 
-                            </h3>
-                            <div class="col-md-11 no-padding">
-                                <input type="number" min="1" max="90" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" required>
+                                </h3>
+                                <div class="form-group">
+                                    <div class="input-group date" id="datetimepicker1">
+                                        <input type="text" class="form-control" ng-model="taskRequest.OnBoardingDate" onkeydown="return false" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="new-style-sai-space-column">&nbsp;</div>
+                            <div class="new-style-sai-main-column">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Due Date</span>
+                                    <span class="requiredField">*</span>
+
+                                </h3>
+                                <div class="form-group datepicker">
+                                    <div class="input-group date" id="datetimepicker2">
+                                        <input type="text" class="form-control" ng-model="taskRequest.DueDate" onkeydown="return false" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
+                                </div>
+                            </div>
+                            <div class="new-style-sai-space-column">&nbsp;</div>
+                            <div class="new-style-sai-main-column">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Total Hours</span>
+                                    <span class="requiredField">*</span>
+
+                                </h3>
+                                <div id="divHours">
+                                    <input type="number" min="1" max="90" id="txtHr" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" required>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="input-group col-sm-12 col-md-12 inner-new-task background-color-fff dark-grey-blue">
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                            <div class="col-md-5">
-                                <div class="review-btn font-size-16 cancel link" ng-show="divVisibiltyModel.showCreate" ng-click="cancelClick()">CANCEL</div>
+                        @*<div style="clear:both;"></div>
+                            <div style="width:100%;">
+                                <div class="new-style-sai-main-column-bigger">
+                                    <h3>
+                                        Eligible for Gifts and Awards?
+                                        <span class="requiredField">*</span>
+                                    </h3>
+                                </div>
+                                <div class="new-style-sai-space-column">
+                                    &nbsp;
+                                </div>
+                                <div style="width:20%;float:left; padding-top:20px;" class="selectOption">
+                                    <input type="radio" name="radio-group_rewards" id="selectYes" value="true" ng-model="taskRequest.IsRewardsEnabled" required />
+                                    <label for="selectYes">Yes</label>
+                                    <input type="radio" name="radio-group_rewards" id="selectNo" value="false" ng-model="taskRequest.IsRewardsEnabled" required />
+                                    <label for="selectNo">No</label>
+                                </div>
+                                <div class="new-style-sai-space-column">
+                                    &nbsp;
+                                </div>
+                                <div class="new-style-sai-main-column">
+                                    &nbsp;
+                                </div>
+                            </div>*@
+                        <div style="clear:both;"></div>
+                        <div style="width:100%;">
+                            <div style="float:right;padding-right:50px;">
+                                <div style="float:left;">
+                                    <div class="review-btn font-size-16 cancel link" ng-show="divVisibiltyModel.showCreate" ng-click="cancelClick()">CANCEL</div>
+                                </div>
+                                <div class="new-style-sai-space-column"></div>
+                                <div>
+                                    <button type="submit" class="review-btn link" ng-click="reviewClick()">REVIEW TASK</button>
+                                </div>
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-6 font-size-16">
-                                <button type="submit" class="review-btn link" ng-click="reviewClick()">REVIEW TASK</button>
-                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+
+                        <div>
+                            <br />
+                            <br />
+                            &nbsp;
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="background-color-fff task-complete-module" ng-show="divVisibiltyModel.showSummary">
-                <div class="col-md-12 col-sm-12 task-details">
-                    <div class="col-md-10 col-sm-10">
-                        <div class="project-title margin-bottom-25">
-                            <div class="heading  margin-top-24">{{taskRequest.ProjectName}}</div>
+            <div style="padding:30px;" ng-show="divVisibiltyModel.showSummary">
+                <div @*class="background-color-fff task-complete-module"*@ class="project-details" style="padding:20px;">
+                    <div style="width:100%;">
+                        <div style="float:left;">
+                            <div class="heading" style="color: #8e44ad;">{{taskRequest.ProjectName}}</div>
                             <div class="gray-text">Today</div>
                         </div>
-                        <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
-                            <div class="heading">
-                                <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{selectedSkillDesc}}</span>
-                                <div class="gray-text">Required skills</div>
-                            </div>
-
-                        </div>
-                        <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
-                            <div class="heading">
-                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{taskRequest.Hours}} hours</span>
-                                <div class="gray-text">Billable hours</div>
-                            </div>
-                        </div>
-
-                        <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
-                            <div class="heading">
-                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{onBoardingDateReviewUI}}</span>
-                                <div class="gray-text">Onboarding Date</div>
-                            </div>
-                        </div>
-                        <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
-                            <div class="heading">
-                                <span class="gift-icon pull-left"><img src="/Content/Images/gift@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue pull-left">{{taskRequest.IsRewardsEnabled | yesNo}}</span>
-                                <div class="gray-text clear-both">Awards Eligibility</div>
-                            </div>
+                        <div style="float:right">
+                            <div class="circle-txt-60">{{taskRequest.ShortName}}</div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-2 margin-top-24">
-                        <div class="project-logo margin-top-16">
-                            <div class="circle-txt-60 pull-right">{{taskRequest.ShortName}}</div>
-                            @*<img src="/Content/Images/project-logo.png" width="90px" height="90px" />*@
+                    <div style="clear:both;"></div>
+                    <div class="heading">
+                        <div class="new-style-sai-tracking-main">
+                            <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{selectedSkillDesc}}</span>
+                            <div class="gray-text">Required skills</div>
                         </div>
+                        <div class="new-style-sai-tracking-main">
+                            <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{taskRequest.Hours}} hours</span>
+                            <div class="gray-text">Billable hours</div>
+                        </div>
+                        <div class="new-style-sai-tracking-main">
+                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{onBoardingDateReviewUI}}</span>
+                            <div class="gray-text">Onboarding Date</div>
+                        </div>
+                        <div class="new-style-sai-tracking-main">
+                            <span class="cal-icon"><img src="/Content/Images/serviceLine.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{taskRequest.ServiceLineDisplay}}</span>
+                            <div class="gray-text">Service Line</div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>
+                            <br />
+                        </div>
+                        <div style="width:100%;height:50px;">
+                            <div class="new-style-sai-review-post-bigger">
+                                &nbsp;
+                            </div>
+                            <div class="new-style-sai-review-post-smaller">
+                                <div class="review-btn link" style="float:left;" ng-click="editClick()">Edit</div>
+                                <div style="float:left;">&nbsp;</div>
+                                <div class="review-btn link" style="float:left;" ng-click="upsertTask()">Post Task</div>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <div class="margin-top-40 pull-right margin-right-40 margin-bottom-40 profileController">
-                    <div class="edit-task-btn pull-left margin-right-40 link" ng-click="editClick()">EDIT</div>
-                    <div class="post-task-btn pull-left link" ng-click="upsertTask()">POST TASK</div>
+                    @*<div>
+                            <div style="width:100%;" class="heading">
+                                <div style="padding:30px;">
+                                    <div class="new-style-sai-tracking-main">
+                                        <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue">{{selectedSkillDesc}}</span>
+                                        <div class="gray-text">Required skills</div>
+                                    </div>
+                                    <div class="new-style-sai-tracking-main">
+                                        <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue">{{taskRequest.Hours}} hours</span>
+                                        <div class="gray-text">Billable hours</div>
+                                    </div>
+                                    <div class="new-style-sai-tracking-main">
+                                        <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue">{{onBoardingDateReviewUI}}</span>
+                                        <div class="gray-text">Onboarding Date</div>
+                                    </div>
+                                    <div>
+                                        <br />
+                                    </div>
+                                    <div style="width:100%;">
+                                        <div style="float:left;width:45%;">
+                                            <div class="new-style-sai-post-task-btn link" style="float:right;" ng-click="editClick()">EDIT</div>
+                                        </div>
+                                        <div style="width:10%;float:left;">&nbsp;</div>
+                                        <div style="float:left;width:45%;text-align:center;">
+                                            <div class="new-style-sai-post-task-btn link" ng-click="upsertTask()">POST TASK</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    @*<div style="clear:both;"></div>*@
+
+                    @*<div class="col-md-12 col-sm-12 task-details">
+                            <div class="col-md-10 col-sm-10">
+                                <div class="project-title margin-bottom-25">
+                                    <div class="heading  margin-top-24">{{taskRequest.ProjectName}}</div>
+                                    <div class="gray-text">Today</div>
+                                </div>
+                                <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
+                                    <div class="heading">
+                                        <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue">{{selectedSkillDesc}}</span>
+                                        <div class="gray-text">Required skills</div>
+                                    </div>
+
+                                </div>
+                                <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
+                                    <div class="heading">
+                                        <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue">{{taskRequest.Hours}} hours</span>
+                                        <div class="gray-text">Billable hours</div>
+                                    </div>
+                                </div>
+
+                                <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
+                                    <div class="heading">
+                                        <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue">{{onBoardingDateReviewUI}}</span>
+                                        <div class="gray-text">Onboarding Date</div>
+                                    </div>
+                                </div>
+                                <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
+                                    <div class="heading">
+                                        <span class="gift-icon pull-left"><img src="/Content/Images/gift@2x.png" /></span>
+                                        <span class="role-desc dark-grey-blue pull-left">{{taskRequest.IsRewardsEnabled | yesNo}}</span>
+                                        <div class="gray-text clear-both">Awards Eligibility</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 margin-top-24">
+                                <div class="project-logo margin-top-16">
+                                    <div class="circle-txt-60 pull-right">{{taskRequest.ShortName}}</div>
+                                </div>
+                            </div>
+                        </div>*@
+                    @*<div style="clear:both;"></div>
+                        <div class="margin-top-40 pull-right margin-right-40 margin-bottom-40 profileController">
+                            <div class="edit-task-btn pull-left margin-right-40 link" ng-click="editClick()">EDIT</div>
+                            <div class="post-task-btn pull-left link" ng-click="upsertTask()">POST TASK</div>
+                        </div>*@
                 </div>
             </div>
-        </div>
-        <!--after new task submission-->
-    </div>
-    <div id="myModal" class="modal fade profileController" role="dialog">
+            @*</div>
+                </div>*@
+            <div id="myModal" class="modal fade profileController" role="dialog">
 
-        <div class="modal-dialog">
+                <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content addSkillDialog">
+                    <!-- Modal content-->
+                    <div class="modal-content addSkillDialog">
 
-                <div class="modal-body col-md-12">
-                    <form name="form" class="col-md-12 margin-top-20">
-                        <lable style="color:green" class="col-md-12">{{successMessage}}</lable>
-                        <lable style="color:red" class="col-md-12">{{errorMessage}}</lable>
-                        <div class="col-md-8">
+                        <div class="modal-body col-md-12">
+                            <form name="form" class="col-md-12 margin-top-20">
+                                <lable style="color:green" class="col-md-12">{{successMessage}}</lable>
+                                <lable style="color:red" class="col-md-12">{{errorMessage}}</lable>
+                                <div class="col-md-8">
 
-                            <input type="text" class="form-control col-md-4" placeholder="Enter Skill Name" ng-model="newSkillValue" required>
+                                    <input type="text" class="form-control col-md-4" placeholder="Enter Skill Name" ng-model="newSkillValue" required>
+                                </div>
+                                <input type="submit" class="edit-task-btn pull-left submit-but col-md-1" value="Submit" ng-click="insertSkill();">
+                            </form>
                         </div>
-                        <input type="submit" class="edit-task-btn pull-left submit-but col-md-1" value="Submit" ng-click="insertSkill();">
-                    </form>
-                </div>
-                <div class="modal-footer">
+                        <div class="modal-footer">
 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+@*<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="newTaskController">
+        <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
+            <div class="main-header">
+                <div class="col-sm-6 col-md-8 no-padding-left-right">
+                    <div class="margin-50 col-md-12 logo-parent">
+                        <div class="col-md-12 no-padding">
+                            <img src="~/Content/Images/tech-x-logo.png" height="260px" width="260px" class="pull-left logo crop-tech-x-logo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-1"></div>
+                <div class="col-sm-2 col-md-2">
+                    <img src="~/Content/Images/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-7 top-menu">
+                    <div class="active pull-left margin-left-right-10 letter-spacing-1 dark-grey-blue-16">ADD NEW TASK</div>
+                </div>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="right-body-bottom col-sm-12 col-md-12 new-task-container margin-top-20">
+                <div class="create-task-container background-color-fff" ng-show="divVisibiltyModel.showCreate">
+                    <div class="new-task-box">
+                        <h3 class="dark-grey-blue font-size-24">Let's start with creating a task!</h3>
+                        <p class="gray-text">You can create a task as per your project requirement. You can post your task requirement with specific skill set required to complete the task. You can short list the candidates based on the applicant skill set and choose the right resource to accomplish the task.</p>
+                        <div class="create-new-task-btn" ng-click="showDetailsDiv()">CREATE NEW TASK</div>
+                    </div>
+                </div>
+                <div class="create-task-container background-color-fff" ng-show="divVisibiltyModel.showSuccess">
+                    <div class="new-task-box" ng-show="divVisibiltyModel.showSuccess">
+                        <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
+                        <div class="gray-text font-size-16 opacity-normal">
+                            <div>Your task, {{taskRequest.TaskName}} for <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> has been posted successfully.</div>
+                            <div>Review applications in <span ng-click="navigateMyTasks()" class="color-8e44ad link">My Tasks.</span></div>
+                        </div>
+                        <div class="margin-top-40">Want to make new task? <span ng-click="showDetailsDiv()" class="color-8e44ad link">Create New Task</span></div>
+                    </div>
+                </div>
+                <div ng-show="divVisibiltyModel.showDetails" class="new-task">
+                    <form name="newTaskForm">
+                        <div class="task-inner-parent">
+                            <div class="inner-new-task col-md-12 background-color-fff input-group no-padding-left-right">
+                                <div class="col-md-4 no-padding-left-right">
+                                    <h3>
+                                        <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project Name</span>
+                                        <span class="requiredField">*</span>
+                                    </h3>
+                                    <div class="col-md-10 no-padding input-group search-wbs-code">
+                                        <input type="text" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the project" required>
+                                        <span style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}">add name</span>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h3>
+                                        <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
+                                        <span class="requiredField">*</span>
+                                    </h3>
+                                    <div class="form-group datepicker">
+                                        <div class="col-md-11 no-padding input-group search-wbs-code" id="divWBSCode">
+                                            <input type="text" id="txtWBSCode" ng-keyup="GetWBSValidation()" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-0000)" required>
+                                            <span style="font-style:italic;font-size:10px;" >XYI, LPX and DCI codes not allowed.</span>
+                                        </div>
+                                        <span class="error">Invalid WBS Code</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 no-padding-left-right">
+                                    <div class="col-md-10 no-padding input-group search-wbs-code skill-set" id="taskSkill">
+                                        <label for="skilSet" class="task-fld-title col-md-12 font-helveticaNeue-medium heading Recommended-number h3">
+                                            Skill Set
+                                            <span class="requiredField">*</span>
+                                        </label>
+                                        <div class="col-md-10 no-padding-right">
+                                            <angucomplete-alt id="skillsetNewTask"
+                                                              placeholder="Search skill"
+                                                              pause="100"
+                                                              selected-object="selectedSkill"
+                                                              remote-url="/Common/SearchSkill?searchParam="
+                                                              title-field="Value"
+                                                              description-field="email"
+                                                              minlength="1"
+                                                              input-class="form-control form-control-small" />
+                                        </div>
+                                        <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    </div>
+                                    <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inner-new-task col-md-12 background-color-fff input-group ">
+                            <div class="col-md-12">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Service Line</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
+                                <div class="col-md-5 no-padding">
+                                    <select class="form-control" ng-model="taskRequest.SelectedServiceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" required></select>
+                                </div>
+                                <div class="col-md-7 no-padding"></div>
+                            </div>
+                        </div>
+                        <div class="inner-new-task col-md-12 background-color-fff input-group ">
+                            <div class="col-md-5">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Name</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
+                                <div class="col-md-12 no-padding">
+                                    <input type="text" class="form-control" ng-model="taskRequest.TaskName" maxlength="50" placeholder="Add the name of the task" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2 no-padding"></div>
+                            <div class="col-md-5">
+                                <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Description</h3>
+                                <div class="col-md-12 no-padding">
+                                    <textarea class="form-control" rows="5" maxlength="255" ng-model="taskRequest.Description" placeholder="Add Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inner-new-task col-md-12 background-color-fff input-group ">
+                            <div class="col-md-4">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">On Boarding Date</span>
+                                    <span class="requiredField">*</span>
+
+                                </h3>
+                                <div class="form-group">
+                                    <div class="input-group date" id="datetimepicker1">
+                                        <input type="text" class="form-control" ng-model="taskRequest.OnBoardingDate" onkeydown="return false" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Due Date</span>
+                                    <span class="requiredField">*</span>
+
+                                </h3>
+                                <div class="form-group datepicker">
+                                    <div class="input-group date" id="datetimepicker2">
+                                        <input type="text" class="form-control" ng-model="taskRequest.DueDate" onkeydown="return false" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Total Hours</span>
+                                    <span class="requiredField">*</span>
+
+                                </h3>
+                                <div class="col-md-11 no-padding">
+                                    <input type="number" min="1" max="90" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group col-sm-12 col-md-12 inner-new-task background-color-fff dark-grey-blue">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="col-md-5">
+                                    <div class="review-btn font-size-16 cancel link" ng-show="divVisibiltyModel.showCreate" ng-click="cancelClick()">CANCEL</div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-6 font-size-16">
+                                    <button type="submit" class="review-btn link" ng-click="reviewClick()">REVIEW TASK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="background-color-fff task-complete-module" ng-show="divVisibiltyModel.showSummary">
+                    <div class="col-md-12 col-sm-12 task-details">
+                        <div class="col-md-10 col-sm-10">
+                            <div class="project-title margin-bottom-25">
+                                <div class="heading  margin-top-24">{{taskRequest.ProjectName}}</div>
+                                <div class="gray-text">Today</div>
+                            </div>
+                            <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">{{selectedSkillDesc}}</span>
+                                    <div class="gray-text">Required skills</div>
+                                </div>
+
+                            </div>
+                            <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">{{taskRequest.Hours}} hours</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                            </div>
+
+                            <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                                    <span class="role-desc dark-grey-blue">{{onBoardingDateReviewUI}}</span>
+                                    <div class="gray-text">Onboarding Date</div>
+                                </div>
+                            </div>
+                            <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
+                                <div class="heading">
+                                    <span class="role-desc dark-grey-blue pull-left">{{taskRequest.ServiceLineDisplay}}</span>
+                                    <div class="gray-text clear-both">Service Line</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 margin-top-24">
+                            <div class="project-logo margin-top-16">
+                                <div class="circle-txt-60 pull-right">{{taskRequest.ShortName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="margin-top-40 pull-right margin-right-40 margin-bottom-40 profileController">
+                        <div class="edit-task-btn pull-left margin-right-40 link" ng-click="editClick()">EDIT</div>
+                        <div class="post-task-btn pull-left link" ng-click="upsertTask()">POST TASK</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade profileController" role="dialog">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content addSkillDialog">
+
+                    <div class="modal-body col-md-12">
+                        <form name="form" class="col-md-12 margin-top-20">
+                            <lable style="color:green" class="col-md-12">{{successMessage}}</lable>
+                            <lable style="color:red" class="col-md-12">{{errorMessage}}</lable>
+                            <div class="col-md-8">
+
+                                <input type="text" class="form-control col-md-4" placeholder="Enter Skill Name" ng-model="newSkillValue" required>
+                            </div>
+                            <input type="submit" class="edit-task-btn pull-left submit-but col-md-1" value="Submit" ng-click="insertSkill();">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
 
