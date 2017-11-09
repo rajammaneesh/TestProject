@@ -106,7 +106,7 @@ namespace DCode.Services.Common
 
         private UserContext MapDetailsFromDeloitteNetwork(string userName)
         {
-            SearchResultCollection searchResults = null;
+           SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
             var directoryEntry = new DirectoryEntry(path);
             var directorySearcher = new DirectorySearcher(directoryEntry);
@@ -155,7 +155,7 @@ namespace DCode.Services.Common
                     else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
                     {
                         _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
-                    }
+                    }                  
                 }
             }
             return _userContext;
@@ -426,7 +426,14 @@ namespace DCode.Services.Common
 
             var archiveName = _userContext.MsArchiveName;
 
-            return Regex.IsMatch(archiveName, @"[\s]+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[\s]+");
+            return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
+        }
+
+        public bool IsUserContextAvailable()
+        {
+            var userContext = SessionHelper.Retrieve(Constants.UserContext) as UserContext;
+
+            return userContext != null;
         }
     }
 }

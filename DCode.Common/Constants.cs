@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Common
 {
@@ -44,6 +40,7 @@ namespace DCode.Common
         public const string UserContextMenuItems = "DCodeUserContextMenuItems";
         public const string SearchFilter = "(&(objectClass=user)(sAMAccountName={0}))";
         public const string LdapConnection = "LDAPConnection";
+        public const string GenerateRedirectToError = "GenerateRedirectToError";
         public const string Userprincipalname = "userprincipalname";
         public const string Title = "title";
         public const string Givenname = "givenname";
@@ -108,7 +105,10 @@ namespace DCode.Common
         public enum ErrorRedirectType
         {
             [Description("You are not permitted to access this portal as you are not a USI practitioner")]
-            NonUsiPractitioner
+            NonUsiPractitioner,
+
+            [Description("An unknown error occurred while processing your request.")]
+            Unknown
         }
     }
 }

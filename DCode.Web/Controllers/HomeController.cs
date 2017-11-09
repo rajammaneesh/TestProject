@@ -1,12 +1,8 @@
 ﻿using DCode.Common;
-using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Web.Security;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using static DCode.Common.Enums;
 
@@ -32,16 +28,16 @@ namespace DCode.Web.Controllers
                 var auth = new AuthorizeDCode();
                 auth.OnAuthorization(new AuthorizationContext());
 
-                var userContext = _commonService.GetCurrentUserContext();
-
-                var isTechXAccesible = _commonService.GetTechXAccess();
-
-                if (!isTechXAccesible)
+                if (!_commonService.IsUserContextAvailable()
+                    || Convert.ToString(ConfigurationManager.AppSettings[Constants.GenerateRedirectToError]) == "true")
                 {
-                    TempData[Constants.ErrorRedirectType] = ErrorRedirectType.NonUsiPractitioner;
+                    TempData[Constants.ErrorRedirectType]
+                       = ErrorRedirectType.NonUsiPractitioner;
 
-                    return RedirectToAction("Error", "Index");
+                    return RedirectToAction("Index", "Error");
                 }
+
+                var userContext = _commonService.GetCurrentUserContext();
 
                 if (userContext.Role == Enums.Role.Requestor)
                 {
