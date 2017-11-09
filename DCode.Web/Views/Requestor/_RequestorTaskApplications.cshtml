@@ -1,29 +1,12 @@
-﻿<div class="new-style-sai-main-inner-body">
-    <div id="approvalContainer" style="padding:20px;" ng-show="dashboard.showApproval">
+﻿<div  ng-show="dashboard.showApproval">
+    <div id="taskAppReq" class="new-style-sai-main-inner-body" style="padding:20px;">
+
         <div @*id="divAssigned"*@ class="success-banner" ng-show="AssignedDivModel.Visible">
             <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</span></h3>
         </div>
-
-        <div class="background-color-ecf0f1" infinite-scroll='getApplicants()' infinite-scroll-distance='0'>
-            <div ng-show="taskApplicants.length == 0" style="padding-top:20px;">
-                <div class="new-style-sai-new-task-background">
-                    <div>
-                        <div class="dark-grey-blue font-size-24">Want to create more tasks?</div>
-                    </div>
-                    <div> &nbsp;</div>
-                    <div>
-                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
-                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="new-style-sai-visibility">
-                &nbsp;
-            </div>
-            <div class="project-details" style="padding:20px;" ng-repeat="taskApplicant in taskApplicants track by $index">
-                <div>
+        <div class="background-color-ecf0f1" infinite-scroll='getApplicants()' infinite-scroll-distance='0' infinite-scroll-container="'#taskAppReq'">
+            <div class="project-details" @*style="padding:20px;"*@ ng-repeat="taskApplicant in taskApplicants track by $index">
+                <div style="padding:20px;">
                     <div ng-hide="taskApplicant.Task.Status == 'Assigned'">
                         <div style="width:100%;">
                             <div style="float:left;">
@@ -159,6 +142,23 @@
                     <hr style="background:darkgray;" />
                 </div>
             </div>
+            <div class="new-style-sai-visibility">
+                &nbsp;
+            </div>
+            <div ng-show="taskApplicants.length == 0" style="padding-top:20px;">
+                <div class="new-style-sai-new-task-background">
+                    <div>
+                        <div class="dark-grey-blue font-size-24">Want to create more tasks?</div>
+                    </div>
+                    <div> &nbsp;</div>
+                    <div>
+                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
+                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -167,116 +167,116 @@
 
 
 @*<div class="right-body-bottom col-sm-12 margin-top-20 approval-container" id="approvalContainer" ng-show="dashboard.showApproval">
-    <div id="divAssigned" class="success-banner" ng-show="AssignedDivModel.Visible">
-        <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</span></h3>
-    </div>
-    <div infinite-scroll='getApplicants()' infinite-scroll-distance='0'>
-        <div class="no-padding-left-right margin-top-bottom-3 col-sm-12" ng-repeat="taskApplicant in taskApplicants track by $index">
-            <div class="col-md-12 col-sm-12 project-details" ng-hide="taskApplicant.Task.Status == 'Assigned'">
-                <div class="col-md-10 col-sm-10">
-                    <div class="project-title margin-bottom-25">
-                        <div class="heading margin-top-24">{{taskApplicant.Task.ProjectName}}</div>
-                        <div class="gray-text">{{taskApplicant.Task.Duration}}</div>
-                    </div>
-                    <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Skills}}</span>
-                            <div class="gray-text">Required skills</div>
+        <div id="divAssigned" class="success-banner" ng-show="AssignedDivModel.Visible">
+            <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</span></h3>
+        </div>
+        <div infinite-scroll='getApplicants()' infinite-scroll-distance='0'>
+            <div class="no-padding-left-right margin-top-bottom-3 col-sm-12" ng-repeat="taskApplicant in taskApplicants track by $index">
+                <div class="col-md-12 col-sm-12 project-details" ng-hide="taskApplicant.Task.Status == 'Assigned'">
+                    <div class="col-md-10 col-sm-10">
+                        <div class="project-title margin-bottom-25">
+                            <div class="heading margin-top-24">{{taskApplicant.Task.ProjectName}}</div>
+                            <div class="gray-text">{{taskApplicant.Task.Duration}}</div>
                         </div>
-                    </div>
-                    <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
-                            <div class="gray-text">Billable hours</div>
+                        <div class="required-skills col-sm-2 col-md-3 pull-left no-padding">
+                            <div class="heading">
+                                <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Skills}}</span>
+                                <div class="gray-text">Required skills</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
-                            <div class="gray-text">Onboarding Date</div>
+                        <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
+                            <div class="heading">
+                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
+                                <div class="gray-text">Billable hours</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="role-desc dark-grey-blue pull-left">
-                                {{taskApplicant.Task.ServiceLine}}
-                            </span>
-                            <div class="gray-text clear-both">Service Line</div>
+                        <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
+                            <div class="heading">
+                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
+                                <div class="gray-text">Onboarding Date</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-9 col-sm-9 no-padding margin-top-24">
-                        <p class="project-desc">{{taskApplicant.Task.Details}}</p>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-2 margin-top-24">
-                    <div class="circle-txt-60 pull-right">{{taskApplicant.Task.ShortName}}</div>
-                    <div class="col-md-12 margin-top-64">
-                        <div id="responseDiv_$index" class="response-txt pull-right" ng-click="showStatusResponse($index);">
-                            {{taskApplicant.Applicants.length}} Response<span ng-show="taskApplicant.Applicants.length > 1 || taskApplicant.Applicants.length == 0">s</span>
-                            <span ng-switch="isShowing($index)" ng-show="taskApplicant.Applicants.length > 0">
-                                <span ng-switch-when=false>
-                                    <img src="/Content/Images/downward@2x.png" width="8px" height="8px" />
+                        <div class="awards-eligible col-sm-2 col-md-3 pull-left no-padding">
+                            <div class="heading">
+                                <span class="role-desc dark-grey-blue pull-left">
+                                    {{taskApplicant.Task.ServiceLine}}
                                 </span>
-                                <span ng-switch-when=true>
-                                    <img src="/Content/Images/upward@2x.png" width="8px" height="8px" />
-                                </span>
-                            </span>
+                                <div class="gray-text clear-both">Service Line</div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 no-padding margin-top-24">
+                            <p class="project-desc">{{taskApplicant.Task.Details}}</p>
                         </div>
                     </div>
-                </div>
+                    <div class="col-md-2 col-sm-2 margin-top-24">
+                        <div class="circle-txt-60 pull-right">{{taskApplicant.Task.ShortName}}</div>
+                        <div class="col-md-12 margin-top-64">
+                            <div id="responseDiv_$index" class="response-txt pull-right" ng-click="showStatusResponse($index);">
+                                {{taskApplicant.Applicants.length}} Response<span ng-show="taskApplicant.Applicants.length > 1 || taskApplicant.Applicants.length == 0">s</span>
+                                <span ng-switch="isShowing($index)" ng-show="taskApplicant.Applicants.length > 0">
+                                    <span ng-switch-when=false>
+                                        <img src="/Content/Images/downward@2x.png" width="8px" height="8px" />
+                                    </span>
+                                    <span ng-switch-when=true>
+                                        <img src="/Content/Images/upward@2x.png" width="8px" height="8px" />
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
 
-            </div>
-            <div ng-show="isShowing($index)">
-                <div class="col-md-12 col-sm-12 project-details-expand no-padding margin-top-bottom-1 background-color-fff" ng-repeat="applicant in taskApplicant.Applicants" ng-hide="taskApplicant.Task.Status == 'Assigned'">
-                    <div class="col-md-12 col-sm-12 project-details-expand margin-top-bottom-1 background-color-fff padding-left-right-20">
-                        <div class="col-md-12 no-padding">
-                            <div class="col-md-4 no-padding">
-                                <div class="col-sm-12 col-md-12 no-padding-left-right">
-                                    <div class="pull-left col-md-4 no-padding-left-right">
-                                        <div class="circle-txt-60 pull-left margin-top-10">{{applicant.ShortName}}</div>
+                </div>
+                <div ng-show="isShowing($index)">
+                    <div class="col-md-12 col-sm-12 project-details-expand no-padding margin-top-bottom-1 background-color-fff" ng-repeat="applicant in taskApplicant.Applicants" ng-hide="taskApplicant.Task.Status == 'Assigned'">
+                        <div class="col-md-12 col-sm-12 project-details-expand margin-top-bottom-1 background-color-fff padding-left-right-20">
+                            <div class="col-md-12 no-padding">
+                                <div class="col-md-4 no-padding">
+                                    <div class="col-sm-12 col-md-12 no-padding-left-right">
+                                        <div class="pull-left col-md-4 no-padding-left-right">
+                                            <div class="circle-txt-60 pull-left margin-top-10">{{applicant.ShortName}}</div>
+                                        </div>
+                                        <div class="pull-left col-sm-8 col-md-8 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                            <div class="pull-left mgr-name col-md-12 row font-size-20 color-8e44ad">{{applicant.Name}}</div>
+                                            <div class="pull-left mgr-deg col-md-12 row font-size-14">{{applicant.Designation}}</div>
+                                        </div>
                                     </div>
-                                    <div class="pull-left col-sm-8 col-md-8 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
-                                        <div class="pull-left mgr-name col-md-12 row font-size-20 color-8e44ad">{{applicant.Name}}</div>
-                                        <div class="pull-left mgr-deg col-md-12 row font-size-14">{{applicant.Designation}}</div>
+                                </div>
+                                <div class="col-md-6 no-padding">
+                                    <div class="pull-left col-sm-12 col-md-12 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                        <div class="pull-left mgr-name col-md-12 row font-size-20">{{applicant.Expertise}}</div>
+                                        <div class="pull-left mgr-deg col-md-12 row font-size-14">Skills</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 no-padding">
-                                <div class="pull-left col-sm-12 col-md-12 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
-                                    <div class="pull-left mgr-name col-md-12 row font-size-20">{{applicant.Expertise}}</div>
-                                    <div class="pull-left mgr-deg col-md-12 row font-size-14">Skills</div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="add-task-button-disabled margin-top-24" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
-                                <div class="add-task-button margin-top-24" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 border-bottom-dark no-padding" ng-show="applicant.StatementOfPurpose!=null && applicant.StatementOfPurpose.length>0">
-                        <div class="col-md-8 no-padding">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="pull-left col-sm-10 col-md-2">
-                                </div>
-                                <div class="pull-left col-sm-10 col-md-10 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
-                                    <div class="pull-left mgr-name col-md-12 row font-size-20 text-justify">{{applicant.StatementOfPurpose}}</div>
-                                    <div class="pull-left mgr-deg col-md-12 row font-size-14">Statement Of Purpose</div>
+                                <div class="col-md-2">
+                                    <div class="add-task-button-disabled margin-top-24" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
+                                    <div class="add-task-button margin-top-24" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 no-padding"></div>
+                        <div class="col-md-12 border-bottom-dark no-padding" ng-show="applicant.StatementOfPurpose!=null && applicant.StatementOfPurpose.length>0">
+                            <div class="col-md-8 no-padding">
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="pull-left col-sm-10 col-md-2">
+                                    </div>
+                                    <div class="pull-left col-sm-10 col-md-10 margin-top-bottom-20 no-margin-left-right no-padding-left-right">
+                                        <div class="pull-left mgr-name col-md-12 row font-size-20 text-justify">{{applicant.StatementOfPurpose}}</div>
+                                        <div class="pull-left mgr-deg col-md-12 row font-size-14">Statement Of Purpose</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 no-padding"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="background-color-fff margin-top-bottom-3 col-md-12" ng-show="taskApplicantsCount < 3">
-            <div class="new-task-box">
-                <div class="dark-grey-blue font-size-24">Want to create more tasks?</div>
-                <div class="create-new-task-btn" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+            <div class="background-color-fff margin-top-bottom-3 col-md-12" ng-show="taskApplicantsCount < 3">
+                <div class="new-task-box">
+                    <div class="dark-grey-blue font-size-24">Want to create more tasks?</div>
+                    <div class="create-new-task-btn" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
