@@ -14,10 +14,6 @@ namespace DCode.Services.Common
     {
         UserContext GetCurrentUserContext(string userName = null);
 
-        bool SetAndInsertContext(UserContext context);
-
-        bool CanSetAndInsertUserContext(UserContext context, bool userContextGeneratedFromException);
-
         int LogToDatabase(Log logmodel);
         IEnumerable<Log> GetDBLogs();
         UserContext SwitchRole();
@@ -34,5 +30,7 @@ namespace DCode.Services.Common
         string GetNameFromEmailId(string emailId);
 
         int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName);
+
+        bool GetTechXAccess();
     }
 }

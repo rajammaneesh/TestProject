@@ -1,4 +1,5 @@
 ﻿using DCode.Common;
+using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Web.Security;
 using System;
@@ -7,6 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static DCode.Common.Enums;
 
 namespace DCode.Web.Controllers
 {
@@ -17,27 +19,39 @@ namespace DCode.Web.Controllers
         {
             _commonService = commonService;
         }
+
         public ActionResult Index()
         {
             //EmailHelper.SendEmail(Enums.EmailType.RequestorNotification;
             if (SessionHelper.Retrieve(Constants.MockUser) == null && ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True))
             {
-                 return View();
+                return View();
             }
             else
             {
                 var auth = new AuthorizeDCode();
                 auth.OnAuthorization(new AuthorizationContext());
+
                 var userContext = _commonService.GetCurrentUserContext();
-                if(userContext.Role == Enums.Role.Requestor)
+
+                var isTechXAccesible = _commonService.GetTechXAccess();
+
+                if (!isTechXAccesible)
                 {
-                    return RedirectToAction("newtasks","requestor");
+                    TempData[Constants.ErrorRedirectType] = ErrorRedirectType.NonUsiPractitioner;
+
+                    return RedirectToAction("Error", "Index");
+                }
+
+                if (userContext.Role == Enums.Role.Requestor)
+                {
+                    return RedirectToAction("newtasks", "requestor");
                 }
                 else
                 {
-                    if(String.IsNullOrEmpty(userContext.ManagerEmailId))
+                    if (String.IsNullOrEmpty(userContext.ManagerEmailId))
                     {
-                       return RedirectToAction("profile", "profile");
+                        return RedirectToAction("profile", "profile");
                     }
                     return RedirectToAction("dashboard", "contributor");
                 }

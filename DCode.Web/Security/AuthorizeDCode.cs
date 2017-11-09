@@ -1,12 +1,9 @@
 ﻿using DCode.Common;
-using DCode.Models.Common;
 using DCode.Services.Common;
 using DCode.Web.App_Start;
 using Ninject;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.Web;
@@ -43,16 +40,20 @@ namespace DCode.Web.Security
             if (userIdentity != null && userIdentity.IsAuthenticated)
             {
                 var commonService = _kernel.Value.Get<ICommonService>();
+
                 if (SessionHelper.Retrieve(Constants.UserContext) == null)
                 {
                     var userName = userIdentity.Name.Substring(userIdentity.Name.IndexOf(@"\") + 1);
+
                     var userContext = commonService.GetCurrentUserContext(userName);
 
-                    var canSetAndInsertUserContext = commonService.CanSetAndInsertUserContext(userContext, false);
+                    var isTechXAccessible = commonService.GetTechXAccess();
 
-                    if (canSetAndInsertUserContext)
+                    if (!isTechXAccessible)
                     {
-                        commonService.SetAndInsertContext(userContext);
+                        filterContext.Result = new HttpUnauthorizedResult();
+
+                        return;
                     }
 
                     SessionHelper.Save(Constants.UserContext, userContext);

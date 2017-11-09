@@ -16,6 +16,8 @@ using DCode.Data.RequestorRepository;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Data.MetadataRepository;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DCode.Services.Common
 {
@@ -94,60 +96,13 @@ namespace DCode.Services.Common
                     }
                 }
             }
+
             if (_userContext.MenuItems == null)
             {
                 _userContext.MenuItems = FetchMenuItems(_userContext.Role);
             }
             return _userContext;
         }
-
-        public bool SetAndInsertContext(UserContext context)
-        {
-
-
-        }
-
-        public bool CanSetAndInsertUserContext(UserContext context, bool userContextGeneratedFromException)
-        {
-            if (SessionHelper.Retrieve(Constants.MockUser) != null)
-            {
-                if (SessionHelper.Retrieve(Constants.UserContext) != null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                if (SessionHelper.Retrieve(Constants.UserContext) != null)
-                {
-                    return false;
-                }
-                else
-                {
-                    if (userContextGeneratedFromException)
-                    {
-                        if (SessionHelper.Retrieve(Constants.MockUser) != null)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-
-
 
         private UserContext MapDetailsFromDeloitteNetwork(string userName)
         {
@@ -160,6 +115,7 @@ namespace DCode.Services.Common
             var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
 
             var propertyDescription = new StringBuilder();
+
             foreach (SearchResult result in searchResults)
             {
                 foreach (string propertyName in result.Properties.PropertyNames)
@@ -459,6 +415,18 @@ namespace DCode.Services.Common
                 return string.Empty;
             }
             return string.Empty;
+        }
+
+        public bool GetTechXAccess()
+        {
+            if (string.IsNullOrEmpty(_userContext?.MsArchiveName))
+            {
+                throw new InvalidOperationException("User Context has not yet been initiated");
+            }
+
+            var archiveName = _userContext.MsArchiveName;
+
+            return Regex.IsMatch(archiveName, @"[\s]+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[\s]+");
         }
     }
 }
