@@ -1,9 +1,10 @@
 ﻿
-<div id="trackStatusContainer" style="padding-top:20px;" ng-show="dashboard.showTaskStatus">
-    <div class="new-style-sai-renderbody-inner">
+<div  ng-show="dashboard.showTaskStatus">
+    <div id="contStatusDiv" class="new-style-sai-renderbody-inner" @*style="padding-top:20px;"*@>
         <div class="new-style-sai-main-inner-body" style="padding:20px;">
 
-            <div class="background-color-fff" infinite-scroll='getAssignedTasks()' infinite-scroll-distance='0'>
+            <div class="background-color-fff" infinite-scroll='getAssignedTasks()' infinite-scroll-distance='0'
+                 infinite-scroll-container="'#contStatusDiv'">
                 <div class="new-style-sai-new-task-background" ng-show="taskStatusVisibility.showFirst">
                     <div>
                         <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
