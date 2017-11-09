@@ -60,7 +60,7 @@ namespace DCode.Web.Controllers
 
         public JsonResult SetUser(string firstName, string lastName, string emailId, string role, string managerEmailId, string department)
         {
-            var user = new UserContext { FirstName = firstName, LastName = lastName, EmailId = emailId, Role = role == "Contributor" ? Enums.Role.Contributor : Enums.Role.Requestor, Designation = role == "Contributor" ? "Consultant" : "Manager", ManagerEmailId = managerEmailId, Department = department };
+            var user = new UserContext { FirstName = firstName, LastName = lastName, EmailId = emailId, Role = role == "Contributor" ? Enums.Role.Contributor : Enums.Role.Requestor, Designation = role == "Contributor" ? "Consultant" : "Manager", ManagerEmailId = managerEmailId, Department = department, MsArchiveName = "Personal Archive - Lastname, Test (US - Hyderabad)" };
             //user = _commonService.GetCurrentUserContext();
             SessionHelper.Save(Constants.MockUser, user);
             return Json("success", JsonRequestBehavior.DenyGet);
