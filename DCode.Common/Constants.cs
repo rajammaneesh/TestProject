@@ -60,10 +60,10 @@ namespace DCode.Common
         public static string DCodeNotification = "TechX Notification";
         public static string UseWindowsIdentity = "UseWindowsIdentity";
         public static string SmtpDeloitte = "smtp.deloitte.com";
-        public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ApproveRejectBody = "Your request to work on task - {0} under project - {1} is {2}.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
+        public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team";
+        public static string ApproveRejectBody = "Your request to work on task - {0} under project - {1} is {2}.<br/><br/>Regards,<br/>TechX Team";
+        public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team";
+        public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
         public static string EmailTemplatePath = "~/EmailTemplates/email-template.html";
         public static string DCodeLogoPath = "~/Content/Images/tech-x-logo-black-bg.png";
