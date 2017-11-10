@@ -1,13 +1,14 @@
-﻿
-<div id="trackStatusContainer" ng-show="dashboard.showTaskStatus">
-    <div class="new-style-sai-main-inner-body" style="padding:20px;">
+﻿<div ng-show="dashboard.showTaskStatus">
+    <div id="trackStatusContainer" class="new-style-sai-main-inner-body" style="padding:20px;">
+
         <div ng-show="ReviewedDivModel.Visible" @*style="padding:20px;"*@>
             <div id="divReviewSuccess" class="success-banner">
                 <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{ReviewedDivModel.AssigneeName}} has been reviewed for {{ReviewedDivModel.AssignedTask}}</span>.</h3>
             </div>
         </div>
-        <div infinite-scroll='getStatusOftasks()' infinite-scroll-distance='0'>
-            <div ng-show="taskStatusVisibility.showFirst" style="padding:20px;">
+        <div class="background-color-ecf0f1" infinite-scroll='getStatusOftasks()' infinite-scroll-distance='0'
+             infinite-scroll-container="'#trackStatusContainer'">
+            <div ng-show="taskStatusVisibility.showFirst" @*style="padding:20px;"*@>
                 <div class="new-style-sai-new-task-background">
                     <div class="dark-grey-blue font-size-24">You do not have any tasks running!</div>
                     <div class="dark-gray-text">
@@ -28,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="project-details" ng-repeat="taskStatus in taskStatuses" style="padding:20px;">
+            <div class="project-details" ng-repeat="taskStatus in taskStatuses" @*style="padding:20px;"*@>
                 <div>
                     <div class="new-style-sai-tracking-main-20">
                         <div>
@@ -70,67 +71,67 @@
                 <div style="clear:both;"></div>
                 @*<div>&nbsp;</div>*@
                 @*<div ng-show="isShowingReview($index)">
-                    <div style="float:left;width:50%;">
-                        Would you like to work with this person again?
-                    </div>
-                    <div style="float:left;width:50%;">
+                        <div style="float:left;width:50%;">
+                            Would you like to work with this person again?
+                        </div>
+                        <div style="float:left;width:50%;">
+                            <div>
+                                <div style="float:left;">
+                                    <input type="radio" name="radio-group_{{$index}}" id="selectYes_{{$index}}" value="true" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
+                                    <label for="selectYes_{{$index}}">Yes</label>
+                                </div>
+                                <div style="float:left;padding-left:20px;">
+                                    <input type="radio" name="radio-group_{{$index}}" id="selectNo_{{$index}}" value="false" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
+                                    <label for="selectNo_{{$index}}">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>&nbsp;</div>
+                        <div style="clear:both;"></div>
                         <div>
-                            <div style="float:left;">
-                                <input type="radio" name="radio-group_{{$index}}" id="selectYes_{{$index}}" value="true" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
-                                <label for="selectYes_{{$index}}">Yes</label>
+                            <div class="new-style-sai-profile-columns">
+                                How did you like the work?
                             </div>
-                            <div style="float:left;padding-left:20px;">
-                                <input type="radio" name="radio-group_{{$index}}" id="selectNo_{{$index}}" value="false" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
-                                <label for="selectNo_{{$index}}">No</label>
+                            <div class="new-style-sai-profile-columns">
+                                <div class="review-panel">
+                                    <div class="text-center" ng-click="changeClassValueOfGood($index)">
+                                        <label ng-class="classValueGood">
+                                            <input type="radio" name="optradio_{{$index}}" id="good_{{$index}}" value="Good" ng-model="ratingValue[$index]" />
+                                            <img src="/Content/Images/good@2x.png" width="40px" height="40px" />
+                                            <span>Good</span>
+                                        </label>
+                                    </div>
+                                    <div class="text-center radio-inline" ng-click="changeClassValueOfAverage($index)">
+                                        <label ng-class="classValueAverage">
+                                            <input type="radio" name="optradio_{{$index}}" id="average_{{$index}}" value="Average" ng-model="ratingValue[$index]" />
+                                            <img src="/Content/Images/average@2x.png" width="40px" height="40px" />
+                                            <span>Average</span>
+                                        </label>
+                                    </div>
+                                    <div class="text-center radio-inline" ng-click="changeClassValueOfUnS($index)">
+                                        <label ng-class="classValueUnS">
+                                            <input type="radio" name="optradio_{{$index}}" id="uns_{{$index}}" value="Unsatisfactory" ng-model="ratingValue[$index]" />
+                                            <img src="/Content/Images/unsatisfactory@2x.png" width="40px" height="40px" />
+                                            <span>Unsatisfactory</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div>
+                            <button class="review-btn" type="button" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId)">CLOSE</button>
+                            <button class="review-app-btn" type="button" ng-show="taskStatus.EnableReviewApplicant" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId, workAgain[$index], ratingValue[$index], taskStatus.Task.Comments) " ng-disabled="taskStatus.Task.Status == 'Closed'">Review Applicant</button>
+                        </div>
+
+
                     </div>
+
                     <div style="clear:both;"></div>
-                    <div>&nbsp;</div>
-                    <div style="clear:both;"></div>
-                    <div>
-                        <div class="new-style-sai-profile-columns">
-                            How did you like the work?
-                        </div>
-                        <div class="new-style-sai-profile-columns">
-                            <div class="review-panel">
-                                <div class="text-center" ng-click="changeClassValueOfGood($index)">
-                                    <label ng-class="classValueGood">
-                                        <input type="radio" name="optradio_{{$index}}" id="good_{{$index}}" value="Good" ng-model="ratingValue[$index]" />
-                                        <img src="/Content/Images/good@2x.png" width="40px" height="40px" />
-                                        <span>Good</span>
-                                    </label>
-                                </div>
-                                <div class="text-center radio-inline" ng-click="changeClassValueOfAverage($index)">
-                                    <label ng-class="classValueAverage">
-                                        <input type="radio" name="optradio_{{$index}}" id="average_{{$index}}" value="Average" ng-model="ratingValue[$index]" />
-                                        <img src="/Content/Images/average@2x.png" width="40px" height="40px" />
-                                        <span>Average</span>
-                                    </label>
-                                </div>
-                                <div class="text-center radio-inline" ng-click="changeClassValueOfUnS($index)">
-                                    <label ng-class="classValueUnS">
-                                        <input type="radio" name="optradio_{{$index}}" id="uns_{{$index}}" value="Unsatisfactory" ng-model="ratingValue[$index]" />
-                                        <img src="/Content/Images/unsatisfactory@2x.png" width="40px" height="40px" />
-                                        <span>Unsatisfactory</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="review-btn" type="button" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId)">CLOSE</button>
-                        <button class="review-app-btn" type="button" ng-show="taskStatus.EnableReviewApplicant" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId, workAgain[$index], ratingValue[$index], taskStatus.Task.Comments) " ng-disabled="taskStatus.Task.Status == 'Closed'">Review Applicant</button>
-                    </div>
-
-
-                </div>
-
-                <div style="clear:both;"></div>
-                <div>&nbsp;</div>*@
+                    <div>&nbsp;</div>*@
                 @*<div>
-                    <hr style="background:darkgrey;" />
-                </div>*@
+                        <hr style="background:darkgrey;" />
+                    </div>*@
 
             </div>
         </div>

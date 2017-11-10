@@ -115,7 +115,7 @@
                                 </div>
                                 <div style="clear:both;"></div>
                                 <hr style="background:darkgray;" />
-                                <div style="float:right;">
+                                <div style="float:right;padding-right:10px;">
                                     <span class="glyphicon glyphicon-pencil" ng-click="changeToEditMode()"></span>
 
                                 </div>
@@ -128,7 +128,7 @@
                                             <div class="heading bold new-style-sai-inner-headings">
                                                 Skill Set
                                                 <span class="requiredField">*</span>
-                                                <span ng-show="isEditMode" class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>
+                                                @*<span ng-show="isEditMode" class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>*@
                                             </div>
                                             <div class="new-style-sai-inner-inputs">
                                                 <div class="new-style-sai-inner-search">
@@ -141,7 +141,7 @@
                                                                       description-field="email"
                                                                       minlength="1"
                                                                       clear-selected="true"
-                                                                      input-class="form-control form-control-small" ng-disabled="test.isEditMode" />
+                                                                      input-class="form-control form-control-small" ng-disabled="isEditMode==true" />
                                                 </div>
                                                 <div style="float:left">
                                                     <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>

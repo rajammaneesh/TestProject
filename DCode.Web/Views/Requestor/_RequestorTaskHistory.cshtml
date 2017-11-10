@@ -1,6 +1,9 @@
-﻿<div id="historyPage" ng-controller="historyController" ng-show="dashboard.showHistory">
-    <div class="new-style-sai-main-inner-body">
-        <div class="background-color-ecf0f1" style="padding:20px;" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'>
+﻿<div ng-controller="historyController" ng-show="dashboard.showHistory">
+    <div id="reqhistoryTab" class="new-style-sai-main-inner-body">
+
+
+        <div class="background-color-ecf0f1" style="padding:20px;" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'
+             infinite-scroll-container="'#reqhistoryTab'">
             <div class="new-style-sai-new-task-background" ng-show="historyVisibility.showFirst">
                 <div>
                     <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
@@ -22,18 +25,23 @@
                     <div>
                         <div>
                             <div class="new-style-sai-history-proj-small">
-                                <span class="heading color-8e44ad">{{task.Task.ProjectName}}</span>
+                                <div><span class="heading color-8e44ad">{{task.Task.ProjectName}}</span></div>
+                                <div class="gray-text">Project Name</div>
                             </div>
                             <div class="new-style-sai-history-proj-big">
-                                <span class="dark-grey-blue">{{task.Task.TaskName}}</span>
-                                <span class="gray-text">{{task.Task.Duration}}</span>
+                               
+                                <div>
+                                    <span class="dark-grey-blue">{{task.Task.TaskName}}</span>
+                                    <span class="gray-text">{{task.Task.Duration}}</span>
+                                </div>
+                                <div class="gray-text">Task Name</div>
                             </div>
                         </div>
                         <div style="clear:both;"></div>
                         <div>&nbsp;</div>
                         <div>
                             <div class="new-style-sai-tracking-main heading">
-                                <div class="circle-txt">{{task.Applicant.ShortName}}</div>
+                                <div class="circle-txt" style="float:left;">{{task.Applicant.ShortName}}</div>
                                 <div>
                                     <div class="color-8e44ad heading">{{task.Applicant.Name}}</div>
                                 </div>

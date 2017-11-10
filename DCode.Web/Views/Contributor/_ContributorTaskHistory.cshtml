@@ -1,6 +1,7 @@
-﻿<div id="historyPage" ng-controller="contributorHistoryController" ng-show="dashboard.showHistory">
-    <div class="new-style-sai-main-inner-body">
-        <div class="background-color-ecf0f1" style="padding:30px;" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'>
+﻿<div  ng-controller="contributorHistoryController" ng-show="dashboard.showHistory">
+    <div id="contHistoryDiv" class="new-style-sai-main-inner-body"  style="padding:20px;">
+        <div class="background-color-ecf0f1" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'
+              l>
             <div class="new-style-sai-new-task-background" ng-show="historyVisibility.showFirst">
                 <div>
                     <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>

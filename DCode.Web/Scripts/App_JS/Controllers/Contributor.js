@@ -250,7 +250,7 @@
 
         //will be handled by ng-infinite scroll
         $scope.onLoad = function () {
-            $scope.getTasks();
+            //$scope.getTasks();
             //$scope.getAssignedTasks();
         }
         $scope.onLoad();
