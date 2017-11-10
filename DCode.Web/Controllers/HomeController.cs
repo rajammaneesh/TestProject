@@ -18,7 +18,6 @@ namespace DCode.Web.Controllers
 
         public ActionResult Index()
         {
-            //EmailHelper.SendEmail(Enums.EmailType.RequestorNotification;
             if (SessionHelper.Retrieve(Constants.MockUser) == null && ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True))
             {
                 return View();
