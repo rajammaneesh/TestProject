@@ -119,42 +119,9 @@
                                     <span class="glyphicon glyphicon-pencil" ng-click="changeToEditMode()"></span>
 
                                 </div>
-                                @*<div>
-                                        <div class="background-color-fff">
-                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-sai-profile-columns">
-                                                <div class="heading bold new-style-sai-inner-headings">
-                                                    <span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>
-                                                </div>
-                                                <div class="new-style-sai-inner-inputs">
-                                                    <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
-                                                    <div class="value" ng-show="!isEditMode"> {{profile.ManagerEmailId}}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-box margin-bottom-40 new-style-sai-profile-columns">&nbsp;</div>
-                                    </div>*@
+                                
                                 <div style="clear:both;"></div>
 
-                                @*<div>
-                                        <div class="background-color-fff">
-                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-sai-profile-columns">
-                                                <div class="heading bold new-style-sai-inner-headings">
-                                                    Project Manager Email ID
-                                                    <span class="requiredField">*</span>
-                                                </div>
-                                                <div class="new-style-sai-inner-inputs">
-                                                    <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
-                                                    <div class="value" ng-show="!isEditMode"> {{profile.ManagerEmailId}}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-box margin-bottom-40 new-style-sai-profile-columns">&nbsp;</div>
-                                    </div>
-                                    <div style="clear:both;"></div>*@
                                 <div>
                                     <div class="background-color-fff">
                                         <div class="skill-box margin-bottom-40 margin-top-20 new-style-sai-profile-columns">
@@ -163,30 +130,6 @@
                                                 <span class="requiredField">*</span>
                                                 <span ng-show="isEditMode" class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>
                                             </div>
-                                            @*<div class="form-group datepicker">
-                                                <div style="width:95%;" class="input-group search-wbs-code skill-set" id="taskSkill">
-                                                    <div class="new-style-sai-search"
-                                                         style="position: absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
-
-                                                        <angucomplete-alt id="ex1"
-                                                                          placeholder="Search skill"
-                                                                          pause="100"
-                                                                          selected-object="selectedSkill"
-                                                                          remote-url="/Common/SearchSkill?searchParam="
-                                                                          title-field="Value"
-                                                                          description-field="email"
-                                                                          minlength="1"
-                                                                          input-class="form-control form-control-small" ng-disabled="test.isEditMode"  />
-                                                    </div>
-
-
-
-                                                </div>
-                                                <div class="new-style-sai-search-button" style="float:right;">
-                                                    <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                                </div>
-                                                <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
-                                            </div>*@
                                             <div class="new-style-sai-inner-inputs">
                                                 <div class="new-style-sai-inner-search">
                                                     <angucomplete-alt id="ex1"
@@ -207,7 +150,7 @@
                                         </div>
                                     </div>
                                     <div class="new-style-sai-profile-columns" style="min-height:0px; max-height:200px;overflow-y:auto;">
-                                        <div @*class="skill-box edit margin-top-bottom-20"*@>
+                                        <div>
                                             <span class="skill-item" name="skills" ng-repeat="skill in skillSet">
                                                 <span>{{skill.Value}}</span><span ng-show="isEditMode" class="glyphicon glyphicon-remove" ng-click="removeSkill($index)"></span>
                                                 <span class="help-inline" ng-show="submitted && form.skills.$error.required">Required</span>
@@ -227,19 +170,6 @@
 
                                     </div>
                                 </div>
-                                @*<div class="background-color-fff" style="height:120px;">
-                                        <div class="background-color-fff">
-
-                                            <div>
-                                                <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                                                <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-show="!isFirstTimeLogin && !isEditMode" onclick="window.history.back();">Back</div>
-                                                <input type="submit" class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
-                                                <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
-
-                                            </div>
-                                        </div>
-                                        <div class="skill-box margin-bottom-40 new-style-sai-profile-columns">&nbsp;</div>
-                                    </div>*@
                             </form>
                         </div>
                     </div>
@@ -247,123 +177,7 @@
             </div>
         </div>
     </div>
-
-
 </body>
-@*<body ng-app="dCodeApp" class="allow_scroll profileController" ng-controller="ProfileController">
-    <div class="col-sm-10 col-md-10 col-md-offset-1 main no-padding-left-right" ng-cloak>
-        <div class="right-body-top background-color-fff no-padding-left-right">
-            <div class="no-margin-left profile-logo">
-                <img src="~/Content/Images/tech-x-logo.png" height="260px" width="260px" class="logo">
-            </div>
-        </div>
-        <div class="col-md-12 no-padding-left-right skill_tag">
-            <div class="col-md-8 col-md-offset-2 background-color-fff margin-top-25 fst-login" ng-show="isFirstTimeLogin">
-                <h3 class="dark-grey-blue font-size-24">Welcome aboard!</h3>
-                <p class="myDescription margin-bottom-25">To start we’d like you fill in a few important details. <br />Complete your profile and help us cater your feed accordingly.</p>
-            </div>
-            <div class="col-md-8 col-md-offset-2 skill-big-box margin-top-25 no-padding-left-right" id="profilePage" ng-show="!isFirstTimeLogin">
-
-                <div class="col-md-12 background-color-34495e no-padding-left-right">
-                    <div class="margin-top-40 welcome-container">
-                        <h3 class="fontSize24 color-dee1e2 welcome-txt">Welcome Back!</h3>
-                        <div class="left-nav-circle-img background-95a5a6 margin-top-24 color-ecf0f1  margin-left-40">{{userContext.ShortName}}</div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-8 col-md-offset-2 skill-big-box margin-top-2">
-
-                <div class="col-md-6 Recommended-number font-size-20">
-                    <div class="skill-box margin-bottom-40 margin-top-40">
-                        <div class="heading bold"> Name
-                            <span class="requiredField">*</span>
-                         </div>
-                        <div class="value"> {{userContext.Name}}</div>
-                    </div>
-                    <div class="skill-box margin-bottom-40">
-                        <div class="heading bold"> Position
-                            <span class="requiredField">*</span>
-                        </div>
-                        <div class="value"> {{userContext.Designation}}</div>
-                    </div>
-                    <div class="skill-box margin-bottom-40">
-                        <div class="heading bold"> Work Extension
-                            <span class="requiredField">*</span>
-                        </div>
-                        <div class="value">{{userContext.TelephoneNumber}}</div>
-                    </div>
-                </div>
-                <div class="col-md-6 Recommended-number font-size-20">
-                    <div class="skill-box margin-bottom-40 margin-top-40">
-                        <div class="heading bold"> Email ID
-                            <span class="requiredField">*</span>
-                        </div>
-                        <div class="value">{{userContext.EmailId}}</div>
-                    </div>
-                    <div class="skill-box margin-bottom-40">
-                        <div class="heading bold"> Service Line
-                            <span class="requiredField">*</span>
-                        </div>
-                        <div class="value">{{userContext.Department}}</div>
-                    </div>
-                    <div class="skill-box margin-bottom-40">
-                        <div class="heading bold"> Mobile </div>
-                        <div class="value">{{userContext.MobileNumber}}</div>
-                    </div>
-                </div>
-
-            </div>
-            <form name="form" target="profileSubmit">
-                <div class="col-md-8 col-md-offset-2 skill-big-box ip margin-bottom-25">
-                    <div class="col-md-6 Recommended-number font-size-20">
-                        <div class="skill-box margin-bottom-40 margin-top-40">
-                            <div class="heading bold"> Skill Set
-                                <span class="requiredField">*</span>
-                             </div>
-                            <div class="value" id="isSkillAdded" ng-show="isEditMode">
-                                <div class="input-group col-md-7 no-padding pull-left">
-                                    <angucomplete-alt id="ex1"
-                                                      placeholder="Search for Skill Set"
-                                                      pause="100"
-                                                      selected-object="selectedSkill"
-                                                      remote-url="/Common/SearchSkill?searchParam="
-                                                      title-field="Value"
-                                                      description-field="email"
-                                                      minlength="1"
-                                                      clear-selected="true"
-                                                      input-class="form-control form-control-small" ng-disabled="test.isEditMode" />
-                                </div>
-                                <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                            </div>
-                            <span class="error col-md-12">Please add a skill</span>
-                        </div>
-                        
-                    </div>
-                    <div class="col-md-6 Recommended-number font-size-20">
-                        <div class="skill-box edit margin-top-bottom-20">
-                            <span class="skill-item" name="skills" ng-repeat="skill in skillSet">
-                                <span>{{skill.Value}}</span><span ng-show="isEditMode" class="glyphicon glyphicon-remove" ng-click="removeSkill($index)"></span>
-                                <span class="help-inline" ng-show="submitted && form.skills.$error.required">Required</span>
-
-                            </span>
-                        </div>
-                        <span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>
-                    </div>
-                    <div class="col-md-12 margin-bottom-25 margin-top-20">
-                        <div class="edit-task-btn pull-left margin-right-40 submit-but" ng-show="!isFirstTimeLogin" onclick="window.history.back();">Back</div>
-                        <input type="submit" class="edit-task-btn pull-left margin-right-40 submit-but" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-
-</body>*@
 </html>
 
 <div id="alertModel" class="modal fade" role="dialog">

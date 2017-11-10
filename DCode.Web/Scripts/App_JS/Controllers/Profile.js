@@ -153,7 +153,7 @@
             $scope.skillSet = $rootScope.userContext.SkillSet;
         }
         $scope.checkIfFirstTimeLogin = function(){
-            if ($rootScope.userContext != null && $rootScope.userContext.SkillSet != null && $rootScope.userContext.SkillSet.length == 0) {
+            if ($rootScope.userContext != null && $rootScope.userContext.SkillSet == null) {
                 $scope.isFirstTimeLogin = true;
                 $scope.isEditMode = true;
             }
