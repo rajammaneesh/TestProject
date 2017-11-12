@@ -64,12 +64,6 @@ namespace DCode.Web.Controllers
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
-        //[AuthorizeRoute(Enums.Role.Contributor)]
-        //public JsonResult GetAssignedTasks()
-        //{
-        //    return Json(_contributorService.GetApprovedTasksForCurrentUser(), JsonRequestBehavior.AllowGet);
-        //}
-
         [AuthorizeRoute(Enums.Role.Contributor)]
         public JsonResult GetAssignedTasks(int currentPageIndex, int recordsCount)
         {

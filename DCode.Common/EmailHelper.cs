@@ -87,7 +87,6 @@ namespace DCode.Common
             var mailMessage = new MailMessage();
             mailMessage.Subject = Constants.DCodeNotification;
             mailMessage.IsBodyHtml = true;
-            //"{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>DCode Team<br/>Deloitte Digital";
             var textBody = string.Format(Constants.ApplyBody, personName, taskName, projectName, hours, startDateTime);
             mailMessage.Body = string.Format(htmlBody, managerName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
             var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat);

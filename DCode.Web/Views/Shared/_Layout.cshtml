@@ -46,11 +46,6 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
-    @*@Scripts.Render(BundleConfig.JsModernizrBundle)
-
-        @Scripts.Render(BundleConfig.JsJqueryValidationBundle)
-        @Scripts.Render(BundleConfig.JsBootstrapBundle)*@
-    @*@Scripts.Render(BundleConfig.JsJqueryBundle)*@
     @Scripts.Render(BundleConfig.JsAngularBundle)
     @Scripts.Render(BundleConfig.JsAngularAssetsBundle)
 
@@ -163,16 +158,13 @@
 
                     <img src="~/Content/Images/tech-x-logo.png" class="new-style-sai-layout-logo-image pull-left logo">
 
-                    @*<div class="col-sm-1 col-md-1"></div>
-                        <div class="col-sm-2 col-md-2">
-                        </div>*@
                 </div>
                 <div class="new-style-sai-layout-mobile-menu">
                     <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
                 </div>
             </div>
 
-            <div style="width:100%;" @*class="background-color-34495e"*@>
+            <div style="width:100%;">
                 @RenderBody()
             </div>
         </div>
@@ -184,10 +176,6 @@
 
             <!-- Overlay content -->
             <div class="overlay-content">
-                @*<a href="#">About</a>
-                    <a href="#">Services</a>
-                    <a href="#">Clients</a>
-                    <a href="#">Contact</a>*@
                 <div>
                     <ul class="nav">
                         @if (menuItems != null)
@@ -206,14 +194,6 @@
                                         spanColor = "";
                                     }
                                     <li class="@menuItem.CssClass @liClass">
-                                        @*@if (@tabName == @menuItem.TabName)
-                                            {
-                                                <img src="@menuItem.ImageUrlActive" />
-                                            }
-                                            else
-                                            {
-                                                <img src="@menuItem.ImageUrlInactive" />
-                                            }*@
                                         <span class="@spanColor" style="font-size:20px;">@menuItem.MenuItemName</span>
                                         @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
                                         {
@@ -263,34 +243,6 @@
     </div>
     @RenderSection("scripts", required: false)
     <script type='text/javascript'>
-        //function toggleTab(showModule, hideModule, curr_id, prev_id) {
-        //    document.getElementById(showModule).style = "display:block;";
-        //    document.getElementById(curr_id).classList.add('active');
-
-
-        //    document.getElementById(prev_id).classList.remove('active');
-        //    document.getElementById(hideModule).style = "display:none";
-        //    if (curr_id == 'trackStatus') {
-        //        document.getElementById(curr_id).querySelector(".alert-icon").style = "display:none";
-        //    } else {
-        //        document.getElementById(prev_id).querySelector(".alert-icon").style = "display:inline-block";
-        //    }
-        //}
-        //function calWindowSize() {
-        //    var headerHeight = 0;
-        //    if (document.querySelector(".right-body-top") != null)
-        //        headerHeight = document.querySelector(".right-body-top").clientHeight;
-        //    var windowHeight = window.innerHeight;
-        //    var projectContainer_h = windowHeight - headerHeight - 190 + 'px';
-        //    console.log(projectContainer_h);
-        //    if (document.querySelector(".right-container") != null)
-        //        document.querySelector(".right-container").style.height = projectContainer_h;
-        //}
-        //calWindowSize();
-        //window.onresize = function () {
-        //    calWindowSize();
-        //    document.querySelector(".right-container").style.height = window.innerHeight - document.querySelector(".right-body-top").clientHeight + 'px';
-        //}
         $(document).ready(function () {
 
             $("#datetimepicker1").datetimepicker({
@@ -322,161 +274,4 @@
 
     </script>
 </body>
-
-
-
-@*<body ng-app="dCodeApp" class="body" ng-controller="LayoutController">
-    <div class="col-md-12 no-padding-left-right background-color-34495e" ng-cloak>
-        <div class="col-md-2 col-sm-2 sidebar no-padding-left-right background-color-34495e">
-            <div class="parent-logo background-color-243342">
-                <div class="sidebar-header padding-left-32">
-                    <div class="col-md-12 manager-details">
-                        <div class="left-nav-circle-txt pull-left">{{userContext.ShortName}}</div>
-                        <img src="~/Content/Images/settings.png" width="20px" height="20px" class="margin-right-25 setting-icon pull-right" ng-click="navigateToProfile()" />
-                    </div>
-                    <div class="pull-left col-md-12 no-margin-left-right no-padding-left-right margin-top-20">
-                        <div class="pull-left mgr-name col-md-12 row color-dee1e2">{{userContext.Name}}</div>
-                        <div class="pull-left mgr-deg col-md-12 row">{{userContext.Designation}}</div>
-                    </div>
-                </div>
-            </div>
-            <div id="suggestionmodel" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content col-md-12">
-                        <div class="modal-body text-center">
-                            <div class="col-md-12 margin-bottom-25">
-                                <h3>Feedback</h3>
-                            </div>
-                            <div class="col-md-12 no-padding margin-bottom-25">
-                                <lable style="color:green">{{successMessage}}</lable>
-                                <lable style="color:red">{{errorMessage}}</lable>
-                                <textarea name="Text1" class="form-control col-md-5" rows="3" maxlength="250" placeholder="Tell us how can we improve DCode" ng-model="suggestionValue"></textarea>
-                            </div>
-                            <input type="submit" class="review-btn" ng-click="insertSuggestion();" value="Submit" multiple="true">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="left-menu font-size-14 background-color-34495e">
-                <ul class="nav background-color-34495e no-padding-left-right">
-                    @if (menuItems != null)
-                    {
-                        foreach (var menuItem in menuItems)
-                        {
-                        <a href="@menuItem.NavigationUrl">
-                            @if (@tabName == @menuItem.TabName)
-                                {
-                                    liClass = "active";
-                                    spanColor = "color-9acd66";
-                                }
-                                else
-                                {
-                                    liClass = "";
-                                    spanColor = "";
-                                }
-                            <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
-                                @if (@tabName == @menuItem.TabName)
-                                    {
-                                    <img src="@menuItem.ImageUrlActive" />
-                                    }
-                                    else
-                                    {
-                                    <img src="@menuItem.ImageUrlInactive" />
-                                    }
-                                <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
-                                @if(menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
-                                { 
-                                    <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
-                                }
-                            </li>
-                        </a>
-                        }
-                    }
-                </ul>
-              
-                <div class="col-md-10 contribute-button margin-top-24" ng-show="IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Contributor')">
-                    Switch to Contributor
-                </div>
-                <div class="col-md-10 requestor-button contribute-button margin-top-24" ng-show="!IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Requestor')">
-                    Switch to Requestor
-                </div>
-                <div data-toggle="modal" class="suggestions-button contribute-button" data-target="#suggestionmodel" ng-click="ResetSuccess()">
-                    Suggestions
-                </div>
-            </div>
-        </div>
-        @RenderBody()
-        <div id="alertModel" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content addSkillDialog  col-md-12 width900">
-                    <div class="modal-body col-md-12">
-                        <h3>Choose the process that you would like to proceed with.</h3>
-                        <div class="edit-task-btn pull-left margin-right-40 col-md-offset-2 submit-but margin-top-20 create-new-task-btn btn-fix cont-btn" ng-click="SwitchContext('Contributor')">CONTIUE AS CONTRIBUTOR</div>
-                        <div class="edit-task-btn pull-left margin-right-40 submit-but margin-top-20 margin-bottom-25 create-new-task-btn no-margin-left btn-fix" ng-click="SwitchContext('Requestor')">CONTIUE AS REQUESTOR</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @RenderSection("scripts", required: false)
-    <script type='text/javascript'>
-        function toggleTab(showModule, hideModule, curr_id, prev_id) {
-            document.getElementById(showModule).style = "display:block;";
-            document.getElementById(curr_id).classList.add('active');
-
-
-            document.getElementById(prev_id).classList.remove('active');
-            document.getElementById(hideModule).style = "display:none";
-            if (curr_id == 'trackStatus') {
-                document.getElementById(curr_id).querySelector(".alert-icon").style = "display:none";
-            } else {
-                document.getElementById(prev_id).querySelector(".alert-icon").style = "display:inline-block";
-            }
-        }
-        function calWindowSize() {
-            var headerHeight = 0;
-            if (document.querySelector(".right-body-top") != null)
-                headerHeight = document.querySelector(".right-body-top").clientHeight;
-            var windowHeight = window.innerHeight;
-            var projectContainer_h = windowHeight - headerHeight - 190  + 'px';
-            console.log(projectContainer_h);
-            if (document.querySelector(".right-container") != null)
-                document.querySelector(".right-container").style.height = projectContainer_h;
-        }
-        calWindowSize();
-        window.onresize = function () {
-            calWindowSize();
-            document.querySelector(".right-container").style.height = window.innerHeight - document.querySelector(".right-body-top").clientHeight + 'px';
-        }
-        $(document).ready(function () {
-
-            $("#datetimepicker1").datetimepicker({
-                minDate: new Date(),
-                useCurrent: false,
-                format: 'MM/DD/YYYY'
-            });
-            $("#datetimepicker2").datetimepicker({
-                minDate: new Date(),
-                useCurrent: false,
-                format: 'MM/DD/YYYY'
-            });
-            
-            $('.nav li a').click(function (e) {
-                $('.nav li').removeClass('active');
-                var $parent = $(this).parent();
-                if (!$parent.hasClass('active')) {
-                    $parent.addClass('active');
-                }
-                e.preventDefault();
-            });
-
-        });
-
-
-    </script>
-
-    <script type="text/javascript">
-
-    </script>
-</body>*@
 </html>

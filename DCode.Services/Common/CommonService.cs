@@ -40,7 +40,6 @@ namespace DCode.Services.Common
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository, LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository, UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory, SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory, IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory)
         {
             _taskRepository = taskRepository;
-            //_taskModelFactory = taskModelFactory;
             _logModelFactory = logModelFactory;
             _userContext = userContext;
             _logRepository = logRepository;
@@ -261,8 +260,6 @@ namespace DCode.Services.Common
         private List<MenuItem> FetchMenuItems(Enums.Role role)
         {
             var menuItemsList = new List<MenuItem>();
-            //var userContext = GetCurrentUserContext();
-
 
             switch (_userContext.Role)
             {
@@ -272,12 +269,11 @@ namespace DCode.Services.Common
                 case Enums.Role.Requestor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "CREATE NEW TASK", TabName = Constants.TabNewTask, NavigationUrl = "/Requestor/NewTasks", CssClass = "" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
-                    menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "APPROVALS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
                 case Enums.Role.Contributor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "My TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
-                    //menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", TabName = Constants.TabPermissions, NavigationUrl = "/Contributor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
                 default:
@@ -348,7 +344,6 @@ namespace DCode.Services.Common
                 applicantt.MANAGER_EMAIL_ID = model.ManagerEmailId;
 
                 var taskApplicant = new taskapplicant();
-                //taskApplicant.APPLICANT_ID = applicant.ID;
                 taskApplicant.TASK_ID = model.TaskId;
                 taskApplicant.STATUS = Enums.TaskApplicant.Active.ToString();
                 result = _userRepository.InsertApplicantAndTask(taskApplicant, applicantt);
@@ -480,13 +475,6 @@ namespace DCode.Services.Common
             var archiveName = _userContext.MsArchiveName;
 
             return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
-        }
-
-        public bool IsUserContextAvailable()
-        {
-            var userContext = SessionHelper.Retrieve(Constants.UserContext) as UserContext;
-
-            return userContext != null;
         }
     }
 }
