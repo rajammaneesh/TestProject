@@ -764,8 +764,10 @@ body {
     border-radius: 100px;
     color: white;
     text-align: center;
-    padding: 12px;
-    font-size: 50px;
+    vertical-align: central;
+    /*padding: 10px;*/
+    padding-top: 20px;
+    font-size: 35px;
     text-transform: uppercase;
 }
 
@@ -1765,6 +1767,10 @@ input.edit-task-btn.width110 {
     padding-bottom: 20px;
 }
 
+.new-style-sai-padding-left-profile-shortName {
+    padding-left: 80px;
+}
+
 /*@media only screen and (min-width:1024px) and (max-width:1024px) {
 
     .new-style-sai-main-inner-body {
@@ -1846,6 +1852,10 @@ input.edit-task-btn.width110 {
 
 
 @media only screen and (min-width:768px) and (max-width:1024px) {
+    .new-style-sai-padding-left-profile-shortName {
+        padding-left: 120px !important;
+    }
+
     .new-style-sai-div-middle-33 {
         display: none;
     }
@@ -1892,7 +1902,7 @@ input.edit-task-btn.width110 {
         width: 98%;
         text-align: center;
         padding-bottom: 10px;
-        padding-left:1px;
+        padding-left: 1px;
     }
 
     .new-style-sai-inner-search {
@@ -2025,6 +2035,9 @@ input.edit-task-btn.width110 {
 }
 
 @media only screen and (min-width:320px) and (max-width:767px) {
+    .new-style-sai-padding-left-profile-shortName {
+        padding-left: 120px !important;
+    }
     .new-style-sai-div-middle-33 {
         display: none;
     }
@@ -2055,11 +2068,11 @@ input.edit-task-btn.width110 {
     }
 
     .new-style-sai-div-33 {
-         float: none;
+        float: none;
         width: 98%;
         text-align: center;
         padding-bottom: 10px;
-        padding-left:10px;
+        padding-left: 10px;
     }
 
     .new-style-sai-inner-search {
