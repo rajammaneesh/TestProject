@@ -153,10 +153,10 @@
         }
 
         $scope.refreshTasksBasedonInput = function () {
-            if ($scope.skillSearchBox.text.length == 0) {
-                //location.href = "/contributor/dashboard";
-                $scope.refreshTasks();
-            }
+            //if ($scope.skillSearchBox.text.length == 0) {
+            //location.href = "/contributor/dashboard";
+            $scope.refreshTasks();
+            //}
         }
 
         $scope.getTasksOnSearchClick = function () {
@@ -254,6 +254,10 @@
             //$scope.getAssignedTasks();
         }
         $scope.onLoad();
+
+        $scope.CloseModal = function () {
+            $('#divCongrats').modal('toggle');
+        };
     }
 })();
 
