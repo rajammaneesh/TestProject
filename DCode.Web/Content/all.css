@@ -1047,10 +1047,10 @@ eft-nav-circle-txt-ProjectName {
 }
 
 .invalid .form-control {
-    border-color: palevioletred;
+    /*border-color: palevioletred;*/
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px red,0 0 8px red;
-    box-shadow: inset 0 1px 1px red,0 0 8px red;
+    /*webkit-box-shadow: inset 0 1px 1px red,0 0 8px red;
+    box-shadow: inset 0 1px 1px red,0 0 8px red;*/
 }
 
 .datepicker .error, #taskSkill + .error {

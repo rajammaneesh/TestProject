@@ -165,7 +165,7 @@
                                     <div class="input-group date" id="datetimepicker1">
                                         <input type="text" class="form-control" ng-model="taskRequest.OnBoardingDate" onkeydown="return false" required>
                                         <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
+                                            <span ng-click="RemoveDateValidation();" class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@
                                     <div class="input-group date" id="datetimepicker2">
                                         <input type="text" class="form-control" ng-model="taskRequest.DueDate" onkeydown="return false" required>
                                         <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
+                                            <span ng-click="RemoveDateValidation();" class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
                                     <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>

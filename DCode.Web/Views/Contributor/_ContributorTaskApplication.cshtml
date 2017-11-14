@@ -116,7 +116,7 @@
                                     <div class="new-style-sai-div-middle-33">&nbsp;</div>
                                     <div class="new-style-sai-div-33">
                                         <input type="email" id="managerEmail{{$index}}" name="managerEmail" class="form-control" ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" required>
-                                        <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$pristine">Required</span>
+                                        <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$error.required">Required</span>
                                         <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>
                                     </div>
                                     <div class="new-style-sai-div-middle-33">&nbsp;</div>

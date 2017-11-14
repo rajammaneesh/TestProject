@@ -464,6 +464,38 @@
             $scope.InitializeTaskRequest();
         };
 
+        //on click removing validations
+        //$scope.RemoveWBSValidation = function () {
+        //    $("#divWBSCode").removeClass("invalid");
+        //};
+        $("#txtWBSCode").focusin(function () {
+            $("#divWBSCode").removeClass("invalid");
+        });
+
+        $("#ddlServiceLine").change(function () {
+            $("#divServiceLine").removeClass("invalid");
+        });
+        $scope.RemoveDateValidation = function () {
+            $("#datetimepicker2").removeClass("invalid");
+        };
+
+
+        $scope.GetWBSValidation = function () {
+            var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
+            var val = $("#txtWBSCode").val().toLocaleLowerCase();
+            if (val.length == 19 && regex.test(val)) {
+                if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
+                    $("#divWBSCode").addClass("invalid");
+                    return;
+                }
+                else {
+                    $("#divWBSCode").removeClass("invalid");
+                }
+            } else {
+                $("#divWBSCode").addClass("invalid");
+                return;
+            }
+        };
 
         $scope.reviewClick = function () {
             $("#spanInvalidDate").text("Due Date cannot be on or before On Boarding Date");
@@ -543,6 +575,8 @@
                         $scope.ServiceLineValidation = true;
                     }
 
+                    $scope.GetWBSValidation();
+
                     //var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
                     //    && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
                     //    && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
@@ -605,24 +639,11 @@
             });
         };
 
-        $("#txtWBSCode").focusout(function () {
-            $scope.GetWBSValidation();
-        });
+        //$("#txtWBSCode").focusout(function () {
+        //    $scope.GetWBSValidation();
+        //});
 
-        $scope.GetWBSValidation = function () {
-            var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
-            var val = $("#txtWBSCode").val().toLocaleLowerCase();
-            if (val.length == 19 && regex.test(val)) {
-                if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
-                    $("#divWBSCode").addClass("invalid");
-                }
-                else {
-                    $("#divWBSCode").removeClass("invalid");
-                }
-            } else {
-                $("#divWBSCode").addClass("invalid");
-            }
-        };
+        
 
         $scope.upsertTask = function () {
             $scope.taskRequest.GiftsOrAwards = $scope.taskRequest.IsRewardsEnabled == "true" ? true : false;
