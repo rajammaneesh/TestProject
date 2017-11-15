@@ -21,7 +21,7 @@
         $scope.tasksCount = 0;
         $scope.taskApplicantsTotalRecords = 0;
         $scope.searchBox = { text: null };
-        $scope.skillSearchBox = { text: null };
+        $scope.taskSearch = { text: null, serviceLine: 0 };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false, showCreate: false };
         $scope.divVisibiltyModel = { showDetails: true, showSummary: true, showSuccess: false, showApply: true };
         $scope.workAgain = [];
@@ -36,6 +36,7 @@
         $scope.assignedTasks = null;
         $scope.assignedTasksGlobal = null;
         $scope.managersEmailId = "";
+        $scope.serviceLines = [];
 
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
@@ -74,9 +75,9 @@
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
             //document.getElementById('divManagerEmailId' + index).get(0).focus();
-            setTimeout(function () { $('#divManagerEmailId'+index).focus() }, 1);
+            setTimeout(function () { $('#divManagerEmailId' + index).focus() }, 1);
             //$location.hash('div' + index);
-           
+
         };
 
         $scope.isShowingReview = function (index) {
@@ -149,16 +150,29 @@
             }
         }
 
+        $scope.getAllServiceLines = function () {
+            var reqObj = $scope.task;
+            $http({
+                url: "/Common/GetServiceLines",
+                method: "GET"
+            }).success(function (data, status, config) {
+
+                if (data != null) {
+                    data.unshift({ Id: 0, Name: 'All Service Lines', Description: 'All Service Lines' });
+                    $scope.serviceLines = data;
+                    console.log(data);
+                }
+            }).error(function (error) {
+            });
+        }
+
         $scope.reinitialiseVariables = function () {
             $scope.tasksPageIndex = 0;
             $scope.tasks = null;
         }
 
         $scope.refreshTasksBasedonInput = function () {
-            //if ($scope.skillSearchBox.text.length == 0) {
-            //location.href = "/contributor/dashboard";
             $scope.refreshTasks();
-            //}
         }
 
         $scope.getTasksOnSearchClick = function () {
@@ -169,8 +183,16 @@
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
                 $scope.tasksPageIndex++;
                 var url = null;
-                if ($scope.skillSearchBox.text != null) {
-                    url = "/Contributor/GetAllTasks?searchKey=" + $scope.skillSearchBox.text + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
+                if ($scope.taskSearch.text != null
+                    || ($scope.taskSearch.serviceLine != null
+                        && $scope.taskSearch.serviceLine != 0)) {
+
+                    var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
+
+                    var serviceLine = $scope.taskSearch.serviceLine != '0' ? $scope.taskSearch.serviceLine : '';
+
+                    url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
+                    + "&serviceLine=" + serviceLine;
                 }
                 else {
                     url = "/Contributor/GetAllTasks?currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
@@ -254,6 +276,7 @@
         $scope.onLoad = function () {
             //$scope.getTasks();
             //$scope.getAssignedTasks();
+            $scope.getAllServiceLines();
         }
         $scope.onLoad();
 

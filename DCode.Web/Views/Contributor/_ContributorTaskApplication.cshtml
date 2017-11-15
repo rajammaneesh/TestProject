@@ -1,14 +1,18 @@
 ﻿<div ng-show="dashboard.showApproval">
-<div id="contTaskAppDiv" class="new-style-sai-main-inner-body"  style="padding:20px;">
-    
+    <div id="contTaskAppDiv" class="new-style-sai-main-inner-body" style="padding:20px;">
+
 
         <div>
             <div class="form-group skill-search new-style-sai-new-task-background">
                 <div class="input-group search-by-project">
-                    <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="skillSearchBox.text" ng-change="refreshTasksBasedonInput()"  ng-model-options='{ debounce: 300 }' />
+                    <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </span>
+                </div>
+               <br/>
+                <div class="input-group">
+                    <select class="form-control" id="ddlServiceLine" ng-model="taskSearch.serviceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" ng-change="refreshTasksBasedonInput()"></select>
                 </div>
                 <div style="clear:both"></div>
 
@@ -25,7 +29,7 @@
             </div>
         </div>
         <div style="clear:both"></div>
-        <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0' 
+        <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0'
              infinite-scroll-container="'#contTaskAppDiv'">
             <div class="project-details" ng-repeat="task in tasks track by $index">
                 <div class="new-style-sai-padding-no-bottom-20" id="div{{$index}}">
@@ -102,7 +106,7 @@
                         <form name="applicationForm{{$index}}" target="apply{{task.TaskName}}{{$index}}">
                             <div class="new-style-sai-padding-no-left-right-top-20">
 
-                                <div style="width:100%;text-align:left;"  >
+                                <div style="width:100%;text-align:left;">
                                     <div class="new-style-sai-div-middle-33">&nbsp;</div>
                                     <div class="new-style-sai-div-33">
                                         Manager's Email Id:
@@ -152,8 +156,8 @@
                         </form>
                     </div>
                     @*<div style="height:0px;">
-                        <input type="text" id="divManagerEmailId{{$index}}" style="height:0px;width:0px;" />
-                    </div>*@
+                            <input type="text" id="divManagerEmailId{{$index}}" style="height:0px;width:0px;" />
+                        </div>*@
                     <div style="clear:both;"></div>
                     <div>
                         <hr style="background:darkgrey;" />

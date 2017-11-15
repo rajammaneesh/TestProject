@@ -1,11 +1,6 @@
 ﻿using DCode.Common;
-using DCode.Models;
 using DCode.Services.Contributor;
 using DCode.Web.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DCode.Web.Controllers
@@ -75,9 +70,9 @@ namespace DCode.Web.Controllers
             return Json(_contributorService.UpdateHours(approvedApplicantId, hours), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetAllTasks(string searchKey, int currentPageIndex, int recordsCount)
+        public JsonResult GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string serviceLine)
         {
-            return Json(_contributorService.GetAllTasks(searchKey, currentPageIndex, recordsCount), JsonRequestBehavior.DenyGet);
+            return Json(_contributorService.GetAllTasks(searchKey, currentPageIndex, recordsCount, serviceLine), JsonRequestBehavior.DenyGet);
         }
 
         public JsonResult GetTaskHistories(int currentPageIndex, int recordsCount)

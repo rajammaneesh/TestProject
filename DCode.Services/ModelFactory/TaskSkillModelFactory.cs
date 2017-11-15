@@ -3,9 +3,6 @@ using DCode.Data.DbContexts;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Services.ModelFactory
 {
@@ -45,6 +42,7 @@ namespace DCode.Services.ModelFactory
             task.UpdatedOn = input.task.UPDATED_ON;
             task.Id = input.task.ID;
             task.Hours = input.task.HOURS;
+            task.ServiceLine = input.task.service_line.Name;
             return task;
         }
 
