@@ -210,6 +210,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContributorController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RequestorController.cs" />
@@ -219,6 +220,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ErrorModule.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,6 +228,8 @@
     <Content Include="App_Data\Aug_8.sql" />
     <Content Include="App_Data\Aug_9.sql" />
     <Content Include="App_Data\July_30.sql" />
+    <Content Include="App_Data\Nov_06_2017.sql" />
+    <Content Include="App_Data\Oct_31.sql" />
     <Content Include="App_Data\Scripts_July23.txt" />
     <Content Include="App_Data\Sep_21_2017.sql" />
     <Content Include="Content\angucomplete-alt.css" />
@@ -243,11 +247,14 @@
     <Content Include="Content\Images\history-active.png" />
     <Content Include="Content\Images\history-icon.png" />
     <Content Include="Content\Images\Loading.gif" />
+    <Content Include="Content\Images\MenuImage.png" />
     <Content Include="Content\Images\my-task-icon.png" />
     <Content Include="Content\Images\permission-icon.png" />
     <Content Include="Content\Images\person-disable.png" />
+    <Content Include="Content\Images\serviceLine.png" />
     <Content Include="Content\Images\tech-x-logo.png" />
     <Content Include="Content\Images\tech-x.ico" />
+    <Content Include="Content\Images\tech-x_old.ico" />
     <Content Include="Content\Images\tech-x-logo-black-bg.png" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="EmailTemplates\email-template.html" />
@@ -367,6 +374,7 @@
     <Content Include="fonts\Avenir_Roman.otf" />
     <Content Include="fonts\helvetica-neue-medium.ttf" />
     <None Include="Properties\PublishProfiles\IIS DCode Publish.pubxml" />
+    <None Include="Properties\PublishProfiles\TechX.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -385,7 +393,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -417,6 +425,7 @@
     <Content Include="Views\Contributor\_ContributorTaskStatus.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Task\" />

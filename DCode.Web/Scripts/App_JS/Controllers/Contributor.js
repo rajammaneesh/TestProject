@@ -3,9 +3,9 @@
     angular.module('dCodeApp')
     .controller('contributorController', ContributorController);
 
-    ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window','$anchorScroll','$location', 'UserContextService'];
+    ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService'];
 
-    function ContributorController($scope, $http, $rootScope, $filter, $window,$anchorScroll,$location, UserContextService) {
+    function ContributorController($scope, $http, $rootScope, $filter, $window, $anchorScroll, $location, UserContextService) {
         $scope.userContext = null;
         $scope.taskApplicantsRecordCount = 100;
         $scope.tasksGlobal = null;
@@ -73,7 +73,10 @@
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
-            $location.hash('div' + index);
+            //document.getElementById('divManagerEmailId' + index).get(0).focus();
+            setTimeout(function () { $('#divManagerEmailId'+index).focus() }, 1);
+            //$location.hash('div' + index);
+           
         };
 
         $scope.isShowingReview = function (index) {
@@ -152,10 +155,10 @@
         }
 
         $scope.refreshTasksBasedonInput = function () {
-            if ($scope.skillSearchBox.text.length == 0) {
-                //location.href = "/contributor/dashboard";
-                $scope.refreshTasks();
-            }
+            //if ($scope.skillSearchBox.text.length == 0) {
+            //location.href = "/contributor/dashboard";
+            $scope.refreshTasks();
+            //}
         }
 
         $scope.getTasksOnSearchClick = function () {
@@ -168,8 +171,8 @@
                 var url = null;
                 if ($scope.skillSearchBox.text != null) {
                     url = "/Contributor/GetAllTasks?skill=" + $scope.skillSearchBox.text + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
-                    }
-                else{
+                }
+                else {
                     url = "/Contributor/GetAllTasks?currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
                 }
                 $http({
@@ -197,24 +200,25 @@
             }
         }
 
-        $scope.refreshTasks = function()
-        {
+        $scope.refreshTasks = function () {
             $scope.reinitialiseVariables();
             $scope.getTasks();
         }
 
-        $scope.applyTask = function (task, managersEmailID) {
+        $scope.applyTask = function (task, managersEmailID, statementOfPurpose) {
 
             var managerEmailAddress = "";
-            if (managersEmailID != null && managersEmailID != "")
-
-            {
+            if (managersEmailID != null && managersEmailID != "") {
                 managerEmailAddress = managersEmailID;
             }
             $http({
                 url: "/Contributor/ApplyTask",
                 method: "POST",
-                data: { taskId: task.Id, emailAddress: managerEmailAddress}
+                data: {
+                    taskId: task.Id,
+                    emailAddress: managerEmailAddress,
+                    statementOfPurpose: statementOfPurpose
+                }
             }).success(function (data, status, headers, config) {
                 if (data != undefined) {
                     if (data != null && data > 0) {
@@ -226,11 +230,12 @@
                                 Hours: task.Hours,
                                 StartingDate: task.OnBoardingDate
                             }
-                        
+
                         $scope.divVisibiltyModel.showSuccess = true;
                         $scope.divVisibiltyModel.showSummary = false;
                         $scope.refreshTasks();
-                        $location.hash('divCongrats');
+                        //$location.hash('divCongrats');
+                        $('#divCongrats').modal('show');
                     }
                 }
 
@@ -239,19 +244,23 @@
 
         }
 
-        $scope.cancelPermission = function()
-        {
+        $scope.cancelPermission = function () {
             $scope.divVisibiltyModel.showSummary = false;
         }
 
-        
-        
+
+
         //will be handled by ng-infinite scroll
         $scope.onLoad = function () {
             //$scope.getTasks();
             //$scope.getAssignedTasks();
         }
         $scope.onLoad();
+
+        $scope.CloseModal = function () {
+            $('#divCongrats').modal('toggle');
+        };
+
     }
 })();
 
@@ -295,7 +304,7 @@
                             $scope.historyVisibility.showFirst = true;
                             $scope.historyVisibility.showHistory = false;
                         }
-                        
+
                     }
                 }).error(function (error) {
                 });

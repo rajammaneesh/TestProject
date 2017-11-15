@@ -16,6 +16,8 @@ using DCode.Data.RequestorRepository;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Data.MetadataRepository;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DCode.Services.Common
 {
@@ -38,7 +40,6 @@ namespace DCode.Services.Common
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository, LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository, UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory, SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory, IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory)
         {
             _taskRepository = taskRepository;
-            //_taskModelFactory = taskModelFactory;
             _logModelFactory = logModelFactory;
             _userContext = userContext;
             _logRepository = logRepository;
@@ -94,6 +95,7 @@ namespace DCode.Services.Common
                     }
                 }
             }
+
             if (_userContext.MenuItems == null)
             {
                 _userContext.MenuItems = FetchMenuItems(_userContext.Role);
@@ -103,7 +105,7 @@ namespace DCode.Services.Common
 
         private UserContext MapDetailsFromDeloitteNetwork(string userName)
         {
-            SearchResultCollection searchResults = null;
+           SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
             var directoryEntry = new DirectoryEntry(path);
             var directorySearcher = new DirectorySearcher(directoryEntry);
@@ -112,6 +114,7 @@ namespace DCode.Services.Common
             var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
 
             var propertyDescription = new StringBuilder();
+
             foreach (SearchResult result in searchResults)
             {
                 foreach (string propertyName in result.Properties.PropertyNames)
@@ -148,9 +151,66 @@ namespace DCode.Services.Common
                     {
                         _userContext.Department = result.Properties[propertyName][0].ToString();
                     }
+                    else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
+                    {
+                        _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
+                    }                  
                 }
             }
             return _userContext;
+        }
+
+        public UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName)
+        {
+            var userContext = new UserContext();
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
+            var directoryEntry = new DirectoryEntry(path);
+            var directorySearcher = new DirectorySearcher(directoryEntry);
+            directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
+            searchResults = directorySearcher.FindAll();
+            var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+            var propertyDescription = new StringBuilder();
+            foreach (SearchResult result in searchResults)
+            {
+                foreach (string propertyName in result.Properties.PropertyNames)
+                {
+                    if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                    {
+                        userContext.EmailId = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                    {
+                        userContext.Designation = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                    {
+                        userContext.FirstName = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                    {
+                        userContext.LastName = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
+                    {
+                        userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                    {
+                        userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
+                    {
+                        userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
+                    }
+                    else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
+                    {
+                        userContext.Department = result.Properties[propertyName][0].ToString();
+                    }
+                }
+            }
+            return userContext;
         }
 
         private void SetAndInsertContext()
@@ -200,8 +260,6 @@ namespace DCode.Services.Common
         private List<MenuItem> FetchMenuItems(Enums.Role role)
         {
             var menuItemsList = new List<MenuItem>();
-            //var userContext = GetCurrentUserContext();
-
 
             switch (_userContext.Role)
             {
@@ -211,12 +269,11 @@ namespace DCode.Services.Common
                 case Enums.Role.Requestor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "CREATE NEW TASK", TabName = Constants.TabNewTask, NavigationUrl = "/Requestor/NewTasks", CssClass = "" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
-                    menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "APPROVALS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
                 case Enums.Role.Contributor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "My TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
-                    //menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", TabName = Constants.TabPermissions, NavigationUrl = "/Contributor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
                 default:
@@ -287,7 +344,6 @@ namespace DCode.Services.Common
                 applicantt.MANAGER_EMAIL_ID = model.ManagerEmailId;
 
                 var taskApplicant = new taskapplicant();
-                //taskApplicant.APPLICANT_ID = applicant.ID;
                 taskApplicant.TASK_ID = model.TaskId;
                 taskApplicant.STATUS = Enums.TaskApplicant.Active.ToString();
                 result = _userRepository.InsertApplicantAndTask(taskApplicant, applicantt);
@@ -378,9 +434,9 @@ namespace DCode.Services.Common
             var request = new ProfileRequest
             {
                 UserId = user.ID,
-                ManagerEmailId = managersEmailAddress,
                 ProjectCode = user.PROJECT_CODE,
                 ProjectName = user.PROJECT_NAME,
+                ManagerEmailId = managersEmailAddress,
                 ManagerName = managersName,
                 SkillSet = new List<Skill>()
             };
@@ -398,15 +454,27 @@ namespace DCode.Services.Common
             {
                 userName = emailSplit[0];
 
-                if(!String.IsNullOrWhiteSpace(userName))
+                if (!String.IsNullOrWhiteSpace(userName))
                 {
-                   var userContext = MapDetailsFromDeloitteNetwork(userName);
+                   var userContext = MapDetailsFromDeloitteNetworkWithoutUserContextObject(userName);
                 
                    return userContext.Name;
                 }
                 return string.Empty;
             }
             return string.Empty;
+        }
+
+        public bool GetTechXAccess()
+        {
+            if (string.IsNullOrEmpty(_userContext?.MsArchiveName))
+            {
+                throw new InvalidOperationException("User Context has not yet been initiated");
+            }
+
+            var archiveName = _userContext.MsArchiveName;
+
+            return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
         }
     }
 }

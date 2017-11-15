@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.ComponentModel;
 
 namespace DCode.Common
 {
@@ -20,7 +17,8 @@ namespace DCode.Common
         public const string MinutesAgo = " minutes ago";
         public const string MinuteAgo = " minute ago";
         public const string Zero = "0";
-        
+        public const string ErrorRedirectType = "ErrorRedirect";
+
         //Layout 
         public const string UrlDashboard = "dashboard";
         public const string UrlPermissions = "permissions";
@@ -42,6 +40,7 @@ namespace DCode.Common
         public const string UserContextMenuItems = "DCodeUserContextMenuItems";
         public const string SearchFilter = "(&(objectClass=user)(sAMAccountName={0}))";
         public const string LdapConnection = "LDAPConnection";
+        public const string GenerateRedirectToError = "GenerateRedirectToError";
         public const string Userprincipalname = "userprincipalname";
         public const string Title = "title";
         public const string Givenname = "givenname";
@@ -51,6 +50,7 @@ namespace DCode.Common
         public const string EmployeeId = "employeeid";
         public const string Department = "department";
         public const string TelephoneNumber = "telephonenumber";
+        public const string MsArchiveName = "msexcharchivename";
         public const string MockUser = "MockUser";
         public static string DcodeEmailId = "DcodeEmailId";
         public static string DcodeEmailPwd = "DcodeEmailPwd";
@@ -60,10 +60,10 @@ namespace DCode.Common
         public static string DCodeNotification = "TechX Notification";
         public static string UseWindowsIdentity = "UseWindowsIdentity";
         public static string SmtpDeloitte = "smtp.deloitte.com";
-        public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ApproveRejectBody = "Your request to work on task - {0} under project - {1} is {2}.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
+        public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team";
+        public static string ApproveRejectBody = "Your request to work on task - {0} under project - {1} is {2}.<br/><br/>Regards,<br/>TechX Team";
+        public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team";
+        public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
         public static string EmailTemplatePath = "~/EmailTemplates/email-template.html";
         public static string DCodeLogoPath = "~/Content/Images/tech-x-logo-black-bg.png";
@@ -88,7 +88,7 @@ namespace DCode.Common
     public static class Enums
     {
         public enum Role { Admin, Requestor, Contributor };
-        public enum TaskStatus{Active, Assigned, Closed};
+        public enum TaskStatus { Active, Assigned, Closed };
         public enum ApplicantStatus { Active, ManagerApproved, Assigned, ManagerRejected, Closed };
         public enum ActionType { Insert, Update };
         public enum SortOrder { ASC, DESC };
@@ -98,8 +98,17 @@ namespace DCode.Common
         public enum UserStatus { Active, Closed };
         public enum TaskApplicant { Active, Closed };
 
-        public enum ApprovedApplicantStatus {Active,Closed };
+        public enum ApprovedApplicantStatus { Active, Closed };
         public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };
-        public enum EmailType { Approved,Rejected}
+        public enum EmailType { Approved, Rejected }
+
+        public enum ErrorRedirectType
+        {
+            [Description("You are not permitted to access this portal as you are not a USI practitioner")]
+            NonUsiPractitioner,
+
+            [Description("An unknown error occurred while processing your request.")]
+            Unknown
+        }
     }
 }

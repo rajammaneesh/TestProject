@@ -1,130 +1,182 @@
-﻿    <div class="searchPanel skill" ng-show="dashboard.showApproval">
-        <div class="form-group no-margin skill-search col-sm-12">
-            <div class="input-group search-by-project padding-bottom-10 col-sm-6">
-                <input id="skillInput" placeholder="Search by skill or task description" class="form-control" ng-model="skillSearchBox.text" ng-change="refreshTasksBasedonInput()" />
-                <span class="input-group-btn">
-                    <button class="btn btn-default no-border-left" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                </span>
+﻿<div ng-show="dashboard.showApproval">
+<div id="contTaskAppDiv" class="new-style-sai-main-inner-body"  style="padding:20px;">
+    
+
+        <div>
+            <div class="form-group skill-search new-style-sai-new-task-background">
+                <div class="input-group search-by-project">
+                    <input id="skillInput" placeholder="Search by skill" class="form-control" ng-model="skillSearchBox.text" ng-change="refreshTasksBasedonInput()" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </div>
+                <div style="clear:both"></div>
+
+            </div>
+            <div style="clear:both"></div>
+
+            <div class="new-style-sai-new-task-background" ng-show="(tasksCount < 3) && divVisibiltyModel.showApply">
+                <div>
+                    <h3 class="dark-grey-blue font-size-24">Want to apply for more tasks?</h3>
+                </div>
+                <div class="new-style-sai-create-btn-side">&nbsp;</div>
+                <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToProfile()">EXPAND YOUR SKILLSET</div>
+                <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+        <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0' 
+             infinite-scroll-container="'#contTaskAppDiv'">
+            <div class="project-details" ng-repeat="task in tasks track by $index">
+                <div class="new-style-sai-padding-no-bottom-20" id="div{{$index}}">
+                    <div>
+                        <div class="project-title new-style-sai-div-75">
+                            <span class="heading">{{task.ProjectName}}</span><span class="postedBy"> posted by </span> <span class="heading">{{task.FullName}}</span>
+                        </div>
+                        <div>
+                            <div style="float:right;">
+                                <div class="left-nav-circle-txt">
+                                    <div class="new-sai-style-left-nav-circle-txt-ProjectName">{{task.ShortName}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div>
+                        <div class="new-style-sai-tracking-main heading">
+                            <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{task.Skills}}</span>
+                            <div class="gray-text">Required skills</div>
+                        </div>
+                        <div class="new-style-sai-tracking-main heading">
+                            <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{task.Hours}} hours</span>
+                            <div class="gray-text">Billable hours</div>
+                        </div>
+                        <div class="new-style-sai-tracking-main heading">
+                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{task.OnBoardingDate}}</span>
+                            <div class="gray-text">Start Date</div>
+                        </div>
+                        <div class="new-style-sai-tracking-main heading">
+                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                            <span class="role-desc dark-grey-blue">{{task.DueDate}}</span>
+                            <div class="gray-text">Due Date</div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>&nbsp;</div>
+                        <div style="clear:both;"></div>
+                        <div>
+                            <div class="new-style-sai-div-75">
+                                <p class="project-desc">{{task.Details}}</p>
+                            </div>
+                            <div class="new-style-sai-tracking-main">
+                                <div style="float:right;">
+                                    <div style="float:left;padding-top:20px;">
+                                        <div class="add-task-button apply-btn" ng-show="!task.IsApplied" ng-click="showReviewOptions($index);">Apply</div>
+                                    </div>
+                                    <div style="float:left;" ng-show="task.IsRecommended && !task.IsApplied">
+                                        <div class="gift-pending back-ground-color-ffa942">RECOMMENDED</div>
+                                    </div>
+                                    <div style="float:left;" ng-show="task.IsApplied">
+                                        <div class="gift-pending back-ground-color-6dd5ab">APPLIED</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>
+                            <hr style="background:darkgrey;" />
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+                <div id="managerEmailDiv{{$index}}" ng-show="isShowingReview($index) && divVisibiltyModel.showSummary&&!task.IsApplied">
+                    <div class="text-center"><h2>Permission required!</h2></div>
+                    <div class="opacity-normal text-center" style="padding-bottom:30px;">
+                        <div>You have requested to be assigned for <span class="color-8e44ad">{{task.TaskName}}</span> under project <span class="color-8e44ad">{{task.ProjectName}}</span> for {{task.Hours}} hrs starting {{task.OnBoardingDate}}.</div>
+                        <div>You would require your manager’s approval to proceed.<br />Initiate a permission request for the same.</div>
+
+                    </div>
+                    <div>
+                        <form name="applicationForm{{$index}}" target="apply{{task.TaskName}}{{$index}}">
+                            <div class="new-style-sai-padding-no-left-right-top-20">
+
+                                <div style="width:100%;text-align:left;"  >
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+                                    <div class="new-style-sai-div-33">
+                                        Manager's Email Id:
+                                        <span class="requiredField">*</span>
+                                    </div>
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div>
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+                                    <div class="new-style-sai-div-33">
+                                        <input type="email" id="divManagerEmailId{{$index}}" name="managerEmail" class="form-control" ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" required>
+                                        <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$error.required">Required</span>
+                                        <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>
+                                    </div>
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div class="new-style-sai-padding-no-left-right-top-20">
+
+                                <div style="width:100%;text-align:left;">
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+                                    <div class="new-style-sai-div-33">
+                                        Statement Of Purpose:
+                                        <span class="requiredField">*</span>
+                                    </div>
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div>
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+                                    <div class="new-style-sai-div-33">
+                                        <textarea rows="5" cols="50" maxlength="500" class="form-control" style="resize:none" ng-model="statementOfPurpose"></textarea>
+                                    </div>
+                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
+
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div class="text-center new-style-sai-padding-no-left-right-20">
+                                <button class="review-app-btn" type="button" ng-click="cancelPermission()">Cancel</button>
+                                <button class="review-app-btn" type="submit" ng-disabled="applicationForm{{$index}}.$invalid" name="apply{{task.TaskName}}{{$index}}" ng-click="applyTask(task, managersEmailId,statementOfPurpose);">Request Permission</button>
+                            </div>
+                        </form>
+                    </div>
+                    @*<div style="height:0px;">
+                        <input type="text" id="divManagerEmailId{{$index}}" style="height:0px;width:0px;" />
+                    </div>*@
+                    <div style="clear:both;"></div>
+                    <div>
+                        <hr style="background:darkgrey;" />
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
             </div>
         </div>
     </div>
-
-    <div id="divCongrats" class="col-md-12 contributorTaskApp" ng-show="dashboard.showApproval" infinite-scroll='getTasks()' infinite-scroll-distance='0'>
-        <div class="create-task-container background-color-fff" ng-show="divVisibiltyModel.showSuccess">
-            <div class="new-task-box">
+</div>
+<div class="modal fade" id="divCongrats" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div style="padding:10px;">
+                <button type="button" ng-click="CloseModal();" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body text-center" style="padding-bottom:120px;">
                 <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
                 <div class="gray-text font-size-16 opacity-normal">
                     <div>You have requested permission for <span class="color-8e44ad">{{taskRequest.TaskName}}</span> under project <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> for {{taskRequest.Hours}} hrs starting {{taskRequest.StartingDate}}.</div>
-                    <div>While you wait for your manager to get back, complete your <span class="color-8e44ad link" ng-click="NavigateToProfile()">Profile</span> for better task recommendations.</div>
+                    <div>While you wait for your manager to get back, complete your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Profile</span> for better task recommendations.</div>
                 </div>
             </div>
-        </div>
-        <div class="no-padding-left-right margin-top-bottom-3 margin-top-4 col-sm-12" ng-repeat="task in tasks track by $index">
-
-            <div class="col-md-12 col-sm-12 project-details" id="div{{$index}}">
-                <div class="col-md-11 col-sm-11 no-padding">
-                    <div class="project-title col-md-12 margin-top-25 margin-bottom-25">
-                        <span class="heading margin-top-24">{{task.ProjectName}}</span><span class="postedBy"> posted by </span> <span class="heading margin-top-24">{{task.FullName}}</span>
-                        @*<div class="gray-text">4 days ago</div>*@
-                    </div>
-                    <div class="col-md-12 margin-bottom-25">
-                        <div class="required-skills col-sm-2 col-md-2 pull-left no-padding">
-                            <div class="heading">
-                                <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{task.Skills}}</span>
-                                <div class="gray-text">Required skills</div>
-                            </div>
-                        </div>
-                        <div class="billable-hours col-sm-2 col-md-2 pull-left no-padding">
-                            <div class="heading">
-                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{task.Hours}} hours</span>
-                                <div class="gray-text">Billable hours</div>
-                            </div>
-                        </div>
-                        <div class="on-boarding-date col-sm-3 col-md-3 pull-left no-padding">
-                            <div class="heading">
-                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{task.OnBoardingDate}}</span>
-                                <div class="gray-text">Onboarding Date</div>
-                            </div>
-                        </div>
-                        <div class="on-boarding-date col-sm-3 col-md-3 pull-left no-padding">
-                            <div class="heading">
-                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue">{{task.OnBoardingDate}}</span>
-                                <div class="gray-text">Due Date</div>
-                            </div>
-                        </div>
-                        <div class="awards-eligible col-sm-2 col-md-2 pull-left no-padding">
-                            <div class="heading">
-                                <span class="gift-icon pull-left"><img src="/Content/Images/gift@2x.png" /></span>
-                                <span class="role-desc dark-grey-blue pull-left">
-                                    <span ng-show="task.GiftsOrAwards">Yes</span>
-                                    <span ng-show="!task.GiftsOrAwards">No</span>
-                                </span>
-                                <div class="gray-text clear-both">Awards Eligibility</div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="left-nav-circle-txt col-sm-1 col-md-1 pull-right margin-top-25 no-padding">
-                    <div class="left-nav-circle-txt-ProjectName pull-left">{{task.ShortName}}</div>
-                </div>
-                <div class="col-md-12 col-sm-12 no-padding">
-                    <div class="col-md-8 col-sm-8 no-padding margin-top-24">
-                        <p class="project-desc">{{task.Details}}</p>
-                    </div>
-
-                    <div class="col-md-3 width300 col-sm-3 pull-right no-padding con_button_grup">
-                        @*<div class="col-md-6 add-task-button margin-top-24 disabled" ng-show="task.IsApplied">Applied</div>*@
-                        <div class="col-md-4 pull-right add-task-button apply-btn margin-top-24" ng-show="!task.IsApplied" ng-click="showReviewOptions($index);">Apply</div>
-
-                        @*Only one of the below divs would be visible at a time*@
-                        <div class="col-md-6 pull-right margin-top-12 no-padding" ng-show="task.IsRecommended && !task.IsApplied">
-                            <div class="col-md-12 gift-pending back-ground-color-ffa942 no-padding margin-right-12">RECOMMENDED</div>
-                        </div>
-                        <div class="col-md-4 pull-right margin-top-12 no-padding" ng-show="task.IsApplied">
-                            <div class="col-md-12 gift-pending back-ground-color-6dd5ab no-padding">APPLIED</div>
-                        </div>
-
-
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="col-sm-12 col-md-12 background-color-fff margin-top-bottom-3" ng-show="isShowingReview($index) && divVisibiltyModel.showSummary&&!task.IsApplied">
-                <div class="col-md-6 col-md-offset-3 extend-data no-padding dark-grey-blue">
-                    <div class="col-md-12 margin-top-20 no-padding text-center margin-top-bottom-3 margin-top-25"><h2>Permission required!</h2></div>
-                    <div class="col-md-12 font-size-16 opacity-normal text-center margin-bottom-20">
-                        <div>You have requested to be assigned for <span class="color-8e44ad">{{task.TaskName}}</span> under project <span class="color-8e44ad">{{task.ProjectName}}</span> for {{task.Hours}} hrs starting {{task.OnBoardingDate}}.</div>
-                        <div>You would require your manager’s approval to proceed.<br />Initiate a permission request for the same.</div>
-                        
-                    </div>
-                    <form name="applicationForm{{$index}}" target="apply{{task.TaskName}}{{$index}}">
-                        <div class="col-md-12 no-padding margin-top-20 no-padding" >
-                            <div class="col-md-5 font-size-14 bold">
-                                Manager's Email Id: 
-                                <span class="requiredField">*</span>
-                            </div>
-                            <div class="no-padding col-md-7 text-left" >
-                                <input type="email" name="managerEmail" class="form-control" ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" required>
-                                <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$pristine">Required</span>
-                                <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>
-                            </div>
-                        </div>
-                        <div class="col-md-12 margin-top-20 text-center margin-bottom-40">
-                            <button class="review-app-btn col-md-offset-1" type="button" ng-click="cancelPermission()">Cancel</button>
-                            <button class="review-app-btn col-md-offset-1" type="submit" ng-disabled="applicationForm{{$index}}.$invalid" name="apply{{task.TaskName}}{{$index}}" ng-click="applyTask(task, managersEmailId);">Request Permission</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="con-new-task-box background-color-fff col-md-12 margin-top-25" ng-show="(tasksCount < 3) && divVisibiltyModel.showApply">
-            <h3 class="dark-grey-blue font-size-24 col-md-4 col-md-offset-2">Want to apply for more tasks?</h3>
-            <div class="add-task-button col-md-2" ng-click="NavigateToProfile()">EXPAND YOUR SKILLSET</div>
         </div>
     </div>
+</div>

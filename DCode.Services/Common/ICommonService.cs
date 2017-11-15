@@ -12,7 +12,8 @@ namespace DCode.Services.Common
 {
     public interface ICommonService
     {
-        UserContext GetCurrentUserContext(string userName=null);
+        UserContext GetCurrentUserContext(string userName = null);
+
         int LogToDatabase(Log logmodel);
         IEnumerable<Log> GetDBLogs();
         UserContext SwitchRole();
@@ -29,5 +30,9 @@ namespace DCode.Services.Common
         string GetNameFromEmailId(string emailId);
 
         int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName);
+
+        UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName);
+
+        bool GetTechXAccess();
     }
 }

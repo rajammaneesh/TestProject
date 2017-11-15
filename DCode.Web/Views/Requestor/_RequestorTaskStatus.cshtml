@@ -1,98 +1,69 @@
-﻿
+﻿<div ng-show="dashboard.showTaskStatus">
+    <div id="trackStatusContainer" class="new-style-sai-main-inner-body" style="padding:20px;">
 
-<div id="trackStatusContainer" class="right-body-bottom margin-top-20 col-sm-12" ng-show="dashboard.showTaskStatus">
-    <div id="divReviewSuccess" class="success-banner" ng-show="ReviewedDivModel.Visible">
-        <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{ReviewedDivModel.AssigneeName}} has been reviewed for {{ReviewedDivModel.AssignedTask}}</span>.</h3>
-    </div>
-    <div class="background-color-fff col-sm-12 no-padding margin-top-25" ng-show="taskStatusVisibility.showFirst">
-        <div class="new-task-box no-padding">
-            <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
-            <p class="gray-text">Details of the tasks that are currently under-progress and the tasks that are ready for review would be displayed here. You can keep a track of all your tasks here and take necessary steps to ensure the tasks are completed by the due date.</p>
-            <div class="create-new-task-btn" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+        <div ng-show="ReviewedDivModel.Visible">
+            <div id="divReviewSuccess" class="success-banner">
+                <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{ReviewedDivModel.AssigneeName}} has been reviewed for {{ReviewedDivModel.AssignedTask}}</span>.</h3>
+            </div>
         </div>
-    </div>
-    <div class="no-padding-left-right  col-sm-12" infinite-scroll='getStatusOftasks()' infinite-scroll-distance='0'>
-        <div class="col-md-12 col-sm-12 margin-top-bottom-3 no-padding track-box" ng-repeat="taskStatus in taskStatuses">
-            <div class="col-sm-12 col-md-12 no-padding margin-bottom-25">
-                <div class="col-md-10 col-sm-10">
-                    <div class="margin-top-24 col-sm-6 col-md-5 title no-padding">
-                        <div class="pull-left col-md-2">
-                            <div class="circle-txt-60 pull-right">{{taskStatus.Applicant.ShortName}}</div>
-                        </div>
-                        <div class="pull-left col-md-10">
-                            <div class="col-md-12 col-sm-12">
-                                <span class="heading color-8e44ad">{{taskStatus.Applicant.Name}}</span>
-                                <span class="gray-text">{{taskStatus.Duration}} days ago</span>
-                            </div>
-                            <div class="col-md-12 col-sm-12">
-                                <div class="dark-grey-blue">{{taskStatus.Applicant.Expertise}}</div>
-                                <div><span class="dark-grey-blue">for </span><span class="heading color-8e44ad">{{taskStatus.Task.ProjectName}}</span></div>
-                            </div>
-                        </div>
+        <div class="background-color-ecf0f1" infinite-scroll='getStatusOftasks()' infinite-scroll-distance='0'
+             infinite-scroll-container="'#trackStatusContainer'">
+            <div ng-show="taskStatusVisibility.showFirst">
+                <div class="new-style-sai-new-task-background">
+                    <div class="dark-grey-blue font-size-24">You do not have any tasks running!</div>
+                    <div class="dark-gray-text">
+                        <p class="gray-text">
+                            Details of the tasks that are currently under-progress and the tasks that are ready for review would be displayed here.
+                            You can keep a track of all your tasks here and take necessary steps to ensure the tasks are completed by the due date.
+                        </p>
                     </div>
-                    <div class="billable-hours col-sm-3 col-md-4 pull-left no-padding margin-top-24">
-                        <div class="col-md-8 heading font-size-20 no-padding">{{taskStatus.Applicant.CompletedHours == null ? 0 : taskStatus.Applicant.CompletedHours}} <span class="color-95a5a6">of {{taskStatus.Task.Hours}} hrs.</span></div>
-                        <div class="progress col-md-8 no-padding">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="0"
-                                 aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{taskStatus.ProgressWidth}}%"></div>
-                        </div>
-                        <div class="gray-text col-md-12 no-padding">Hours Completed</div>
+                    <div>
+                        <br />
                     </div>
-                    <div class="margin-top-40 on-boarding-date col-sm-3 col-md-3 pull-left no-padding">
-                        <div class="heading"><img src="/Content/Images/calendar@2x.png" width="20px" height="20px" class="margin-right-8" /><span class="date-txt dark-grey-blue">{{taskStatus.Task.DueDate}}</span></div>
-                        <div class="gray-text">Due Date</div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-2 margin-top-40">
-                    <div ng-click="showReviewOptions($index);" ng-hide="taskStatus.ProgressWidth<100">
-                        <button class="review-btn" type="button"> REVIEW </button>
+                    <div>
+                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
+                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+
                     </div>
                 </div>
             </div>
-            <div ng-show="isShowingReview($index)">
-                <div class="col-sm-12 col-md-12 extend-data no-padding dark-grey-blue">
-                    <div class="col-md-offset-1 col-md-5 margin-top-20 no-padding">Would you like to work with this person again?</div>
-                    <div class="col-md-4 margin-top-20 no-padding selectOption">
-                        <div class="col-md-5 no-margin no-padding">
-                            <input type="radio" name="radio-group_{{$index}}" id="selectYes_{{$index}}" value="true" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
-                            <label for="selectYes_{{$index}}">Yes</label>
+
+            <div class="project-details" ng-repeat="taskStatus in taskStatuses">
+                <div>
+                    <div class="new-style-sai-tracking-main-20">
+                        <div>
+                            <div class="circle-txt-60">{{taskStatus.Applicant.ShortName}}</div>
                         </div>
-                        <span class="clear"></span>
-                        <div class="col-md-5 no-margin no-padding">
-                            <input type="radio" name="radio-group_{{$index}}" id="selectNo_{{$index}}" value="false" ng-model="workAgain[$index]" ng-click="ratingClicked($index)" />
-                            <label for="selectNo_{{$index}}">No</label>
+                    </div>
+                    <div class="new-style-sai-tracking-main-20">
+                        <div>
+                            <span class="heading color-8e44ad">{{taskStatus.Applicant.Name}}</span>
+                            <span class="dark-grey-blue">for </span><span class="heading color-8e44ad">{{taskStatus.Task.ProjectName}}</span>
+
                         </div>
-                        <div class="col-md-2">
-                            <button class="review-app-btn" type="button" ng-show="taskStatus.EnableReviewApplicant" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId, workAgain[$index], ratingValue[$index], taskStatus.Task.Comments) " ng-disabled="taskStatus.Task.Status == 'Closed'">Review Applicant</button>
+                    </div>
+                    <div class="new-style-sai-tracking-main-20">
+                        <div>
+                            <div class="dark-grey-blue">{{taskStatus.Applicant.Expertise}}</div>
+                            <div class="gray-text">{{taskStatus.Duration}} days ago</div>
+                        </div>
+                    </div>
+                    <div class="new-style-sai-tracking-main-20">
+                        <div class="heading font-size-20">{{taskStatus.Applicant.CompletedHours == null ? 0 : taskStatus.Applicant.CompletedHours}} <span class="color-95a5a6">of {{taskStatus.Task.Hours}} hrs.</span></div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0"
+                                 aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{taskStatus.ProgressWidth}}%"></div>
+                        </div>
+                        <div class="gray-text">Hours Completed</div>
+                    </div>
+                    <div class="new-style-sai-tracking-main-20" style="text-align:center;">
+                        <div ng-click="showReviewOptions($index);" ng-hide="taskStatus.ProgressWidth<100">
+                            <button class="review-btn" type="button" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId)">CLOSE</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-12 extend-data no-padding dark-grey-blue">
-                    <div class="col-md-offset-1 col-md-5 margin-top-40 no-padding">How did you like the work?</div>
-                    <div class="col-md-5 margin-top-30 review-panel no-padding">
-                        <div class="col-md-4 text-center radio-inline no-margin no-padding" ng-click="changeClassValueOfGood($index)">
-                            <label ng-class="classValueGood">
-                                <input type="radio" name="optradio_{{$index}}" id="good_{{$index}}" value="Good" ng-model="ratingValue[$index]" />
-                                <img src="/Content/Images/good@2x.png" width="40px" height="40px" />
-                                <span>Good</span>
-                            </label>
-                        </div>
-                        <div class="no-margin col-md-4 text-center radio-inline no-padding" ng-click="changeClassValueOfAverage($index)">
-                            <label ng-class="classValueAverage">
-                                <input type="radio" name="optradio_{{$index}}" id="average_{{$index}}" value="Average" ng-model="ratingValue[$index]" />
-                                <img src="/Content/Images/average@2x.png" width="40px" height="40px" />
-                                <span>Average</span>
-                            </label>
-                        </div>
-                        <div class="col-md-4 no-margin text-center radio-inline no-padding" ng-click="changeClassValueOfUnS($index)">
-                            <label ng-class="classValueUnS">
-                                <input type="radio" name="optradio_{{$index}}" id="uns_{{$index}}" value="Unsatisfactory" ng-model="ratingValue[$index]" />
-                                <img src="/Content/Images/unsatisfactory@2x.png" width="40px" height="40px" />
-                                <span>Unsatisfactory</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                <div style="clear:both;"></div>
             </div>
         </div>
     </div>

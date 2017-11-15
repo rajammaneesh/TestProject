@@ -21,11 +21,6 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
-    @*@Scripts.Render(BundleConfig.JsModernizrBundle)
-
-        @Scripts.Render(BundleConfig.JsJqueryValidationBundle)
-        @Scripts.Render(BundleConfig.JsBootstrapBundle)*@
-    @*@Scripts.Render(BundleConfig.JsJqueryBundle)*@
     @Scripts.Render(BundleConfig.JsAngularBundle)
     @Scripts.Render(BundleConfig.JsAngularAssetsBundle)
 </head>
@@ -33,10 +28,10 @@
     <div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="IndexController">
         <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
             <div class="main-header">
-                <div class="col-sm-6 col-md-8 no-padding-left-right">
+                <div class="col-sm-6 col-md-8 no-padding-left-right" style="padding-top:60px;padding-bottom:30px;">
                     <div class="margin-50 col-md-12 logo-parent">
-                        <div class="col-md-12 no-padding">
-                            <img src="~/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
+                        <div class="col-md-12" >
+                            <img src="~/Content/Images/tech-x-logo.png" height="130px" width="260px" class="pull-left logo crop-tech-x-logo">
                         </div>
                     </div>
                 </div>
@@ -47,14 +42,6 @@
             </div>
         </div>
         <div>
-            @*<table>
-                <tr>
-                    <td>Select User Profile for Login</td>
-                    <td>
-                        <select ng-options="item for item in loginOptions" ng-model="userMockOption.login" ng-change="setUserContext()"></select>
-                    </td>
-                </tr>
-            </table>*@
             <table>
                 <tr>
                     <td>FirstName</td>
@@ -74,16 +61,16 @@
                         <input type="text" class="form-control" ng-model="user.Email">
                     </td>
                 </tr>
-                @*<tr>
-                    <td>Manager Email - Req only for Contributor</td>
-                    <td>
-                        <input type="text" class="form-control" ng-model="user.ManagerEmailId">
-                    </td>
-                </tr>*@
                 <tr>
                     <td>Select User Profile for Login</td>
                     <td>
                         <select ng-options="item for item in loginOptions" ng-model="userMockOption.login" ng-change="setUserContext()"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Service Line</td>
+                    <td>
+                        <select ng-options="item for item in department" ng-model="userMockOption.department"></select>
                     </td>
                 </tr>
                 <tr>

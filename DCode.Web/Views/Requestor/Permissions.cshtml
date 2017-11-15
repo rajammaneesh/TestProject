@@ -4,85 +4,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="permissionsController">
-    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
-        <div class="main-header">
-            <div class="col-sm-6 col-md-8 no-padding-left-right">
-                <div class="margin-50 col-md-12">
-                    <div class="col-md-12 no-padding">
-                        <img src="/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
-                     </div>
-                </div>
-            </div>
-            <div class="col-sm-1 col-md-1"></div>
-            <div class="col-sm-2 col-md-2">
-                <img src="~/Content/Images/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
-            </div>
-        </div>
-        <div class="col-sm-12">
-            <ul class="nav col-sm-7 top-menu">
-                <li class="active pull-left margin-left-right-20 letter-spacing-1" id="approval">
-                    <a ng-click="controlTabsMyTasks('approval')">APPROVAL</a>
-                </li>
-            </ul>
-        </div>
+<div id="reqPermissionPage" class="main" ng-controller="permissionsController">
+    <div style="background:white;width:100%;">
+        <ul class="nav top-menu">
+            <li class="active pull-left margin-left-right-10 letter-spacing-1 dark-grey-blue-16" id="approval">
+                <a ng-click="controlTabsMyTasks('approval')">APPROVAL</a>
+            </li>
+        </ul>
     </div>
-    <div id="rightcontainer" class="right-container">
-        <div class="right-body-bottom col-sm-12 permission-container" id="permissionPage">
-            <div id="divSuccess" class="success-banner margin-top-12" ng-show="AssignedDivModel.Visible">
-                  <div class="title-new dark-grey-blue font-size-24">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</div>
-            </div>
-            <div id="divReject" class="success-banner" ng-show="RejectedDivModel.Visible">
-                <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{RejectedDivModel.AssigneeName}} has been rejected for {{RejectedDivModel.AssignedTask}} task.</span></h3>
-            </div>
-            <div class="background-color-fff col-sm-12 no-padding margin-top-25" ng-show="permissionsVisibility.showFirst">
-                <div class="new-task-box no-padding">
-                    <h3 class="dark-grey-blue font-size-24">Looks like right now nobody needs your help!</h3>
-                    <p class="gray-text">Your project members would reach out to you for approval to work on other project tasks here. You can take appropriate decision to either Approve / Reject a project member's application here.</p>
-                    <div class="create-new-task-btn" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+    <div class="new-style-sai-renderbody-inner">
+        <div class="new-style-sai-main-inner-body">
+            <div id="permissionPage">
+                <div style="padding:20px;" ng-show="AssignedDivModel.Visible">
+                    <div class="success-banner">
+                        <div class="title-new dark-grey-blue font-size-24">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</div>
+                    </div>
+                </div>
+                <div style="padding:20px;" ng-show="RejectedDivModel.Visible">
+                    <div id="divReject" class="success-banner" ng-show="RejectedDivModel.Visible">
+                        <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{RejectedDivModel.AssigneeName}} has been rejected for {{RejectedDivModel.AssignedTask}} task.</span></h3>
+                    </div>
+                </div>
+                <div style="padding:20px;" ng-show="permissionsVisibility.showFirst">
+                    <div class="new-style-sai-new-task-background">
+                        <h3 class="dark-grey-blue font-size-24">Looks like right now nobody needs your help!</h3>
+                        <p class="gray-text">Your project members would reach out to you for approval to work on other project tasks here. You can take appropriate decision to either Approve / Reject a project member's application here.</p>
+                        <div>
+                            <div class="new-style-sai-create-btn-side">&nbsp;</div>
+                            <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                            <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div infinite-scroll='getApplicants()' infinite-scroll-distance='0'>
-                <div class="no-padding-left-right margin-top-20 col-sm-12">
-                    <div class="col-md-12 col-sm-12 no-padding track-box" ng-repeat="taskApplicant in taskApplicants track by $index">
-                        <div class="col-sm-12 col-md-12 no-padding" ng-hide="taskApplicant.Status == 'ManagerApproved || ManagerRejected'">
-                            <div class="col-md-9 col-sm-10 no-padding">
-                                <div class="margin-top-24 col-sm-6 col-md-5 title no-padding">
-                                    <div class="pull-left col-md-2">
-                                        <div class="circle-txt">{{taskApplicant.Applicant.ShortName}}</div>
-                                    </div>
-                                    <div class="pull-left col-md-10">
-                                        <div class="col-md-12 col-sm-12">
-                                            <span class="heading color-8e44ad">{{taskApplicant.Applicant.Name}}</span>
-                                            <span class="gray-text">{{taskApplicant.Applicant.Duration}}</span>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 margin-top-25">
-                                            <div class="color-8e44ad heading">{{taskApplicant.Task.ProjectName}}</div>
-                                            <div><span class="gray-text margin-left-0">Project Name</span></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding margin-top-80">
-                                    <div class="heading">
-                                        <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
-                                        <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
-                                        <div class="gray-text">Billable hours</div>
-                                    </div>
-                                </div>
-                                <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding margin-top-80">
-                                    <div class="heading">
-                                        <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
-                                        <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
-                                        <div class="gray-text">Onboarding Date</div>
-                                    </div>
-                                </div>
+            <div  class="background-color-ecf0f1"  infinite-scroll='getApplicants()' infinite-scroll-distance='0'
+                 infinite-scroll-container="'#reqPermissionPage'">
+                <div class="track-box project-details" ng-repeat="taskApplicant in taskApplicants track by $index">
+                    <div ng-hide="taskApplicant.Status == 'ManagerApproved || ManagerRejected'" style="padding:30px; padding-bottom:40px;">
+                        <div>
+                            <div style="float:left;">
+                                <div class="circle-txt">{{taskApplicant.Applicant.ShortName}}</div>
                             </div>
-                            <div class="col-md-3 col-sm-2 margin-top-80 no-padding">
-                                <div class="reject-btn pull-left margin-right-12" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="RejectTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">REJECT</div>
-                                <div class="reject-btn-disabled pull-left margin-right-12 disabled" ng-show="taskApplicant.Applicant.Status == 'ManagerRejected'">REJECT</div>
-                                <div class="review-btn-disabled pull-left disabled" ng-show="taskApplicant.Applicant.Status == 'ManagerApproved'">ALLOW</div>
-                                <div class="review-btn pull-left" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="AllowTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">ALLOW</div>
+                            <div style="padding-left:60px;">
+                                <span class="heading color-8e44ad">{{taskApplicant.Applicant.Name}}</span>
+                                <span class="gray-text">{{taskApplicant.Applicant.Duration}}</span>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div>
+                            <div class="new-style-sai-tracking-main">
+                                <div class="color-8e44ad heading">{{taskApplicant.Task.ProjectName}}</div>
+                                <div><span class="gray-text margin-left-0">Project Name</span></div>
+                            </div>
+                            <div class="new-style-sai-tracking-main heading">
+                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
+                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
+                                <div class="gray-text">Billable hours</div>
+                            </div>
+                            <div class="new-style-sai-tracking-main heading">
+                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
+                                <div class="gray-text">Start Date</div>
+                            </div>
+                            <div class="new-style-sai-tracking-main heading">
+                                <span class="cal-icon"><img src="/Content/Images/serviceLine.png"></span>
+                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.ServiceLine}}</span>
+                                <div class="gray-text">Service Line</div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>&nbsp;</div>
+                        <div style="width:100%;">
+                            <div class="new-style-sai-review-post-bigger">
+                                &nbsp;
+                            </div>
+                            <div class="new-style-sai-review-post-smaller">
+                                <div class="reject-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="RejectTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">REJECT</div>
+
+                                <div class="reject-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerRejected'">REJECT</div>
+                                <div style="float:left;">&nbsp;</div>
+
+                                <div class="review-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerApproved'">ALLOW</div>
+
+                                <div class="review-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="AllowTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">ALLOW</div>
                             </div>
                         </div>
                     </div>
