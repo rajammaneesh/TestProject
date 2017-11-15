@@ -170,7 +170,7 @@
                 $scope.tasksPageIndex++;
                 var url = null;
                 if ($scope.skillSearchBox.text != null) {
-                    url = "/Contributor/GetAllTasks?skill=" + $scope.skillSearchBox.text + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
+                    url = "/Contributor/GetAllTasks?searchKey=" + $scope.skillSearchBox.text + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
                 }
                 else {
                     url = "/Contributor/GetAllTasks?currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;

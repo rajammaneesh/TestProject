@@ -190,7 +190,7 @@ namespace DCode.Services.Contributor
             return result;
         }
 
-        public TaskResponse GetAllTasks(string skill, int currentPageIndex, int recordsCount)
+        public TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount)
         {
             var user = _commonService.GetCurrentUserContext();
             var taskList = new TaskResponse();
@@ -198,14 +198,14 @@ namespace DCode.Services.Contributor
             IEnumerable<task> dbTasks;
             IEnumerable<taskskill> dbTaskSkills;
             IEnumerable<Models.ResponseModels.Task.Task> tasks;
-            if (string.IsNullOrEmpty(skill))
+            if (string.IsNullOrEmpty(searchKey))
             {
                 dbTasks = _contributorRepository.GetAllTasks(currentPageIndex, recordsCount, out totalRecords);
                 tasks = _taskModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTasks);
             }
             else
             {
-                dbTaskSkills = _contributorRepository.GetTasksBasedOnSkillOrDescription(skill, currentPageIndex, recordsCount, out totalRecords);
+                dbTaskSkills = _contributorRepository.GetTasksBasedOnSkillOrDescription(searchKey, currentPageIndex, recordsCount, out totalRecords);
                 tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
             }
             taskList.Tasks = tasks;
