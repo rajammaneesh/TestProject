@@ -13,7 +13,7 @@
 
     <div style="padding-left:20px;background:white;">
         <div class="top-menu">
-            <div class="active dark-grey-blue-16" style="width:120px;">ADD NEW TASK</div>
+            <div class="active dark-grey-blue-16" style="width:125px;">ADD NEW TASK</div>
         </div>
     </div>
     <div style="clear:both;"></div>
@@ -87,9 +87,9 @@
                                     </label>
                                 </div>
                                 <div class="form-group datepicker">
-                                    <div style="width:95%;" class="input-group search-wbs-code skill-set" id="taskSkill">
+                                    <div style="width:95%;padding-top:3px;" class="input-group search-wbs-code skill-set" id="taskSkill">
                                         <div class="new-style-sai-search"
-                                             style="position: absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
+                                             style="padding-top:0px;position: absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
 
                                             <angucomplete-alt id="skillsetNewTask"
                                                               placeholder="Search skill"
@@ -105,7 +105,7 @@
 
 
                                     </div>
-                                    <div class="new-style-sai-search-button" style="float:right;">
+                                    <div class="new-style-sai-search-button" style="float:right;padding-top:0px;">
                                         <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                     </div>
                                     <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
@@ -151,8 +151,13 @@
                                 <div style="width:100%;">
                                     <textarea class="form-control" rows="3" maxlength="255" ng-model="taskRequest.Description" placeholder="Add Description" style="resize:none;"></textarea>
                                 </div>
+                                <div>
+                                    <label class="gray-text" style="font-style:italic;">char limit:500</label>
+                                </div>
                             </div>
+                            
                         </div>
+                        
                         <div style="clear:both;"></div>
                         <div style="width:100%;padding-bottom:30px;">
                             <div class="new-style-sai-main-column">
@@ -195,7 +200,7 @@
 
                                 </h3>
                                 <div id="divHours">
-                                    <input type="number" min="1" max="90" id="txtHr" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" required>
+                                    <input type="number" min="1" max="90" id="txtHr" ng-keypress="DontAllowPlus();" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" required>
 
                                 </div>
                             </div>
@@ -216,13 +221,12 @@
 
                         <div>
                             <br />
-                            <br />
                             &nbsp;
                         </div>
                     </div>
                 </form>
             </div>
-            <div style="padding:30px;" ng-show="divVisibiltyModel.showSummary">
+            <div style="padding:20px;" ng-show="divVisibiltyModel.showSummary">
                 <div class="project-details" style="padding:20px;">
                     <div style="width:100%;">
                         <div style="float:left;">
@@ -256,17 +260,18 @@
                             <div class="gray-text">Service Line</div>
                         </div>
                         <div style="clear:both;"></div>
-                        <div>
+                        <div>&nbsp;</div>
+                        @*<div>
                             <br />
-                        </div>
+                        </div>*@
                         <div style="width:100%;height:50px;">
                             <div class="new-style-sai-review-post-bigger">
                                 &nbsp;
                             </div>
-                            <div class="new-style-sai-review-post-smaller">
-                                <div class="review-btn link" style="float:left;" ng-click="editClick()">Edit</div>
+                            <div class="new-style-sai-review-post-smaller" >
+                                <div class="review-btn link font-size-16" style="float:left;" ng-click="editClick()">Edit</div>
                                 <div style="float:left;">&nbsp;</div>
-                                <div class="review-btn link" style="float:left;" ng-click="upsertTask()">Post Task</div>
+                                <div class="review-btn link font-size-16" style="float:left;" ng-click="upsertTask()">Post Task</div>
                             </div>
                         </div>
 

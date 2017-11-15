@@ -464,6 +464,13 @@
             $scope.InitializeTaskRequest();
         };
 
+        $('#txtHr').keydown(function (e) {
+            var order = e.which;
+            if (order == 187 || order==189) {
+                return false;
+            };
+        });
+
         //on click removing validations
         //$scope.RemoveWBSValidation = function () {
         //    $("#divWBSCode").removeClass("invalid");
@@ -643,7 +650,7 @@
         //    $scope.GetWBSValidation();
         //});
 
-        
+
 
         $scope.upsertTask = function () {
             $scope.taskRequest.GiftsOrAwards = $scope.taskRequest.IsRewardsEnabled == "true" ? true : false;

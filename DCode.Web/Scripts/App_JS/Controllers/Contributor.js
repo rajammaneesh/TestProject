@@ -73,8 +73,10 @@
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
-            document.getElementById('managerEmail' + index).focus();
+            //document.getElementById('divManagerEmailId' + index).get(0).focus();
+            setTimeout(function () { $('#divManagerEmailId'+index).focus() }, 1);
             //$location.hash('div' + index);
+           
         };
 
         $scope.isShowingReview = function (index) {
@@ -258,6 +260,7 @@
         $scope.CloseModal = function () {
             $('#divCongrats').modal('toggle');
         };
+
     }
 })();
 
