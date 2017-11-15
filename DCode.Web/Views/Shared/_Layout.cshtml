@@ -7,8 +7,6 @@
     }
     var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
     var tabName = string.Empty;
-    var ActiveClass = "active";
-    var EmptyClass = "";
     var liClass = "";
     var spanColor = "";
     if (currentUrl.ToLowerInvariant().Contains(DCode.Common.Constants.UrlDashboard))
@@ -107,7 +105,7 @@
                         <a href="@menuItem.NavigationUrl">
                             @if (@tabName == @menuItem.TabName)
                                     {
-                                        liClass = "active";
+                                        liClass = "active-side-nav";
                                         spanColor = "color-9acd66";
                                     }
                                     else
