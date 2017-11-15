@@ -125,13 +125,13 @@ namespace DCode.Data.ContributorRepository
         }
 
         public IEnumerable<taskskill> GetTasksBasedOnSkillOrDescription(
-            string filter, 
-            int currentPageIndex, 
-            int recordsCount, 
+            string filter,
+            int currentPageIndex,
+            int recordsCount,
             out int totalRecords)
         {
             IQueryable<taskskill> query = from item in Context.Set<taskskill>()
-                                          where ((item.skill.VALUE.Equals(filter, StringComparison.InvariantCultureIgnoreCase)
+                                          where ((item.skill.VALUE.Contains(filter)
                                               || item.task.DETAILS.Contains(filter)
                                              && item.task.STATUS != Enums.TaskStatus.Closed.ToString()))
                                           select item;

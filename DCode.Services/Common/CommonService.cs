@@ -105,7 +105,7 @@ namespace DCode.Services.Common
 
         private UserContext MapDetailsFromDeloitteNetwork(string userName)
         {
-           SearchResultCollection searchResults = null;
+            SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
             var directoryEntry = new DirectoryEntry(path);
             var directorySearcher = new DirectorySearcher(directoryEntry);
@@ -154,7 +154,7 @@ namespace DCode.Services.Common
                     else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
                     {
                         _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
-                    }                  
+                    }
                 }
             }
             return _userContext;
@@ -273,7 +273,7 @@ namespace DCode.Services.Common
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
                 case Enums.Role.Contributor:
-                    menuItemsList.Add(new MenuItem() { MenuItemName = "My TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
                 default:
@@ -456,9 +456,9 @@ namespace DCode.Services.Common
 
                 if (!String.IsNullOrWhiteSpace(userName))
                 {
-                   var userContext = MapDetailsFromDeloitteNetworkWithoutUserContextObject(userName);
-                
-                   return userContext.Name;
+                    var userContext = MapDetailsFromDeloitteNetworkWithoutUserContextObject(userName);
+
+                    return userContext.Name;
                 }
                 return string.Empty;
             }
