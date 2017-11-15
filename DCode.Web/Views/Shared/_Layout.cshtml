@@ -62,21 +62,24 @@
 </head>
 
 <body ng-app="dCodeApp" class="body" ng-controller="LayoutController">
-    <div style="width:100%;" ng-cloak>
+    <div @*style="width:100%;"*@ ng-cloak>
 
         <div id="suggestionmodel" class="modal fade" role="dialog">
             <div class="modal-dialog">
-                <div class="modal-content col-md-12">
+                <div class="modal-content">
                     <div class="modal-body text-center">
-                        <div class="col-md-12 margin-bottom-25">
+                        <div>
                             <h3>Feedback</h3>
                         </div>
                         <div class="col-md-12 no-padding margin-bottom-25">
                             <lable style="color:green">{{successMessage}}</lable>
                             <lable style="color:red">{{errorMessage}}</lable>
                             <textarea name="Text1" class="form-control col-md-5" rows="3" maxlength="250" placeholder="Tell us how can we improve DCode" ng-model="suggestionValue"></textarea>
+                            <div>
+                                <label class="gray-text" style="font-style:italic;">char limit:250</label>
+                            </div>
                         </div>
-                        <input type="submit" class="review-btn" ng-click="insertSuggestion();" value="Submit" multiple="true">
+                        <input type="submit" class="review-btn" ng-click="insertSuggestion();" value="Submit">
                     </div>
                 </div>
             </div>
@@ -101,8 +104,8 @@
                         {
                             foreach (var menuItem in menuItems)
                             {
-                                <a href="@menuItem.NavigationUrl">
-                                    @if (@tabName == @menuItem.TabName)
+                        <a href="@menuItem.NavigationUrl">
+                            @if (@tabName == @menuItem.TabName)
                                     {
                                         liClass = "active";
                                         spanColor = "color-9acd66";
@@ -112,22 +115,25 @@
                                         liClass = "";
                                         spanColor = "";
                                     }
-                                    <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
-                                        @if (@tabName == @menuItem.TabName)
+                            <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
+                                @if (@menuItem.MenuItemName != "CREATE NEW TASK")
                                         {
-                                            <img src="@menuItem.ImageUrlActive" />
+                                            if (@tabName == @menuItem.TabName)
+                                            {
+                                        <img src="@menuItem.ImageUrlActive" />
+                                            }
+                                            else
+                                            {
+                                        <img src="@menuItem.ImageUrlInactive" />
+                                            }
                                         }
-                                        else
+                                <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
+                                @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
                                         {
-                                            <img src="@menuItem.ImageUrlInactive" />
+                                        <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
                                         }
-                                        <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
-                                        @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
-                                        {
-                                            <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
-                                        }
-                                    </li>
-                                </a>
+                            </li>
+                        </a>
                             }
                         }
                     </ul>
@@ -270,8 +276,5 @@
 
     </script>
 
-    <script type="text/javascript">
-
-    </script>
 </body>
 </html>
