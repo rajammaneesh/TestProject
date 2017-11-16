@@ -70,9 +70,9 @@ namespace DCode.Web.Controllers
             return Json(_contributorService.UpdateHours(approvedApplicantId, hours), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string serviceLine)
+        public JsonResult GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string searchFilter)
         {
-            return Json(_contributorService.GetAllTasks(searchKey, currentPageIndex, recordsCount, serviceLine), JsonRequestBehavior.DenyGet);
+            return Json(_contributorService.GetAllTasks(searchKey, currentPageIndex, recordsCount, searchFilter), JsonRequestBehavior.DenyGet);
         }
 
         public JsonResult GetTaskHistories(int currentPageIndex, int recordsCount)
