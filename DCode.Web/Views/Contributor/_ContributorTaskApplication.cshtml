@@ -4,15 +4,22 @@
 
         <div>
             <div class="form-group skill-search new-style-sai-new-task-background">
-                <div class="input-group search-by-project">
-                    <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </span>
-                </div>
-               <br/>
-                <div class="input-group">
-                    <select class="form-control" id="ddlServiceLine" ng-model="taskSearch.serviceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" ng-change="refreshTasksBasedonInput()"></select>
+                <div>
+                    <div class="new-style-sai-div-33">
+                        <div class="input-group">
+
+                            <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div  class="new-style-sai-div-middle-33">&nbsp;</div>
+                    <div class="new-style-sai-div-33" >
+                        <div class="input-group" style="float:right !important;">
+                            <select @*style="width:250px;"*@ class="form-control" id="ddlServiceLine" ng-model="taskSearch.serviceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" ng-change="refreshTasksBasedonInput()"></select>
+                        </div>
+                    </div>
                 </div>
                 <div style="clear:both"></div>
 
