@@ -12,8 +12,8 @@
             </li>
         </ul>
     </div>
-    <div class="new-style-sai-renderbody-inner">
-        <div class="new-style-sai-main-inner-body">
+    <div class="new-style-DTM-renderbody-inner">
+        <div class="new-style-DTM-main-inner-body">
             <div id="permissionPage">
                 <div style="padding:20px;" ng-show="AssignedDivModel.Visible">
                     <div class="success-banner">
@@ -26,13 +26,13 @@
                     </div>
                 </div>
                 <div style="padding:20px;" ng-show="permissionsVisibility.showFirst">
-                    <div class="new-style-sai-new-task-background">
+                    <div class="new-style-DTM-new-task-background">
                         <h3 class="dark-grey-blue font-size-24">Looks like right now nobody needs your help!</h3>
                         <p class="gray-text">Your project members would reach out to you for approval to work on other project tasks here. You can take appropriate decision to either Approve / Reject a project member's application here.</p>
                         <div>
-                            <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                            <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
-                            <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                            <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                            <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                            <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                         </div>
                     </div>
@@ -54,21 +54,21 @@
                         <br />
                         <br />
                         <div>
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <div class="color-8e44ad heading">{{taskApplicant.Task.ProjectName}}</div>
                                 <div><span class="gray-text margin-left-0">Project Name</span></div>
                             </div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
                                 <div class="gray-text">Billable hours</div>
                             </div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
                                 <div class="gray-text">Start Date</div>
                             </div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <span class="cal-icon"><img src="/Content/Images/serviceLine.png"></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.ServiceLine}}</span>
                                 <div class="gray-text">Service Line</div>
@@ -77,10 +77,10 @@
                         <div style="clear:both;"></div>
                         <div>&nbsp;</div>
                         <div style="width:100%;">
-                            <div class="new-style-sai-review-post-bigger">
+                            <div class="new-style-DTM-review-post-bigger">
                                 &nbsp;
                             </div>
-                            <div class="new-style-sai-review-post-smaller">
+                            <div class="new-style-DTM-review-post-smaller">
                                 <div class="reject-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="RejectTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">REJECT</div>
 
                                 <div class="reject-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerRejected'">REJECT</div>

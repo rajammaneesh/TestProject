@@ -17,10 +17,10 @@
         </div>
     </div>
     <div style="clear:both;"></div>
-    <div class="new-style-sai-renderbody-inner">
-        <div class="new-style-sai-main-inner-body">
+    <div class="new-style-DTM-renderbody-inner">
+        <div class="new-style-DTM-main-inner-body">
             <div style="padding:20px;" ng-show="divVisibiltyModel.showCreate">
-                <div class="new-style-sai-new-task-background">
+                <div class="new-style-DTM-new-task-background">
                     <div>
                         <h3 class="dark-grey-blue font-size-24">Let's start with creating a task!</h3>
                     </div>
@@ -28,15 +28,15 @@
                         <p style="color:darkgrey;">You can create a task as per your project requirement. You can post your task requirement with specific skill set required to complete the task. You can short list the candidates based on the applicant skill set and choose the right resource to accomplish the task.</p>
                     </div>
                     <div>
-                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="showDetailsDiv()">CREATE NEW TASK</div>
-                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                        <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="showDetailsDiv()">CREATE NEW TASK</div>
+                        <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                     </div>
                 </div>
             </div>
             <div style="padding:20px;" ng-show="divVisibiltyModel.showSuccess">
-                <div class="new-style-sai-new-task-background" ng-show="divVisibiltyModel.showSuccess">
+                <div class="new-style-DTM-new-task-background" ng-show="divVisibiltyModel.showSuccess">
                     <div>
                         <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
                     </div>
@@ -49,12 +49,12 @@
                     </div>
                 </div>
             </div>
-            <div ng-show="divVisibiltyModel.showDetails" class="new-style-sai-new-task">
+            <div ng-show="divVisibiltyModel.showDetails" class="new-style-DTM-new-task">
                 <form name="newTaskForm">
-                    <div class="new-style-sai-overall">
+                    <div class="new-style-DTM-overall">
 
                         <div style="width:100%;">
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project Name</span>
                                     <span class="requiredField">*</span>
@@ -64,8 +64,8 @@
                                     <span style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}">add name</span>
                                 </div>
                             </div>
-                            <div class="new-style-sai-space-column">&nbsp;</div>
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
                                     <span class="requiredField">*</span>
@@ -78,8 +78,8 @@
                                     <span class="error">Invalid WBS Code</span>
                                 </div>
                             </div>
-                            <div class="new-style-sai-space-column">&nbsp;</div>
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
                                 <div>
                                     <label for="skilSet" class="task-fld-title font-helveticaNeue-medium heading Recommended-number h3">
                                         Skill Set
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="form-group datepicker">
                                     <div style="width:95%;padding-top:3px;" class="input-group search-wbs-code skill-set" id="taskSkill">
-                                        <div class="new-style-sai-search"
+                                        <div class="new-style-DTM-search"
                                              style="padding-top:0px;position: absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
 
                                             <angucomplete-alt id="skillsetNewTask"
@@ -105,7 +105,7 @@
 
 
                                     </div>
-                                    <div class="new-style-sai-search-button" style="float:right;padding-top:0px;">
+                                    <div class="new-style-DTM-search-button" style="float:right;padding-top:0px;">
                                         <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                     </div>
                                     <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
@@ -114,7 +114,7 @@
                         </div>
                         <div style="clear:both;"></div>
                         <div style="width:100%;">
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Service Line</span>
                                     <span class="requiredField">*</span>
@@ -127,8 +127,8 @@
 
                                 </div>
                             </div>
-                            <div class="new-style-sai-space-column">&nbsp;</div>
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Name</span>
                                     <span class="requiredField">*</span>
@@ -139,14 +139,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="new-style-sai-space-column">&nbsp;</div>
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
                                 &nbsp;
                             </div>
                         </div>
                         <div style="clear:both;"></div>
                         <div style="width:100%;">
-                            <div class="new-style-sai-description">
+                            <div class="new-style-DTM-description">
                                 <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Description</h3>
                                 <div style="width:100%;">
                                     <textarea class="form-control" rows="3" maxlength="255" ng-model="taskRequest.Description" placeholder="Add Description" style="resize:none;"></textarea>
@@ -160,7 +160,7 @@
                         
                         <div style="clear:both;"></div>
                         <div style="width:100%;padding-bottom:30px;">
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Start Date</span>
                                     <span class="requiredField">*</span>
@@ -175,8 +175,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="new-style-sai-space-column">&nbsp;</div>
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Due Date</span>
                                     <span class="requiredField">*</span>
@@ -192,8 +192,8 @@
                                     <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
                                 </div>
                             </div>
-                            <div class="new-style-sai-space-column">&nbsp;</div>
-                            <div class="new-style-sai-main-column">
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Total Hours</span>
                                     <span class="requiredField">*</span>
@@ -211,7 +211,7 @@
                                 <div style="float:left;">
                                     <div class="review-btn font-size-16 cancel link" ng-show="divVisibiltyModel.showCreate" ng-click="cancelClick()">CANCEL</div>
                                 </div>
-                                <div class="new-style-sai-space-column"></div>
+                                <div class="new-style-DTM-space-column"></div>
                                 <div>
                                     <button type="submit" class="review-btn link" ng-click="reviewClick()">REVIEW TASK</button>
                                 </div>
@@ -239,22 +239,22 @@
                     </div>
                     <div style="clear:both;"></div>
                     <div class="heading">
-                        <div class="new-style-sai-tracking-main">
+                        <div class="new-style-DTM-tracking-main">
                             <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
                             <span class="role-desc dark-grey-blue">{{selectedSkillDesc}}</span>
                             <div class="gray-text">Required skills</div>
                         </div>
-                        <div class="new-style-sai-tracking-main">
+                        <div class="new-style-DTM-tracking-main">
                             <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
                             <span class="role-desc dark-grey-blue">{{taskRequest.Hours}} hours</span>
                             <div class="gray-text">Billable hours</div>
                         </div>
-                        <div class="new-style-sai-tracking-main">
+                        <div class="new-style-DTM-tracking-main">
                             <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
                             <span class="role-desc dark-grey-blue">{{onBoardingDateReviewUI}}</span>
                             <div class="gray-text">Start Date</div>
                         </div>
-                        <div class="new-style-sai-tracking-main">
+                        <div class="new-style-DTM-tracking-main">
                             <span class="cal-icon"><img src="/Content/Images/serviceLine.png" /></span>
                             <span class="role-desc dark-grey-blue">{{taskRequest.ServiceLineDisplay}}</span>
                             <div class="gray-text">Service Line</div>
@@ -265,10 +265,10 @@
                             <br />
                         </div>*@
                         <div style="width:100%;height:50px;">
-                            <div class="new-style-sai-review-post-bigger">
+                            <div class="new-style-DTM-review-post-bigger">
                                 &nbsp;
                             </div>
-                            <div class="new-style-sai-review-post-smaller" >
+                            <div class="new-style-DTM-review-post-smaller" >
                                 <div class="review-btn link font-size-16" style="float:left;" ng-click="editClick()">Edit</div>
                                 <div style="float:left;">&nbsp;</div>
                                 <div class="review-btn link font-size-16" style="float:left;" ng-click="upsertTask()">Post Task</div>
