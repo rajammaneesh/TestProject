@@ -10,7 +10,7 @@
                         <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </span>
                 </div>
-               <br/>
+                <br />
                 <div class="input-group">
                     <select class="form-control" id="ddlServiceLine" ng-model="taskSearch.serviceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" ng-change="refreshTasksBasedonInput()"></select>
                 </div>
@@ -19,7 +19,7 @@
             </div>
             <div style="clear:both"></div>
 
-            <div class="new-style-sai-new-task-background" ng-show="(tasksCount < 3) && divVisibiltyModel.showApply">
+            <div class="new-style-sai-new-task-background" ng-show="(tasksCount < 3 && tasksCount > 0 && divVisibiltyModel.showApply && FirstTaskDataLoaded==1) ||(tasksCount==0)">
                 <div>
                     <h3 class="dark-grey-blue font-size-24">Want to apply for more tasks?</h3>
                 </div>

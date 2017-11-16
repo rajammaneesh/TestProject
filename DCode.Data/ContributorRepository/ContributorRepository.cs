@@ -152,7 +152,7 @@ namespace DCode.Data.ContributorRepository
             {
                 query = from item in Context.Set<taskskill>()
                         where ((item.skill.VALUE.Contains(filter)
-                            || item.task.DETAILS.Contains(filter)
+                            || item.task.PROJECT_NAME.Contains(filter)
                            && item.task.STATUS != Enums.TaskStatus.Closed.ToString()))
                         select item;
             }
@@ -161,7 +161,7 @@ namespace DCode.Data.ContributorRepository
             {
                 query = from item in Context.Set<taskskill>()
                         where (((item.skill.VALUE.Contains(filter)
-                            || item.task.DETAILS.Contains(filter))
+                            || item.task.PROJECT_NAME.Contains(filter))
                            && item.task.service_line.ID.ToString().Equals(serviceLine)
                            && item.task.STATUS != Enums.TaskStatus.Closed.ToString()))
                         select item;

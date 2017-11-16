@@ -37,6 +37,7 @@
         $scope.assignedTasksGlobal = null;
         $scope.managersEmailId = "";
         $scope.serviceLines = [];
+        $scope.FirstTaskDataLoaded = -1;
 
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
@@ -160,7 +161,6 @@
                 if (data != null) {
                     data.unshift({ Id: 0, Name: 'All Service Lines', Description: 'All Service Lines' });
                     $scope.serviceLines = data;
-                    console.log(data);
                 }
             }).error(function (error) {
             });
@@ -177,6 +177,16 @@
 
         $scope.getTasksOnSearchClick = function () {
             $scope.refreshTasks();
+        }
+
+        $scope.assignMoreTasksDivVisibility = function () {
+
+            if ($scope.FirstTaskDataLoaded == -1) {
+                $scope.FirstTaskDataLoaded = 1;
+            }
+            else if ($scope.FirstTaskDataLoaded == 1) {
+                $scope.FirstTaskDataLoaded = 0;
+            }
         }
 
         $scope.getTasks = function () {
@@ -197,6 +207,7 @@
                 else {
                     url = "/Contributor/GetAllTasks?currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
                 }
+
                 $http({
                     url: url,
                     method: "POST",
@@ -215,6 +226,8 @@
                                 });
                             }
                             $scope.tasksTotalRecords = data.TotalRecords;
+
+                            $scope.assignMoreTasksDivVisibility();
                         }
                     }
                 }).error(function (error) {
