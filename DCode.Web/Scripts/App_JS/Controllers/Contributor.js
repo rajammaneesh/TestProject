@@ -21,7 +21,7 @@
         $scope.tasksCount = 0;
         $scope.taskApplicantsTotalRecords = 0;
         $scope.searchBox = { text: null };
-        $scope.taskSearch = { text: null, searchFilter: "M" };
+        $scope.taskSearch = { text: null, searchFilter: "R" };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false, showCreate: false };
         $scope.divVisibiltyModel = { showDetails: true, showSummary: true, showSuccess: false, showApply: true };
         $scope.workAgain = [];
@@ -169,7 +169,7 @@
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
 
                 $scope.tasksPageIndex++;
-          
+
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
 
                 var url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
@@ -211,9 +211,9 @@
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
-            //else {
-            //    $("#divManagerEmailId" + index).removeClass("invalid");
-            //}
+                //else {
+                //    $("#divManagerEmailId" + index).removeClass("invalid");
+                //}
             else {
                 //checking email validation
                 //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;

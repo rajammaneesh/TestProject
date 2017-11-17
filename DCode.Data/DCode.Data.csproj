@@ -67,7 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ContributorRepository\ContributorRepository.cs" />
     <Compile Include="ContributorRepository\IContributorRepository.cs" />
     <Compile Include="DbContexts\applicantskill.cs">
