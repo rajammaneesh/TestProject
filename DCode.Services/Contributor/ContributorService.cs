@@ -190,7 +190,7 @@ namespace DCode.Services.Contributor
             return result;
         }
 
-        public TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string serviceLine)
+        public TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string searchFilter)
         {
             var user = _commonService.GetCurrentUserContext();
             var taskList = new TaskResponse();
@@ -199,17 +199,17 @@ namespace DCode.Services.Contributor
             IEnumerable<taskskill> dbTaskSkills;
             IEnumerable<Models.ResponseModels.Task.Task> tasks;
 
-            if (string.IsNullOrEmpty(searchKey)
-                && string.IsNullOrEmpty(serviceLine))
-            {
-                dbTasks = _contributorRepository.GetAllTasks(currentPageIndex, recordsCount, out totalRecords);
-                tasks = _taskModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTasks);
-            }
-            else
-            {
-                dbTaskSkills = _contributorRepository.GetFilteredTasks(searchKey, serviceLine, currentPageIndex, recordsCount, out totalRecords);
-                tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
-            }
+            var serviceLineToSearch = !string.IsNullOrWhiteSpace(searchFilter)
+                && searchFilter == "M" ? user.Department : null;
+
+            var listOfSkills = !string.IsNullOrWhiteSpace(searchFilter)
+                && searchFilter == "R" ? user.SkillSet.Select(x => x.Value)?.ToList()
+                : null;
+
+            dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, searchKey, currentPageIndex, recordsCount, out totalRecords);
+
+            tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
+
             taskList.Tasks = tasks;
             taskList.TotalRecords = totalRecords;
             var dbTaskApplicants = _contributorRepository.GetAppliedTasks(user.UserId);

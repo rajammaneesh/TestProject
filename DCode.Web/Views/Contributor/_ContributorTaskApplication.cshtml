@@ -17,7 +17,7 @@
                     <div class="new-style-DTM-div-middle-33">&nbsp;</div>
                     <div class="new-style-DTM-div-33">
                         <div class="input-group" style="float:right !important;">
-                            <select @*style="width:250px;"*@ class="form-control" id="ddlServiceLine" ng-model="taskSearch.serviceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" ng-change="refreshTasksBasedonInput()"></select>
+                            <select @*style="width:250px;"*@ class="form-control" id="ddlServiceLine" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
                     </div>
                 </div>

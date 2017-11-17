@@ -14,8 +14,11 @@ namespace DCode.Data.ContributorRepository
         int UpdateHours(int approvedApplicantId, int hours);
         IEnumerable<task> GetAllTasks(int currentPageIndex, int recordsCount, out int totalRecords);
         IEnumerable<taskskill> GetTasksBasedOnSkill(string skill, int currentPageIndex, int recordsCount, out int totalRecords);
-        IEnumerable<taskskill> GetFilteredTasks(string filter,string serviceLine, int currentPageIndex, int recordsCount, out int totalRecords);
+        IEnumerable<taskskill> GetFilteredTasks(List<string> skillFilters, string serviceLine, string searchText, int currentPageIndex, int recordsCount, out int totalRecords);
         IEnumerable<approvedapplicant> GetTaskHistories(int userId, int currentPageIndex, int recordsCount, out int totalRecords);
         IEnumerable<approvedapplicant> GetAssignedTask(int userId, int currentPageIndex, int recordsCount, out int totalRecordsCount);
     }
+
+
+
 }
