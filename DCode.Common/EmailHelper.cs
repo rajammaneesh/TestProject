@@ -9,32 +9,34 @@ namespace DCode.Common
     {
         private static LinkedResource inlineDCodeLogo;
         private static LinkedResource inlineDeloitteLogo;
-        public static void SendEmail(string toMailAddress,string ccMailAddress,MailMessage mailMessage)
+        public static void SendEmail(string toMailAddress,string ccMailAddress, MailMessage mailMessage)
         {
             try
             {
-                MailMessage mail = mailMessage;
-                SmtpClient SmtpServer = new SmtpClient(Constants.SmtpDeloitte);
-                mail.From = new MailAddress(ConfigurationManager.AppSettings[Constants.DcodeEmailId]);
-                mail.To.Add(toMailAddress);
-                if (ccMailAddress != null)
+                using (SmtpClient SmtpServer = new SmtpClient(Constants.SmtpDeloitte))
                 {
-                    if (ccMailAddress.Contains(";"))
+                    mailMessage.From = new MailAddress(ConfigurationManager.AppSettings[Constants.DcodeEmailId]);
+                    mailMessage.To.Add(toMailAddress);
+                    if (ccMailAddress != null)
                     {
-                        var listAddresses = ccMailAddress.Split(';');
-                        foreach (var address in listAddresses)
+                        if (ccMailAddress.Contains(";"))
                         {
-                            mail.CC.Add(address);
+                            var listAddresses = ccMailAddress.Split(';');
+                            foreach (var address in listAddresses)
+                            {
+                                mailMessage.CC.Add(address);
+                            }
+                        }
+                        else
+                        {
+                            mailMessage.CC.Add(ccMailAddress);
                         }
                     }
-                    else
-                    {
-                        mail.CC.Add(ccMailAddress);
-                    }
+                    SmtpServer.Port = 25;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
+                    SmtpServer.Send(mailMessage);
+
                 }
-                SmtpServer.Port = 25;
-                SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
-                SmtpServer.Send(mail);
             }
             catch (Exception ex)
             {
@@ -43,22 +45,26 @@ namespace DCode.Common
             }
         }
 
-        public static void SendApproveRejectNotification(string personName, string taskName,string projectName,Enums.EmailType type,string toMailAddress,string ccMailAddress)
+        public static void SendApproveRejectNotification(string personName, string taskName, string projectName, Enums.EmailType type, string toMailAddress, string ccMailAddress)
         {
             var htmlBody = GetEmail();
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
-            var mailMessage = new MailMessage();
-            mailMessage.Subject = Constants.DCodeNotification;
-            mailMessage.IsBodyHtml = true;
-            var mainBody = string.Format(Constants.ApproveRejectBody,taskName,projectName,type.ToString());
-            mailMessage.Body = string.Format(htmlBody, personName, mainBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
-            var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null,Constants.TextOrHtmlFormat);
-            view.LinkedResources.Add(inlineDCodeLogo);
-            view.LinkedResources.Add(inlineDeloitteLogo);
-            mailMessage.AlternateViews.Add(view);
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var mainBody = string.Format(Constants.ApproveRejectBody, taskName, projectName, type.ToString());
+                mailMessage.Body = string.Format(htmlBody, personName, mainBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
 
-            SendEmail(toMailAddress, ccMailAddress,mailMessage);
+                    SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }   
         }
 
         public static void AssignNotification(string personName, string taskName, string projectName,string wbsCode, string toMailAddress, string ccMailAddress)
@@ -66,17 +72,21 @@ namespace DCode.Common
             var htmlBody = GetEmail();
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
-            var mailMessage = new MailMessage();
-            mailMessage.Subject = Constants.DCodeNotification;
-            mailMessage.IsBodyHtml = true;
-            var textBody = string.Format(Constants.AssignBody, taskName, projectName, projectName, wbsCode);
-            mailMessage.Body = string.Format(htmlBody, personName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
-            var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat);
-            view.LinkedResources.Add(inlineDCodeLogo);
-            view.LinkedResources.Add(inlineDeloitteLogo);
-            mailMessage.AlternateViews.Add(view);
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var textBody = string.Format(Constants.AssignBody, taskName, projectName, projectName, wbsCode);
+                mailMessage.Body = string.Format(htmlBody, personName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
 
-            SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                    SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }
         }
 
         public static void ApplyNotification(string managerName, string personName, string taskName, string projectName, string hours, string startDateTime, string toMailAddress, string ccMailAddress)
@@ -84,17 +94,21 @@ namespace DCode.Common
             var htmlBody = GetEmail();
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
-            var mailMessage = new MailMessage();
-            mailMessage.Subject = Constants.DCodeNotification;
-            mailMessage.IsBodyHtml = true;
-            var textBody = string.Format(Constants.ApplyBody, personName, taskName, projectName, hours, startDateTime);
-            mailMessage.Body = string.Format(htmlBody, managerName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
-            var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat);
-            view.LinkedResources.Add(inlineDCodeLogo);
-            view.LinkedResources.Add(inlineDeloitteLogo);
-            mailMessage.AlternateViews.Add(view);
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var textBody = string.Format(Constants.ApplyBody, personName, taskName, projectName, hours, startDateTime);
+                mailMessage.Body = string.Format(htmlBody, managerName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
 
-            SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                    SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }
         }
 
         public static void ReviewNotification(string personName, string taskName, string projectName, string toMailAddress, string ccMailAddress)
@@ -103,17 +117,21 @@ namespace DCode.Common
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
 
-            var mailMessage = new MailMessage();
-            mailMessage.Subject = Constants.DCodeNotification;
-            mailMessage.IsBodyHtml = true;
-            var mainBody = string.Format(Constants.ReviewBody,taskName,projectName);
-            mailMessage.Body = string.Format(htmlBody, personName,mainBody , inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
-            var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat);
-            view.LinkedResources.Add(inlineDCodeLogo);
-            view.LinkedResources.Add(inlineDeloitteLogo);
-            mailMessage.AlternateViews.Add(view);
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var mainBody = string.Format(Constants.ReviewBody, taskName, projectName);
+                mailMessage.Body = string.Format(htmlBody, personName, mainBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
 
-            SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                    SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }
         }
 
         public static string GetEmail()
