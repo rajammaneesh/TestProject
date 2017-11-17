@@ -1,8 +1,8 @@
 ﻿<div  ng-controller="contributorHistoryController" ng-show="dashboard.showHistory">
-    <div id="contHistoryDiv" class="new-style-sai-main-inner-body"  style="padding:20px;">
+    <div id="contHistoryDiv" class="new-style-DTM-main-inner-body"  style="padding:20px;">
         <div class="background-color-ecf0f1" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'
               l>
-            <div class="new-style-sai-new-task-background" ng-show="historyVisibility.showFirst">
+            <div class="new-style-DTM-new-task-background" ng-show="historyVisibility.showFirst">
                 <div>
                     <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
                     <p class="gray-text">
@@ -13,9 +13,9 @@
                 </div>
                 <div> &nbsp;</div>
                 <div>
-                    <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                    <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToApplications()">APPLY FOR A TASK</div>
-                    <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                    <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                    <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToApplications()">APPLY FOR A TASK</div>
+                    <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
                 </div>
             </div>
 
@@ -23,10 +23,10 @@
                 <div ng-repeat="task in tasksHistory">
                     <div>
                         <div>
-                            <div class="new-style-sai-history-proj-small">
+                            <div class="new-style-DTM-history-proj-small">
                                 <span class="heading color-8e44ad">{{task.Task.ProjectName}}</span>
                             </div>
-                            <div class="new-style-sai-history-proj-big">
+                            <div class="new-style-DTM-history-proj-big">
                                 <span class="dark-grey-blue">{{task.Task.TaskName}}</span>
                                 <span class="gray-text">{{task.Task.Duration}}</span>
                             </div>
@@ -34,23 +34,23 @@
                         <div style="clear:both;"></div>
                         <div>&nbsp;</div>
                         <div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <div class="circle-txt">{{task.Applicant.ShortName}}</div>
                                 <div>
                                     <div class="color-8e44ad heading">{{task.Applicant.Name}}</div>
                                 </div>
                             </div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
                                 <span class="role-desc dark-grey-blue">{{task.Task.Hours}}</span>
                                 <div class="gray-text">Billable hours</div>
                             </div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
                                 <span class="role-desc dark-grey-blue">{{task.Task.OnBoardingDate}}</span>
                                 <div class="gray-text">Start Date</div>
                             </div>
-                            <div class="new-style-sai-tracking-main heading">
+                            <div class="new-style-DTM-tracking-main heading">
                                 <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
                                 <span class="role-desc dark-grey-blue">{{task.Task.DueDate}}</span>
                                 <div class="gray-text">Due Date</div>

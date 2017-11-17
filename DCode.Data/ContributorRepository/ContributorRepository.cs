@@ -124,47 +124,32 @@ namespace DCode.Data.ContributorRepository
             return Context.SaveChanges();
         }
 
-        public IEnumerable<taskskill> GetFilteredTasks(string filter,
+        public IEnumerable<taskskill> GetFilteredTasks(List<string> skillFilters,
             string serviceLine,
+            string searchText,
             int currentPageIndex,
             int recordsCount,
             out int totalRecords)
         {
             IQueryable<taskskill> query = null;
 
-            if (string.IsNullOrWhiteSpace(serviceLine)
-                && string.IsNullOrWhiteSpace(filter))
+            query = Context.Set<taskskill>()
+                .Where(x => x.task.STATUS != Enums.TaskStatus.Closed.ToString());
+
+            if (skillFilters != null && skillFilters.Any())
             {
-                throw new InvalidOperationException("Both serviceLine and filters cannot be empty");
+                query = query.Where(x => skillFilters.Contains(x.skill.VALUE));
             }
 
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                query = query.Where(x => x.skill.VALUE.Contains(searchText)
+                             || x.task.PROJECT_NAME.Contains(searchText));
+            }
 
-            if (!string.IsNullOrWhiteSpace(serviceLine)
-               && string.IsNullOrWhiteSpace(filter))
+            if (!string.IsNullOrEmpty(serviceLine))
             {
-                query = from item in Context.Set<taskskill>()
-                        where ((item.task.STATUS != Enums.TaskStatus.Closed.ToString())
-                           && item.task.service_line.ID.ToString().Equals(serviceLine))
-                        select item;
-            }
-            else if (string.IsNullOrWhiteSpace(serviceLine)
-                && !string.IsNullOrWhiteSpace(filter))
-            {
-                query = from item in Context.Set<taskskill>()
-                        where ((item.skill.VALUE.Contains(filter)
-                            || item.task.PROJECT_NAME.Contains(filter)
-                           && item.task.STATUS != Enums.TaskStatus.Closed.ToString()))
-                        select item;
-            }
-            else if (!string.IsNullOrWhiteSpace(serviceLine)
-                && !string.IsNullOrWhiteSpace(filter))
-            {
-                query = from item in Context.Set<taskskill>()
-                        where (((item.skill.VALUE.Contains(filter)
-                            || item.task.PROJECT_NAME.Contains(filter))
-                           && item.task.service_line.ID.ToString().Equals(serviceLine)
-                           && item.task.STATUS != Enums.TaskStatus.Closed.ToString()))
-                        select item;
+                query = query.Where(x => x.task.service_line.Name.ToString().Equals(serviceLine));
             }
 
             query.Include(x => x.skill).Load();

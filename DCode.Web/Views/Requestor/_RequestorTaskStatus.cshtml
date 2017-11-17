@@ -1,5 +1,5 @@
 ﻿<div ng-show="dashboard.showTaskStatus">
-    <div id="trackStatusContainer" class="new-style-sai-main-inner-body" style="padding:20px;">
+    <div id="trackStatusContainer" class="new-style-DTM-main-inner-body" style="padding:20px;">
 
         <div ng-show="ReviewedDivModel.Visible">
             <div id="divReviewSuccess" class="success-banner">
@@ -9,7 +9,7 @@
         <div class="background-color-ecf0f1" infinite-scroll='getStatusOftasks()' infinite-scroll-distance='0'
              infinite-scroll-container="'#trackStatusContainer'">
             <div ng-show="taskStatusVisibility.showFirst">
-                <div class="new-style-sai-new-task-background">
+                <div class="new-style-DTM-new-task-background">
                     <div class="dark-grey-blue font-size-24">You do not have any tasks running!</div>
                     <div class="dark-gray-text">
                         <p class="gray-text">
@@ -21,9 +21,9 @@
                         <br />
                     </div>
                     <div>
-                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
-                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                        <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                        <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                     </div>
                 </div>
@@ -31,25 +31,25 @@
 
             <div class="project-details" ng-repeat="taskStatus in taskStatuses">
                 <div>
-                    <div class="new-style-sai-tracking-main-20">
+                    <div class="new-style-DTM-tracking-main-20">
                         <div>
                             <div class="circle-txt-60">{{taskStatus.Applicant.ShortName}}</div>
                         </div>
                     </div>
-                    <div class="new-style-sai-tracking-main-20">
+                    <div class="new-style-DTM-tracking-main-20">
                         <div>
                             <span class="heading color-8e44ad">{{taskStatus.Applicant.Name}}</span>
                             <span class="dark-grey-blue">for </span><span class="heading color-8e44ad">{{taskStatus.Task.ProjectName}}</span>
 
                         </div>
                     </div>
-                    <div class="new-style-sai-tracking-main-20">
+                    <div class="new-style-DTM-tracking-main-20">
                         <div>
                             <div class="dark-grey-blue">{{taskStatus.Applicant.Expertise}}</div>
                             <div class="gray-text">{{taskStatus.Duration}} days ago</div>
                         </div>
                     </div>
-                    <div class="new-style-sai-tracking-main-20">
+                    <div class="new-style-DTM-tracking-main-20">
                         <div class="heading font-size-20">{{taskStatus.Applicant.CompletedHours == null ? 0 : taskStatus.Applicant.CompletedHours}} <span class="color-95a5a6">of {{taskStatus.Task.Hours}} hrs.</span></div>
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="0"
@@ -57,7 +57,7 @@
                         </div>
                         <div class="gray-text">Hours Completed</div>
                     </div>
-                    <div class="new-style-sai-tracking-main-20" style="text-align:center;">
+                    <div class="new-style-DTM-tracking-main-20" style="text-align:center;">
                         <div ng-click="showReviewOptions($index);" ng-hide="taskStatus.ProgressWidth<100">
                             <button class="review-btn" type="button" ng-click="reviewApplicant(taskStatus.Task , taskStatus.Applicant, taskStatus.ApprovedApplicantId)">CLOSE</button>
                         </div>

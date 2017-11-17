@@ -21,7 +21,7 @@
         $scope.tasksCount = 0;
         $scope.taskApplicantsTotalRecords = 0;
         $scope.searchBox = { text: null };
-        $scope.taskSearch = { text: null, serviceLine: 0 };
+        $scope.taskSearch = { text: null, searchFilter: "M" };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false, showCreate: false };
         $scope.divVisibiltyModel = { showDetails: true, showSummary: true, showSuccess: false, showApply: true };
         $scope.workAgain = [];
@@ -36,8 +36,9 @@
         $scope.assignedTasks = null;
         $scope.assignedTasksGlobal = null;
         $scope.managersEmailId = "";
-        $scope.serviceLines = [];
-        $scope.FirstTaskDataLoaded = -1;
+        $scope.searchFilters = [{ Id: "M", Description: "My Service Line" },
+        { Id: "R", Description: "Recommended Tasks" },
+        { Id: "A", Description: "All Service Lines" }];
 
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
@@ -76,7 +77,7 @@
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
             //document.getElementById('divManagerEmailId' + index).get(0).focus();
-            setTimeout(function () { $('#divManagerEmailId' + index).focus() }, 1);
+            setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
             //$location.hash('div' + index);
 
         };
@@ -151,21 +152,6 @@
             }
         }
 
-        $scope.getAllServiceLines = function () {
-            var reqObj = $scope.task;
-            $http({
-                url: "/Common/GetServiceLines",
-                method: "GET"
-            }).success(function (data, status, config) {
-
-                if (data != null) {
-                    data.unshift({ Id: 0, Name: 'All Service Lines', Description: 'All Service Lines' });
-                    $scope.serviceLines = data;
-                }
-            }).error(function (error) {
-            });
-        }
-
         $scope.reinitialiseVariables = function () {
             $scope.tasksPageIndex = 0;
             $scope.tasks = null;
@@ -191,22 +177,13 @@
 
         $scope.getTasks = function () {
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
+
                 $scope.tasksPageIndex++;
-                var url = null;
-                if ($scope.taskSearch.text != null
-                    || ($scope.taskSearch.serviceLine != null
-                        && $scope.taskSearch.serviceLine != 0)) {
+          
+                var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
 
-                    var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
-
-                    var serviceLine = $scope.taskSearch.serviceLine != '0' ? $scope.taskSearch.serviceLine : '';
-
-                    url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
-                    + "&serviceLine=" + serviceLine;
-                }
-                else {
-                    url = "/Contributor/GetAllTasks?currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
-                }
+                var url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
+                 + "&searchFilter=" + $scope.taskSearch.searchFilter;
 
                 $http({
                     url: url,
@@ -240,43 +217,81 @@
             $scope.getTasks();
         }
 
-        $scope.applyTask = function (task, managersEmailID, statementOfPurpose) {
-
-            var managerEmailAddress = "";
-            if (managersEmailID != null && managersEmailID != "") {
-                managerEmailAddress = managersEmailID;
+        $scope.ValidatePermissionDetails = function (index) {
+            var isValid = true;
+            if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null) {
+                $("#divManagerEmailId" + index).addClass("invalid");
+                isValid = false;
             }
-            $http({
-                url: "/Contributor/ApplyTask",
-                method: "POST",
-                data: {
-                    taskId: task.Id,
-                    emailAddress: managerEmailAddress,
-                    statementOfPurpose: statementOfPurpose
+            //else {
+            //    $("#divManagerEmailId" + index).removeClass("invalid");
+            //}
+            else {
+                //checking email validation
+                //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
+                if (!re.test($("#txtManagerEmailId" + index).val())) {
+                    $("#divManagerEmailId" + index).addClass("invalid");
+                    isValid = false;
                 }
-            }).success(function (data, status, headers, config) {
-                if (data != undefined) {
-                    if (data != null && data > 0) {
+                else {
+                    $("#divManagerEmailId" + index).removeClass("invalid");
+                }
+            }
+            if ($("#txtSOP" + index).val() == "" || $("#txtSOP" + index).val() == null) {
+                $("#divSOP" + index).addClass("invalid");
+                isValid = false;
+            }
+            else {
+                $("#divSOP" + index).removeClass("invalid");
+            }
+            return isValid;
+        };
 
-                        $scope.taskRequest =
-                            {
-                                TaskName: task.TaskName,
-                                ProjectName: task.ProjectName,
-                                Hours: task.Hours,
-                                StartingDate: task.OnBoardingDate
-                            }
+        $('#txtCompletedHrs').keydown(function (e) {
+            var order = e.which;
+            if (order == 187 || order == 189 || order == 69) {
+                return false;
+            };
+        });
 
-                        $scope.divVisibiltyModel.showSuccess = true;
-                        $scope.divVisibiltyModel.showSummary = false;
-                        $scope.refreshTasks();
-                        //$location.hash('divCongrats');
-                        $('#divCongrats').modal('show');
+        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal) {
+            if ($scope.ValidatePermissionDetails(indexVal)) {
+                var managerEmailAddress = "";
+                if (managersEmailID != null && managersEmailID != "") {
+                    managerEmailAddress = managersEmailID;
+                }
+                $http({
+                    url: "/Contributor/ApplyTask",
+                    method: "POST",
+                    data: {
+                        taskId: task.Id,
+                        emailAddress: managerEmailAddress,
+                        statementOfPurpose: statementOfPurpose
                     }
-                }
+                }).success(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        if (data != null && data > 0) {
 
-            }).error(function (error) {
-            });
+                            $scope.taskRequest =
+                                {
+                                    TaskName: task.TaskName,
+                                    ProjectName: task.ProjectName,
+                                    Hours: task.Hours,
+                                    StartingDate: task.OnBoardingDate
+                                }
 
+                            $scope.divVisibiltyModel.showSuccess = true;
+                            $scope.divVisibiltyModel.showSummary = false;
+                            $scope.refreshTasks();
+                            //$location.hash('divCongrats');
+                            $('#divCongrats').modal('show');
+                        }
+                    }
+
+                }).error(function (error) {
+                });
+            }
         }
 
         $scope.cancelPermission = function () {
@@ -289,7 +304,6 @@
         $scope.onLoad = function () {
             //$scope.getTasks();
             //$scope.getAssignedTasks();
-            $scope.getAllServiceLines();
         }
         $scope.onLoad();
 

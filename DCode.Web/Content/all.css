@@ -135,7 +135,7 @@ html {
     margin: 20px 0 20px 0;
 }
 
-.left-menu .active:after {
+.left-menu .active-side-nav:after {
     content: " ";
     width: 19px;
     height: 19px;
@@ -1475,53 +1475,53 @@ input.edit-task-btn.width110 {
     width: auto !important;
 }
 
-.new-style-sai-overall {
+.new-style-DTM-overall {
     width: 100%;
     background-color: white;
     padding-left: 20px;
     height: 100%;
 }
 
-.new-style-sai-main-column {
+.new-style-DTM-main-column {
     width: 30%;
     float: left;
 }
 
-.new-style-sai-main-column-bigger {
+.new-style-DTM-main-column-bigger {
     width: 40%;
     float: left;
 }
 
-.new-style-sai-space-column {
+.new-style-DTM-space-column {
     width: 3%;
     float: left;
 }
 
-.new-style-sai-description {
+.new-style-DTM-description {
     width: 96%;
     padding-bottom: 30px;
 }
 
-.new-style-sai-search {
+.new-style-DTM-search {
     width: 95%;
     float: left;
     padding-top: 5px;
 }
 
-.new-style-sai-search-button {
+.new-style-DTM-search-button {
     width: 10%;
     float: left;
     padding-top: 5px;
 }
 
-.new-style-sai-new-task-background {
+.new-style-DTM-new-task-background {
     width: 100%;
     background: white;
     padding: 20px;
     text-align: center;
 }
 
-.new-style-sai-create-new-task-btn {
+.new-style-DTM-create-new-task-btn {
     border-radius: 100px;
     background-color: #ffffff;
     border: solid 2px #8e44ad;
@@ -1533,38 +1533,38 @@ input.edit-task-btn.width110 {
     /*margin-left: 300px;*/
 }
 
-.new-style-sai-create-btn-side {
-    width: 38%;
+.new-style-DTM-create-btn-side {
+    width: 33%;
     float: left;
 }
 
-.new-style-sai-create-btn-side-bottom {
-    width: 38%;
+.new-style-DTM-create-btn-side-bottom {
+    width: 33%;
 }
 
-.new-style-sai-create-btn-center {
-    width: 25%;
+.new-style-DTM-create-btn-center {
+    width: 33%;
     float: left;
 }
 
-.new-style-sai-new-task {
+.new-style-DTM-new-task {
     padding: 20px;
     min-height: 200px;
 }
 
-.new-style-sai-tracking-main {
+.new-style-DTM-tracking-main {
     float: left;
     width: 25%;
     text-align: left;
 }
 
-.new-style-sai-tracking-main-20 {
+.new-style-DTM-tracking-main-20 {
     float: left;
     width: 20%;
     text-align: left;
 }
 
-.new-style-sai-response-txt {
+.new-style-DTM-response-txt {
     font-family: HelveticaNeue-Medium;
     font-size: 16px;
     font-weight: 500;
@@ -1574,25 +1574,25 @@ input.edit-task-btn.width110 {
     cursor: pointer;
 }
 
-.new-style-sai-layout-main-content {
+.new-style-DTM-layout-main-content {
     width: 15%;
     height: 170px;
     float: left;
 }
 
-.new-style-sai-layout-left-menu {
+.new-style-DTM-layout-left-menu {
     width: 18%;
     float: left;
     height: 100vh;
 }
 
-.new-style-sai-layout-renderbody {
+.new-style-DTM-layout-renderbody {
     width: 82%;
     float: left;
     height: 100vh !important;
 }
 
-.new-style-sai-layout-mobile-menu {
+.new-style-DTM-layout-mobile-menu {
     width: 100%;
     background: white;
     height: 50px;
@@ -1600,13 +1600,13 @@ input.edit-task-btn.width110 {
     display: none;
 }
 
-.new-style-sai-renderbody-inner {
+.new-style-DTM-renderbody-inner {
     min-height: 100vh;
     /*overflow-y: scroll;
     overflow-x: hidden;*/
 }
 
-.new-style-sai-layout-logo {
+.new-style-DTM-layout-logo {
     height: 140px;
     background: white;
     width: 100%;
@@ -1614,30 +1614,30 @@ input.edit-task-btn.width110 {
     padding-top: 10px;
 }
 
-.new-style-sai-layout-logo-image {
+.new-style-DTM-layout-logo-image {
     height: 130px;
     width: 260px;
 }
 
 
-.new-style-sai-dashboard-menu {
+.new-style-DTM-dashboard-menu {
     padding-left: 20px;
     width: 75%;
     float: left;
 }
 
-.new-style-sai-dashboard-menu-search {
+.new-style-DTM-dashboard-menu-search {
     width: 25%;
     float: left;
 }
 
-.new-style-sai-dashboard-menu-items {
+.new-style-DTM-dashboard-menu-items {
     /*width: 33%;*/
     float: left;
 }
 
 
-.new-style-sai-post-task-btn {
+.new-style-DTM-post-task-btn {
     width: 180px;
     padding: 0px 0px;
     border-radius: 100px;
@@ -1646,105 +1646,105 @@ input.edit-task-btn.width110 {
     text-align: center;
 }
 
-    .new-style-sai-post-task-btn:hover {
+    .new-style-DTM-post-task-btn:hover {
         background-color: #8e44ad;
         color: white;
     }
 
-.new-style-sai-review-post-bigger {
+.new-style-DTM-review-post-bigger {
     width: 70%;
     float: left;
 }
 
-.new-style-sai-review-post-smaller {
+.new-style-DTM-review-post-smaller {
     width: 30%;
     float: left;
 }
 
-.new-style-sai-main-inner-body {
+.new-style-DTM-main-inner-body {
     width: 100%;
     max-height: 68vh;
     overflow-y: scroll;
 }
 
-.new-style-sai-history-proj-small {
+.new-style-DTM-history-proj-small {
     float: left;
     width: 15%;
 }
 
-.new-style-sai-history-proj-big {
+.new-style-DTM-history-proj-big {
     float: left;
     width: 30%;
 }
 
-.new-style-sai-visibility {
+.new-style-DTM-visibility {
     display: none;
 }
 
-.new-style-sai-20-div {
+.new-style-DTM-20-div {
     width: 33%;
     float: left;
 }
 
-.new-style-sai-profile-columns {
+.new-style-DTM-profile-columns {
     width: 50%;
     float: left;
 }
 
-.new-style-sai-profile-border {
+.new-style-DTM-profile-border {
     width: 20%;
     float: left;
 }
 
-.new-style-sai-profile-center {
+.new-style-DTM-profile-center {
     float: left;
     width: 60%;
     text-align: center;
 }
 
-.new-style-sai-profile-height {
+.new-style-DTM-profile-height {
     height: 70vh;
 }
 
-.new-style-sai-profile-main-inner-body {
+.new-style-DTM-profile-main-inner-body {
     width: 100%;
     max-height: 75vh;
     overflow-y: scroll;
 }
 
-.new-style-sai-inner-headings {
+.new-style-DTM-inner-headings {
     text-align: left;
     padding-left: 30px;
 }
 
-.new-style-sai-inner-inputs {
+.new-style-DTM-inner-inputs {
     padding-left: 30px;
 }
 
-.new-style-sai-inner-search {
+.new-style-DTM-inner-search {
     float: left;
     width: 88%;
 }
 
-.new-style-sai-div-33 {
+.new-style-DTM-div-33 {
     float: left;
     width: 33%;
 }
 
-.new-style-sai-div-middle-33 {
+.new-style-DTM-div-middle-33 {
     float: left;
     width: 33%;
 }
 
-.new-style-sai-padding-top-40 {
+.new-style-DTM-padding-top-40 {
     padding-top: 45px;
 }
 
-.new-style-sai-text-center {
+.new-style-DTM-text-center {
     text-align: center;
 }
 
-.new-sai-style-left-nav-circle-txt-ProjectName {
+.new-DTM-style-left-nav-circle-txt-ProjectName {
     /*padding: 25px;*/
     text-transform: uppercase;
     font-weight: bold;
@@ -1752,103 +1752,103 @@ input.edit-task-btn.width110 {
     font-size: 20px;
 }
 
-.new-style-sai-div-75 {
+.new-style-DTM-div-75 {
     width: 75%;
     float: left;
 }
 
-.new-style-sai-padding-no-bottom-20 {
+.new-style-DTM-padding-no-bottom-20 {
     padding-left: 20px;
     padding-top: 20px;
     padding-right: 20px;
 }
 
-.new-style-sai-padding-no-left-right-20 {
+.new-style-DTM-padding-no-left-right-20 {
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.new-style-sai-padding-no-left-right-top-20 {
+.new-style-DTM-padding-no-left-right-top-20 {
     padding-bottom: 20px;
 }
 
-.new-style-sai-padding-left-profile-shortName {
+.new-style-DTM-padding-left-profile-shortName {
     padding-left: 80px;
 }
 
 /*@media only screen and (min-width:1024px) and (max-width:1024px) {
 
-    .new-style-sai-main-inner-body {
+    .new-style-DTM-main-inner-body {
         width: 100%;
         max-height: 85vh;
         overflow-y: scroll;
     }
 
-    .new-style-sai-review-post-bigger {
+    .new-style-DTM-review-post-bigger {
         width: 40%;
         float: left;
     }
 
-    .new-style-sai-create-btn-side {
+    .new-style-DTM-create-btn-side {
         width: 27%;
         float: left;
     }
 
-    .new-style-sai-create-btn-side-bottom {
+    .new-style-DTM-create-btn-side-bottom {
         width: 27%;
     }
 
-    .new-style-sai-create-btn-center {
+    .new-style-DTM-create-btn-center {
         width: 46%;
         float: left;
     }
 
-    /*.new-style-sai-review-post-bigger {
+    /*.new-style-DTM-review-post-bigger {
         width: 40%;
         float: left;
     }
 
-    .new-style-sai-review-post-smaller {
+    .new-style-DTM-review-post-smaller {
         width: 60%;
         float: left;
     }
 
-    .new-style-sai-layout-left-menu {
+    .new-style-DTM-layout-left-menu {
         width: 25%;
         float: left;
         height: 100vh;
     }
 
-    .new-style-sai-layout-renderbody {
+    .new-style-DTM-layout-renderbody {
         width: 75%;
         float: left;
         height: 100vh !important;
     }
 
-    .new-style-sai-main-column {
+    .new-style-DTM-main-column {
         width: 100%;
         float: none;
         padding-top: 10px;
     }
 
-    .new-style-sai-main-column-bigger {
+    .new-style-DTM-main-column-bigger {
         width: 100%;
         float: none;
         padding-top: 10px;
     }
 
-    .new-style-sai-overall {
+    .new-style-DTM-overall {
         width: 100%;
         background-color: white;
         padding-left: 20px;
         padding-right: 20px;
         height: 100%;
     }
-     .new-style-sai-dashboard-menu-search {
+     .new-style-DTM-dashboard-menu-search {
         width: 100%;
         float: none;
     }
-     .new-style-sai-dashboard-menu {
+     .new-style-DTM-dashboard-menu {
         padding-left: 0px;
         width: 100%;
         float: none;
@@ -1857,52 +1857,52 @@ input.edit-task-btn.width110 {
 
 
 @media only screen and (min-width:768px) and (max-width:1024px) {
-    .new-style-sai-padding-left-profile-shortName {
+    .new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
     }
 
-    .new-style-sai-div-middle-33 {
+    .new-style-DTM-div-middle-33 {
         display: none;
     }
 
-    .new-style-sai-tracking-main-20 {
+    .new-style-DTM-tracking-main-20 {
         float: none;
         width: 100%;
         text-align: center;
         padding-top: 10px;
     }
 
-    .new-style-sai-space-column {
+    .new-style-DTM-space-column {
         width: 100%;
         float: none;
         display: none;
     }
 
-    .new-style-sai-padding-no-left-right-top-20 {
+    .new-style-DTM-padding-no-left-right-top-20 {
         padding-bottom: 0px;
     }
 
-    .new-style-sai-padding-no-left-right-20 {
+    .new-style-DTM-padding-no-left-right-20 {
         padding-top: 0px;
         padding-bottom: 20px;
     }
 
-    .new-style-sai-tracking-main {
+    .new-style-DTM-tracking-main {
         float: none;
         width: 100%;
         text-align: center;
     }
 
-    .new-style-sai-div-75 {
+    .new-style-DTM-div-75 {
         width: 100%;
         float: none;
     }
 
-    .new-style-sai-padding-top-40 {
+    .new-style-DTM-padding-top-40 {
         padding-top: 0px;
     }
 
-    .new-style-sai-div-33 {
+    .new-style-DTM-div-33 {
         float: none;
         width: 98%;
         text-align: center;
@@ -1910,113 +1910,113 @@ input.edit-task-btn.width110 {
         padding-left: 1px;
     }
 
-    .new-style-sai-inner-search {
+    .new-style-DTM-inner-search {
         float: left;
         width: 83%;
     }
 
-    .new-style-sai-inner-inputs {
+    .new-style-DTM-inner-inputs {
         padding: 10px;
     }
 
-    .new-style-sai-inner-headings {
+    .new-style-DTM-inner-headings {
         text-align: center;
         padding: 0px;
     }
 
-    .new-style-sai-profile-main-inner-body {
+    .new-style-DTM-profile-main-inner-body {
         width: 100%;
         max-height: 75vh;
         overflow-y: scroll;
     }
 
-    .new-style-sai-profile-height {
+    .new-style-DTM-profile-height {
         height: 80vh;
     }
 
-    .new-style-sai-profile-border {
+    .new-style-DTM-profile-border {
         width: 0%;
         float: none;
     }
 
-    .new-style-sai-profile-center {
+    .new-style-DTM-profile-center {
         float: none;
         width: 100%;
         text-align: center;
     }
 
-    .new-style-sai-profile-columns {
+    .new-style-DTM-profile-columns {
         width: 100%;
         float: none;
         text-align: center;
     }
 
-    .new-style-sai-visibility {
+    .new-style-DTM-visibility {
         display: block;
     }
 
-    .new-style-sai-history-proj-small {
+    .new-style-DTM-history-proj-small {
         float: left;
         width: 50%;
     }
 
-    .new-style-sai-history-proj-big {
+    .new-style-DTM-history-proj-big {
         float: right;
         width: 50%;
     }
 
-    .new-style-sai-dashboard-menu-search {
+    .new-style-DTM-dashboard-menu-search {
         width: 100%;
         float: none;
     }
 
-    .new-style-sai-dashboard-menu {
+    .new-style-DTM-dashboard-menu {
         padding-left: 0px;
         width: 100%;
         float: none;
     }
 
-    .new-style-sai-main-inner-body {
+    .new-style-DTM-main-inner-body {
         width: 100%;
         max-height: 80vh;
         overflow-y: scroll;
     }
 
-    .new-style-sai-review-post-bigger {
+    .new-style-DTM-review-post-bigger {
         width: 40%;
         float: left;
     }
 
-    .new-style-sai-review-post-smaller {
+    .new-style-DTM-review-post-smaller {
         width: 60%;
         float: left;
     }
 
-    .new-style-sai-layout-left-menu {
+    .new-style-DTM-layout-left-menu {
         width: 25%;
         float: left;
         height: 100vh;
     }
 
-    .new-style-sai-layout-renderbody {
+    .new-style-DTM-layout-renderbody {
         width: 75%;
         float: left;
         height: 100vh !important;
     }
 
-    .new-style-sai-main-column {
+    .new-style-DTM-main-column {
         width: 100%;
         float: none;
         padding-top: 10px;
     }
 
-    .new-style-sai-main-column-bigger {
+    .new-style-DTM-main-column-bigger {
         width: 100%;
         float: none;
         padding-top: 10px;
     }
 
-    .new-style-sai-overall {
+    .new-style-DTM-overall {
         width: 100%;
         background-color: white;
         padding-left: 20px;
@@ -2024,55 +2024,55 @@ input.edit-task-btn.width110 {
         height: 100%;
     }
 
-    .new-style-sai-create-btn-side {
+    .new-style-DTM-create-btn-side {
         width: 20%;
         float: left;
     }
 
-    .new-style-sai-create-btn-side-bottom {
+    .new-style-DTM-create-btn-side-bottom {
         width: 20%;
     }
 
-    .new-style-sai-create-btn-center {
+    .new-style-DTM-create-btn-center {
         width: 60%;
         float: left;
     }
 }
 
 @media only screen and (min-width:320px) and (max-width:767px) {
-    .new-style-sai-padding-left-profile-shortName {
+    .new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
     }
-    .new-style-sai-div-middle-33 {
+    .new-style-DTM-div-middle-33 {
         display: none;
     }
 
-    .new-style-sai-tracking-main-20 {
+    .new-style-DTM-tracking-main-20 {
         float: none;
         width: 100%;
         text-align: center;
         padding-top: 10px;
     }
 
-    .new-style-sai-padding-no-left-right-top-20 {
+    .new-style-DTM-padding-no-left-right-top-20 {
         padding-bottom: 0px;
     }
 
-    .new-style-sai-padding-no-left-right-20 {
+    .new-style-DTM-padding-no-left-right-20 {
         padding-top: 0px;
         padding-bottom: 20px;
     }
 
-    .new-style-sai-div-75 {
+    .new-style-DTM-div-75 {
         width: 100%;
         float: none;
     }
 
-    .new-style-sai-padding-top-40 {
+    .new-style-DTM-padding-top-40 {
         padding-top: 0px;
     }
 
-    .new-style-sai-div-33 {
+    .new-style-DTM-div-33 {
         float: none;
         width: 98%;
         text-align: center;
@@ -2080,155 +2080,155 @@ input.edit-task-btn.width110 {
         padding-left: 10px;
     }
 
-    .new-style-sai-inner-search {
+    .new-style-DTM-inner-search {
         float: left;
         width: 83%;
     }
 
-    .new-style-sai-inner-inputs {
+    .new-style-DTM-inner-inputs {
         padding: 10px;
     }
 
-    .new-style-sai-inner-headings {
+    .new-style-DTM-inner-headings {
         text-align: center;
         padding: 0px;
     }
 
-    .new-style-sai-profile-main-inner-body {
+    .new-style-DTM-profile-main-inner-body {
         width: 100%;
         max-height: 75vh;
         overflow-y: scroll;
     }
 
-    .new-style-sai-profile-height {
+    .new-style-DTM-profile-height {
         height: 70vh;
     }
 
-    .new-style-sai-profile-border {
+    .new-style-DTM-profile-border {
         width: 0%;
         float: none;
     }
 
-    .new-style-sai-profile-center {
+    .new-style-DTM-profile-center {
         float: none;
         width: 100%;
         text-align: center;
     }
 
-    .new-style-sai-profile-columns {
+    .new-style-DTM-profile-columns {
         width: 100%;
         float: none;
         text-align: center;
     }
 
-    .new-style-sai-visibility {
+    .new-style-DTM-visibility {
         display: block;
     }
 
-    .new-style-sai-history-proj-small {
+    .new-style-DTM-history-proj-small {
         float: left;
         width: 50%;
     }
 
-    .new-style-sai-history-proj-big {
+    .new-style-DTM-history-proj-big {
         float: right;
         width: 50%;
     }
 
-    .new-style-sai-main-inner-body {
+    .new-style-DTM-main-inner-body {
         width: 100%;
         max-height: 80vh;
         overflow-y: scroll;
     }
 
-    .new-style-sai-review-post-bigger {
+    .new-style-DTM-review-post-bigger {
         width: 20%;
         float: left;
     }
 
-    .new-style-sai-review-post-smaller {
+    .new-style-DTM-review-post-smaller {
         width: 80%;
         float: left;
     }
 
-    .new-style-sai-post-task-btn {
+    .new-style-DTM-post-task-btn {
         width: 150px;
         padding: 5px 15px;
     }
 
-    .new-style-sai-dashboard-menu-items {
+    .new-style-DTM-dashboard-menu-items {
         width: 33%;
         float: left;
     }
 
-    .new-style-sai-dashboard-menu-search {
+    .new-style-DTM-dashboard-menu-search {
         width: 100%;
         float: none;
     }
 
-    .new-style-sai-dashboard-menu {
+    .new-style-DTM-dashboard-menu {
         padding-left: 0px;
         width: 100%;
         float: none;
     }
 
-    /*.new-style-sai-dashboard-menu-search {
+    /*.new-style-DTM-dashboard-menu-search {
         width: 100%;
         float: none;
     }*/
 
-    .new-style-sai-renderbody-inner {
+    .new-style-DTM-renderbody-inner {
         max-height: 100vh;
         /*overflow-y: scroll;
         overflow-x: hidden;*/
         /*background:black;*/
     }
 
-    .new-style-sai-layout-logo {
+    .new-style-DTM-layout-logo {
         padding-left: 10px;
         height: 100px;
     }
 
-    .new-style-sai-layout-logo-image {
+    .new-style-DTM-layout-logo-image {
         height: 90px;
         width: 180px;
     }
 
-    .new-style-sai-tracking-main {
+    .new-style-DTM-tracking-main {
         float: none;
         width: 100%;
         text-align: center;
     }
 
-    .new-style-sai-main-column {
+    .new-style-DTM-main-column {
         width: 100%;
         float: none;
         padding-top: 10px;
     }
 
-    .new-style-sai-main-column-bigger {
+    .new-style-DTM-main-column-bigger {
         width: 100%;
         float: none;
         padding-top: 10px;
     }
 
-    .new-style-sai-new-task {
+    .new-style-DTM-new-task {
         padding: 20px;
         padding-top: 10px;
     }
 
-    .new-style-sai-description {
+    .new-style-DTM-description {
         width: 100%;
         padding-bottom: 30px;
     }
 
-    .new-style-sai-space-column {
+    .new-style-DTM-space-column {
         width: 100%;
         float: none;
         display: none;
     }
 
-    .new-style-sai-overall {
+    .new-style-DTM-overall {
         width: 100%;
         background-color: white;
         padding-left: 20px;
@@ -2236,38 +2236,38 @@ input.edit-task-btn.width110 {
         height: 100%;
     }
 
-    .new-style-sai-create-btn-side {
+    .new-style-DTM-create-btn-side {
         width: 15%;
         float: left;
     }
 
-    .new-style-sai-create-btn-side-bottom {
+    .new-style-DTM-create-btn-side-bottom {
         width: 15%;
     }
 
-    .new-style-sai-create-btn-center {
+    .new-style-DTM-create-btn-center {
         width: 70%;
         float: left;
     }
 
     /*Layout design*/
-    /*.new-style-sai-layout-main-content {
+    /*.new-style-DTM-layout-main-content {
         width: 15%;
         height: 170px;
         float: left;
     }*/
 
-    .new-style-sai-layout-left-menu {
+    .new-style-DTM-layout-left-menu {
         display: none;
     }
 
-    .new-style-sai-layout-renderbody {
+    .new-style-DTM-layout-renderbody {
         width: 100%;
         /*float: left;*/
         height: 100vh !important;
     }
 
-    .new-style-sai-layout-mobile-menu {
+    .new-style-DTM-layout-mobile-menu {
         display: block;
         width: 20%;
         float: left;
@@ -2283,7 +2283,7 @@ input.edit-task-btn.width110 {
     }
 }
 
-/*.new-style-sai-renderbody-inner {
+/*.new-style-DTM-renderbody-inner {
     height: 550px;
     overflow-y: scroll;
     overflow-x: hidden;

@@ -1,169 +1,192 @@
 ﻿<div ng-show="dashboard.showApproval">
-    <div id="contTaskAppDiv" class="new-style-sai-main-inner-body" style="padding:20px;">
+    <div id="contTaskAppDiv" class="new-style-DTM-main-inner-body" style="padding:20px;">
 
 
         <div>
-            <div class="form-group skill-search new-style-sai-new-task-background">
-                <div class="input-group search-by-project">
-                    <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </span>
-                </div>
-                <br />
-                <div class="input-group">
-                    <select class="form-control" id="ddlServiceLine" ng-model="taskSearch.serviceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" ng-change="refreshTasksBasedonInput()"></select>
+            <div class="form-group skill-search new-style-DTM-new-task-background">
+                <div>
+                    <div class="new-style-DTM-div-33">
+                        <div class="input-group">
+
+                            <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                    <div class="new-style-DTM-div-33">
+                        <div class="input-group" style="float:right !important;">
+                            <select @*style="width:250px;"*@ class="form-control" id="ddlServiceLine" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
+                        </div>
+                    </div>
                 </div>
                 <div style="clear:both"></div>
 
             </div>
-            <div style="clear:both"></div>
 
-            <div class="new-style-sai-new-task-background" ng-show="(tasksCount < 3 && tasksCount > 0 && divVisibiltyModel.showApply && FirstTaskDataLoaded==1) ||(tasksCount==0)">
-                <div>
-                    <h3 class="dark-grey-blue font-size-24">Want to apply for more tasks?</h3>
-                </div>
-                <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToProfile()">EXPAND YOUR SKILLSET</div>
-                <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
-            </div>
+
         </div>
+
         <div style="clear:both"></div>
-        <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0'
-             infinite-scroll-container="'#contTaskAppDiv'">
-            <div class="project-details" ng-repeat="task in tasks track by $index">
-                <div class="new-style-sai-padding-no-bottom-20" id="div{{$index}}">
-                    <div>
-                        <div class="project-title new-style-sai-div-75">
-                            <span class="heading">{{task.ProjectName}}</span><span class="postedBy"> posted by </span> <span class="heading">{{task.FullName}}</span>
-                        </div>
+        <div>
+            <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0'
+                 infinite-scroll-container="'#contTaskAppDiv'">
+                <div class="project-details" ng-repeat="task in tasks track by $index">
+                    <div class="new-style-DTM-padding-no-bottom-20" id="div{{$index}}">
                         <div>
-                            <div style="float:right;">
-                                <div class="left-nav-circle-txt">
-                                    <div class="new-sai-style-left-nav-circle-txt-ProjectName">{{task.ShortName}}</div>
+                            <div class="project-title new-style-DTM-div-75">
+                                <span class="heading">{{task.ProjectName}}</span><span class="postedBy"> posted by </span> <span class="heading">{{task.FullName}}</span>
+                            </div>
+                            <div>
+                                <div style="float:right;">
+                                    <div class="left-nav-circle-txt">
+                                        <div class="new-DTM-style-left-nav-circle-txt-ProjectName">{{task.ShortName}}</div>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{task.Skills}}</span>
+                                <div class="gray-text">Required skills</div>
+                            </div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{task.Hours}} hours</span>
+                                <div class="gray-text">Billable hours</div>
+                            </div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{task.OnBoardingDate}}</span>
+                                <div class="gray-text">Start Date</div>
+                            </div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
+                                <span class="role-desc dark-grey-blue">{{task.DueDate}}</span>
+                                <div class="gray-text">Due Date</div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div>&nbsp;</div>
+                            <div style="clear:both;"></div>
+                            <div>
+                                <div class="new-style-DTM-div-75">
+                                    <p class="project-desc">{{task.Details}}</p>
+                                </div>
+                                <div class="new-style-DTM-tracking-main">
+                                    <div style="float:right;">
+                                        <div style="float:left;padding-top:20px;">
+                                            <div class="add-task-button apply-btn" ng-show="!task.IsApplied" ng-click="showReviewOptions($index);">Apply</div>
+                                        </div>
+                                        <div style="float:left;" ng-show="task.IsRecommended && !task.IsApplied">
+                                            <div class="gift-pending back-ground-color-ffa942">RECOMMENDED</div>
+                                        </div>
+                                        <div style="float:left;" ng-show="task.IsApplied">
+                                            <div class="gift-pending back-ground-color-6dd5ab">APPLIED</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div>
+                                <hr style="background:darkgrey;" />
                             </div>
                         </div>
                     </div>
                     <div style="clear:both;"></div>
-                    <div>
-                        <div class="new-style-sai-tracking-main heading">
-                            <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{task.Skills}}</span>
-                            <div class="gray-text">Required skills</div>
+                    <div id="managerEmailDiv{{$index}}" ng-show="isShowingReview($index) && divVisibiltyModel.showSummary&&!task.IsApplied">
+                        <div class="text-center"><h2>Permission required!</h2></div>
+                        <div class="opacity-normal text-center" style="padding-bottom:30px;">
+                            <div>You have requested to be assigned for <span class="color-8e44ad">{{task.TaskName}}</span> under project <span class="color-8e44ad">{{task.ProjectName}}</span> for {{task.Hours}} hrs starting {{task.OnBoardingDate}}.</div>
+                            <div>You would require your manager’s approval to proceed.<br />Initiate a permission request for the same.</div>
+
                         </div>
-                        <div class="new-style-sai-tracking-main heading">
-                            <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{task.Hours}} hours</span>
-                            <div class="gray-text">Billable hours</div>
-                        </div>
-                        <div class="new-style-sai-tracking-main heading">
-                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{task.OnBoardingDate}}</span>
-                            <div class="gray-text">Start Date</div>
-                        </div>
-                        <div class="new-style-sai-tracking-main heading">
-                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
-                            <span class="role-desc dark-grey-blue">{{task.DueDate}}</span>
-                            <div class="gray-text">Due Date</div>
-                        </div>
-                        <div style="clear:both;"></div>
-                        <div>&nbsp;</div>
-                        <div style="clear:both;"></div>
                         <div>
-                            <div class="new-style-sai-div-75">
-                                <p class="project-desc">{{task.Details}}</p>
-                            </div>
-                            <div class="new-style-sai-tracking-main">
-                                <div style="float:right;">
-                                    <div style="float:left;padding-top:20px;">
-                                        <div class="add-task-button apply-btn" ng-show="!task.IsApplied" ng-click="showReviewOptions($index);">Apply</div>
+                            <form name="applicationForm{{$index}}" target="apply{{task.TaskName}}{{$index}}">
+                                <div class="new-style-DTM-padding-no-left-right-top-20">
+
+                                    <div style="width:100%;text-align:left;">
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                                        <div class="new-style-DTM-div-33">
+                                            Manager's Email Id:
+                                            <span class="requiredField">*</span>
+                                        </div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+
                                     </div>
-                                    <div style="float:left;" ng-show="task.IsRecommended && !task.IsApplied">
-                                        <div class="gift-pending back-ground-color-ffa942">RECOMMENDED</div>
-                                    </div>
-                                    <div style="float:left;" ng-show="task.IsApplied">
-                                        <div class="gift-pending back-ground-color-6dd5ab">APPLIED</div>
+                                    <div style="clear:both;"></div>
+                                    <div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                                        <div class="new-style-DTM-div-33">
+                                            <div class="form-group datepicker">
+                                                <div class="input-group search-wbs-code" style="width:100%;" id="divManagerEmailId{{$index}}">
+                                                    <input type="text" id="txtManagerEmailId{{$index}}" name="managerEmail" class="form-control" @*ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i"*@ placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" @*required*@>
+                                                </div>
+                                                <span class="error fontSize10">Invalid Email Id</span>
+                                            </div>
+                                            @*<span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$error.required">Required</span>
+                                                <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>*@
+                                        </div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+
                                     </div>
                                 </div>
-                            </div>
+                                <div style="clear:both;"></div>
+                                <div class="new-style-DTM-padding-no-left-right-top-20">
+
+                                    <div style="width:100%;text-align:left;">
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                                        <div class="new-style-DTM-div-33">
+                                            Statement Of Purpose:
+                                            <span class="requiredField">*</span>
+                                        </div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                                        <div class="new-style-DTM-div-33">
+                                            <div class="form-group datepicker">
+                                                <div class="input-group search-wbs-code" id="divSOP{{$index}}">
+                                                    <textarea id="txtSOP{{$index}}" rows="5" cols="50" maxlength="500" class="form-control" style="resize:none" ng-model="statementOfPurpose"></textarea>
+                                                </div>
+                                                <span class="error fontSize10">Invalid SOP</span>
+                                            </div>
+                                        </div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div class="text-center new-style-DTM-padding-no-left-right-20">
+                                    <button class="review-app-btn" type="button" ng-click="cancelPermission()">Cancel</button>
+                                    <button class="review-app-btn" type="submit" @*ng-disabled="applicationForm{{$index}}.$invalid"*@ name="apply{{task.TaskName}}{{$index}}" ng-click="applyTask(task, managersEmailId,statementOfPurpose,$index);">Request Permission</button>
+                                </div>
+                            </form>
                         </div>
+                        @*<div style="height:0px;">
+                                <input type="text" id="divManagerEmailId{{$index}}" style="height:0px;width:0px;" />
+                            </div>*@
                         <div style="clear:both;"></div>
                         <div>
                             <hr style="background:darkgrey;" />
                         </div>
                     </div>
-                </div>
-                <div style="clear:both;"></div>
-                <div id="managerEmailDiv{{$index}}" ng-show="isShowingReview($index) && divVisibiltyModel.showSummary&&!task.IsApplied">
-                    <div class="text-center"><h2>Permission required!</h2></div>
-                    <div class="opacity-normal text-center" style="padding-bottom:30px;">
-                        <div>You have requested to be assigned for <span class="color-8e44ad">{{task.TaskName}}</span> under project <span class="color-8e44ad">{{task.ProjectName}}</span> for {{task.Hours}} hrs starting {{task.OnBoardingDate}}.</div>
-                        <div>You would require your manager’s approval to proceed.<br />Initiate a permission request for the same.</div>
-
-                    </div>
-                    <div>
-                        <form name="applicationForm{{$index}}" target="apply{{task.TaskName}}{{$index}}">
-                            <div class="new-style-sai-padding-no-left-right-top-20">
-
-                                <div style="width:100%;text-align:left;">
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-                                    <div class="new-style-sai-div-33">
-                                        Manager's Email Id:
-                                        <span class="requiredField">*</span>
-                                    </div>
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-
-                                </div>
-                                <div style="clear:both;"></div>
-                                <div>
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-                                    <div class="new-style-sai-div-33">
-                                        <input type="email" id="divManagerEmailId{{$index}}" name="managerEmail" class="form-control" ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" required>
-                                        <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$error.required">Required</span>
-                                        <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>
-                                    </div>
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-
-                                </div>
-                            </div>
-                            <div style="clear:both;"></div>
-                            <div class="new-style-sai-padding-no-left-right-top-20">
-
-                                <div style="width:100%;text-align:left;">
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-                                    <div class="new-style-sai-div-33">
-                                        Statement Of Purpose:
-                                        <span class="requiredField">*</span>
-                                    </div>
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-                                </div>
-                                <div style="clear:both;"></div>
-                                <div>
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-                                    <div class="new-style-sai-div-33">
-                                        <textarea rows="5" cols="50" maxlength="500" class="form-control" style="resize:none" ng-model="statementOfPurpose"></textarea>
-                                    </div>
-                                    <div class="new-style-sai-div-middle-33">&nbsp;</div>
-
-                                </div>
-                            </div>
-                            <div style="clear:both;"></div>
-                            <div class="text-center new-style-sai-padding-no-left-right-20">
-                                <button class="review-app-btn" type="button" ng-click="cancelPermission()">Cancel</button>
-                                <button class="review-app-btn" type="submit" ng-disabled="applicationForm{{$index}}.$invalid" name="apply{{task.TaskName}}{{$index}}" ng-click="applyTask(task, managersEmailId,statementOfPurpose);">Request Permission</button>
-                            </div>
-                        </form>
-                    </div>
-                    @*<div style="height:0px;">
-                            <input type="text" id="divManagerEmailId{{$index}}" style="height:0px;width:0px;" />
-                        </div>*@
                     <div style="clear:both;"></div>
-                    <div>
-                        <hr style="background:darkgrey;" />
-                    </div>
                 </div>
-                <div style="clear:both;"></div>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+        <div>
+            <div class="new-style-DTM-new-task-background" ng-show="(tasksCount < 3) && divVisibiltyModel.showApply">
+                <div>
+                    <h3 class="dark-grey-blue font-size-24">Want to apply for more tasks?</h3>
+                </div>
+                <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToProfile()">EXPAND YOUR SKILLSET</div>
+                <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
             </div>
         </div>
     </div>
