@@ -21,7 +21,7 @@
         $scope.tasksCount = 0;
         $scope.taskApplicantsTotalRecords = 0;
         $scope.searchBox = { text: null };
-        $scope.taskSearch = { text: null, searchFilter: "M" };
+        $scope.taskSearch = { text: null, searchFilter: "R" };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false, showCreate: false };
         $scope.divVisibiltyModel = { showDetails: true, showSummary: true, showSuccess: false, showApply: true };
         $scope.workAgain = [];
