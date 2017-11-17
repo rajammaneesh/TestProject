@@ -19,7 +19,7 @@ namespace DCode.Models.User
         {
             get 
             { 
-                return (FirstName.Equals(string.Empty) && LastName.Equals(string.Empty)) ? string.Empty : FirstName + Constants.Space + LastName; 
+                return (string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(LastName)) ? string.Empty : FirstName + Constants.Space + LastName; 
             } 
         }
         public string Designation { get; set; }
