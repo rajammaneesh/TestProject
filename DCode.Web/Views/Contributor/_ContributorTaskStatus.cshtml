@@ -1,11 +1,11 @@
 ﻿
 <div  ng-show="dashboard.showTaskStatus">
-    <div id="contStatusDiv" class="new-style-sai-renderbody-inner" @*style="padding-top:20px;"*@>
-        <div class="new-style-sai-main-inner-body" style="padding:20px;">
+    <div id="contStatusDiv" class="new-style-DTM-renderbody-inner" @*style="padding-top:20px;"*@>
+        <div class="new-style-DTM-main-inner-body" style="padding:20px;">
 
             <div class="background-color-fff" infinite-scroll='getAssignedTasks()' infinite-scroll-distance='0'
                  infinite-scroll-container="'#contStatusDiv'">
-                <div class="new-style-sai-new-task-background" ng-show="taskStatusVisibility.showFirst">
+                <div class="new-style-DTM-new-task-background" ng-show="taskStatusVisibility.showFirst">
                     <div>
                         <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
                         <p class="gray-text">
@@ -15,9 +15,9 @@
                     </div>
                     <div> &nbsp;</div>
                     <div>
-                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToApplications()">APPLY FOR A TASK</div>
-                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                        <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToApplications()">APPLY FOR A TASK</div>
+                        <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                     </div>
                 </div>
@@ -33,15 +33,15 @@
                         <div style="clear:both;"></div>
 
                         <div style="padding-top:20px;">
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <div class="heading col-sm-12"><img src="/Content/Images/calendar@2x.png" width="20px" height="20px" class="margin-right-8" /><span class="date-txt dark-grey-blue">{{taskStatus.Task.DueDate}}</span></div>
                                 <div class="gray-text col-sm-12">Due Date</div>
                             </div>
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <div class="heading col-sm-12"><img src="/Content/Images/serviceLine.png" width="20px" height="20px" class="margin-right-8" /><span class="date-txt dark-grey-blue">{{taskStatus.Task.ServiceLine}}</span></div>
                                 <div class="gray-text col-sm-12">Service Line</div>
                             </div>
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <div class="heading font-size-20">{{taskStatus.Applicant.CompletedHours == null ? 0 : taskStatus.Applicant.CompletedHours}} <span class="color-95a5a6">of {{taskStatus.Task.Hours}} hrs.</span></div>
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" aria-valuenow="0"
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="gray-text">Hours Completed</div>
                             </div>
-                            <div class="new-style-sai-tracking-main new-style-sai-text-center">
+                            <div class="new-style-DTM-tracking-main new-style-DTM-text-center">
                                 <div ng-click="showReviewOptions($index);">
                                     <button class="review-btn" type="button"> Add Time</button>
                                 </div>
@@ -58,16 +58,16 @@
                         <div style="clear:both;"></div>
                         <div ng-show="isShowingReview($index) && taskStatus.ProgressWidth<100">
                             <form name="AddHours">
-                                <div class="new-style-sai-div-33">
+                                <div class="new-style-DTM-div-33">
                                     <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Hours Completed</h3>
                                     <div>
-                                        <input type="number" min="1" max="{{taskStatus.Task.Hours - (taskStatus.Applicant.CompletedHours == null ?0:taskStatus.Applicant.CompletedHours)}}" class="form-control" ng-model="trackStatus.Hours" placeholder="Add Hours" required>
+                                        <input type="number" id="txtCompletedHrs" min="1" max="{{taskStatus.Task.Hours - (taskStatus.Applicant.CompletedHours == null ?0:taskStatus.Applicant.CompletedHours)}}" class="form-control" ng-model="trackStatus.Hours" placeholder="Add Hours" required>
                                     </div>
                                 </div>
-                                <div class="new-style-sai-div-33 new-style-sai-padding-top-40">
+                                <div class="new-style-DTM-div-33 new-style-DTM-padding-top-40">
                                     <button class="review-btn" type="submit" ng-click="postTime(taskStatus.ApprovedApplicantId)">Enter</button>
                                 </div>
-                                <div class="new-style-sai-div-33">
+                                <div class="new-style-DTM-div-33">
                                     &nbsp;
                                 </div>
                             </form>

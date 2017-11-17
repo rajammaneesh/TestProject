@@ -33,14 +33,14 @@
 
 </head>
 <body ng-app="dCodeApp" class="profileController" ng-controller="ProfileController">
-    <div class="new-style-sai-profile-border">&nbsp;</div>
-    <div class="new-style-sai-profile-center">
+    <div class="new-style-DTM-profile-border">&nbsp;</div>
+    <div class="new-style-DTM-profile-center">
         <div class="profile-logo">
-            <img src="~/Content/Images/tech-x-logo.png" class="new-style-sai-layout-logo-image logo">
+            <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image logo">
         </div>
         <div class="skill_tag">
-            <div @*class="new-style-sai-renderbody-inner"*@ style="height:75vh;padding-left:20px;">
-                <div class="new-style-sai-profile-main-inner-body" style="padding-right:20px;padding-bottom:20px;">
+            <div @*class="new-style-DTM-renderbody-inner"*@ style="height:75vh;padding-left:20px;">
+                <div class="new-style-DTM-profile-main-inner-body" style="padding-right:20px;padding-bottom:20px;">
                     <div class="background-color-fff">
                         <div class="fst-login" ng-show="isFirstTimeLogin">
                             <h3 class="dark-grey-blue font-size-24">Welcome aboard!</h3>
@@ -55,11 +55,11 @@
                                     <div class="fontSize24 color-dee1e2 welcome-txt" style="margin-top:20px;">Welcome Back!</div>
                                     @*<div>abc</div>*@
                                     <div style="text-align:center;">
-                                        <div class="new-style-sai-div-middle-33">&nbsp;</div>
-                                        <div class="new-style-sai-div-33 new-style-sai-padding-left-profile-shortName">
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                                        <div class="new-style-DTM-div-33 new-style-DTM-padding-left-profile-shortName">
                                             <div class="left-nav-circle-img background-95a5a6 color-ecf0f1">{{userContext.ShortName}}</div>
                                         </div>
-                                        <div class="new-style-sai-div-middle-33">&nbsp;</div>
+                                        <div class="new-style-DTM-div-middle-33">&nbsp;</div>
 
                                     </div>
                                     
@@ -71,14 +71,14 @@
                         <div class="background-color-fff Recommended-number font-size-20">
                             <form name="form" target="profileSubmit" class="background-color-fff">
                                 <div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-sai-profile-columns">
+                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold">
                                             Name
                                             <span class="requiredField">*</span>
                                         </div>
                                         <div class="value"> {{userContext.Name}}</div>
                                     </div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-sai-profile-columns">
+                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold">
                                             Position
                                             <span class="requiredField">*</span>
@@ -88,14 +88,14 @@
                                 </div>
                                 <div style="clear:both;"></div>
                                 <div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-sai-profile-columns">
+                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold">
                                             Work Extension
                                             <span class="requiredField">*</span>
                                         </div>
                                         <div class="value">{{userContext.TelephoneNumber}}</div>
                                     </div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-sai-profile-columns">
+                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold">
                                             Email ID
                                             <span class="requiredField">*</span>
@@ -105,14 +105,14 @@
                                 </div>
                                 <div style="clear:both;"></div>
                                 <div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-sai-profile-columns">
+                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold">
                                             Service Line
                                             <span class="requiredField">*</span>
                                         </div>
                                         <div class="value">{{userContext.Department}}</div>
                                     </div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-sai-profile-columns">
+                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold"> Mobile </div>
                                         <div class="value">{{userContext.MobileNumber}}</div>
                                     </div>
@@ -125,11 +125,11 @@
                                 </div>
                                 @*<div>
                                         <div class="background-color-fff">
-                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-sai-profile-columns">
-                                                <div class="heading bold new-style-sai-inner-headings">
+                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-DTM-profile-columns">
+                                                <div class="heading bold new-style-DTM-inner-headings">
                                                     <span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>
                                                 </div>
-                                                <div class="new-style-sai-inner-inputs">
+                                                <div class="new-style-DTM-inner-inputs">
                                                     <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
                                                     <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
                                                     <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
@@ -137,18 +137,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="skill-box margin-bottom-40 new-style-sai-profile-columns">&nbsp;</div>
+                                        <div class="skill-box margin-bottom-40 new-style-DTM-profile-columns">&nbsp;</div>
                                     </div>*@
                                 <div style="clear:both;"></div>
 
                                 @*<div>
                                         <div class="background-color-fff">
-                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-sai-profile-columns">
-                                                <div class="heading bold new-style-sai-inner-headings">
+                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-DTM-profile-columns">
+                                                <div class="heading bold new-style-DTM-inner-headings">
                                                     Project Manager Email ID
                                                     <span class="requiredField">*</span>
                                                 </div>
-                                                <div class="new-style-sai-inner-inputs">
+                                                <div class="new-style-DTM-inner-inputs">
                                                     <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
                                                     <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
                                                     <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
@@ -156,20 +156,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="skill-box margin-bottom-40 new-style-sai-profile-columns">&nbsp;</div>
+                                        <div class="skill-box margin-bottom-40 new-style-DTM-profile-columns">&nbsp;</div>
                                     </div>
                                     <div style="clear:both;"></div>*@
                                 <div>
                                     <div class="background-color-fff">
-                                        <div class="skill-box margin-bottom-40 margin-top-20 new-style-sai-profile-columns">
-                                            <div class="heading bold new-style-sai-inner-headings">
+                                        <div class="skill-box margin-bottom-40 margin-top-20 new-style-DTM-profile-columns">
+                                            <div class="heading bold new-style-DTM-inner-headings">
                                                 Skill Set
                                                 <span class="requiredField">*</span>
                                                 @*<span ng-show="isEditMode" class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>*@
                                             </div>
                                             <div class="form-group datepicker">
                                                 <div style="padding-top:3px;width:87%;padding-left:10px;" class="input-group search-wbs-code skill-set" id="taskSkill">
-                                                    <div class="new-style-sai-search" ng-click="RemoveData();"
+                                                    <div class="new-style-DTM-search" ng-click="RemoveData();"
                                                          style="padding-top:0px; position : absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
 
                                                         <angucomplete-alt id="ex1"
@@ -188,13 +188,13 @@
 
 
                                                 </div>
-                                                <div class="new-style-sai-search-button" style="float:right;padding-right:50px;padding-top:0px;">
+                                                <div class="new-style-DTM-search-button" style="float:right;padding-right:50px;padding-top:0px;">
                                                     <button class="btn btn-default no-border-left" type="button" id="btnSkillSearch"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                                 </div>
                                                 <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
                                             </div>
                                             @*<div >
-                                                    <div class="new-style-sai-inner-search">
+                                                    <div class="new-style-DTM-inner-search">
                                                         <angucomplete-alt id="ex1"
                                                                           placeholder="Search for Skill Set"
                                                                           pause="100"
@@ -212,7 +212,7 @@
                                                 </div>*@
                                         </div>
                                     </div>
-                                    <div class="new-style-sai-profile-columns" style="min-height:0px; max-height:150px;overflow-y:auto;padding-top:10px;">
+                                    <div class="new-style-DTM-profile-columns" style="min-height:0px; max-height:150px;overflow-y:auto;padding-top:10px;">
                                         <div @*class="skill-box edit margin-top-bottom-20"*@>
                                             <span class="skill-item" name="skills" ng-repeat="skill in skillSet">
                                                 <span>{{skill.Value}}</span><span ng-show="isEditMode" class="glyphicon glyphicon-remove" ng-click="removeSkill($index)"></span>
@@ -226,10 +226,10 @@
                                 <div style="clear:both;"></div>
                                 <div style="padding-bottom:30px;">
                                     <div>
-                                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-show="!isFirstTimeLogin && !isEditMode" onclick="window.history.back();">Back</div>
-                                        <input type="submit" class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
-                                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                                        <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-show="!isFirstTimeLogin && !isEditMode" onclick="window.history.back();">Back</div>
+                                        <input type="submit" class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
+                                        <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                                     </div>
                                 </div>
@@ -237,14 +237,14 @@
                                         <div class="background-color-fff">
 
                                             <div>
-                                                <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                                                <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-show="!isFirstTimeLogin && !isEditMode" onclick="window.history.back();">Back</div>
-                                                <input type="submit" class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
-                                                <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                                                <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                                                <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-show="!isFirstTimeLogin && !isEditMode" onclick="window.history.back();">Back</div>
+                                                <input type="submit" class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
+                                                <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                                             </div>
                                         </div>
-                                        <div class="skill-box margin-bottom-40 new-style-sai-profile-columns">&nbsp;</div>
+                                        <div class="skill-box margin-bottom-40 new-style-DTM-profile-columns">&nbsp;</div>
                                     </div>*@
                             </form>
                         </div>

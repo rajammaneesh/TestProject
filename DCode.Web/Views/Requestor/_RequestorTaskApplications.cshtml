@@ -1,5 +1,5 @@
 ﻿<div  ng-show="dashboard.showApproval">
-    <div id="taskAppReq" class="new-style-sai-main-inner-body" style="padding:20px;">
+    <div id="taskAppReq" class="new-style-DTM-main-inner-body" style="padding:20px;">
 
         <div class="success-banner" ng-show="AssignedDivModel.Visible">
             <h3 class="dark-grey-blue font-size-24"><span class="title-new">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</span></h3>
@@ -19,22 +19,22 @@
                         </div>
                         <div style="clear:both;"></div>
                         <div style="width:100%;text-align:left;" class="heading">
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <span class="skill-icon"><img src="/Content/Images/skill@2x.png" /></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Skills}}</span>
                                 <div class="gray-text">Required skills</div>
                             </div>
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <span class="hours-icon"><img src="/Content/Images/hours@2x.png" /></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
                                 <div class="gray-text">Billable hours</div>
                             </div>
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <span class="cal-icon"><img src="/Content/Images/calendar@2x.png" /></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
                                 <div class="gray-text">Start Date</div>
                             </div>
-                            <div class="new-style-sai-tracking-main">
+                            <div class="new-style-DTM-tracking-main">
                                 <span class="gift-icon"><img src="/Content/Images/serviceLine.png" /></span>
                                 <span class="role-desc dark-grey-blue">{{taskApplicant.Task.ServiceLine}}</span>
                                 <div class="gray-text">Service Line</div>
@@ -47,7 +47,7 @@
                                 <p class="project-desc">{{taskApplicant.Task.Details}}</p>
                             </div>
                             <div style="width:35%;float:right;">
-                                <div id="responseDiv_$index" class="new-style-sai-response-txt" ng-click="showStatusResponse($index);">
+                                <div id="responseDiv_$index" class="new-style-DTM-response-txt" ng-click="showStatusResponse($index);">
                                     {{taskApplicant.Applicants.length}} Response<span ng-show="taskApplicant.Applicants.length > 1 || taskApplicant.Applicants.length == 0">s</span>
                                     <span ng-switch="isShowing($index)" ng-show="taskApplicant.Applicants.length > 0">
                                         <span ng-switch-when=false>
@@ -68,16 +68,16 @@
                             <div>
                                 <div class="circle-txt-60">{{applicant.ShortName}}</div>
                             </div>
-                            <div class="new-style-sai-20-div">
+                            <div class="new-style-DTM-20-div">
                                 <div class="font-size-20 color-8e44ad">{{applicant.Name}}</div>
                                 <div class="font-size-14">{{applicant.Designation}}</div>
                             </div>
-                            <div class="new-style-sai-20-div">
+                            <div class="new-style-DTM-20-div">
                                 <div class="font-size-20">{{applicant.Expertise}}</div>
                                 <div class="font-size-14">Skills</div>
                             </div>
-                            <div class="new-style-sai-20-div">
-                                <div class="add-task-button-sai-disabled" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
+                            <div class="new-style-DTM-20-div">
+                                <div class="add-task-button-DTM-disabled" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
                                 <div class="add-task-button-sai" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
                             </div>
                             <div>
@@ -90,19 +90,19 @@
                     <hr style="background:darkgray;" />
                 </div>
             </div>
-            <div class="new-style-sai-visibility">
+            <div class="new-style-DTM-visibility">
                 &nbsp;
             </div>
             <div ng-show="taskApplicants.length == 0" style="padding-top:20px;">
-                <div class="new-style-sai-new-task-background">
+                <div class="new-style-DTM-new-task-background">
                     <div>
                         <div class="dark-grey-blue font-size-24">Want to create more tasks?</div>
                     </div>
                     <div> &nbsp;</div>
                     <div>
-                        <div class="new-style-sai-create-btn-side">&nbsp;</div>
-                        <div class="new-style-sai-create-new-task-btn new-style-sai-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
-                        <div class="new-style-sai-create-btn-side-bottom">&nbsp;</div>
+                        <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                        <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
                     </div>
                 </div>
             </div>
