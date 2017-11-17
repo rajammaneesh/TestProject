@@ -61,7 +61,7 @@
                                 <div class="new-style-DTM-div-33">
                                     <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Hours Completed</h3>
                                     <div>
-                                        <input type="number" min="1" max="{{taskStatus.Task.Hours - (taskStatus.Applicant.CompletedHours == null ?0:taskStatus.Applicant.CompletedHours)}}" class="form-control" ng-model="trackStatus.Hours" placeholder="Add Hours" required>
+                                        <input type="number" id="txtCompletedHrs" min="1" max="{{taskStatus.Task.Hours - (taskStatus.Applicant.CompletedHours == null ?0:taskStatus.Applicant.CompletedHours)}}" class="form-control" ng-model="trackStatus.Hours" placeholder="Add Hours" required>
                                     </div>
                                 </div>
                                 <div class="new-style-DTM-div-33 new-style-DTM-padding-top-40">

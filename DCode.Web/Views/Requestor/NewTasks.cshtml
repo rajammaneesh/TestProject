@@ -59,9 +59,13 @@
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project Name</span>
                                     <span class="requiredField">*</span>
                                 </h3>
-                                <div class="input-group search-wbs-code" style="width:100%;">
-                                    <input type="text" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the project" required>
-                                    <span style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}">add name</span>
+                                <div class="form-group datepicker">
+                                    <div class="input-group search-wbs-code" style="width:100%;" id="divProjectName">
+                                        <input type="text" id="txtProjectName" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the project" @*required*@>
+                                        @*<span class="error" style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}">Invalid Project Name</span>*@
+                                    </div>
+                                    <span class="error" @*style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}"*@>Invalid Project Name</span>
+
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
@@ -72,7 +76,7 @@
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" id="divWBSCode" style="width:100%;">
-                                        <input type="text" id="txtWBSCode" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-0000)" required>
+                                        <input type="text" id="txtWBSCode" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-0000)" @*required*@>
                                         <span style="font-style:italic;font-size:10px;">XYI, LPX and DCI codes not allowed.</span>
                                     </div>
                                     <span class="error">Invalid WBS Code</span>
@@ -80,35 +84,41 @@
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
                             <div class="new-style-DTM-main-column">
-                                <div>
+                                @*<div>
                                     <label for="skilSet" class="task-fld-title font-helveticaNeue-medium heading Recommended-number h3">
                                         Skill Set
                                         <span class="requiredField">*</span>
                                     </label>
-                                </div>
+                                </div>*@
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Skill Set</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
                                 <div class="form-group datepicker">
-                                    <div style="width:95%;padding-top:3px;" class="input-group search-wbs-code skill-set" id="taskSkill">
-                                        <div class="new-style-DTM-search"
-                                             style="padding-top:0px;position: absolute;width: 96%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
+                                    <div id="taskSkill" style="width:95%;" class="input-group search-wbs-code" >
+                                        <div @*style="width:95%;padding-top:3px;"*@ class="skill-set" >
+                                            <div class="new-style-DTM-search"
+                                                 style="padding-top:0px;position: absolute;width: 90%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
 
-                                            <angucomplete-alt id="skillsetNewTask"
-                                                              placeholder="Search skill"
-                                                              pause="100"
-                                                              selected-object="selectedSkill"
-                                                              remote-url="/Common/SearchSkill?searchParam="
-                                                              title-field="Value"
-                                                              description-field="email"
-                                                              minlength="1"
-                                                              input-class="form-control form-control-small" />
+                                                <angucomplete-alt id="skillsetNewTask"
+                                                                  placeholder="Search skill"
+                                                                  pause="100"
+                                                                  selected-object="selectedSkill"
+                                                                  remote-url="/Common/SearchSkill?searchParam="
+                                                                  title-field="Value"
+                                                                  description-field="email"
+                                                                  minlength="1"
+                                                                  input-class="form-control form-control-small" />
+                                            </div>
+
+
+
                                         </div>
-
-
-
+                                        <div class="new-style-DTM-search-button" style="float:right;padding-top:0px;">
+                                            <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                        </div>
                                     </div>
-                                    <div class="new-style-DTM-search-button" style="float:right;padding-top:0px;">
-                                        <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                    </div>
-                                    <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
+                                    <span class="error">Please add a skill</span>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +131,7 @@
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divServiceLine">
-                                        <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedServiceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" required></select>
+                                        <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedServiceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" @*required*@></select>
                                     </div>
                                     <span class="error">Select Service Line</span>
 
@@ -134,9 +144,11 @@
                                     <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
-                                    <div class="input-group search-wbs-code" style="width:100%;">
-                                        <input type="text" class="form-control" ng-model="taskRequest.TaskName" maxlength="50" placeholder="Add the name of the task" required>
+                                    <div class="input-group search-wbs-code" style="width:100%;" id="divTaskName">
+                                        <input type="text" id="txtTaskName" class="form-control" ng-model="taskRequest.TaskName" maxlength="50" placeholder="Add the name of the task" @*required*@>
                                     </div>
+                                    <span class="error">Invalid Task Name</span>
+
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
@@ -155,9 +167,9 @@
                                     <label class="gray-text" style="font-style:italic;">char limit:500</label>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div style="clear:both;"></div>
                         <div style="width:100%;padding-bottom:30px;">
                             <div class="new-style-DTM-main-column">
@@ -166,13 +178,15 @@
                                     <span class="requiredField">*</span>
 
                                 </h3>
-                                <div class="form-group">
+                                <div class="form-group datepicker">
                                     <div class="input-group date" id="datetimepicker1">
-                                        <input type="text" class="form-control" ng-model="taskRequest.OnBoardingDate" onkeydown="return false" required>
-                                        <span class="input-group-addon">
-                                            <span ng-click="RemoveDateValidation();" class="glyphicon glyphicon-calendar"></span>
+                                        <input type="text" id="txtStartDate" class="form-control" ng-model="taskRequest.OnBoardingDate" @*onkeydown="return false"*@ @*required*@>
+                                        <span class="input-group-addon" ng-click="RemoveStartDateValidation();">
+                                            <span  class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
+                                    <span class="error">Invalid Start Date</span>
+
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
@@ -184,9 +198,9 @@
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group date" id="datetimepicker2">
-                                        <input type="text" class="form-control" ng-model="taskRequest.DueDate" onkeydown="return false" required>
-                                        <span class="input-group-addon">
-                                            <span ng-click="RemoveDateValidation();" class="glyphicon glyphicon-calendar"></span>
+                                        <input type="text" id="txtDueDate" class="form-control" ng-model="taskRequest.DueDate" @*onkeydown="return false"*@ @*required*@>
+                                        <span class="input-group-addon" ng-click="RemoveDueDateValidation();" >
+                                            <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                     </div>
                                     <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
@@ -199,12 +213,17 @@
                                     <span class="requiredField">*</span>
 
                                 </h3>
-                                <div id="divHours">
-                                    <input type="number" min="1" max="90" id="txtHr" ng-keypress="DontAllowPlus();" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" required>
+                                <div class="form-group datepicker">
 
+                                    <div id="divHours">
+                                        <input type="number" min="1" max="90" id="txtHr" ng-keypress="DontAllowPlus();" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" @*required*@>
+                                    </div>
+                                    <span class="error">Invalid Hours</span>
                                 </div>
                             </div>
                         </div>
+                        <div style="clear:both;"></div>
+                        <div>&nbsp;</div>
                         <div style="clear:both;"></div>
                         <div style="width:100%;">
                             <div style="float:right;padding-right:50px;">
@@ -262,13 +281,13 @@
                         <div style="clear:both;"></div>
                         <div>&nbsp;</div>
                         @*<div>
-                            <br />
-                        </div>*@
+                                <br />
+                            </div>*@
                         <div style="width:100%;height:50px;">
                             <div class="new-style-DTM-review-post-bigger">
                                 &nbsp;
                             </div>
-                            <div class="new-style-DTM-review-post-smaller" >
+                            <div class="new-style-DTM-review-post-smaller">
                                 <div class="review-btn link font-size-16" style="float:left;" ng-click="editClick()">Edit</div>
                                 <div style="float:left;">&nbsp;</div>
                                 <div class="review-btn link font-size-16" style="float:left;" ng-click="upsertTask()">Post Task</div>

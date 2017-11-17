@@ -75,7 +75,7 @@
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
             //document.getElementById('divManagerEmailId' + index).get(0).focus();
-            setTimeout(function () { $('#divManagerEmailId' + index).focus() }, 1);
+            setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
             //$location.hash('div' + index);
 
         };
@@ -227,43 +227,81 @@
             $scope.getTasks();
         }
 
-        $scope.applyTask = function (task, managersEmailID, statementOfPurpose) {
-
-            var managerEmailAddress = "";
-            if (managersEmailID != null && managersEmailID != "") {
-                managerEmailAddress = managersEmailID;
+        $scope.ValidatePermissionDetails = function (index) {
+            var isValid = true;
+            if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null) {
+                $("#divManagerEmailId" + index).addClass("invalid");
+                isValid = false;
             }
-            $http({
-                url: "/Contributor/ApplyTask",
-                method: "POST",
-                data: {
-                    taskId: task.Id,
-                    emailAddress: managerEmailAddress,
-                    statementOfPurpose: statementOfPurpose
+            //else {
+            //    $("#divManagerEmailId" + index).removeClass("invalid");
+            //}
+            else {
+                //checking email validation
+                //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
+                if (!re.test($("#txtManagerEmailId" + index).val())) {
+                    $("#divManagerEmailId" + index).addClass("invalid");
+                    isValid = false;
                 }
-            }).success(function (data, status, headers, config) {
-                if (data != undefined) {
-                    if (data != null && data > 0) {
+                else {
+                    $("#divManagerEmailId" + index).removeClass("invalid");
+                }
+            }
+            if ($("#txtSOP" + index).val() == "" || $("#txtSOP" + index).val() == null) {
+                $("#divSOP" + index).addClass("invalid");
+                isValid = false;
+            }
+            else {
+                $("#divSOP" + index).removeClass("invalid");
+            }
+            return isValid;
+        };
 
-                        $scope.taskRequest =
-                            {
-                                TaskName: task.TaskName,
-                                ProjectName: task.ProjectName,
-                                Hours: task.Hours,
-                                StartingDate: task.OnBoardingDate
-                            }
+        $('#txtCompletedHrs').keydown(function (e) {
+            var order = e.which;
+            if (order == 187 || order == 189 || order == 69) {
+                return false;
+            };
+        });
 
-                        $scope.divVisibiltyModel.showSuccess = true;
-                        $scope.divVisibiltyModel.showSummary = false;
-                        $scope.refreshTasks();
-                        //$location.hash('divCongrats');
-                        $('#divCongrats').modal('show');
+        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal) {
+            if ($scope.ValidatePermissionDetails(indexVal)) {
+                var managerEmailAddress = "";
+                if (managersEmailID != null && managersEmailID != "") {
+                    managerEmailAddress = managersEmailID;
+                }
+                $http({
+                    url: "/Contributor/ApplyTask",
+                    method: "POST",
+                    data: {
+                        taskId: task.Id,
+                        emailAddress: managerEmailAddress,
+                        statementOfPurpose: statementOfPurpose
                     }
-                }
+                }).success(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        if (data != null && data > 0) {
 
-            }).error(function (error) {
-            });
+                            $scope.taskRequest =
+                                {
+                                    TaskName: task.TaskName,
+                                    ProjectName: task.ProjectName,
+                                    Hours: task.Hours,
+                                    StartingDate: task.OnBoardingDate
+                                }
 
+                            $scope.divVisibiltyModel.showSuccess = true;
+                            $scope.divVisibiltyModel.showSummary = false;
+                            $scope.refreshTasks();
+                            //$location.hash('divCongrats');
+                            $('#divCongrats').modal('show');
+                        }
+                    }
+
+                }).error(function (error) {
+                });
+            }
         }
 
         $scope.cancelPermission = function () {

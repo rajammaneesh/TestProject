@@ -27,7 +27,7 @@
 
 
         </div>
-       
+
         <div style="clear:both"></div>
         <div>
             <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0'
@@ -120,9 +120,14 @@
                                     <div>
                                         <div class="new-style-DTM-div-middle-33">&nbsp;</div>
                                         <div class="new-style-DTM-div-33">
-                                            <input type="email" id="divManagerEmailId{{$index}}" name="managerEmail" class="form-control" ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" required>
-                                            <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$error.required">Required</span>
-                                            <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>
+                                            <div class="form-group datepicker">
+                                                <div class="input-group search-wbs-code" style="width:100%;" id="divManagerEmailId{{$index}}">
+                                                    <input type="text" id="txtManagerEmailId{{$index}}" name="managerEmail" class="form-control" @*ng-pattern="/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i"*@ placeholder="xxxxx@deloitte.com" ng-model="managersEmailId" @*required*@>
+                                                </div>
+                                                <span class="error fontSize10">Invalid Email Id</span>
+                                            </div>
+                                            @*<span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$invalid && !applicationForm{{$index}}.managerEmail.$error.required">Required</span>
+                                                <span class="help-inline fontSize10 requiredField" ng-show="applicationForm{{$index}}.managerEmail.$error.pattern">Invalid email</span>*@
                                         </div>
                                         <div class="new-style-DTM-div-middle-33">&nbsp;</div>
 
@@ -143,7 +148,12 @@
                                     <div>
                                         <div class="new-style-DTM-div-middle-33">&nbsp;</div>
                                         <div class="new-style-DTM-div-33">
-                                            <textarea rows="5" cols="50" maxlength="500" class="form-control" style="resize:none" ng-model="statementOfPurpose"></textarea>
+                                            <div class="form-group datepicker">
+                                                <div class="input-group search-wbs-code" id="divSOP{{$index}}">
+                                                    <textarea id="txtSOP{{$index}}" rows="5" cols="50" maxlength="500" class="form-control" style="resize:none" ng-model="statementOfPurpose"></textarea>
+                                                </div>
+                                                <span class="error fontSize10">Invalid SOP</span>
+                                            </div>
                                         </div>
                                         <div class="new-style-DTM-div-middle-33">&nbsp;</div>
 
@@ -152,7 +162,7 @@
                                 <div style="clear:both;"></div>
                                 <div class="text-center new-style-DTM-padding-no-left-right-20">
                                     <button class="review-app-btn" type="button" ng-click="cancelPermission()">Cancel</button>
-                                    <button class="review-app-btn" type="submit" ng-disabled="applicationForm{{$index}}.$invalid" name="apply{{task.TaskName}}{{$index}}" ng-click="applyTask(task, managersEmailId,statementOfPurpose);">Request Permission</button>
+                                    <button class="review-app-btn" type="submit" @*ng-disabled="applicationForm{{$index}}.$invalid"*@ name="apply{{task.TaskName}}{{$index}}" ng-click="applyTask(task, managersEmailId,statementOfPurpose,$index);">Request Permission</button>
                                 </div>
                             </form>
                         </div>
