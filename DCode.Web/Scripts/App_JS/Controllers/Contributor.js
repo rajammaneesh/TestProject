@@ -165,21 +165,11 @@
             $scope.refreshTasks();
         }
 
-        $scope.assignMoreTasksDivVisibility = function () {
-
-            if ($scope.FirstTaskDataLoaded == -1) {
-                $scope.FirstTaskDataLoaded = 1;
-            }
-            else if ($scope.FirstTaskDataLoaded == 1) {
-                $scope.FirstTaskDataLoaded = 0;
-            }
-        }
-
         $scope.getTasks = function () {
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
 
                 $scope.tasksPageIndex++;
-          
+
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
 
                 var url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
@@ -203,8 +193,6 @@
                                 });
                             }
                             $scope.tasksTotalRecords = data.TotalRecords;
-
-                            $scope.assignMoreTasksDivVisibility();
                         }
                     }
                 }).error(function (error) {
@@ -223,9 +211,9 @@
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
-            //else {
-            //    $("#divManagerEmailId" + index).removeClass("invalid");
-            //}
+                //else {
+                //    $("#divManagerEmailId" + index).removeClass("invalid");
+                //}
             else {
                 //checking email validation
                 //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
