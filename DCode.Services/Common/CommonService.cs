@@ -107,57 +107,59 @@ namespace DCode.Services.Common
         {
             SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
-            var directoryEntry = new DirectoryEntry(path);
-            var directorySearcher = new DirectorySearcher(directoryEntry);
-            directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
-            searchResults = directorySearcher.FindAll();
-            var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
-
-            var propertyDescription = new StringBuilder();
-
-            foreach (SearchResult result in searchResults)
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
             {
-                foreach (string propertyName in result.Properties.PropertyNames)
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
+                searchResults = directorySearcher.FindAll();
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
                 {
-                    if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                    foreach (string propertyName in result.Properties.PropertyNames)
                     {
-                        _userContext.EmailId = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
-                    {
-                        _userContext.Designation = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
-                    {
-                        _userContext.FirstName = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
-                    {
-                        _userContext.LastName = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
-                    {
-                        _userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
-                    {
-                        _userContext.EmployeeId = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
-                    {
-                        _userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
-                    {
-                        _userContext.Department = result.Properties[propertyName][0].ToString();
-                    }
-                    else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
-                    {
-                        _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
+                        if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                        {
+                            _userContext.EmailId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                        {
+                            _userContext.Designation = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                        {
+                            _userContext.FirstName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                        {
+                            _userContext.LastName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
+                        {
+                            _userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                        {
+                            _userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
+                        {
+                            _userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
+                        {
+                            _userContext.Department = result.Properties[propertyName][0].ToString();
+                        }
+                        else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
+                        {
+                            _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
+                        }
                     }
                 }
+                return _userContext;
             }
-            return _userContext;
         }
 
         public UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName)
@@ -165,52 +167,55 @@ namespace DCode.Services.Common
             var userContext = new UserContext();
             SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
-            var directoryEntry = new DirectoryEntry(path);
-            var directorySearcher = new DirectorySearcher(directoryEntry);
-            directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
-            searchResults = directorySearcher.FindAll();
-            var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
 
-            var propertyDescription = new StringBuilder();
-            foreach (SearchResult result in searchResults)
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
             {
-                foreach (string propertyName in result.Properties.PropertyNames)
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
+                searchResults = directorySearcher.FindAll();
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+                foreach (SearchResult result in searchResults)
                 {
-                    if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                    foreach (string propertyName in result.Properties.PropertyNames)
                     {
-                        userContext.EmailId = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
-                    {
-                        userContext.Designation = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
-                    {
-                        userContext.FirstName = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
-                    {
-                        userContext.LastName = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
-                    {
-                        userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
-                    {
-                        userContext.EmployeeId = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
-                    {
-                        userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
-                    {
-                        userContext.Department = result.Properties[propertyName][0].ToString();
+                        if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                        {
+                            userContext.EmailId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                        {
+                            userContext.Designation = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                        {
+                            userContext.FirstName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                        {
+                            userContext.LastName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
+                        {
+                            userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                        {
+                            userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
+                        {
+                            userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
+                        {
+                            userContext.Department = result.Properties[propertyName][0].ToString();
+                        }
                     }
                 }
+                return userContext;
             }
-            return userContext;
         }
 
         private void SetAndInsertContext()
