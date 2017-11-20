@@ -337,7 +337,7 @@ html {
 }
 
 .project-details div div img {
-    margin-right: 8px;
+    margin-right: 2px;
 }
 
 .response-txt {
@@ -527,11 +527,11 @@ html {
 }
 
 .skill-icon, .hours-icon, .cal-icon, .gift-icon, .happy-icon {
-    width: 32px;
+    /*width: 32px;*/
     height: 32px;
     display: inline-block;
     /*padding: 5px 0px 0px 8px;*/
-    margin-right: 4px;
+    /*margin-right: 4px;*/
 }
 
     .skill-icon img {
