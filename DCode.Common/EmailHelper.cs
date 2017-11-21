@@ -2,14 +2,19 @@
 using System.Net.Mail;
 using System.Configuration;
 using System.Web.Hosting;
+using DCode.Models.Enums;
+using DCode.Models.Email;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DCode.Common
 {
     public static class EmailHelper
     {
         private static LinkedResource inlineDCodeLogo;
+
         private static LinkedResource inlineDeloitteLogo;
-        public static void SendEmail(string toMailAddress,string ccMailAddress, MailMessage mailMessage)
+        public static void SendEmail(string toMailAddress, string ccMailAddress, MailMessage mailMessage)
         {
             try
             {
@@ -64,10 +69,10 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
-            }   
+            }
         }
 
-        public static void AssignNotification(string personName, string taskName, string projectName,string wbsCode, string toMailAddress, string ccMailAddress)
+        public static void AssignNotification(string personName, string taskName, string projectName, string wbsCode, string toMailAddress, string ccMailAddress)
         {
             var htmlBody = GetEmail();
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -142,6 +147,17 @@ namespace DCode.Common
             inlineDeloitteLogo = new LinkedResource(HostingEnvironment.MapPath(Constants.Deloittepath));
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             return htmlBody;
+        }
+
+        public static void SendEmail()
+        {
+            var listOfNotifications = new List<Notification>();
+
+            Parallel.ForEach(listOfNotifications, new ParallelOptions { MaxDegreeOfParallelism = 4 },
+                {
+                SendEmail();
+            });
+
         }
     }
 }

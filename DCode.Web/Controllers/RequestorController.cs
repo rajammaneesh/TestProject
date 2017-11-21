@@ -1,16 +1,10 @@
-﻿using DCode.Common;
-using DCode.Models;
-using DCode.Models.RequestModels;
+﻿using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Requestor;
-using DCode.Models.ResponseModels.Task;
 using DCode.Services.Common;
 using DCode.Services.Requestor;
 using DCode.Web.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Controllers
 {
@@ -25,30 +19,30 @@ namespace DCode.Web.Controllers
             _commonService = commonService;
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult Requestor()
         {
             return View();
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult Dashboard()
         {
             return View();
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult NewTasks()
         {
             return View();
         }
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult Permissions()
         {
             return View();
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult History()
         {
             return View();
@@ -77,7 +71,7 @@ namespace DCode.Web.Controllers
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetStatusOftasks(int currentPageIndex = 1, int recordsCount = 10, Enums.TaskStatusSortFields sortField = Enums.TaskStatusSortFields.Name, Enums.SortOrder sortOrder = Enums.SortOrder.DESC)
+        public JsonResult GetStatusOftasks(int currentPageIndex = 1, int recordsCount = 10, TaskStatusSortFields sortField = TaskStatusSortFields.Name, SortOrder sortOrder = SortOrder.DESC)
         {
             var tasksStatuses = _requestorService.GetStatusOftasks(currentPageIndex, recordsCount, sortField, sortOrder);
             return Json(tasksStatuses, JsonRequestBehavior.AllowGet);

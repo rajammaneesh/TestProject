@@ -3,6 +3,7 @@ using DCode.Data.DbContexts;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -83,7 +84,7 @@ namespace DCode.Services.ModelFactory
             {
                 var dbTaskSkill = new taskskill();
                 dbTaskSkill.SKILL_ID = skillId;
-                dbTaskSkill.STATUS = Enums.SkillStatus.Active.ToString();
+                dbTaskSkill.STATUS = SkillStatus.Active.ToString();
                 dbTaskSkill.STATUS_DATE = DateTime.Now;
                 dbTaskSkills.Add(dbTaskSkill);
             }

@@ -1,12 +1,9 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
+﻿using DCode.Data.DbContexts;
 using DCode.Data.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using DCode.Models.Enums;
 
 namespace DCode.Data.TaskRepository
 {

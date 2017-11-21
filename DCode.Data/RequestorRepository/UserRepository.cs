@@ -1,11 +1,9 @@
 ﻿using DCode.Data.DbContexts;
 using DCode.Data.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Data.RequestorRepository
 {
@@ -86,7 +84,7 @@ namespace DCode.Data.RequestorRepository
 
         public skill GetSkillByName(string skillName)
         {
-            var skills = Context.Set<skill>().Where(x => x.VALUE.Equals(skillName) && x.STATUS == DCode.Common.Enums.SkillStatus.Active.ToString());
+            var skills = Context.Set<skill>().Where(x => x.VALUE.Equals(skillName) && x.STATUS == SkillStatus.Active.ToString());
             return skills.FirstOrDefault();
         }
 

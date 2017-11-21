@@ -1,10 +1,6 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
-using System;
+﻿using DCode.Data.DbContexts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Data.RequestorRepository
 {
@@ -13,7 +9,7 @@ namespace DCode.Data.RequestorRepository
         IEnumerable<task> GetTaskApplicantsForApproval(int currentPageIndex, int recordsCount, string emailId,out int totalRecords);
         int AssignTask(approvedapplicant dbApprovedApplicant);
         //IEnumerable<approvedapplicant> GetApprovedApplicantsByTaskId(int taskId);
-        IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, Enums.TaskStatusSortFields sortField, Enums.SortOrder sortOrder,out int totalRecords);
+        IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder,out int totalRecords);
         //approvedapplicant GetApprovedApplicantById(int id);
         int ReviewTask(approvedapplicant approvedApplicant);
         //IEnumerable<task> GetTaskHistroyByEmailId(string emailId);

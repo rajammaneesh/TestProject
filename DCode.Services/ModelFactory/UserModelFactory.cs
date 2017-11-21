@@ -1,14 +1,11 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
+﻿using DCode.Data.DbContexts;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -81,7 +78,7 @@ namespace DCode.Services.ModelFactory
             dbUser.EMAIL_ID = userContext.EmailId;
             dbUser.FIRST_NAME = userContext.FirstName;
             dbUser.LAST_NAME = userContext.LastName;
-            dbUser.STATUS = Enums.UserStatus.Active.ToString();
+            dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
             return dbUser;
         }

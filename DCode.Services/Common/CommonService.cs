@@ -16,8 +16,8 @@ using DCode.Data.RequestorRepository;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Data.MetadataRepository;
-using System.Linq;
 using System.Text.RegularExpressions;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.Common
 {
@@ -223,17 +223,17 @@ namespace DCode.Services.Common
             if (_userContext.Designation.Contains("senior manager") || _userContext.Designation.Contains("specialist leader") || _userContext.Designation.Contains("director") || _userContext.Designation.Contains("partner"))
             {
                 //_userContext.Role = Enums.Role.Admin;
-                _userContext.Role = Enums.Role.Requestor;
+                _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
             else if (_userContext.Designation.ToLowerInvariant().Contains("manager") || _userContext.Designation.ToLowerInvariant().Contains("master"))
             {
-                _userContext.Role = Enums.Role.Requestor;
+                _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
             else
             {
-                _userContext.Role = Enums.Role.Contributor;
+                _userContext.Role = Role.Contributor;
                 _userContext.IsCoreRoleRequestor = false;
             }
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
@@ -262,22 +262,22 @@ namespace DCode.Services.Common
             }
         }
 
-        private List<MenuItem> FetchMenuItems(Enums.Role role)
+        private List<MenuItem> FetchMenuItems(Role role)
         {
             var menuItemsList = new List<MenuItem>();
 
             switch (_userContext.Role)
             {
-                case Enums.Role.Admin:
+                case Role.Admin:
 
                     break;
-                case Enums.Role.Requestor:
+                case Role.Requestor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "CREATE NEW TASK", TabName = Constants.TabNewTask, NavigationUrl = "/Requestor/NewTasks", CssClass = "" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "APPROVALS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
-                case Enums.Role.Contributor:
+                case Role.Contributor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     break;
@@ -290,7 +290,7 @@ namespace DCode.Services.Common
         public UserContext SwitchRole()
         {
             var userContext = GetCurrentUserContext();
-            userContext.Role = (userContext.Role == Enums.Role.Contributor) ? Enums.Role.Requestor : Enums.Role.Contributor;
+            userContext.Role = (userContext.Role == Role.Contributor) ? Role.Requestor : Role.Contributor;
             userContext.MenuItems = null;
             userContext.MenuItems = FetchMenuItems(userContext.Role);
             SessionHelper.Save(Constants.UserContext, userContext);
@@ -300,13 +300,13 @@ namespace DCode.Services.Common
         public UserContext SwitchRole(string roleFromUI)
         {
             var userContext = GetCurrentUserContext();
-            if (roleFromUI.ToLowerInvariant().Equals(Enums.Role.Requestor.ToString().ToLowerInvariant()))
+            if (roleFromUI.ToLowerInvariant().Equals(Role.Requestor.ToString().ToLowerInvariant()))
             {
-                userContext.Role = Enums.Role.Requestor;
+                userContext.Role = Role.Requestor;
             }
             else
             {
-                userContext.Role = Enums.Role.Contributor;
+                userContext.Role = Role.Contributor;
             }
             userContext.MenuItems = null;
             userContext.MenuItems = FetchMenuItems(userContext.Role);
@@ -337,7 +337,7 @@ namespace DCode.Services.Common
                 var taskApplicant = new taskapplicant();
                 taskApplicant.APPLICANT_ID = applicant.ID;
                 taskApplicant.TASK_ID = model.TaskId;
-                taskApplicant.STATUS = Enums.TaskApplicant.Active.ToString();
+                taskApplicant.STATUS = TaskApplicant.Active.ToString();
                 result = _userRepository.InsertTaskApplicant(taskApplicant);
             }
             else
@@ -350,7 +350,7 @@ namespace DCode.Services.Common
 
                 var taskApplicant = new taskapplicant();
                 taskApplicant.TASK_ID = model.TaskId;
-                taskApplicant.STATUS = Enums.TaskApplicant.Active.ToString();
+                taskApplicant.STATUS = TaskApplicant.Active.ToString();
                 result = _userRepository.InsertApplicantAndTask(taskApplicant, applicantt);
             }
             return result;
@@ -359,13 +359,13 @@ namespace DCode.Services.Common
         public int UpdateProfile(ProfileRequest profileRequest)
         {
             var user = _userModelFactory.CreateModel<ProfileRequest>(profileRequest);
-            MapAuditFields<user>(Enums.ActionType.Insert, user);
+            MapAuditFields<user>(ActionType.Insert, user);
             var applicantSkills = _applicantSkillModelFactory.CreateModel<Skill>(profileRequest.SkillSet, profileRequest.UserId);
             if (applicantSkills != null)
             {
                 foreach (var skill in applicantSkills)
                 {
-                    MapAuditFields<applicantskill>(Enums.ActionType.Insert, skill);
+                    MapAuditFields<applicantskill>(ActionType.Insert, skill);
                 }
             }
             var result = _userRepository.UpdateProfile(user, applicantSkills);
@@ -394,7 +394,7 @@ namespace DCode.Services.Common
                 var dbSkill = new skill();
                 dbSkill.CREATED_BY = user.EmailId;
                 dbSkill.CREATED_ON = DateTime.Now;
-                dbSkill.STATUS = Enums.SkillStatus.Active.ToString();
+                dbSkill.STATUS = SkillStatus.Active.ToString();
                 dbSkill.STATUS_DATE = DateTime.Now;
                 dbSkill.VALUE = skillValue;
 
