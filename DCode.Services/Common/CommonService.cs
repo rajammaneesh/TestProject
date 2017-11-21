@@ -472,7 +472,7 @@ namespace DCode.Services.Common
 
         public bool GetTechXAccess()
         {
-            if (ConfigurationManager.AppSettings[Constants.CheckUsiAccess]=="false")
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.CheckUsiAccess]) == false)
             {
                 return true;
             }
