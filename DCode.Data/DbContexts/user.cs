@@ -21,6 +21,7 @@ namespace DCode.Data.DbContexts
             this.approvedapplicants = new HashSet<approvedapplicant>();
             this.taskapplicants = new HashSet<taskapplicant>();
             this.tasks = new HashSet<task>();
+            this.notification_subscription = new HashSet<notification_subscription>();
         }
     
         public int ID { get; set; }
@@ -47,5 +48,7 @@ namespace DCode.Data.DbContexts
         public virtual ICollection<taskapplicant> taskapplicants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<task> tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<notification_subscription> notification_subscription { get; set; }
     }
 }

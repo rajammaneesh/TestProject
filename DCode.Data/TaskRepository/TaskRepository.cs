@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using DCode.Models.Enums;
+using System;
 
 namespace DCode.Data.TaskRepository
 {
@@ -61,7 +62,7 @@ namespace DCode.Data.TaskRepository
             return topRatingCount;
         }
 
-        public List<KeyValuePair<string,string>> GetAllCommentsOnEmailId(string emailId)
+        public List<KeyValuePair<string, string>> GetAllCommentsOnEmailId(string emailId)
         {
             List<KeyValuePair<string, string>> commentsbyManagerId = new List<KeyValuePair<string, string>>();
             var tempComments = Context.Set<approvedapplicant>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == Enums.ApprovedApplicantStatus.Closed.ToString() && x.COMMENTS != null);
@@ -84,7 +85,7 @@ namespace DCode.Data.TaskRepository
         {
             IQueryable<task> tasks;
             tasks = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == Enums.TaskStatus.Closed.ToString());
-            tasks.Include(x => x.taskapplicants.Select(y=>y.user)).Load();
+            tasks.Include(x => x.taskapplicants.Select(y => y.user)).Load();
             return tasks.ToList();
         }
 
@@ -104,5 +105,24 @@ namespace DCode.Data.TaskRepository
             return Context.Set<skill>().ToList();
         }
 
+        public IEnumerable<Tuple<string, int>> GetTaskCountBySkillForDate(DateTime date)
+        {
+            IQueryable<task> tasks = Context.Set<task>()
+                            .Where(x => x.CREATED_ON == date
+                                && x.STATUS == Enums.TaskStatus.Active.ToString());
+
+            var countResults = tasks
+                .GroupBy(x => x.taskskills.First().skill.VALUE)
+                .OrderBy(x => x.Key);
+
+            var mappedResult = new List<Tuple<string, int>>();
+
+            foreach (var result in countResults)
+            {
+                mappedResult.Add(Tuple.Create<string, int>(result.Key, result.Count()));
+            }
+
+            return mappedResult;
+        }
     }
 }
