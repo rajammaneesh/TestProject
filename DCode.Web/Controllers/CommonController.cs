@@ -1,7 +1,9 @@
 ﻿using DCode.Common;
+using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using static DCode.Models.Enums.Enums;
 
@@ -78,6 +80,72 @@ namespace DCode.Web.Controllers
         {
             var results = _commonService.SearchSkill(searchParam);
             return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult TestEmailForBulk()
+        {
+            var listOfNotifications = new List<Notification>
+            {
+                new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject="JAVA"
+                },
+                  new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject=".NET"
+                },
+                    new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject="Guidewire"
+                },
+                      new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject="Hybris"
+                },
+                        new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject="Sitecore"
+                },
+                          new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","debabhattacharya@deloitte.com"},
+                    Content="Some Context",
+                    Subject="AEM"
+                },
+                            new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject="QA"
+                },
+                              new Notification {
+                    ToAddresses= "risen@deloitte.com",
+                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+                    Content="Some Context",
+                    Subject="Salesforce"
+                }
+            };
+            EmailHelper.SendBulkEmail(listOfNotifications);
+
+            return Json("succes", JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult testemail()

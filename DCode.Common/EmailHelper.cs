@@ -21,7 +21,12 @@ namespace DCode.Common
                 using (SmtpClient SmtpServer = new SmtpClient(Constants.SmtpDeloitte))
                 {
                     mailMessage.From = new MailAddress(ConfigurationManager.AppSettings[Constants.DcodeEmailId]);
-                    mailMessage.To.Add(toMailAddress);
+
+                    if (!string.IsNullOrWhiteSpace(toMailAddress))
+                    {
+                        mailMessage.To.Add(toMailAddress);
+                    }
+
                     if (ccMailAddress != null)
                     {
                         if (ccMailAddress.Contains(";"))
@@ -37,6 +42,7 @@ namespace DCode.Common
                             mailMessage.CC.Add(ccMailAddress);
                         }
                     }
+
                     SmtpServer.Port = 25;
                     SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
                     SmtpServer.Send(mailMessage);
@@ -149,15 +155,42 @@ namespace DCode.Common
             return htmlBody;
         }
 
-        public static void SendEmail()
+        public static void SendBulkEmail(List<Notification> notifications, int noOfParallelThreads = 4)
         {
-            var listOfNotifications = new List<Notification>();
-
-            Parallel.ForEach(listOfNotifications, new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            Parallel.ForEach(
+                notifications,
+                new ParallelOptions
                 {
-                SendEmail();
+                    MaxDegreeOfParallelism = noOfParallelThreads
+                },
+                notification =>
+                {
+                    SendEmail(notification);
+                });
+
+        }
+
+        public static void SendEmail(Notification notification)
+        {
+            var mailMessage = new MailMessage();
+
+            notification?.BccAddresses?.ForEach(address =>
+            {
+                mailMessage.Bcc.Add(address);
             });
 
+            notification?.CcAddresses?.ForEach(address =>
+            {
+                mailMessage.CC.Add(address);
+            });
+
+            mailMessage.To.Add(notification?.ToAddresses);
+
+            mailMessage.Body = notification.Content;
+
+            mailMessage.Subject = notification.Subject;
+
+            SendEmail(null, null, mailMessage);
         }
     }
 }
