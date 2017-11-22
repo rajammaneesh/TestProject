@@ -1,10 +1,5 @@
 ﻿using DCode.Models.RequestModels;
 using DCode.Services.Common;
-using DCode.Web.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DCode.Web.Controllers
@@ -26,6 +21,7 @@ namespace DCode.Web.Controllers
         public JsonResult UpdateProfile(ProfileRequest profileRequest)
         {
             var result = _commonService.UpdateProfile(profileRequest);
+
             return Json(result, JsonRequestBehavior.DenyGet);
         }
     }

@@ -19,7 +19,7 @@ namespace DCode.Data.UserRepository
         public IEnumerable<string> GetSubscribedUserForTask(string task)
         {
             IQueryable<user> query = Context.Set<user>()
-                 .Where(i => i.notification_subscription.First().subscription_status == true
+                 .Where(i => (i.notification_subscription.Count > 0 && i.notification_subscription.First().subscription_status == true)
                     && i.applicantskills.Any(y => y.skill.VALUE.Trim() == task.Trim())
                     && i.STATUS == UserStatus.Active.ToString());
 

@@ -13,7 +13,7 @@ namespace DCode.Services.ModelFactory
     {
         public TModel CreateModel<TModel>(user input) where TModel : class
         {
-            if(typeof(TModel) == typeof(UserContext))
+            if (typeof(TModel) == typeof(UserContext))
             {
                 return TranslateUser(input) as TModel;
             }
@@ -48,11 +48,11 @@ namespace DCode.Services.ModelFactory
 
         public user CreateModel<TModel>(TModel input) where TModel : class
         {
-            if(typeof(TModel) == typeof(UserContext))
+            if (typeof(TModel) == typeof(UserContext))
             {
                 return TranslateUserContext(input as UserContext);
             }
-            if(typeof(TModel) == typeof(ProfileRequest))
+            if (typeof(TModel) == typeof(ProfileRequest))
             {
                 return TraslateProfile(input as ProfileRequest);
             }
@@ -67,6 +67,14 @@ namespace DCode.Services.ModelFactory
             user.PROJECT_MANAGER_NAME = profileRequest.ManagerName;
             user.PROJECT_CODE = profileRequest.ProjectCode;
             user.PROJECT_NAME = profileRequest.ProjectName;
+
+            var subscriptionNotification = new notification_subscription();
+
+            subscriptionNotification.subscription_status
+                = profileRequest.IsSubscribedToNotifications;
+
+            user.notification_subscription.Add(subscriptionNotification);
+
             return user;
         }
 

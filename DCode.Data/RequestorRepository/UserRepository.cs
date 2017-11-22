@@ -40,16 +40,17 @@ namespace DCode.Data.RequestorRepository
             var result = Context.Set<taskapplicant>().Add(taskApplicant);
             return Context.SaveChanges();
         }
-        public int InsertApplicantAndTask(taskapplicant taskApplicant,user applicant)
+        public int InsertApplicantAndTask(taskapplicant taskApplicant, user applicant)
         {
             var result = Context.Set<user>().Add(applicant);
             var res = Context.Set<taskapplicant>().Add(taskApplicant);
             return Context.SaveChanges();
         }
 
-        public int UpdateProfile(user user,IEnumerable<applicantskill> applicantSkills)
+        public int UpdateProfile(user user, IEnumerable<applicantskill> applicantSkills)
         {
-            var currentSkills = Context.Set<applicantskill>().Where(x => x.APPLICANT_ID == user.ID);
+            var currentSkills = Context.Set<applicantskill>()
+                .Where(x => x.APPLICANT_ID == user.ID);
             if (currentSkills != null && currentSkills.Count() > 0)
             {
                 var res = RemoveApplicantSkills(currentSkills);
@@ -58,12 +59,25 @@ namespace DCode.Data.RequestorRepository
             {
                 var add = AddApplicantSkills(applicantSkills);
             }
-            var dbUsers = Context.Set<user>().Where(x => x.ID == user.ID);
+            var dbUsers = Context.Set<user>()
+                .Where(x => x.ID == user.ID)
+                .Include(x => x.notification_subscription);
+
             var dbUser = dbUsers.FirstOrDefault();
             dbUser.MANAGER_EMAIL_ID = user.MANAGER_EMAIL_ID;
             dbUser.PROJECT_CODE = user.PROJECT_CODE;
             dbUser.PROJECT_NAME = user.PROJECT_NAME;
             dbUser.PROJECT_MANAGER_NAME = user.PROJECT_MANAGER_NAME;
+
+            if (dbUser.notification_subscription.Any())
+            {
+                dbUser.notification_subscription.First().subscription_status = user.notification_subscription.First().subscription_status;
+            }
+            else
+            {
+                dbUser.notification_subscription = user.notification_subscription;
+            }
+
             //Context.Entry(dbUser).CurrentValues.SetValues(user);
             return Context.SaveChanges();
         }
