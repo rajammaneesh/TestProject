@@ -223,6 +223,7 @@ namespace DCode.Data.RequestorRepository
             IQueryable<user> query;
             query = Context.Set<user>().Where(x => x.EMAIL_ID == emailId);
             query.Include(x => x.applicantskills.Select(y => y.skill)).Load();
+            query.Include(x => x.notification_subscription).Load();
             return query.ToList().FirstOrDefault();
         }
 

@@ -18,6 +18,7 @@ using DCode.Services.Base;
 using DCode.Data.MetadataRepository;
 using System.Text.RegularExpressions;
 using static DCode.Models.Enums.Enums;
+using System.Linq;
 
 namespace DCode.Services.Common
 {
@@ -251,6 +252,12 @@ namespace DCode.Services.Common
                     skill.Id = dbSkill.skill.ID;
                     skill.Value = dbSkill.skill.VALUE;
                     _userContext.SkillSet.Add(skill);
+                }
+
+                if (dbUser.notification_subscription != null && dbUser.notification_subscription.Any())
+                {
+                    _userContext.IsSubscribedToNotifications 
+                        = dbUser.notification_subscription.First().subscription_status;
                 }
             }
             else

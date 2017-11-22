@@ -52,5 +52,7 @@ namespace DCode.Models.User
         public string ProjectCode { get; set; }
 
         public string MsArchiveName { get; set; }
+
+        public bool  IsSubscribedToNotifications { get; set; }
     }
 }
