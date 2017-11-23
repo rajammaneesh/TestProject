@@ -75,6 +75,9 @@
     <Compile Include="DbContexts\approvedapplicant.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\daily_usage_statistics.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContexts\DCodeDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
