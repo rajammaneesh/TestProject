@@ -10,10 +10,18 @@ namespace DCode.Data.ReportingRepository
         Repository<daily_usage_statistics>,
         IDailyUsageStatisticsRepository
     {
+        private readonly ReportingDbContext _context;
+
+        public DailyUsageStatisticsRepository(ReportingDbContext context)
+            : base(context)
+        {
+            _context = context;
+        }
+
         public IEnumerable<daily_usage_statistics> GetDailyStatisticsFor(DateTime date)
         {
             return GetDailyStatisticsHistory()
-                 .Where(x => x.date.Date == date.Date);
+                 .Where(x => x.date == new DateTime(date.Year, date.Month, date.Day));
         }
 
         public IEnumerable<daily_usage_statistics> GetDailyStatisticsHistory()
@@ -23,18 +31,24 @@ namespace DCode.Data.ReportingRepository
 
         public void UpsertDailyStatistics()
         {
+            var currentDate = DateTime.Now;
+
+            var dateToCompare = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day);
+
             var statisticsTableRecords = Context.Set<daily_usage_statistics>()
-                 .Where(x => x.date.Date == DateTime.Now.Date);
+                 .Where(x => x.date == dateToCompare);
 
             if (statisticsTableRecords != null && statisticsTableRecords.Any())
             {
-                statisticsTableRecords.First().visits = statisticsTableRecords.First().visits++;
+                var countRecord = statisticsTableRecords.First();
+
+                countRecord.visits = Convert.ToInt32(countRecord.visits) + 1;
             }
             else
             {
                 Context.Set<daily_usage_statistics>().Add(new daily_usage_statistics
                 {
-                    date = DateTime.Now,
+                    date = dateToCompare,
                     visits = 1
                 });
             }

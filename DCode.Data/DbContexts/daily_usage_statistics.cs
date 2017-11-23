@@ -16,6 +16,6 @@ namespace DCode.Data.DbContexts
     {
         public int pk { get; set; }
         public System.DateTime date { get; set; }
-        public Nullable<long> visits { get; set; }
+        public long visits { get; set; }
     }
 }

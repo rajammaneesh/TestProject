@@ -105,7 +105,6 @@
     <Compile Include="DbContexts\LogDbContext.cs" />
     <Compile Include="DbContexts\MetadataDbContext.cs" />
     <Compile Include="DbContexts\ReportingDbContext.cs" />
-    <Compile Include="DbContexts\RewardDbContext.cs" />
     <Compile Include="DbContexts\service_line.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
