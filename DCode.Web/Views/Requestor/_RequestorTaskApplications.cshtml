@@ -1,4 +1,4 @@
-﻿<div  ng-show="dashboard.showApproval">
+﻿<div ng-show="dashboard.showApproval">
     <div id="taskAppReq" class="new-style-DTM-main-inner-body" style="padding:20px;">
 
         <div class="success-banner" ng-show="AssignedDivModel.Visible">
@@ -44,7 +44,7 @@
                         <div style="clear:both;"></div>
                         <div style="width:100%;padding-top:30px;">
                             <div style="width:65%;float:left;">
-                                <p class="project-desc">{{taskApplicant.Task.Details}}</p>
+                                <p class="project-desc"><b>Project Description : </b>{{taskApplicant.Task.Details}}</p>
                             </div>
                             <div style="width:35%;float:right;">
                                 <div id="responseDiv_$index" class="new-style-DTM-response-txt" ng-click="showStatusResponse($index);">
@@ -61,6 +61,9 @@
                             </div>
                         </div>
                         <div style="clear:both;"></div>
+                        <div style="width:100%;padding-top:20px;" ng-show="applicant.StatementOfPurpose!=null && applicant.StatementOfPurpose.length>0">
+                            <p class="project-desc"> <b>Statement of Purpose:</b> {{applicant.StatementOfPurpose}}</p>
+                        </div>
                     </div>
                     <div ng-show="isShowing($index)">
                         <div style="width:100%;text-align:center;" ng-repeat="applicant in taskApplicant.Applicants" ng-hide="taskApplicant.Task.Status == 'Assigned'">
