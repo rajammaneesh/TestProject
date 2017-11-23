@@ -20,5 +20,26 @@ namespace DCode.Data.ReportingRepository
         {
             return Context.Set<daily_usage_statistics>();
         }
+
+        public void UpsertDailyStatistics()
+        {
+            var statisticsTableRecords = Context.Set<daily_usage_statistics>()
+                 .Where(x => x.date.Date == DateTime.Now.Date);
+
+            if (statisticsTableRecords != null && statisticsTableRecords.Any())
+            {
+                statisticsTableRecords.First().visits = statisticsTableRecords.First().visits++;
+            }
+            else
+            {
+                Context.Set<daily_usage_statistics>().Add(new daily_usage_statistics
+                {
+                    date = DateTime.Now,
+                    visits = 1
+                });
+            }
+
+            Context.SaveChanges();
+        }
     }
 }
