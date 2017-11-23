@@ -20,6 +20,8 @@ namespace DCode.Web.App_Start
     using DCode.Services.Contributor;
     using DCode.Data.ContributorRepository;
     using Data.MetadataRepository;
+    using Services.Reporting;
+    using Data.ReportingRepository;
 
     public static class NinjectWebCommon
     {
@@ -76,6 +78,7 @@ namespace DCode.Web.App_Start
             kernel.Bind<ICommonService>().To<CommonService>();
             kernel.Bind<ITask>().To<Task>();
             kernel.Bind<IContributorService>().To<ContributorService>();
+            kernel.Bind<IReportingService>().To<ReportingService>();
 
             //Repo instantiation
             kernel.Bind<ITaskRepository>().To<TaskRepository>();
@@ -84,6 +87,7 @@ namespace DCode.Web.App_Start
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IContributorRepository>().To<ContributorRepository>();
             kernel.Bind<IServiceLineRepository>().To<ServiceLineRepository>();
+            kernel.Bind<IDailyUsageStatisticsRepository>().To<DailyUsageStatisticsRepository>();
         }
 
     }
