@@ -479,6 +479,11 @@ namespace DCode.Services.Common
 
         public bool GetTechXAccess()
         {
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.CheckUsiAccess]) == false)
+            {
+                return true;
+            }
+
             if (string.IsNullOrEmpty(_userContext?.MsArchiveName))
             {
                 throw new InvalidOperationException("User Context has not yet been initiated");
