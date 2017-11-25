@@ -1,16 +1,12 @@
-﻿using DCode.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Models.RequestModels
 {
     public class TaskRequest
     {
         public int Id { get; set; }
-        public Enums.ActionType ActionType { get; set; }
+        public ActionType ActionType { get; set; }
         public string ProjectName { get; set; }
         public List<int> SkillSet { get; set; }
         public int Hours { get; set; }

@@ -63,6 +63,14 @@
           <Property Name="details" Type="varchar" MaxLength="255" />
           <Property Name="user" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="notification_subscription">
+          <Key>
+            <PropertyRef Name="notification_subscription_id" />
+          </Key>
+          <Property Name="notification_subscription_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="subscription_status" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="service_line">
           <Key>
             <PropertyRef Name="ID" />
@@ -76,7 +84,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="VALUE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VALUE" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="STATUS" Type="varchar" MaxLength="20" />
           <Property Name="STATUS_DATE" Type="datetime" Precision="0" />
           <Property Name="CREATED_BY" Type="varchar" MaxLength="100" />
@@ -100,9 +108,9 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TASK_ID" Type="int" Nullable="false" />
           <Property Name="APPLICANT_ID" Type="int" Nullable="false" />
+          <Property Name="STATEMENT_OF_PURPOSE" Type="varchar" MaxLength="500" />
           <Property Name="STATUS" Type="varchar" MaxLength="20" />
           <Property Name="STATUS_DATE" Type="datetime" Precision="0" />
-          <Property Name="STATEMENT_OF_PURPOSE" Type="varchar" MaxLength="500" />
           <Property Name="CREATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="CREATED_ON" Type="datetime" Precision="0" />
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
@@ -214,6 +222,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_USERS_NOTIFICATION_STATUS">
+          <End Role="users" Type="Self.users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="notification_subscription" Type="Self.notification_subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="notification_subscription">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="taskapplicants_ibfk_1">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="taskapplicants" Type="Self.taskapplicants" Multiplicity="*" />
@@ -313,6 +335,7 @@
           <EntitySet Name="approvedapplicant" EntityType="Self.approvedapplicant" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="elmah_error" EntityType="Self.elmah_error" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="log" EntityType="Self.log" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode" store:Type="Tables" />
@@ -335,6 +358,10 @@
           <AssociationSet Name="approvedapplicant_ibfk_2" Association="Self.approvedapplicant_ibfk_2">
             <End Role="tasks" EntitySet="tasks" />
             <End Role="approvedapplicant" EntitySet="approvedapplicant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="Self.FK_USERS_NOTIFICATION_STATUS">
+            <End Role="users" EntitySet="users" />
+            <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
           <AssociationSet Name="taskapplicants_ibfk_1" Association="Self.taskapplicants_ibfk_1">
             <End Role="users" EntitySet="users" />
@@ -435,6 +462,11 @@
             <End Role="taskskill" EntitySet="taskskills" />
           </AssociationSet>
           <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
+          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
+          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
+            <End Role="user" EntitySet="users" />
+            <End Role="notification_subscription" EntitySet="notification_subscription" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -601,6 +633,7 @@
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="user" ToRole="approvedapplicant" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
+          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
@@ -738,6 +771,29 @@
           <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="notification_subscription">
+          <Key>
+            <PropertyRef Name="notification_subscription_id" />
+          </Key>
+          <Property Name="notification_subscription_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="subscription_status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_USERS_NOTIFICATION_STATUS">
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="notification_subscription">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -919,6 +975,15 @@
                 <ScalarProperty Name="Host" ColumnName="Host" />
                 <ScalarProperty Name="Application" ColumnName="Application" />
                 <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notification_subscription">
+            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
+              <MappingFragment StoreEntitySet="notification_subscription">
+                <ScalarProperty Name="subscription_status" ColumnName="subscription_status" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="notification_subscription_id" ColumnName="notification_subscription_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

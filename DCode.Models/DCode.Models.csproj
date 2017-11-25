@@ -43,6 +43,8 @@
     <Compile Include="Base\IViewModel.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\Suggestion.cs" />
+    <Compile Include="Email\Notification.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="RequestModels\ApplicantRequest.cs" />
     <Compile Include="RequestModels\ApproveTaskRequest.cs" />
     <Compile Include="RequestModels\ProfileRequest.cs" />
@@ -76,12 +78,6 @@
     <Compile Include="ResponseModels\Task\TaskSummary.cs" />
     <Compile Include="User\MenuItems.cs" />
     <Compile Include="User\UserContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DCode.Common\DCode.Common.csproj">
-      <Project>{cb32fab3-5fba-4051-a704-9d3d8751de58}</Project>
-      <Name>DCode.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

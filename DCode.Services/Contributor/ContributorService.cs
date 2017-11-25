@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.Contributor
 {
@@ -99,12 +99,12 @@ namespace DCode.Services.Contributor
                 {
                     APPLICANT_ID = user.UserId,
                     TASK_ID = taskId,
-                    STATUS = Enums.ApplicantStatus.Active.ToString(),
+                    STATUS = ApplicantStatus.Active.ToString(),
                     STATUS_DATE = DateTime.Now,
                     STATEMENT_OF_PURPOSE = statementOfPurpose
                 };
 
-                MapAuditFields(Enums.ActionType.Insert, taskApplicant);
+                MapAuditFields(ActionType.Insert, taskApplicant);
 
                 var result = _contributorRepository.ApplyForTask(taskApplicant);
 

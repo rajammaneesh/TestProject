@@ -23,5 +23,7 @@ namespace DCode.Data.TaskRepository
 
         List<KeyValuePair<string, string>> GetAllCommentsOnEmailId(string emailId);
         IEnumerable<task> GetTaskHistroyByEmailId(string emailId, int currentPageIndex, int recordsCount, out int totalRecords);
+
+        IEnumerable<Tuple<string, int>> GetTaskCountBySkillForDate(DateTime date);
     }
 }

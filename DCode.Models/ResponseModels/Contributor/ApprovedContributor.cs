@@ -1,9 +1,5 @@
-﻿using DCode.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Models.ResponseModels.Contributor
 {
@@ -11,7 +7,7 @@ namespace DCode.Models.ResponseModels.Contributor
     {
         public int Id { get; set; }
         public int? ApplicantId { get; set; }
-        public Enums.ApplicantStatus ApplicantStatus { get; set; }
+        public ApplicantStatus ApplicantStatus { get; set; }
         public string Rating { get; set; }
         public bool? WorkAgain { get; set; }
         public int? Points { get; set; }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Data.Entity;
 using DCode.Common;
 using System.Linq.Dynamic;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Data.RequestorRepository
 {
@@ -38,7 +39,7 @@ namespace DCode.Data.RequestorRepository
             else
             {
                 tasks = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId
-                && x.STATUS == Enums.TaskStatus.Active.ToString());
+                && x.STATUS == TaskStatus.Active.ToString());
             }
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             tasks.Include(x => x.user).Load();
@@ -61,9 +62,9 @@ namespace DCode.Data.RequestorRepository
         {
             var dbTask = Context.Set<task>().Where(x => x.ID == dbApprovedApplicant.TASK_ID).FirstOrDefault();
             var dbApplicant = Context.Set<taskapplicant>().Where(x => x.ID == dbApprovedApplicant.ID).FirstOrDefault();
-            dbTask.STATUS = Enums.TaskStatus.Assigned.ToString();
-            dbApplicant.STATUS = Enums.ApplicantStatus.Assigned.ToString();
-            dbApprovedApplicant.STATUS = Enums.ApplicantStatus.Active.ToString();
+            dbTask.STATUS = TaskStatus.Assigned.ToString();
+            dbApplicant.STATUS = ApplicantStatus.Assigned.ToString();
+            dbApprovedApplicant.STATUS = ApplicantStatus.Active.ToString();
 
             Context.Set<approvedapplicant>().Add(dbApprovedApplicant);
             var result = Context.SaveChanges();
@@ -77,7 +78,7 @@ namespace DCode.Data.RequestorRepository
         //    return approvedApplicants;
         //}
 
-        public IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, Enums.TaskStatusSortFields sortField, Enums.SortOrder sortOrder, out int totalRecords)
+        public IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords)
         {
             IEnumerable<int> taskIdList;
             //Admin login
@@ -87,7 +88,7 @@ namespace DCode.Data.RequestorRepository
             //}
             //else
             //{
-            taskIdList = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == Enums.TaskStatus.Assigned.ToString()).Select(y => y.ID).ToList();
+            taskIdList = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == TaskStatus.Assigned.ToString()).Select(y => y.ID).ToList();
             //}
 
             IQueryable<approvedapplicant> query;
@@ -98,33 +99,33 @@ namespace DCode.Data.RequestorRepository
             totalRecords = query.Count();
 
             ////Pick records based on the pageindex.
-            if (sortField == Enums.TaskStatusSortFields.Name)
+            if (sortField == TaskStatusSortFields.Name)
             {
-                query = sortOrder == Enums.SortOrder.ASC ?
+                query = sortOrder == SortOrder.ASC ?
                     query.OrderBy(x => x.user.FIRST_NAME).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount) :
                     query.OrderByDescending(x => x.user.FIRST_NAME).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             }
-            else if (sortField == Enums.TaskStatusSortFields.DueDate)
+            else if (sortField == TaskStatusSortFields.DueDate)
             {
-                query = sortOrder == Enums.SortOrder.ASC ?
+                query = sortOrder == SortOrder.ASC ?
                     query.OrderBy(x => x.task.DUE_DATE).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount) :
                     query.OrderByDescending(x => x.task.DUE_DATE).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             }
-            else if (sortField == Enums.TaskStatusSortFields.Hours)
+            else if (sortField == TaskStatusSortFields.Hours)
             {
-                query = sortOrder == Enums.SortOrder.ASC ?
+                query = sortOrder == SortOrder.ASC ?
                     query.OrderBy(x => x.task.HOURS).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount) :
                     query.OrderByDescending(x => x.task.HOURS).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             }
-            else if (sortField == Enums.TaskStatusSortFields.ProjectName)
+            else if (sortField == TaskStatusSortFields.ProjectName)
             {
-                query = sortOrder == Enums.SortOrder.ASC ?
+                query = sortOrder == SortOrder.ASC ?
                     query.OrderBy(x => x.task.PROJECT_NAME).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount) :
                     query.OrderByDescending(x => x.task.PROJECT_NAME).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             }
-            else if (sortField == Enums.TaskStatusSortFields.TaskName)
+            else if (sortField == TaskStatusSortFields.TaskName)
             {
-                query = sortOrder == Enums.SortOrder.ASC ?
+                query = sortOrder == SortOrder.ASC ?
                     query.OrderBy(x => x.task.TASK_NAME).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount) :
                     query.OrderByDescending(x => x.task.TASK_NAME).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             }
@@ -143,15 +144,15 @@ namespace DCode.Data.RequestorRepository
             dbApprovedApplicant.RATING = approvedApplicant.RATING;
             dbApprovedApplicant.WORK_AGAIN = approvedApplicant.WORK_AGAIN;
             dbApprovedApplicant.COMMENTS = approvedApplicant.COMMENTS;
-            dbApprovedApplicant.STATUS = Enums.ApprovedApplicantStatus.Closed.ToString();
+            dbApprovedApplicant.STATUS = ApprovedApplicantStatus.Closed.ToString();
 
             //var applicant = Context.Set<taskapplicant>().Where(x => x.ID == dbApprovedApplicant.ID).FirstOrDefault();
             IQueryable<taskapplicant> query;
             query = Context.Set<taskapplicant>().Where(x => x.TASK_ID == dbApprovedApplicant.TASK_ID);
             query.Include(x => x.task).Load();
             var applicant = query.FirstOrDefault();
-            applicant.task.STATUS = Enums.TaskStatus.Closed.ToString();
-            applicant.STATUS = Enums.ApplicantStatus.Closed.ToString();
+            applicant.task.STATUS = TaskStatus.Closed.ToString();
+            applicant.STATUS = ApplicantStatus.Closed.ToString();
             //var applicant = Context.Set<>().Where(x => x.ID == dbApprovedApplicant.APPLICANT_ID).FirstOrDefault();
             //var task = Context.Set<task>().Where(x => x.ID == applicant.TASK_ID).FirstOrDefault();
             //applicant.STATUS = Enums.ApplicantStatus.Closed.ToString();
@@ -181,7 +182,7 @@ namespace DCode.Data.RequestorRepository
             }
             else
             {
-                taskapplicant = Context.Set<taskapplicant>().Where(x => x.user.MANAGER_EMAIL_ID == emailId && x.STATUS == Enums.TaskStatus.Active.ToString());
+                taskapplicant = Context.Set<taskapplicant>().Where(x => x.user.MANAGER_EMAIL_ID == emailId && x.STATUS == TaskStatus.Active.ToString());
             }
             taskapplicant.Include(x => x.task).Load();
             taskapplicant.Include(x => x.task.service_line).Load();
@@ -197,14 +198,14 @@ namespace DCode.Data.RequestorRepository
 
         public int GetPermissionsCount(string emailId)
         {
-            var applicantList = Context.Set<taskapplicant>().Where(x => x.user.MANAGER_EMAIL_ID == emailId && x.STATUS == Enums.TaskStatus.Active.ToString());
+            var applicantList = Context.Set<taskapplicant>().Where(x => x.user.MANAGER_EMAIL_ID == emailId && x.STATUS == TaskStatus.Active.ToString());
             return applicantList.Count();
         }
 
         public int AllowTask(taskapplicant taskApplicant)
         {
             var dbApplicant = Context.Set<taskapplicant>().Where(x => x.ID == taskApplicant.ID).FirstOrDefault();
-            dbApplicant.STATUS = Enums.ApplicantStatus.ManagerApproved.ToString();
+            dbApplicant.STATUS = ApplicantStatus.ManagerApproved.ToString();
             var result = Context.SaveChanges();
             return result;
         }
@@ -212,7 +213,7 @@ namespace DCode.Data.RequestorRepository
         public int RejectTask(taskapplicant taskApplicant)
         {
             var dbApplicant = Context.Set<taskapplicant>().Where(x => x.ID == taskApplicant.ID).FirstOrDefault();
-            dbApplicant.STATUS = Enums.ApplicantStatus.ManagerRejected.ToString();
+            dbApplicant.STATUS = ApplicantStatus.ManagerRejected.ToString();
             var count = Context.SaveChanges();
             return count;
         }
@@ -222,6 +223,7 @@ namespace DCode.Data.RequestorRepository
             IQueryable<user> query;
             query = Context.Set<user>().Where(x => x.EMAIL_ID == emailId);
             query.Include(x => x.applicantskills.Select(y => y.skill)).Load();
+            query.Include(x => x.notification_subscription).Load();
             return query.ToList().FirstOrDefault();
         }
 

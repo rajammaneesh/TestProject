@@ -1,12 +1,9 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
+﻿using DCode.Data.DbContexts;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -37,7 +34,7 @@ namespace DCode.Services.ModelFactory
                     var applicantSkill = new applicantskill();
                     applicantSkill.APPLICANT_ID = userId;
                     applicantSkill.SKILL_ID = skill.Id;
-                    applicantSkill.STATUS = Enums.ApplicantStatus.Active.ToString();
+                    applicantSkill.STATUS = ApplicantStatus.Active.ToString();
                     applicantSkill.STATUS_DATE = DateTime.Now;
                     applicantSkillList.Add(applicantSkill);
                 }

@@ -1,9 +1,4 @@
-﻿using DCode.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DCode.Models.ResponseModels.Task
 {
@@ -18,9 +13,9 @@ namespace DCode.Models.ResponseModels.Task
         {
             get
             {
-                if(ProjectName.Trim().Contains(Constants.Space))
+                if(ProjectName.Trim().Contains(" "))
                 {
-                    var split = ProjectName.Split(Constants.SpaceChar);
+                    var split = ProjectName.Split(' ');
                     return split[0].Substring(0,1) + string.Empty + split[1].Substring(0,1);
                 }
                 else

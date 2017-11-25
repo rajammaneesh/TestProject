@@ -2,21 +2,31 @@
 using System.Net.Mail;
 using System.Configuration;
 using System.Web.Hosting;
+using DCode.Models.Enums;
+using DCode.Models.Email;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DCode.Common
 {
     public static class EmailHelper
     {
         private static LinkedResource inlineDCodeLogo;
+
         private static LinkedResource inlineDeloitteLogo;
-        public static void SendEmail(string toMailAddress,string ccMailAddress, MailMessage mailMessage)
+        public static void SendEmail(string toMailAddress, string ccMailAddress, MailMessage mailMessage)
         {
             try
             {
                 using (SmtpClient SmtpServer = new SmtpClient(Constants.SmtpDeloitte))
                 {
                     mailMessage.From = new MailAddress(ConfigurationManager.AppSettings[Constants.DcodeEmailId]);
-                    mailMessage.To.Add(toMailAddress);
+
+                    if (!string.IsNullOrWhiteSpace(toMailAddress))
+                    {
+                        mailMessage.To.Add(toMailAddress);
+                    }
+
                     if (ccMailAddress != null)
                     {
                         if (ccMailAddress.Contains(";"))
@@ -32,6 +42,7 @@ namespace DCode.Common
                             mailMessage.CC.Add(ccMailAddress);
                         }
                     }
+
                     SmtpServer.Port = 25;
                     SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
                     SmtpServer.Send(mailMessage);
@@ -64,10 +75,10 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
-            }   
+            }
         }
 
-        public static void AssignNotification(string personName, string taskName, string projectName,string wbsCode, string toMailAddress, string ccMailAddress)
+        public static void AssignNotification(string personName, string taskName, string projectName, string wbsCode, string toMailAddress, string ccMailAddress)
         {
             var htmlBody = GetEmail();
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -142,6 +153,44 @@ namespace DCode.Common
             inlineDeloitteLogo = new LinkedResource(HostingEnvironment.MapPath(Constants.Deloittepath));
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             return htmlBody;
+        }
+
+        public static void SendBulkEmail(List<Notification> notifications, int noOfParallelThreads = 4)
+        {
+            Parallel.ForEach(
+                notifications,
+                new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = noOfParallelThreads
+                },
+                notification =>
+                {
+                    SendEmail(notification);
+                });
+
+        }
+
+        public static void SendEmail(Notification notification)
+        {
+            var mailMessage = new MailMessage();
+
+            notification?.BccAddresses?.ForEach(address =>
+            {
+                mailMessage.Bcc.Add(address);
+            });
+
+            notification?.CcAddresses?.ForEach(address =>
+            {
+                mailMessage.CC.Add(address);
+            });
+
+            mailMessage.To.Add(notification?.ToAddresses);
+
+            mailMessage.Body = notification.Content;
+
+            mailMessage.Subject = notification.Subject;
+
+            SendEmail(null, null, mailMessage);
         }
     }
 }

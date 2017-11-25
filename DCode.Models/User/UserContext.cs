@@ -1,10 +1,10 @@
-﻿using DCode.Common;
-using DCode.Models.ResponseModels.Common;
+﻿using DCode.Models.ResponseModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Models.User
 {
@@ -13,27 +13,27 @@ namespace DCode.Models.User
         public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Enums.Role Role { get; set; }
+        public Role Role { get; set; }
         public bool IsCoreRoleRequestor { get; set; }
-        public string Name 
+        public string Name
         {
-            get 
-            { 
-                return (string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(LastName)) ? string.Empty : FirstName + Constants.Space + LastName; 
-            } 
+            get
+            {
+                return (string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(LastName)) ? string.Empty : $"{FirstName} {LastName}";
+            }
         }
         public string Designation { get; set; }
         public string EmailId { get; set; }
         public string EmployeeId { get; set; }
-        public List<Skill> SkillSet { get;set;}
+        public List<Skill> SkillSet { get; set; }
         public List<MenuItem> MenuItems { get; set; }
         public string ShortName
         {
             get
             {
-                if (Name.Trim().Contains(Constants.Space))
+                if (Name.Trim().Contains(" "))
                 {
-                    var split = Name.Split(Constants.SpaceChar);
+                    var split = Name.Split(' ');
                     return split[0].Substring(0, 1) + string.Empty + split[1].Substring(0, 1);
                 }
                 else
@@ -52,5 +52,7 @@ namespace DCode.Models.User
         public string ProjectCode { get; set; }
 
         public string MsArchiveName { get; set; }
+
+        public bool  IsSubscribedToNotifications { get; set; }
     }
 }

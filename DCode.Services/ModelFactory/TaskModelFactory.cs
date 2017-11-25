@@ -1,17 +1,12 @@
 ﻿using DCode.Common;
-using DCode.Data;
 using DCode.Data.DbContexts;
-using DCode.Models;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Task;
 using DCode.Services.Common;
-using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -115,7 +110,7 @@ namespace DCode.Services.ModelFactory
         {
             var dbTask = new task();
             var user = _commonService.GetCurrentUserContext();
-            var modelTask = input as Models.RequestModels.TaskRequest;
+            var modelTask = input as TaskRequest;
             if (modelTask != null)
             {
                 dbTask.ONBOARDING_DATE = Convert.ToDateTime(modelTask.OnBoardingDate, CultureInfo.InvariantCulture);
@@ -130,7 +125,7 @@ namespace DCode.Services.ModelFactory
                 dbTask.PROJECT_WBS_Code = modelTask.WBSCode;
                 //dbTask.REQUESTOR_EMAIL_ID = user.EmailId;
                 //dbTask.SKILLS = modelTask.SkillSet;
-                dbTask.STATUS = Enums.TaskStatus.Active.ToString();
+                dbTask.STATUS = TaskStatus.Active.ToString();
                 dbTask.STATUS_DATE = DateTime.Now;
                 dbTask.TYPE = modelTask.Type;
                 dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
