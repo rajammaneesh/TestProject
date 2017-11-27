@@ -122,7 +122,7 @@ namespace DCode.Services.Requestor
             {
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
-                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId);
+                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId+ ";" + applicant.user.MANAGER_EMAIL_ID);
             }
             return result;
         }
