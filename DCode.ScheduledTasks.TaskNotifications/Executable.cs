@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ninject;
 
 namespace DCode.ScheduledTasks.TaskNotifications
 {
@@ -10,7 +6,13 @@ namespace DCode.ScheduledTasks.TaskNotifications
     {
         static void Main(string[] args)
         {
+            var kernel = new StandardKernel(new NotificationManagerModule());
 
+            var operation = new DailyNotificationsOperation(kernel);
+
+            operation.Invoke();
+
+            System.Console.ReadKey();
         }
     }
 }

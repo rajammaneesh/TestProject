@@ -112,7 +112,7 @@ namespace DCode.Data.TaskRepository
                                 && x.STATUS == Enums.TaskStatus.Active.ToString());
 
             var countResults = tasks
-                .GroupBy(x => x.taskskills.First().skill.VALUE)
+                .GroupBy(x => x.taskskills.FirstOrDefault().skill.VALUE)
                 .OrderBy(x => x.Key);
 
             var mappedResult = new List<Tuple<string, int>>();

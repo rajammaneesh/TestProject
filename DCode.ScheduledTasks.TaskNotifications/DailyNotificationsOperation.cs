@@ -28,7 +28,8 @@ namespace DCode.ScheduledTasks.TaskNotifications
             var skills
                 = _reportingService.GetSkillsForNewTasksAddeddYesterday();
 
-            if (skills == null)
+            if (skills == null
+                || skills.Count() == 0)
             {
                 throw new Exception();
             }
@@ -47,7 +48,8 @@ namespace DCode.ScheduledTasks.TaskNotifications
                 notifications = new List<Notification>();
             }
 
-            notifications.AddRange(skills.Select(skill =>
+            notifications.AddRange(skills
+                ?.Select(skill =>
             {
                 var recipients
                   = _reportingService.GetSubscribedUserForTask(skill);
