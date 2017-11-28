@@ -28,7 +28,7 @@ namespace DCode.Common
         public const string TabPermissions = "permissions";
         public const string TabNewTask = "new task";
         public const string TabHistory = "history";
-        public const string PERMISSIONS = "PERMISSIONS";
+        public const string PERMISSIONS = "APPROVALS";
         public const string CheckUsiAccess = "CheckUsiAccess";
 
         //Punctuation 
