@@ -207,7 +207,12 @@
 
         $scope.ValidatePermissionDetails = function (index) {
             var isValid = true;
-            if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null) {
+            var userEmail = "";
+            if ($rootScope.userContext != null )
+            {
+                userEmail = $rootScope.userContext.EmailId;
+            }
+            if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null || $("#txtManagerEmailId" + index).val() == userEmail) {
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
