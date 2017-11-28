@@ -39,7 +39,7 @@ namespace DCode.Services.ModelFactory
                 logDb.description = inputModel.Description;
                 //logDb.details = inputModel.Details;
                 logDb.details = DateTime.Now.ToString();
-                //logDb.user = _commonService.GetCurrentUserContext().Name;
+                logDb.user = inputModel.User;
                 return logDb;
             }
             return null;

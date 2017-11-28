@@ -82,71 +82,71 @@ namespace DCode.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult TestEmailForBulk()
-        {
-            var listOfNotifications = new List<Notification>
-            {
-                new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject="JAVA"
-                },
-                  new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject=".NET"
-                },
-                    new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject="Guidewire"
-                },
-                      new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject="Hybris"
-                },
-                        new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject="Sitecore"
-                },
-                          new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","debabhattacharya@deloitte.com"},
-                    Content="Some Context",
-                    Subject="AEM"
-                },
-                            new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject="QA"
-                },
-                              new Notification {
-                    ToAddresses= "risen@deloitte.com",
-                    CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-                    Content="Some Context",
-                    Subject="Salesforce"
-                }
-            };
-            EmailHelper.SendBulkEmail(listOfNotifications);
+        //public JsonResult TestEmailForBulk()
+        //{
+        //    var listOfNotifications = new List<Notification>
+        //    {
+        //        new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="JAVA"
+        //        },
+        //          new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill=".NET"
+        //        },
+        //            new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Guidewire"
+        //        },
+        //              new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Hybris"
+        //        },
+        //                new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Sitecore"
+        //        },
+        //                  new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","debabhattacharya@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="AEM"
+        //        },
+        //                    new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="QA"
+        //        },
+        //                      new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Salesforce"
+        //        }
+        //    };
+        //    EmailHelper.SendBulkEmail(listOfNotifications);
 
-            return Json("succes", JsonRequestBehavior.AllowGet);
-        }
+        //    return Json("succes", JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult testemail()
         {

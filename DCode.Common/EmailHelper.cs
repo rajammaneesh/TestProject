@@ -6,6 +6,10 @@ using DCode.Models.Enums;
 using DCode.Models.Email;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+using DCode.Models.Common;
+using System.Threading;
 
 namespace DCode.Common
 {
@@ -46,7 +50,6 @@ namespace DCode.Common
                     SmtpServer.Port = 25;
                     SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
                     SmtpServer.Send(mailMessage);
-
                 }
             }
             catch (Exception ex)
@@ -58,7 +61,7 @@ namespace DCode.Common
 
         public static void SendApproveRejectNotification(string personName, string taskName, string projectName, Enums.EmailType type, string toMailAddress, string ccMailAddress)
         {
-            var htmlBody = GetEmail();
+            var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             using (var mailMessage = new MailMessage())
@@ -80,7 +83,7 @@ namespace DCode.Common
 
         public static void AssignNotification(string personName, string taskName, string projectName, string wbsCode, string toMailAddress, string ccMailAddress)
         {
-            var htmlBody = GetEmail();
+            var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             using (var mailMessage = new MailMessage())
@@ -102,7 +105,7 @@ namespace DCode.Common
 
         public static void ApplyNotification(string managerName, string personName, string taskName, string projectName, string hours, string startDateTime, string toMailAddress, string ccMailAddress)
         {
-            var htmlBody = GetEmail();
+            var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             using (var mailMessage = new MailMessage())
@@ -124,7 +127,7 @@ namespace DCode.Common
 
         public static void ReviewNotification(string personName, string taskName, string projectName, string toMailAddress, string ccMailAddress)
         {
-            var htmlBody = GetEmail();
+            var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
 
@@ -145,52 +148,24 @@ namespace DCode.Common
             }
         }
 
-        public static string GetEmail()
+        public static string GetEmail(PathGeneratorType generator)
         {
-            string htmlBody = System.IO.File.ReadAllText(HostingEnvironment.MapPath(Constants.EmailTemplatePath));
-            inlineDCodeLogo = new LinkedResource(HostingEnvironment.MapPath(Constants.DCodeLogoPath));
+            var pathGeneratorFactory = new AssetPathGeneratorFactory();
+
+            var pathGenerator = pathGeneratorFactory.GetGenerator(generator);
+
+            string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
+
+            inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath));
+
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
-            inlineDeloitteLogo = new LinkedResource(HostingEnvironment.MapPath(Constants.Deloittepath));
+
+            inlineDeloitteLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.Deloittepath));
+
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
+
             return htmlBody;
         }
 
-        public static void SendBulkEmail(List<Notification> notifications, int noOfParallelThreads = 4)
-        {
-            Parallel.ForEach(
-                notifications,
-                new ParallelOptions
-                {
-                    MaxDegreeOfParallelism = noOfParallelThreads
-                },
-                notification =>
-                {
-                    SendEmail(notification);
-                });
-
-        }
-
-        public static void SendEmail(Notification notification)
-        {
-            var mailMessage = new MailMessage();
-
-            notification?.BccAddresses?.ForEach(address =>
-            {
-                mailMessage.Bcc.Add(address);
-            });
-
-            notification?.CcAddresses?.ForEach(address =>
-            {
-                mailMessage.CC.Add(address);
-            });
-
-            mailMessage.To.Add(notification?.ToAddresses);
-
-            mailMessage.Body = notification.Content;
-
-            mailMessage.Subject = notification.Subject;
-
-            SendEmail(null, null, mailMessage);
-        }
     }
 }

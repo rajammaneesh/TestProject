@@ -5,6 +5,7 @@ using System.Linq;
 using System.Data.Entity;
 using DCode.Models.Enums;
 using System;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Data.TaskRepository
 {
@@ -108,11 +109,13 @@ namespace DCode.Data.TaskRepository
         public IEnumerable<Tuple<string, int>> GetTaskCountBySkillForDate(DateTime date)
         {
             IQueryable<task> tasks = Context.Set<task>()
-                            .Where(x => x.CREATED_ON == date
+                            .Where(x => x.CREATED_ON.Value.Day == date.Date.Day
+                                && x.CREATED_ON.Value.Month == date.Date.Month
+                                && x.CREATED_ON.Value.Year == date.Date.Year
                                 && x.STATUS == Enums.TaskStatus.Active.ToString());
 
             var countResults = tasks
-                .GroupBy(x => x.taskskills.First().skill.VALUE)
+                .GroupBy(x => x.taskskills.FirstOrDefault().skill.VALUE)
                 .OrderBy(x => x.Key);
 
             var mappedResult = new List<Tuple<string, int>>();
@@ -123,6 +126,20 @@ namespace DCode.Data.TaskRepository
             }
 
             return mappedResult;
+        }
+
+        public IEnumerable<task> GetProjectDetailsForNewTasksFromDateForSkill(DateTime date, string skillName)
+        {
+            IQueryable<task> tasks = Context.Set<task>()
+                            .Where(x => x.CREATED_ON.Value.Day == date.Date.Day
+                                && x.CREATED_ON.Value.Month == date.Date.Month
+                                && x.CREATED_ON.Value.Year == date.Date.Year
+                                && x.STATUS == Enums.TaskStatus.Active.ToString()
+                                && x.taskskills.Where(y => y.skill.VALUE == skillName).Count() > 0);
+
+            tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
+
+            return tasks.ToList();
         }
     }
 }
