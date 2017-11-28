@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DCode.Models.Email
 {
@@ -10,8 +11,8 @@ namespace DCode.Models.Email
 
         public string ToAddresses { get; set; }
 
-        public string Content { get; set; }
+        public IEnumerable<Tuple<string, string>> TaskDetails { get; set; }
 
-        public string Subject { get; set; }
+        public string Skill { get; set; }
     }
 }

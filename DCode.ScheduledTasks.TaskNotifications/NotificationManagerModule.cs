@@ -1,5 +1,12 @@
-﻿using DCode.Data.TaskRepository;
+﻿using DCode.Common;
+using DCode.Data.DbContexts;
+using DCode.Data.LogRepository;
+using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
+using DCode.Models.Common;
+using DCode.Services.Common;
+using DCode.Services.ModelFactory;
+using DCode.Services.ModelFactory.CommonFactory;
 using DCode.Services.Reporting;
 using Ninject.Modules;
 
@@ -19,6 +26,26 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
             Bind(typeof(IReportingService))
                 .To(typeof(ReportingService))
+                .InSingletonScope();
+
+            Bind(typeof(IEmailService))
+             .To(typeof(EmailService))
+             .InSingletonScope();
+
+            Bind(typeof(IAssetPathGeneratorFactory))
+                .To(typeof(AssetPathGeneratorFactory))
+                .InSingletonScope();
+
+            Bind(typeof(IModelFactory<log>))
+             .To(typeof(LogModelFactory))
+             .InSingletonScope();
+
+            Bind(typeof(ILogRepository))
+                .To(typeof(LogRepository))
+                .InSingletonScope();
+
+            Bind(typeof(ILoggerService))
+                .To(typeof(LoggerService))
                 .InSingletonScope();
         }
     }

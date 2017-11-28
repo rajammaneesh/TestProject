@@ -11,8 +11,6 @@ namespace DCode.ScheduledTasks.TaskNotifications
             var operation = new DailyNotificationsOperation(kernel);
 
             operation.Invoke();
-
-            System.Console.ReadKey();
         }
     }
 }

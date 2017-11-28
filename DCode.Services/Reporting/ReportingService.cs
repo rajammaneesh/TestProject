@@ -34,5 +34,21 @@ namespace DCode.Services.Reporting
                 ?.Select(x => x.Item1)
                 .Distinct();
         }
+
+        public IEnumerable<Tuple<string, string>> GetProjectDetailsForNewTasksAddedYesterday(string skill)
+        {
+            var projectDetails = _taskRepository
+                  .GetProjectDetailsForNewTasksFromDateForSkill(DateTime.Now.AddDays(-1), skill);
+
+            var result = new List<Tuple<string, string>>();
+
+            foreach (var project in projectDetails)
+            {
+                result.Add(
+                    Tuple.Create<string, string>(project.PROJECT_NAME, project.TASK_NAME));
+            }
+
+            return result;
+        }
     }
 }

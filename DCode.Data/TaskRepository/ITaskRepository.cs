@@ -25,5 +25,7 @@ namespace DCode.Data.TaskRepository
         IEnumerable<task> GetTaskHistroyByEmailId(string emailId, int currentPageIndex, int recordsCount, out int totalRecords);
 
         IEnumerable<Tuple<string, int>> GetTaskCountBySkillForDate(DateTime date);
+
+        IEnumerable<task> GetProjectDetailsForNewTasksFromDateForSkill(DateTime date, string skillName);
     }
 }

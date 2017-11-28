@@ -8,5 +8,7 @@ namespace DCode.Services.Reporting
         IEnumerable<string> GetSubscribedUserForTask(string task);
 
         IEnumerable<string> GetSkillsForNewTasksAddeddYesterday();
+
+        IEnumerable<Tuple<string, string>> GetProjectDetailsForNewTasksAddedYesterday(string skill);
     }
 }
