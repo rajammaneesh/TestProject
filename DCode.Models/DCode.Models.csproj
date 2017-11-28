@@ -45,6 +45,7 @@
     <Compile Include="Common\Suggestion.cs" />
     <Compile Include="Email\Notification.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Reporting\IReportingExecutor.cs" />
     <Compile Include="RequestModels\ApplicantRequest.cs" />
     <Compile Include="RequestModels\ApproveTaskRequest.cs" />
     <Compile Include="RequestModels\ProfileRequest.cs" />

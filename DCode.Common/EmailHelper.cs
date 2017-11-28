@@ -155,7 +155,7 @@ namespace DCode.Common
             return htmlBody;
         }
 
-        public static void SendBulkEmail(List<Notification> notifications, int noOfParallelThreads = 4)
+        public static void SendBulkEmail(IEnumerable<Notification> notifications, int noOfParallelThreads = 4)
         {
             Parallel.ForEach(
                 notifications,
