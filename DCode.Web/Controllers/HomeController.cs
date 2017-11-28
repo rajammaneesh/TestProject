@@ -45,7 +45,7 @@ namespace DCode.Web.Controllers
                 }
                 else
                 {
-                    if (String.IsNullOrEmpty(userContext.ManagerEmailId))
+                    if (userContext.SkillSet == null || (userContext.SkillSet !=null && userContext.SkillSet.Count == 0))
                     {
                         return RedirectToAction("profile", "profile");
                     }
