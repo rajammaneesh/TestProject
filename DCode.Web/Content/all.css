@@ -2043,6 +2043,7 @@ input.edit-task-btn.width110 {
     .new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
     }
+
     .new-style-DTM-div-middle-33 {
         display: none;
     }
@@ -2373,3 +2374,8 @@ input.edit-task-btn.width110 {
         border-color: #34495e;
         cursor: pointer;
     }
+
+input[type="checkbox"] {
+    width: 20px; /*Desired width*/
+    height: 20px; /*Desired height*/
+}
