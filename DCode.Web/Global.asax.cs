@@ -1,4 +1,6 @@
 ﻿using DCode.Data.ReportingRepository;
+using DCode.Data.TaskRepository;
+using DCode.Data.UserRepository;
 using DCode.Services.Reporting;
 using System;
 using System.Web;
@@ -16,6 +18,12 @@ namespace DCode.Web
         public MvcApplication()
         {
             _reportingService = new ReportingService(
+                new TaskRepository(
+                    new Data.DbContexts.TaskDbContext()),
+
+                new UserRepository(
+                  new Data.DbContexts.UserDbContext()),
+
                 new DailyUsageStatisticsRepository(
                     new Data.DbContexts.ReportingDbContext()));
         }

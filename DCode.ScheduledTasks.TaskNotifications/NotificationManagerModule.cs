@@ -1,6 +1,7 @@
 ﻿using DCode.Common;
 using DCode.Data.DbContexts;
 using DCode.Data.LogRepository;
+using DCode.Data.ReportingRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
 using DCode.Models.Common;
@@ -47,6 +48,10 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(ILoggerService))
                 .To(typeof(LoggerService))
                 .InSingletonScope();
+
+            Bind(typeof(IDailyUsageStatisticsRepository))
+              .To(typeof(DailyUsageStatisticsRepository))
+              .InSingletonScope();
         }
     }
 }

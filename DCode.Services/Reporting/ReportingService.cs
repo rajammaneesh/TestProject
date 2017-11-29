@@ -1,4 +1,5 @@
-﻿using DCode.Data.TaskRepository;
+﻿using DCode.Data.ReportingRepository;
+using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
 using System;
 using System.Collections.Generic;
