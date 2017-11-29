@@ -24,10 +24,10 @@ namespace DCode.Common
             {
                 MaxDegreeOfParallelism = 4
             },
-       notification =>
-       {
-           SendEmail(notification);
-       });
+            notification =>
+            {
+                SendEmail(notification);
+            });
 
         }
 
