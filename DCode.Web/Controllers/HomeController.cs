@@ -4,7 +4,7 @@ using DCode.Web.Security;
 using System;
 using System.Configuration;
 using System.Web.Mvc;
-using static DCode.Common.Enums;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Controllers
 {
@@ -39,13 +39,13 @@ namespace DCode.Web.Controllers
                 }
 
 
-                if (userContext.Role == Enums.Role.Requestor)
+                if (userContext.Role == Role.Requestor)
                 {
                     return RedirectToAction("newtasks", "requestor");
                 }
                 else
                 {
-                    if (String.IsNullOrEmpty(userContext.ManagerEmailId))
+                    if (userContext.SkillSet == null || (userContext.SkillSet !=null && userContext.SkillSet.Count == 0))
                     {
                         return RedirectToAction("profile", "profile");
                     }

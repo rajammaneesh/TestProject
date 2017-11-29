@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,8 +42,18 @@
   <ItemGroup>
     <Compile Include="Base\ApiResult.cs" />
     <Compile Include="Base\IViewModel.cs" />
+    <Compile Include="Common\AssetPathGeneratorFactory.cs" />
+    <Compile Include="Common\IAssetPathGenerator.cs" />
+    <Compile Include="Common\IAssetPathGeneratorFactory.cs" />
+    <Compile Include="Common\IEmailService.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\NotificationPathGenerator.cs" />
+    <Compile Include="Common\PathGeneratorType.cs" />
+    <Compile Include="Common\ServerPathGenerator.cs" />
     <Compile Include="Common\Suggestion.cs" />
+    <Compile Include="Email\Notification.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Reporting\IReportingExecutor.cs" />
     <Compile Include="RequestModels\ApplicantRequest.cs" />
     <Compile Include="RequestModels\ApproveTaskRequest.cs" />
     <Compile Include="RequestModels\ProfileRequest.cs" />
@@ -76,12 +87,6 @@
     <Compile Include="ResponseModels\Task\TaskSummary.cs" />
     <Compile Include="User\MenuItems.cs" />
     <Compile Include="User\UserContext.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DCode.Common\DCode.Common.csproj">
-      <Project>{cb32fab3-5fba-4051-a704-9d3d8751de58}</Project>
-      <Name>DCode.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

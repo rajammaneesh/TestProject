@@ -17,7 +17,7 @@
             <div id="permissionPage">
                 <div style="padding:20px;" ng-show="AssignedDivModel.Visible">
                     <div class="success-banner">
-                        <div class="title-new dark-grey-blue font-size-24">{{AssignedDivModel.AssigneeName}} has been assigned {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}}</div>
+                        <div class="title-new dark-grey-blue font-size-24">The request by {{AssignedDivModel.AssigneeName}} to work on {{AssignedDivModel.AssignedTask}} for {{AssignedDivModel.AssignedHours}} starting {{AssignedDivModel.StartingDate}} has been sent to the requestor. Contributor will be notified if the requestor assigns him the task.</div>
                     </div>
                 </div>
                 <div style="padding:20px;" ng-show="RejectedDivModel.Visible">
@@ -39,59 +39,63 @@
                 </div>
             </div>
             <div  class="background-color-ecf0f1"  infinite-scroll='getApplicants()' infinite-scroll-distance='0'
-                 infinite-scroll-container="'#reqPermissionPage'">
+                 infinite-scroll-container="'#reqPermissionPage'" style="padding:20px;">
                 <div class="track-box project-details" ng-repeat="taskApplicant in taskApplicants track by $index">
-                    <div ng-hide="taskApplicant.Status == 'ManagerApproved || ManagerRejected'" style="padding:30px; padding-bottom:40px;">
+                    <div ng-hide="taskApplicant.Status == 'ManagerApproved || ManagerRejected'" style="padding:30px;">
                         <div>
-                            <div style="float:left;">
-                                <div class="circle-txt">{{taskApplicant.Applicant.ShortName}}</div>
+                            <div>
+                                <div style="float:left;">
+                                    <div class="circle-txt">{{taskApplicant.Applicant.ShortName}}</div>
+                                </div>
+                                <div style="padding-left:60px;">
+                                    <span class="heading color-8e44ad">{{taskApplicant.Applicant.Name}}</span>
+                                    <span class="gray-text">{{taskApplicant.Applicant.Duration}}</span>
+                                </div>
                             </div>
-                            <div style="padding-left:60px;">
-                                <span class="heading color-8e44ad">{{taskApplicant.Applicant.Name}}</span>
-                                <span class="gray-text">{{taskApplicant.Applicant.Duration}}</span>
+                            <div style="clear:both;"></div>
+                            <div>&nbsp;</div>
+                            <div>
+                                <div class="new-style-DTM-tracking-main">
+                                    <div class="color-8e44ad heading">{{taskApplicant.Task.ProjectName}}</div>
+                                    <div><span class="gray-text margin-left-0">Project Name</span></div>
+                                </div>
+                                <div class="new-style-DTM-tracking-main heading">
+                                    <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
+                                    <div class="gray-text">Billable hours</div>
+                                </div>
+                                <div class="new-style-DTM-tracking-main heading">
+                                    <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
+                                    <div class="gray-text">Start Date</div>
+                                </div>
+                                <div class="new-style-DTM-tracking-main heading">
+                                    <span class="cal-icon"><img src="/Content/Images/serviceLine.png"></span>
+                                    <span class="role-desc dark-grey-blue">{{taskApplicant.Task.ServiceLine}}</span>
+                                    <div class="gray-text">Service Line</div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div>&nbsp;</div>
+                            <div style="width:100%;">
+                                <div class="new-style-DTM-review-post-bigger">
+                                    &nbsp;
+                                </div>
+                                <div class="new-style-DTM-review-post-smaller">
+                                    <div class="reject-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="RejectTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">REJECT</div>
+
+                                    <div class="reject-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerRejected'">REJECT</div>
+                                    <div style="float:left;">&nbsp;</div>
+
+                                    <div class="review-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerApproved'">ALLOW</div>
+
+                                    <div class="review-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="AllowTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">ALLOW</div>
+                                </div>
                             </div>
                         </div>
-                        <br />
-                        <br />
-                        <div>
-                            <div class="new-style-DTM-tracking-main">
-                                <div class="color-8e44ad heading">{{taskApplicant.Task.ProjectName}}</div>
-                                <div><span class="gray-text margin-left-0">Project Name</span></div>
-                            </div>
-                            <div class="new-style-DTM-tracking-main heading">
-                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
-                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.Hours}} hours</span>
-                                <div class="gray-text">Billable hours</div>
-                            </div>
-                            <div class="new-style-DTM-tracking-main heading">
-                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
-                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.OnBoardingDate}}</span>
-                                <div class="gray-text">Start Date</div>
-                            </div>
-                            <div class="new-style-DTM-tracking-main heading">
-                                <span class="cal-icon"><img src="/Content/Images/serviceLine.png"></span>
-                                <span class="role-desc dark-grey-blue">{{taskApplicant.Task.ServiceLine}}</span>
-                                <div class="gray-text">Service Line</div>
-                            </div>
-                        </div>
-                        <div style="clear:both;"></div>
-                        <div>&nbsp;</div>
-                        <div style="width:100%;">
-                            <div class="new-style-DTM-review-post-bigger">
-                                &nbsp;
-                            </div>
-                            <div class="new-style-DTM-review-post-smaller">
-                                <div class="reject-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="RejectTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">REJECT</div>
-
-                                <div class="reject-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerRejected'">REJECT</div>
-                                <div style="float:left;">&nbsp;</div>
-
-                                <div class="review-btn-disabled disabled" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'ManagerApproved'">ALLOW</div>
-
-                                <div class="review-btn" style="float:left;" ng-show="taskApplicant.Applicant.Status == 'Active'" ng-click="AllowTask(taskApplicant.Task, taskApplicant.Applicant,taskApplicant.TaskApplicantId)">ALLOW</div>
-                            </div>
-                        </div>
+                        
                     </div>
+                    <div style="clear:both;"></div>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-﻿<div  ng-show="dashboard.showApproval">
+﻿<div ng-show="dashboard.showApproval">
     <div id="taskAppReq" class="new-style-DTM-main-inner-body" style="padding:20px;">
 
         <div class="success-banner" ng-show="AssignedDivModel.Visible">
@@ -44,7 +44,7 @@
                         <div style="clear:both;"></div>
                         <div style="width:100%;padding-top:30px;">
                             <div style="width:65%;float:left;">
-                                <p class="project-desc">{{taskApplicant.Task.Details}}</p>
+                                <p class="project-desc"><b>Task Description : </b>{{taskApplicant.Task.Details}}</p>
                             </div>
                             <div style="width:35%;float:right;">
                                 <div id="responseDiv_$index" class="new-style-DTM-response-txt" ng-click="showStatusResponse($index);">
@@ -61,24 +61,57 @@
                             </div>
                         </div>
                         <div style="clear:both;"></div>
+                        <div style="width:100%;padding-top:20px;" ng-show="applicant.StatementOfPurpose!=null && applicant.StatementOfPurpose.length>0">
+                            <p class="project-desc"> <b>Statement of Purpose:</b> {{applicant.StatementOfPurpose}}</p>
+                        </div>
                     </div>
+                    <div style="clear:both;"></div>
                     <div ng-show="isShowing($index)">
-                        <div style="width:100%;text-align:center;" ng-repeat="applicant in taskApplicant.Applicants" ng-hide="taskApplicant.Task.Status == 'Assigned'">
-
-                            <div>
-                                <div class="circle-txt-60">{{applicant.ShortName}}</div>
+                        <div style="width:100%;text-align:center;padding-top:20px;padding-bottom:20px;" ng-repeat="applicant in taskApplicant.Applicants" ng-hide="taskApplicant.Task.Status == 'Assigned'">
+                            @*<div>
+                                    <div class="new-style-DTM-20-div">
+                                        <div style="float:left;">
+                                            <div class="circle-txt-60">{{applicant.ShortName}}</div>
+                                        </div>
+                                        <div style="float:left;">
+                                            <div class="font-size-20 color-8e44ad">{{applicant.Name}}</div>
+                                            <div class="gray-text">{{applicant.Designation}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="new-style-DTM-20-div">
+                                        &nbsp;
+                                    </div>
+                                    <div class="new-style-DTM-20-div">
+                                        <div class="add-task-button-DTM-disabled" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
+                                        <div class="add-task-button-sai" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div style="text-align:left;padding-top:30px;">
+                                    <div class="font-size-14"><b>Skills :</b>{{applicant.Expertise}}</div>
+                                    <div class="gray-text">Skills</div>
+                                </div>*@
+                            <div class="new-style-DTM-20-div">
+                                <div style="float:left;">
+                                    <div class="circle-txt-60">{{applicant.ShortName}}</div>
+                                </div>
+                                <div>
+                                    <div class="font-size-20 color-8e44ad">{{applicant.Name}}</div>
+                                    <div class="gray-text">{{applicant.Designation}}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="new-style-DTM-20-div" style="padding-right:20px;">
+                                <div style="min-height:50px;overflow-y:auto;">
+                                    <div class="font-size-14">{{applicant.Expertise}}</div>
+                                    <div class="gray-text">Skills</div>
+                                </div>
                             </div>
                             <div class="new-style-DTM-20-div">
-                                <div class="font-size-20 color-8e44ad">{{applicant.Name}}</div>
-                                <div class="font-size-14">{{applicant.Designation}}</div>
-                            </div>
-                            <div class="new-style-DTM-20-div">
-                                <div class="font-size-20">{{applicant.Expertise}}</div>
-                                <div class="font-size-14">Skills</div>
-                            </div>
-                            <div class="new-style-DTM-20-div">
-                                <div class="add-task-button-DTM-disabled" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
-                                <div class="add-task-button-sai" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
+                                <div style="width:50%;text-align:right;">
+                                    <div class="add-task-button-DTM-disabled" ng-show="taskApplicant.Task.Status == 'Assigned'">Assign</div>
+                                    <div class="add-task-button-sai" ng-hide="taskApplicant.Task.Status == 'Assigned'" ng-click="assignTaskToApplicant(taskApplicant.Task , applicant, $index,taskApplicant.TaskApplicantId)">ASSIGN</div>
+                                </div>
                             </div>
                             <div>
                                 &nbsp;

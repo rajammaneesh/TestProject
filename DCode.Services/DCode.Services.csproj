@@ -51,6 +51,8 @@
     <Compile Include="Base\BaseService.cs" />
     <Compile Include="Common\CommonService.cs" />
     <Compile Include="Common\ICommonService.cs" />
+    <Compile Include="Common\ILoggerService.cs" />
+    <Compile Include="Common\LoggerService.cs" />
     <Compile Include="Contributor\ContributorService.cs" />
     <Compile Include="Contributor\IContributorService.cs" />
     <Compile Include="ModelFactory\ApplicantModelFactory.cs" />

@@ -49,6 +49,7 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="EmailHelper.cs" />
+    <Compile Include="EmailService.cs" />
     <Compile Include="EnumerationsHelper.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Predicatebuilder.cs" />
@@ -60,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DCode.Models\DCode.Models.csproj">
+      <Project>{CD243C46-15DE-4426-8C09-601F5F022B15}</Project>
+      <Name>DCode.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

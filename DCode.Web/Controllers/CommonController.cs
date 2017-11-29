@@ -1,8 +1,11 @@
 ﻿using DCode.Common;
+using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Controllers
 {
@@ -60,7 +63,7 @@ namespace DCode.Web.Controllers
 
         public JsonResult SetUser(string firstName, string lastName, string emailId, string role, string managerEmailId, string department)
         {
-            var user = new UserContext { FirstName = firstName, LastName = lastName, EmailId = emailId, Role = role == "Contributor" ? Enums.Role.Contributor : Enums.Role.Requestor, Designation = role == "Contributor" ? "Consultant" : "Manager", ManagerEmailId = managerEmailId, Department = department, MsArchiveName = "Personal Archive - Lastname, Test (US - Hyderabad)" };
+            var user = new UserContext { FirstName = firstName, LastName = lastName, EmailId = emailId, Role = role == "Contributor" ? Role.Contributor : Role.Requestor, Designation = role == "Contributor" ? "Consultant" : "Manager", ManagerEmailId = managerEmailId, Department = department, MsArchiveName = "Personal Archive - Lastname, Test (US - Hyderabad)" };
             //user = _commonService.GetCurrentUserContext();
             SessionHelper.Save(Constants.MockUser, user);
             return Json("success", JsonRequestBehavior.DenyGet);
@@ -79,12 +82,78 @@ namespace DCode.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        //public JsonResult TestEmailForBulk()
+        //{
+        //    var listOfNotifications = new List<Notification>
+        //    {
+        //        new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="JAVA"
+        //        },
+        //          new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill=".NET"
+        //        },
+        //            new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Guidewire"
+        //        },
+        //              new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Hybris"
+        //        },
+        //                new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Sitecore"
+        //        },
+        //                  new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","debabhattacharya@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="AEM"
+        //        },
+        //                    new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="QA"
+        //        },
+        //                      new Notification {
+        //            ToAddresses= "risen@deloitte.com",
+        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
+        //            Content="Some Context",
+        //            Skill="Salesforce"
+        //        }
+        //    };
+        //    EmailHelper.SendBulkEmail(listOfNotifications);
+
+        //    return Json("succes", JsonRequestBehavior.AllowGet);
+        //}
+
         public JsonResult testemail()
         {
             EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com");
             EmailHelper.ReviewNotification("User", "task", "projectname", "risen@deloitte.com", "risen@deloitte.com");
-            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", Enums.EmailType.Approved, "risen@deloitte.com", "risen@deloitte.com");
-            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", Enums.EmailType.Rejected, "risen@deloitte.com", "risen@deloitte.com");
+            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Approved, "risen@deloitte.com", "risen@deloitte.com");
+            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Rejected, "risen@deloitte.com", "risen@deloitte.com");
             return Json("succes", JsonRequestBehavior.AllowGet);
         }
 

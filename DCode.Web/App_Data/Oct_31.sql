@@ -375,7 +375,36 @@ CREATE TABLE `users` (
   `UPDATED_ON` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `notification_subscription`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notification_subscription` (
+  `notification_subscription_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `subscription_status` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`notification_subscription_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `notification_subscription_id_UNIQUE` (`notification_subscription_id`),
+  CONSTRAINT `FK_USERS_NOTIFICATION_STATUS` FOREIGN KEY (`user_id`) REFERENCES `users` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Table stores the status of skill based notifications';
+
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `daily_usage_statistics`
+--
+
+DROP TABLE IF EXISTS `daily_usage_statistics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `daily_usage_statistics` (
+  `pk` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `visits` int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `date_UNIQUE` (`date`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`

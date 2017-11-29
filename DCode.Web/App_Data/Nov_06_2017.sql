@@ -153,8 +153,6 @@ FOREIGN KEY(TASK_ID) REFERENCES TASKS(ID),
 FOREIGN KEY(SKILL_ID) references SKILLS(ID)
 )auto_increment = 1;
 
-
-
 INSERT INTO `service_line` VALUES 
 (1,'DD','Deloitte Digital'),
 (2,'SI','System Integration'),

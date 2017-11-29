@@ -229,6 +229,7 @@
     <Content Include="App_Data\Aug_9.sql" />
     <Content Include="App_Data\July_30.sql" />
     <Content Include="App_Data\Nov_06_2017.sql" />
+    <Content Include="App_Data\Nov_28_2017.sql" />
     <Content Include="App_Data\Oct_31.sql" />
     <Content Include="App_Data\Scripts_July23.txt" />
     <Content Include="App_Data\Sep_21_2017.sql" />
@@ -428,6 +429,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DCode\Common\" />
     <Folder Include="Views\Task\" />
   </ItemGroup>
   <ItemGroup>

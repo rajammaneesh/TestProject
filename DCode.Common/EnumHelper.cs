@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static DCode.Models.Enums.Enums;
 
 namespace DCode.Common
 {
     public static class EnumHelper
     {
-        public static Enums.ApplicantStatus ConvertToEnumApplicantStatus(string applicantStatus)
+        public static ApplicantStatus ConvertToEnumApplicantStatus(string applicantStatus)
         {
-            Enums.ApplicantStatus status;
+            ApplicantStatus status;
             switch(applicantStatus.ToLowerInvariant())
             {
                 case "active":
-                    status = Enums.ApplicantStatus.Active;
+                    status = ApplicantStatus.Active;
                     break;
                 default:
-                    status = Enums.ApplicantStatus.Active;
+                    status = ApplicantStatus.Active;
                     break;
             }
             return status;

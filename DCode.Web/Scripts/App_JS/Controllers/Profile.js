@@ -66,7 +66,7 @@
             }
         }
 
-        
+
         $scope.selectedSkill = function (value) {
             if (value != null && value.originalObject != null) {
                 if (!$scope.isSkillExist(value.originalObject.Id)) {
@@ -105,6 +105,7 @@
                     ProjectCode: $scope.profile.ProjectCode,
                     ManagerName: $scope.profile.ManagerName,
                     ManagerEmailId: $scope.profile.ManagerEmailId,
+                    IsSubscribedToNotifications: !!$scope.profile.IsSubscribedToNotifications,
                     SkillSet: $scope.skillSet
                 };
 

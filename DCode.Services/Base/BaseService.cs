@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.Base
 {
@@ -30,10 +31,10 @@ namespace DCode.Services.Base
             }
             return skillsCompliation;
         }
-        protected void MapAuditFields<TEntity>(Enums.ActionType action, TEntity model) where TEntity : class
+        protected void MapAuditFields<TEntity>(ActionType action, TEntity model) where TEntity : class
         {
             var userContext = SessionHelper.Retrieve(Constants.UserContext) as UserContext;
-            if (userContext != null && action == Enums.ActionType.Insert)
+            if (userContext != null && action == ActionType.Insert)
             {
                 if (typeof(TEntity) == typeof(task))
                 {
@@ -66,7 +67,7 @@ namespace DCode.Services.Base
                     entity.CREATED_ON = DateTime.Now;
                 }
             }
-            else if (userContext != null && action == Enums.ActionType.Update)
+            else if (userContext != null && action == ActionType.Update)
             {
                 if (typeof(TEntity) == typeof(task))
                 {

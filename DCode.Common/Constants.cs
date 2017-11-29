@@ -28,7 +28,7 @@ namespace DCode.Common
         public const string TabPermissions = "permissions";
         public const string TabNewTask = "new task";
         public const string TabHistory = "history";
-        public const string PERMISSIONS = "PERMISSIONS";
+        public const string PERMISSIONS = "APPROVALS";
         public const string CheckUsiAccess = "CheckUsiAccess";
 
         //Punctuation 
@@ -65,10 +65,11 @@ namespace DCode.Common
         public static string ApproveRejectBody = "Your request to work on task - {0} under project - {1} is {2}.<br/><br/>Regards,<br/>TechX Team";
         public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team";
         public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team";
+        public static string NotificationBody = "New Tasks have been added to the TechX portal for the {0} skillset.{1}<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
-        public static string EmailTemplatePath = "~/EmailTemplates/email-template.html";
-        public static string DCodeLogoPath = "~/Content/Images/tech-x-logo-black-bg.png";
-        public static string Deloittepath = "~/Content/Images/Deloite_logo.png";
+        public static string EmailTemplatePath = "\\EmailTemplates\\email-template.html";
+        public static string DCodeLogoPath = "\\Content\\Images\\tech-x-logo-black-bg.png";
+        public static string Deloittepath = "\\Content\\Images\\Deloite_logo.png";
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
 
     }
@@ -84,32 +85,5 @@ namespace DCode.Common
     public static class SuccessMessages
     {
         public const string SkillAdded = "Added Skill";
-    }
-
-    public static class Enums
-    {
-        public enum Role { Admin, Requestor, Contributor };
-        public enum TaskStatus { Active, Assigned, Closed };
-        public enum ApplicantStatus { Active, ManagerApproved, Assigned, ManagerRejected, Closed };
-        public enum ActionType { Insert, Update };
-        public enum SortOrder { ASC, DESC };
-        public enum TaskStatusSortFields { Name, Hours, TaskName, ProjectName, DueDate };
-        public enum Rating { Good = 1, Average, Unsatisfactory };
-        public enum SkillStatus { Active, Closed };
-        public enum UserStatus { Active, Closed };
-        public enum TaskApplicant { Active, Closed };
-
-        public enum ApprovedApplicantStatus { Active, Closed };
-        public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };
-        public enum EmailType { Approved, Rejected }
-
-        public enum ErrorRedirectType
-        {
-            [Description("You are not permitted to access this portal as you are not a USI practitioner")]
-            NonUsiPractitioner,
-
-            [Description("An unknown error occurred while processing your request.")]
-            Unknown
-        }
     }
 }

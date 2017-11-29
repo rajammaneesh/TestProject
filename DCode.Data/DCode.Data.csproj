@@ -104,6 +104,9 @@
     </Compile>
     <Compile Include="DbContexts\LogDbContext.cs" />
     <Compile Include="DbContexts\MetadataDbContext.cs" />
+    <Compile Include="DbContexts\notification_subscription.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContexts\ReportingDbContext.cs" />
     <Compile Include="DbContexts\service_line.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
@@ -146,11 +149,17 @@
     <Compile Include="RequestorRepository\UserRepository.cs" />
     <Compile Include="TaskRepository\ITaskRepository.cs" />
     <Compile Include="TaskRepository\TaskRepository.cs" />
+    <Compile Include="UserRepository\IUserRepository.cs" />
+    <Compile Include="UserRepository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DCode.Common\DCode.Common.csproj">
       <Project>{cb32fab3-5fba-4051-a704-9d3d8751de58}</Project>
       <Name>DCode.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCode.Models\DCode.Models.csproj">
+      <Project>{CD243C46-15DE-4426-8C09-601F5F022B15}</Project>
+      <Name>DCode.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

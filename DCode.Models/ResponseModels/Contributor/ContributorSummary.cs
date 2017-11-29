@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DCode.Common;
 using DCode.Models.ResponseModels.Base;
 
 namespace DCode.Models.ResponseModels.Contributor
@@ -14,7 +10,7 @@ namespace DCode.Models.ResponseModels.Contributor
         public string LastName { get; set; }
         public string Name
         {
-            get { return (String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(LastName)) ? string.Empty : FirstName + Constants.Space + LastName; }
+            get { return (String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(LastName)) ? string.Empty : $"{FirstName} {LastName}"; }
         }
         public string EmailId { get; set; }
         public int TopRatingsCount { get; set; }
@@ -22,9 +18,9 @@ namespace DCode.Models.ResponseModels.Contributor
         {
             get
             {
-                if (!String.IsNullOrEmpty(Name) && Name.Trim().Contains(Constants.Space))
+                if (!String.IsNullOrEmpty(Name) && Name.Trim().Contains(" "))
                 {
-                    var split = Name.Split(Constants.SpaceChar);
+                    var split = Name.Split(' ');
                     return split[0].Substring(0, 1) + string.Empty + split[1].Substring(0, 1);
                 }
                 else

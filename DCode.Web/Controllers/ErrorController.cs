@@ -1,7 +1,7 @@
 ﻿using DCode.Common;
 using DCode.Web.Models;
 using System.Web.Mvc;
-using static DCode.Common.Enums;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Controllers
 {
