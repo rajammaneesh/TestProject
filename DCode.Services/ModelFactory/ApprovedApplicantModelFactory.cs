@@ -38,6 +38,7 @@ namespace DCode.Services.ModelFactory
                     contributor.EmailId = input.user.EMAIL_ID;
                     contributor.FirstName = input.user.FIRST_NAME;
                     contributor.LastName = input.user.LAST_NAME;
+                    contributor.ProjectManagerName = input.user.PROJECT_MANAGER_NAME;
                 }
                 contributor.CompletedHours = input.HOURS_WORKED;
                 contributor.CreatedBy = input.CREATED_BY;
