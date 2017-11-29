@@ -10,5 +10,9 @@ namespace DCode.Services.Reporting
         IEnumerable<string> GetSkillsForNewTasksAddeddYesterday();
 
         IEnumerable<Tuple<string, string>> GetProjectDetailsForNewTasksAddedYesterday(string skill);
+
+        void UpdateDailySiteVisitCount();
+
+        List<Tuple<DateTime, int>> GetUserVisitsCount(int noOfRecords = 1);
     }
 }

@@ -1,4 +1,5 @@
-﻿using DCode.Data.TaskRepository;
+﻿using DCode.Data.ReportingRepository;
+using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,17 @@ namespace DCode.Services.Reporting
 
         private readonly IUserRepository _userRepository;
 
+        private readonly IDailyUsageStatisticsRepository _dailyUsageStatisticsRepository;
+
         public ReportingService(ITaskRepository taskRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IDailyUsageStatisticsRepository dailyUsageStatisticsRepository)
         {
             _taskRepository = taskRepository;
 
             _userRepository = userRepository;
+
+            _dailyUsageStatisticsRepository = dailyUsageStatisticsRepository;
         }
 
         public IEnumerable<string> GetSubscribedUserForTask(string task)
@@ -49,6 +55,34 @@ namespace DCode.Services.Reporting
             }
 
             return result;
+        }
+
+        public List<Tuple<DateTime, int>> GetUserVisitsCount(int noOfRecords = 1)
+        {
+            List<Tuple<DateTime, int>> recordsCount = null;
+
+            for (int i = 0; i < noOfRecords; i++)
+            {
+                var dateTime = DateTime.Now.AddDays(-1 * i);
+
+                var result = _dailyUsageStatisticsRepository.GetDailyStatisticsFor(dateTime);
+
+                recordsCount = recordsCount ?? new List<Tuple<DateTime, int>>();
+
+                recordsCount.Add(
+                    Tuple.Create(
+                        dateTime,
+                        result != null && result.Any()
+                            ? Convert.ToInt32(result.First().visits)
+                            : 0));
+            }
+
+            return recordsCount;
+        }
+
+        public void UpdateDailySiteVisitCount()
+        {
+            _dailyUsageStatisticsRepository.UpsertDailyStatistics();
         }
     }
 }

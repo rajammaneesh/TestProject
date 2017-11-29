@@ -392,6 +392,21 @@ CREATE TABLE `notification_subscription` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `daily_usage_statistics`
+--
+
+DROP TABLE IF EXISTS `daily_usage_statistics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `daily_usage_statistics` (
+  `pk` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `visits` int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`pk`),
+  UNIQUE KEY `date_UNIQUE` (`date`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
 -- Dumping data for table `users`
 --
 
