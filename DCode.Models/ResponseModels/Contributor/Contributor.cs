@@ -60,5 +60,7 @@ namespace DCode.Models.ResponseModels.Contributor
             get;
             set;
         }
+
+        public string ProjectManagerName { get; set; }
     }
 }

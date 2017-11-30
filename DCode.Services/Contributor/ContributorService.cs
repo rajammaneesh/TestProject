@@ -197,7 +197,7 @@ namespace DCode.Services.Contributor
             var totalRecords = 0;
             IEnumerable<task> dbTasks;
             IEnumerable<taskskill> dbTaskSkills;
-            IEnumerable<Models.ResponseModels.Task.Task> tasks;
+            IEnumerable<Models.ResponseModels.Task.Task> tasks = null;
 
             var serviceLineToSearch = !string.IsNullOrWhiteSpace(searchFilter)
                 && searchFilter == "M" ? user.Department : null;
@@ -206,9 +206,13 @@ namespace DCode.Services.Contributor
                 && searchFilter == "R" ? user.SkillSet.Select(x => x.Value)?.ToList()
                 : null;
 
-            dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, searchKey, currentPageIndex, recordsCount, out totalRecords);
+            if (!(searchFilter == "R" 
+                && user.SkillSet.Count == 0))
+            {
+                dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, searchKey, currentPageIndex, recordsCount, out totalRecords);
 
-            tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
+                tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
+            }
 
             taskList.Tasks = tasks;
             taskList.TotalRecords = totalRecords;
@@ -222,16 +226,21 @@ namespace DCode.Services.Contributor
                     taskObj.IsApplied = true;
                 }
             }
-            foreach (var dbskill in dbApplicantSkills)
+
+            if (taskList.Tasks != null)
             {
-                foreach (var task in taskList.Tasks)
+                foreach (var dbskill in dbApplicantSkills)
                 {
-                    if (task.Skills.Contains(dbskill.skill.VALUE))
+                    foreach (var task in taskList.Tasks)
                     {
-                        task.IsRecommended = true;
+                        if (task.Skills.Contains(dbskill.skill.VALUE))
+                        {
+                            task.IsRecommended = true;
+                        }
                     }
                 }
             }
+
             return taskList;
         }
 
