@@ -162,7 +162,6 @@ namespace DCode.Services.Requestor
             if (status > 0)
             {
                 var approved = _requestorRepository.GetTaskApplicantByApplicantId(approvedApplicant.ID);
-                EmailHelper.ReviewNotification(approved.user.FIRST_NAME + Constants.Space + approved.user.LAST_NAME, approved.task.TASK_NAME, approved.task.PROJECT_NAME, approved.user.EMAIL_ID, userContext.EmailId);
             }
             return status;
         }
