@@ -19,5 +19,6 @@ namespace DCode.Data.RequestorRepository
         int AddNewSkill(skill skill);
         int AddSuggestion(suggestion suggestion);
         IEnumerable<suggestion> GetSuggestions();
+        int UpdateManager(int userId, string managerName, string managerEmailId);
     }
 }

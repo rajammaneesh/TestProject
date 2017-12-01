@@ -119,7 +119,7 @@ namespace DCode.Services.Contributor
 
                     var managerName = _commonService.GetNameFromEmailId(emailAddress);
 
-                    _commonService.UpdateManagersEmail(user.EmailId, emailAddress, managerName);
+                    _userRepository.UpdateManager(user.UserId, managerName, emailAddress);
 
                     var RMGroupEmailAddress = _commonService.GetRMGroupEmailAddress(user.Department);
 
