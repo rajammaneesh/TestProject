@@ -493,5 +493,23 @@ namespace DCode.Services.Common
 
             return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
         }
+
+        public string GetRMGroupEmailAddress(string department)
+        {
+            var serviceLines = GetServiceLines();
+
+            var currentUsersServiceLine = string.Empty;
+            foreach (var serviceLine in serviceLines)
+            {
+                var splitDep = department.Split(' ');
+                if (splitDep.Contains(serviceLine.Name.ToUpperInvariant()) || splitDep.Contains("EBS"))
+                {
+                    currentUsersServiceLine = serviceLine.Name;
+                    break;
+                }
+            }
+
+            return ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + currentUsersServiceLine];
+        }
     }
 }

@@ -121,22 +121,7 @@ namespace DCode.Services.Contributor
 
                     _commonService.UpdateManagersEmail(user.EmailId, emailAddress, managerName);
 
-                    var department = user.Department;
-
-                    var serviceLines = _commonService.GetServiceLines();
-
-                    var currentUsersServiceLine = string.Empty;
-                    foreach (var serviceLine in serviceLines)
-                    {
-                        var splitDep = department.Split(' ');
-                        if (splitDep.Contains(serviceLine.Name.ToUpperInvariant()) || splitDep.Contains("EBS"))
-                        {
-                            currentUsersServiceLine = serviceLine.Name;
-                            break;
-                        }
-                    }
-
-                    var RMGroupEmailAddress = ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + currentUsersServiceLine];
+                    var RMGroupEmailAddress = _commonService.GetRMGroupEmailAddress(user.Department);
 
                     EmailHelper.ApplyNotification(
                         managerName,
