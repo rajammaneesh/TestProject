@@ -108,6 +108,7 @@
                                                                   title-field="Value"
                                                                   description-field="email"
                                                                   minlength="1"
+                                                                  ng-keydown="RemoveSkillsOnBackSpace();"
                                                                   input-class="form-control form-control-small" />
                                             </div>
 
@@ -118,7 +119,7 @@
                                             <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                         </div>
                                     </div>
-                                    <span class="error">Please add a skill</span>
+                                    <span class="error">Enter valid skill</span>
                                 </div>
                             </div>
                         </div>
