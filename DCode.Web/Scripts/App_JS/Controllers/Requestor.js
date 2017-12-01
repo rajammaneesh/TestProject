@@ -647,23 +647,23 @@
             //}
 
             //validating if due date is more than 2 weeks
-            if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 ) {
-                var one_day = 1000 * 60 * 60 * 24;
-                var date1 = new Date($('#txtStartDate').val()).getTime();
-                var date2 = new Date($('#txtDueDate').val()).getTime();
-                var dateDiff = Math.round((date2 - date1) / one_day);
-                if (dateDiff > 14) {
-                    $("#datetimepicker2").addClass("invalid");
-                    $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-                    $scope.onBoardingDateReview = false;
-                    if (!focusSet) {
-                        $('#txtDueDate').focus();
-                        focusSet = true;
-                    }
-                    isValid = false;
-                }
+            //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 ) {
+            //    var one_day = 1000 * 60 * 60 * 24;
+            //    var date1 = new Date($('#txtStartDate').val()).getTime();
+            //    var date2 = new Date($('#txtDueDate').val()).getTime();
+            //    var dateDiff = Math.round((date2 - date1) / one_day);
+            //    if (dateDiff > 14) {
+            //        $("#datetimepicker2").addClass("invalid");
+            //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
+            //        $scope.onBoardingDateReview = false;
+            //        if (!focusSet) {
+            //            $('#txtDueDate').focus();
+            //            focusSet = true;
+            //        }
+            //        isValid = false;
+            //    }
 
-            }
+            //}
 
             //validating Hours
             if ($('#txtHr').val() == '' || $('#txtHr').val() == null) {
