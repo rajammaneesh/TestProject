@@ -27,7 +27,18 @@ namespace DCode.Data.RequestorRepository
 
         public int InsertUser(user user)
         {
-            var reslut = Context.Set<user>().Add(user);
+            var result = Context.Set<user>().Add(user);
+            return Context.SaveChanges();
+        }
+
+        public int UpdateManager(int userId, string managerName, string managerEmailId)
+        {
+            var result = Context.Set<user>().FirstOrDefault(x => x.ID == userId);
+            if(result != null)
+            {
+                result.PROJECT_MANAGER_NAME = managerName;
+                result.MANAGER_EMAIL_ID = managerEmailId;
+            }
             return Context.SaveChanges();
         }
 
