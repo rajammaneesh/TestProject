@@ -25,6 +25,10 @@
     {
         tabName = DCode.Common.Constants.TabHistory;
     }
+    else if (currentUrl.ToLowerInvariant().Contains(DCode.Common.Constants.ContactUS.ToLowerInvariant()))
+    {
+        tabName = DCode.Common.Constants.ContactUS;
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -102,8 +106,8 @@
                         {
                             foreach (var menuItem in menuItems)
                             {
-                        <a href="@menuItem.NavigationUrl">
-                            @if (@tabName == @menuItem.TabName)
+                                <a href="@menuItem.NavigationUrl">
+                                    @if (@tabName == @menuItem.TabName)
                                     {
                                         liClass = "active-side-nav";
                                         spanColor = "color-9acd66";
@@ -113,25 +117,25 @@
                                         liClass = "";
                                         spanColor = "";
                                     }
-                            <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
-                                @if (@menuItem.MenuItemName != "CREATE NEW TASK")
+                                    <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
+                                        @if (@menuItem.MenuItemName != "CREATE NEW TASK")
                                         {
                                             if (@tabName == @menuItem.TabName)
                                             {
-                                        <img src="@menuItem.ImageUrlActive" />
+                                                <img src="@menuItem.ImageUrlActive" />
                                             }
                                             else
                                             {
-                                        <img src="@menuItem.ImageUrlInactive" />
+                                                <img src="@menuItem.ImageUrlInactive" />
                                             }
                                         }
-                                <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
-                                @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
+                                        <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
+                                        @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
                                         {
-                                        <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
+                                            <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
                                         }
-                            </li>
-                        </a>
+                                    </li>
+                                </a>
                             }
                         }
                     </ul>
