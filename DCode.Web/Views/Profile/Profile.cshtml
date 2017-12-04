@@ -32,7 +32,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.js"></script>
 
 </head>
-<body ng-app="dCodeApp" class="profileController" ng-controller="ProfileController">
+<body ng-app="dCodeApp" class="profileController" ng-controller="ProfileController" ng-cloak>
     <div class="new-style-DTM-profile-border">&nbsp;</div>
     <div class="new-style-DTM-profile-center">
         <div class="profile-logo">
@@ -122,12 +122,6 @@
                                         
                                     </div>
                                 </div>*@
-                                <div style="text-align:left;padding-left:10px;">
-                                    <div style="float:left;">
-                                        <div class="value" style="float:left;padding-right:10px;" ><input type="checkbox" ng-model="profile.IsSubscribedToNotifications" /></div>
-                                        <div style="float:left;padding-top:3px;" class="font-size-16"> Subscribe to emails of new tasks posted on Techx based on skillset </div>
-                                    </div>
-                                </div>
                                 <div style="clear:both;"></div>
                                 <hr style="background:darkgray;" />
                                 <div style="float:right;padding-right:10px;cursor:pointer;">
@@ -232,6 +226,14 @@
                                             </span>
                                         </div>
                                     </div>
+                                </div>
+                                <div style="padding-top:10px">
+                                      <div style="text-align:left;padding-left:10px;">
+                                            <div style="float:left;">
+                                                <div class="value" style="float:left;padding-right:10px;"><input type="checkbox" ng-disabled="!isEditMode" ng-model="profile.IsSubscribedToNotifications" /></div>
+                                                <div style="float:left;padding-top:3px;" class="font-size-16"> Subscribe to emails of new tasks posted on Techx based on skillset </div>
+                                            </div>
+                                        </div>
                                 </div>
 
                                 <div style="clear:both;"></div>
