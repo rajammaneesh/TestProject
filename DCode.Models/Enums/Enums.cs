@@ -14,7 +14,7 @@ namespace DCode.Models.Enums
         public enum Rating { Good = 1, Average, Unsatisfactory };
         public enum SkillStatus { Active, Closed };
         public enum UserStatus { Active, Closed };
-        public enum TaskApplicant { Active, Closed };
+        public enum TaskApplicant { Active,Assigned, Closed };
 
         public enum ApprovedApplicantStatus { Active, Closed };
         public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };

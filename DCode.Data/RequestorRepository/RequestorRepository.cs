@@ -148,7 +148,7 @@ namespace DCode.Data.RequestorRepository
 
             //var applicant = Context.Set<taskapplicant>().Where(x => x.ID == dbApprovedApplicant.ID).FirstOrDefault();
             IQueryable<taskapplicant> query;
-            query = Context.Set<taskapplicant>().Where(x => x.TASK_ID == dbApprovedApplicant.TASK_ID);
+            query = Context.Set<taskapplicant>().Where(x => x.TASK_ID == dbApprovedApplicant.TASK_ID && x.STATUS == TaskApplicant.Assigned.ToString());
             query.Include(x => x.task).Load();
             var applicant = query.FirstOrDefault();
             applicant.task.STATUS = TaskStatus.Closed.ToString();
