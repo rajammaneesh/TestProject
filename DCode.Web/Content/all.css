@@ -87,7 +87,7 @@ html {
 }
 
 .left-menu li {
-    height: 57px;
+    height: 45px;
     color: white;
     list-style: none;
     position: relative;
@@ -1532,6 +1532,10 @@ input.edit-task-btn.width110 {
     color: #8e44ad;
     /*margin-left: 300px;*/
 }
+.new-style-DTM-create-new-task-btn:hover {
+        background-color: #8e44ad;
+        color: white;
+    }
 
 .new-style-DTM-create-btn-side {
     width: 33%;

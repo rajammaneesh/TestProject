@@ -34,5 +34,7 @@ namespace DCode.Services.Common
         UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName);
 
         bool GetTechXAccess();
+
+        string GetRMGroupEmailAddress(string department);
     }
 }
