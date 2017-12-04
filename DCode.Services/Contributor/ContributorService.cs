@@ -160,6 +160,7 @@ namespace DCode.Services.Contributor
                 var taskStatus = new AssignedTask();
                 taskStatus.Applicant = _approvedApplicantModelFactory.CreateModel<DCode.Models.ResponseModels.Contributor.Contributor>(dbApprovedApplicant);
                 taskStatus.Task = _taskModelFactory.CreateModel<DCode.Models.ResponseModels.Task.Task>(dbApprovedApplicant.task);
+                taskStatus.Applicant.ProjectManagerName = taskStatus.Task.FullName;
                 taskStatus.ApprovedApplicantId = dbApprovedApplicant.ID;
                 taskStatusList.Add(taskStatus);
                 //totalRecords++;

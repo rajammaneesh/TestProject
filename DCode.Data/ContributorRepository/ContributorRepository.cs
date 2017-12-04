@@ -71,6 +71,7 @@ namespace DCode.Data.ContributorRepository
             IQueryable<approvedapplicant> query;
             query = Context.Set<approvedapplicant>().Where(x => x.APPLICANT_ID == userId && x.STATUS == ApplicantStatus.Closed.ToString());
             query.Include(x => x.task).Load();
+            query.Include(x => x.task.user).Load();
             query.Include(x => x.task.service_line).Load();
             query.Include(x => x.user).Load();
             totalRecords = query.Count();
@@ -92,6 +93,7 @@ namespace DCode.Data.ContributorRepository
             IQueryable<approvedapplicant> query;
             query = Context.Set<approvedapplicant>().Where(x => x.APPLICANT_ID == userId && x.STATUS == ApprovedApplicantStatus.Active.ToString());
             query.Include(x => x.task).Load();
+            query.Include(x => x.task.user).Load();
             query.Include(x => x.task.service_line).Load();
             query.Include(x => x.user).Load();
             totalRecordsCount = query.Count();
@@ -102,7 +104,7 @@ namespace DCode.Data.ContributorRepository
         public IEnumerable<taskapplicant> GetAppliedTasks(int userId)
         {
             IQueryable<taskapplicant> query;
-            query = Context.Set<taskapplicant>().Where(x => x.APPLICANT_ID == userId && x.STATUS != TaskApplicant.Closed.ToString());
+            query = Context.Set<taskapplicant>().Where(x => x.APPLICANT_ID == userId && x.STATUS == TaskApplicant.Active.ToString());
             return query.ToList();
         }
 
@@ -133,7 +135,7 @@ namespace DCode.Data.ContributorRepository
             IQueryable<taskskill> query = null;
 
             query = Context.Set<taskskill>()
-                .Where(x => x.task.STATUS != Models.Enums.Enums.TaskStatus.Closed.ToString());
+                .Where(x => x.task.STATUS == Models.Enums.Enums.TaskStatus.Active.ToString());
 
             if (skillFilters != null && skillFilters.Any())
             {
