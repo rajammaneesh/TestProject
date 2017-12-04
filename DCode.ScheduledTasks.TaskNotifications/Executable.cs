@@ -1,16 +1,34 @@
 ﻿using Ninject;
+using System;
 
 namespace DCode.ScheduledTasks.TaskNotifications
 {
-    class Executable
+    public class Executable
     {
         static void Main(string[] args)
         {
-            var kernel = new StandardKernel(new NotificationManagerModule());
+            try
+            {
+                Console.WriteLine("Entered App");
 
-            var operation = new DailyNotificationsOperation(kernel);
+                var kernel = new StandardKernel(new NotificationManagerModule());
 
-            operation.Invoke();
+                Console.WriteLine("Initialized Kernel");
+
+                var operation = new DailyNotificationsOperation(kernel);
+
+                Console.WriteLine("Initialized operation");
+
+                operation.Invoke();
+
+                Console.WriteLine("Operation ended");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error::" + ex.StackTrace);
+            }
+
+            Console.ReadKey();
         }
     }
 }

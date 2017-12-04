@@ -38,6 +38,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
         {
             try
             {
+                Console.WriteLine($"Application Started at {DateTime.Now.ToString()}");
                 LogMessage($"Application Started at {DateTime.Now.ToString()}");
 
                 var skills
@@ -46,23 +47,28 @@ namespace DCode.ScheduledTasks.TaskNotifications
                 if (skills == null
                     || skills.Count() == 0)
                 {
+                    Console.WriteLine($"No skills fetched from DB. Process Ended");
                     LogMessage($"No skills fetched from DB. Process Ended");
 
                     return;
                 }
 
+                Console.WriteLine($"Number skills fetched from DB = {skills.Count()}");
                 LogMessage($"Number skills fetched from DB = {skills.Count()}");
 
                 var notifications = GetNotificationsFromSkills(skills);
 
+                Console.WriteLine($"Sending bulk emails");
                 LogMessage($"Sending bulk emails");
 
                 _emailService.SendBulkEmail(notifications);
 
+                Console.WriteLine($"Sending bulk emails completed");
                 LogMessage($"Sending bulk emails completed");
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error occurred while executing :: {ex.StackTrace}");
                 LogMessage($"An error occurred while executing :: {ex.StackTrace}");
             }
         }
@@ -85,6 +91,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
                 var projectInfo =
                     _reportingService.GetProjectDetailsForNewTasksAddedYesterday(skill);
 
+                Console.WriteLine($"Number of recipients for {skill} is {(recipients != null ? recipients.Count() : 0)}");
                 LogMessage($"Number of recipients for {skill} is {(recipients != null ? recipients.Count() : 0)}");
 
                 return new Notification
@@ -96,6 +103,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
                 };
             }));
 
+            Console.WriteLine($"Completed fetching recipients. Total recipient count is {notifications.Count}");
             LogMessage($"Completed fetching recipients. Total recipient count is {notifications.Count}");
 
             return notifications;
