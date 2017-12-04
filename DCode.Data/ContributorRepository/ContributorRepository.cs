@@ -21,7 +21,7 @@ namespace DCode.Data.ContributorRepository
         public IEnumerable<taskskill> GetTasksBasedOnApplicantSkills(IEnumerable<int> skillIds, int userId)
         {
             IQueryable<taskskill> query;
-            query = Context.Set<taskskill>().Where(x => skillIds.Contains(x.SKILL_ID) && x.task.STATUS != Models.Enums.Enums.TaskStatus.Closed.ToString()).OrderByDescending(x => x.CREATED_ON);
+            query = Context.Set<taskskill>().Where(x => skillIds.Contains(x.SKILL_ID) && x.task.STATUS == Models.Enums.Enums.TaskStatus.Active.ToString()).OrderByDescending(x => x.CREATED_ON);
             query.Include(x => x.skill).Load();
             query.Include(x => x.task.user).Load();
             query.Include(x => x.task.service_line).Load();
@@ -31,7 +31,7 @@ namespace DCode.Data.ContributorRepository
         public IEnumerable<taskskill> GetTasksBasedOnSkill(string skill, int currentPageIndex, int recordsCount, out int totalRecords)
         {
             IQueryable<taskskill> query;
-            query = Context.Set<taskskill>().Where(x => x.skill.VALUE.Contains(skill) && x.task.STATUS != Models.Enums.Enums.TaskStatus.Closed.ToString());
+            query = Context.Set<taskskill>().Where(x => x.skill.VALUE.Contains(skill) && x.task.STATUS == Models.Enums.Enums.TaskStatus.Active.ToString());
             query.Include(x => x.skill).Load();
             query.Include(x => x.task.user).Load();
             totalRecords = query.Count();
