@@ -30,6 +30,7 @@ namespace DCode.Common
         public const string TabHistory = "history";
         public const string PERMISSIONS = "APPROVALS";
         public const string CheckUsiAccess = "CheckUsiAccess";
+        public const string ContactUS = "ContactUs";
 
         //Punctuation 
         public const string Comma = ",";

@@ -209,6 +209,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\ContributorController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -426,6 +427,7 @@
     <Content Include="Views\Contributor\_ContributorTaskApplication.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskStatus.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
+    <Content Include="Views\ContactUs\ContactUs.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>

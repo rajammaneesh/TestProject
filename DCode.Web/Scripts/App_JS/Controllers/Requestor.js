@@ -466,9 +466,14 @@
 
         $('#txtHr').keydown(function (e) {
             var order = e.which;
-            if (order == 187 || order == 189 || order==69) {
+            if (order == 187 || order == 189 || order == 69) {
                 return false;
             };
+        });
+       
+        $('#skillsetNewTask').keydown(function (e) {
+            var order = e.which;
+            $scope.taskRequest.SkillSet = null;
         });
         $('#txtStartDate').keydown(function (e) {
             var order = e.which;
@@ -492,7 +497,7 @@
         });
         $("#skillsetNewTask_value").focusout(function () {
             $("#taskSkill").removeClass("invalid");
-        });      
+        });
 
         $("#ddlServiceLine").change(function () {
             $("#divServiceLine").removeClass("invalid");
@@ -500,7 +505,7 @@
         $('#txtTaskName').focusout(function () {
             $("#divTaskName").removeClass("invalid");
         });
-           
+
         $scope.RemoveStartDateValidation = function () {
             $("#datetimepicker1").removeClass("invalid");
         };
@@ -510,7 +515,7 @@
         $('#txtHr').focusout(function () {
             $("#divHours").removeClass("invalid");
         });
-        
+
 
         //$scope.GetWBSValidation = function () {
         //    var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
@@ -647,23 +652,23 @@
             //}
 
             //validating if due date is more than 2 weeks
-            if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 ) {
-                var one_day = 1000 * 60 * 60 * 24;
-                var date1 = new Date($('#txtStartDate').val()).getTime();
-                var date2 = new Date($('#txtDueDate').val()).getTime();
-                var dateDiff = Math.round((date2 - date1) / one_day);
-                if (dateDiff > 14) {
-                    $("#datetimepicker2").addClass("invalid");
-                    $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-                    $scope.onBoardingDateReview = false;
-                    if (!focusSet) {
-                        $('#txtDueDate').focus();
-                        focusSet = true;
-                    }
-                    isValid = false;
-                }
+            //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 ) {
+            //    var one_day = 1000 * 60 * 60 * 24;
+            //    var date1 = new Date($('#txtStartDate').val()).getTime();
+            //    var date2 = new Date($('#txtDueDate').val()).getTime();
+            //    var dateDiff = Math.round((date2 - date1) / one_day);
+            //    if (dateDiff > 14) {
+            //        $("#datetimepicker2").addClass("invalid");
+            //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
+            //        $scope.onBoardingDateReview = false;
+            //        if (!focusSet) {
+            //            $('#txtDueDate').focus();
+            //            focusSet = true;
+            //        }
+            //        isValid = false;
+            //    }
 
-            }
+            //}
 
             //validating Hours
             if ($('#txtHr').val() == '' || $('#txtHr').val() == null) {
@@ -715,9 +720,10 @@
                             selectedSkill = true;
                             //$("#taskSkill").removeClass("invalid");
                         }
-                        //else {
-                        //    $("#taskSkill").addClass("invalid");
-                        //}
+                        else {
+                            $("#taskSkill").addClass("invalid");
+                            $('#skillsetNewTask_value').focus();
+                        }
 
                         angular.forEach($scope.serviceLines, function (value, index) {
                             if ($scope.taskRequest.SelectedServiceLine == value.Id)
