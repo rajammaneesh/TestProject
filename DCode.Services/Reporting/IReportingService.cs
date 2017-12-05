@@ -13,6 +13,6 @@ namespace DCode.Services.Reporting
 
         void UpdateDailySiteVisitCount();
 
-        List<Tuple<DateTime, int>> GetUserVisitsCount(int noOfRecords = 1);
+        List<Tuple<string, long>> GetUserVisitsCount();
     }
 }

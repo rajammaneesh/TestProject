@@ -8,7 +8,7 @@ namespace DCode.Data.ReportingRepository
     {
         IEnumerable<daily_usage_statistics> GetDailyStatisticsHistory();
 
-        IEnumerable<daily_usage_statistics> GetDailyStatisticsFor(DateTime date);
+        IEnumerable<daily_usage_statistics> GetDailyStatisticsFor();
 
         void UpsertDailyStatistics();
     }

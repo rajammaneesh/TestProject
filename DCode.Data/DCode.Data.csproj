@@ -144,9 +144,7 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="RequestorRepository\IRequestorRepository.cs" />
-    <Compile Include="RequestorRepository\IUserRepository.cs" />
     <Compile Include="RequestorRepository\RequestorRepository.cs" />
-    <Compile Include="RequestorRepository\UserRepository.cs" />
     <Compile Include="TaskRepository\ITaskRepository.cs" />
     <Compile Include="TaskRepository\TaskRepository.cs" />
     <Compile Include="UserRepository\IUserRepository.cs" />

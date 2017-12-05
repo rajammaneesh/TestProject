@@ -3,6 +3,7 @@ using DCode.Data.ContributorRepository;
 using DCode.Data.DbContexts;
 using DCode.Data.RequestorRepository;
 using DCode.Data.TaskRepository;
+using DCode.Data.UserRepository;
 using DCode.Models.ResponseModels.Contributor;
 using DCode.Models.ResponseModels.Requestor;
 using DCode.Models.ResponseModels.Task;

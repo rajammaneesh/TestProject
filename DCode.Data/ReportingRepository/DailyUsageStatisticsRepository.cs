@@ -18,10 +18,9 @@ namespace DCode.Data.ReportingRepository
             _context = context;
         }
 
-        public IEnumerable<daily_usage_statistics> GetDailyStatisticsFor(DateTime date)
+        public IEnumerable<daily_usage_statistics> GetDailyStatisticsFor()
         {
-            return GetDailyStatisticsHistory()
-                 .Where(x => x.date == new DateTime(date.Year, date.Month, date.Day));
+            return GetDailyStatisticsHistory().Take(100);
         }
 
         public IEnumerable<daily_usage_statistics> GetDailyStatisticsHistory()
