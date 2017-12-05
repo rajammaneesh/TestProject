@@ -199,7 +199,12 @@ namespace DCode.Services.Common
                         }
                         else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
                         {
-                            userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
+                            var propertyValue = result.Properties[propertyName][0].ToString();
+
+                            if (propertyValue.IndexOf(" ") == -1)
+                            {
+                                userContext.EmailId = propertyValue + Constants.DeloitteEmailExtn;
+                            }
                         }
                         else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
                         {
@@ -221,13 +226,15 @@ namespace DCode.Services.Common
 
         private void SetAndInsertContext()
         {
-            if (_userContext.Designation.Contains("senior manager") || _userContext.Designation.Contains("specialist leader") || _userContext.Designation.Contains("director") || _userContext.Designation.Contains("partner"))
+            var designation = _userContext.Designation.ToLowerInvariant();
+
+            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
             {
                 //_userContext.Role = Enums.Role.Admin;
                 _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
-            else if (_userContext.Designation.ToLowerInvariant().Contains("manager") || _userContext.Designation.ToLowerInvariant().Contains("master"))
+            else if (designation.Contains("manager") || designation.Contains("master") || designation.Contains("mngr") || designation.Contains("mgr"))
             {
                 _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
@@ -238,6 +245,7 @@ namespace DCode.Services.Common
                 _userContext.IsCoreRoleRequestor = false;
             }
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
+
             if (dbUser != null && dbUser.ID != null)
             {
                 _userContext.UserId = dbUser.ID;
@@ -256,7 +264,7 @@ namespace DCode.Services.Common
 
                 if (dbUser.notification_subscription != null && dbUser.notification_subscription.Any())
                 {
-                    _userContext.IsSubscribedToNotifications 
+                    _userContext.IsSubscribedToNotifications
                         = dbUser.notification_subscription.First().subscription_status;
                 }
             }
@@ -288,7 +296,7 @@ namespace DCode.Services.Common
                 case Role.Contributor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
-                    menuItemsList.Add(new MenuItem() { MenuItemName = "CONTACT US", TabName = Constants.ContactUS, NavigationUrl = "/ContactUs/ContactUs",  CssClass = "" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "CONTACT US", TabName = Constants.ContactUS, NavigationUrl = "/ContactUs/ContactUs", CssClass = "" });
 
                     break;
                 default:
