@@ -14,6 +14,7 @@ using DCode.Services.Base;
 using DCode.Services.Common;
 using DCode.Models.ResponseModels.Common;
 using static DCode.Models.Enums.Enums;
+using DCode.Data.UserRepository;
 
 namespace DCode.Services.Requestor
 {

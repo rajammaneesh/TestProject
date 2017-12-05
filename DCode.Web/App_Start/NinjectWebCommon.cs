@@ -22,6 +22,7 @@ namespace DCode.Web.App_Start
     using Data.MetadataRepository;
     using Services.Reporting;
     using Data.ReportingRepository;
+    using Data.UserRepository;
 
     public static class NinjectWebCommon
     {

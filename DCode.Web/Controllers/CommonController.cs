@@ -3,6 +3,7 @@ using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
+using DCode.Services.Reporting;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using static DCode.Models.Enums.Enums;
@@ -12,9 +13,11 @@ namespace DCode.Web.Controllers
     public class CommonController : Controller
     {
         private ICommonService _commonService;
-        public CommonController(ICommonService commonService)
+        private IReportingService _reportingService;
+        public CommonController(ICommonService commonService, IReportingService reportingService)
         {
             _commonService = commonService;
+            _reportingService = reportingService;
         }
         // GET: Common
         public ActionResult Index()
@@ -188,6 +191,11 @@ namespace DCode.Web.Controllers
         public JsonResult GetNameFromEmailId(string emailId)
         {
             return Json(_commonService.GetNameFromEmailId(emailId));
+        }
+
+        public JsonResult GetVisits()
+        {
+            return Json(_reportingService.GetUserVisitsCount(), JsonRequestBehavior.AllowGet);
         }
     }
 }

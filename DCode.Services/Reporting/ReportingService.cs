@@ -57,24 +57,17 @@ namespace DCode.Services.Reporting
             return result;
         }
 
-        public List<Tuple<DateTime, int>> GetUserVisitsCount(int noOfRecords = 1)
+        public List<Tuple<string, long>> GetUserVisitsCount()
         {
-            List<Tuple<DateTime, int>> recordsCount = null;
+            var recordsCount = new List<Tuple<string, long>>();
 
-            for (int i = 0; i < noOfRecords; i++)
+            var results = _dailyUsageStatisticsRepository.GetDailyStatisticsFor();
+
+            foreach(var result in results)
             {
-                var dateTime = DateTime.Now.AddDays(-1 * i);
-
-                var result = _dailyUsageStatisticsRepository.GetDailyStatisticsFor(dateTime);
-
-                recordsCount = recordsCount ?? new List<Tuple<DateTime, int>>();
-
                 recordsCount.Add(
                     Tuple.Create(
-                        dateTime,
-                        result != null && result.Any()
-                            ? Convert.ToInt32(result.First().visits)
-                            : 0));
+                        result.date.ToShortDateString(), result.visits));
             }
 
             return recordsCount;
