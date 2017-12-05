@@ -106,7 +106,7 @@
                         {
                             foreach (var menuItem in menuItems)
                             {
-                                <a href="@menuItem.NavigationUrl">
+                                <a href="@menuItem.NavigationUrl" style="text-decoration-line:none;">
                                     @if (@tabName == @menuItem.TabName)
                                     {
                                         liClass = "active-side-nav";

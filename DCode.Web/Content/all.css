@@ -870,6 +870,10 @@ eft-nav-circle-txt-ProjectName {
     width: 20px;
     height: 19px;
 }
+.contactus-icon img {
+    width: 20px;
+    height: 15px;
+}
 
 .create-task-container {
     min-height: 300px;

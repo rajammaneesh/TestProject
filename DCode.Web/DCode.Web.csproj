@@ -245,6 +245,8 @@
     <Content Include="Content\Images\dashboard-disabled%403x.png" />
     <Content Include="Content\Images\dashboard-disabled.png" />
     <Content Include="Content\Images\Deloite_logo.png" />
+    <Content Include="Content\Images\Email-Inactive.png" />
+    <Content Include="Content\Images\Email-Active.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\faviconOld.ico" />
     <Content Include="Content\Images\history-active.png" />
