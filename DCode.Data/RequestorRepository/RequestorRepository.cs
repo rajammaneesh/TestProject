@@ -231,7 +231,7 @@ namespace DCode.Data.RequestorRepository
         {
             var searchParamLower = searchParam.ToLowerInvariant();
             IQueryable<skill> query;
-            query = Context.Set<skill>().Where(x => x.VALUE.StartsWith(searchParamLower));
+            query = Context.Set<skill>().Where(x => x.VALUE.Contains(searchParamLower));
             return query.ToList();
         }
 
