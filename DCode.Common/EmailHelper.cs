@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Configuration;
-using System.Web.Hosting;
 using DCode.Models.Enums;
-using DCode.Models.Email;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.IO;
-using System.Reflection;
 using DCode.Models.Common;
-using System.Threading;
 
 namespace DCode.Common
 {

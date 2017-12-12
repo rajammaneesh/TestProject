@@ -1,9 +1,6 @@
 ﻿using DCode.Data.DbContexts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Data.TaskRepository
 {
@@ -13,11 +10,8 @@ namespace DCode.Data.TaskRepository
         task GetTaskById(int id);
         int UpdateTask(task task);
         IEnumerable<task> GetTasks();
-        //IEnumerable<task> GetTasks(int pageCount, int totalRecords);
-        //applicant GetApplicantById(int id);
         int GetTopRatingCountOnEmailId(string emailId);
         IEnumerable<task> GetTaskByEmailId(string emailId);
-        //int InsertApplicant(applicant applicant);
         IEnumerable<task> GetTaskHistroyByEmailId(string emailId);
         IEnumerable<skill> GetAllSkills();
 

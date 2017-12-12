@@ -4,7 +4,6 @@
     {
         public int ApprovedApplicantId { get; set; }
         public int TaskApplicantId { get; set; }
-        //public RequestorSummary Requestor { get; set; }
         public Contributor.Contributor Applicant { get; set; }
         public DCode.Models.ResponseModels.Task.Task Task { get; set; }
         //Needed for progress bar under trackstatus tab

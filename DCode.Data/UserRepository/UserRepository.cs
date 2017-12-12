@@ -89,7 +89,6 @@ namespace DCode.Data.UserRepository
                 dbUser.notification_subscription = user.notification_subscription;
             }
 
-            //Context.Entry(dbUser).CurrentValues.SetValues(user);
             return Context.SaveChanges();
         }
 

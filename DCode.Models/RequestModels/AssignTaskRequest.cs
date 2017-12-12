@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DCode.Models.ResponseModels.Requestor
+﻿namespace DCode.Models.ResponseModels.Requestor
 {
     public class AssignTaskRequest
     {

@@ -140,7 +140,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportingRepository\IDailyUsageStatisticsRepository.cs" />
     <Compile Include="ReportingRepository\DailyUsageStatisticsRepository.cs" />
-    <Compile Include="Repository\IDataRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="RequestorRepository\IRequestorRepository.cs" />

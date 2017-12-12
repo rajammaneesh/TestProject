@@ -5,7 +5,6 @@ using System.Linq;
 using System.Data.Entity;
 using DCode.Models.Enums;
 using System;
-using static DCode.Models.Enums.Enums;
 
 namespace DCode.Data.TaskRepository
 {

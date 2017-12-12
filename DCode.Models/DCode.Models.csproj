@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\ApiResult.cs" />
     <Compile Include="Base\IViewModel.cs" />
     <Compile Include="Common\AssetPathGeneratorFactory.cs" />
     <Compile Include="Common\IAssetPathGenerator.cs" />

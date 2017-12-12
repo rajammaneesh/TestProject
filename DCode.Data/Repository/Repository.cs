@@ -1,11 +1,5 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Data.Repository
 {

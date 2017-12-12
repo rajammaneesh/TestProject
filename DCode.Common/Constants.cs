@@ -1,7 +1,4 @@
-﻿
-using System.ComponentModel;
-
-namespace DCode.Common
+﻿namespace DCode.Common
 {
     public static class Constants
     {

@@ -1,11 +1,6 @@
 ﻿using DCode.Models.Base;
-using DCode.Models.ResponseModels.Base;
-using DCode.Models.ResponseModels.Contributor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Models.ResponseModels.Contributor
 {

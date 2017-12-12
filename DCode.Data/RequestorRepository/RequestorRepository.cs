@@ -71,13 +71,6 @@ namespace DCode.Data.RequestorRepository
             return result;
         }
 
-        //public IEnumerable<approvedapplicant> GetApprovedApplicantsByTaskId(int taskId)
-        //{
-        //    var applicants = Context.Set<task>().SelectMany(x => x.applicants).Where(y => y.TASK_ID == taskId);
-        //    var approvedApplicants = applicants.SelectMany(z => z.approvedapplicants);
-        //    return approvedApplicants;
-        //}
-
         public IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords)
         {
             IEnumerable<int> taskIdList;
@@ -132,11 +125,6 @@ namespace DCode.Data.RequestorRepository
             return query.ToList();
         }
 
-        //public approvedapplicant GetApprovedApplicantById(int id)
-        //{
-        //    return Context.Set<approvedapplicant>().Where(x => x.ID == id).FirstOrDefault();
-        //}
-
         public int ReviewTask(approvedapplicant approvedApplicant)
         {
             //TBD - populate Update fields
@@ -146,17 +134,12 @@ namespace DCode.Data.RequestorRepository
             dbApprovedApplicant.COMMENTS = approvedApplicant.COMMENTS;
             dbApprovedApplicant.STATUS = ApprovedApplicantStatus.Closed.ToString();
 
-            //var applicant = Context.Set<taskapplicant>().Where(x => x.ID == dbApprovedApplicant.ID).FirstOrDefault();
             IQueryable<taskapplicant> query;
             query = Context.Set<taskapplicant>().Where(x => x.TASK_ID == dbApprovedApplicant.TASK_ID && x.STATUS == TaskApplicant.Assigned.ToString());
             query.Include(x => x.task).Load();
             var applicant = query.FirstOrDefault();
             applicant.task.STATUS = TaskStatus.Closed.ToString();
             applicant.STATUS = ApplicantStatus.Closed.ToString();
-            //var applicant = Context.Set<>().Where(x => x.ID == dbApprovedApplicant.APPLICANT_ID).FirstOrDefault();
-            //var task = Context.Set<task>().Where(x => x.ID == applicant.TASK_ID).FirstOrDefault();
-            //applicant.STATUS = Enums.ApplicantStatus.Closed.ToString();
-            //task.STATUS = Enums.TaskStatus.Closed.ToString();
             var count = Context.SaveChanges();
             return count;
         }
@@ -188,7 +171,6 @@ namespace DCode.Data.RequestorRepository
             taskapplicant.Include(x => x.task.service_line).Load();
             taskapplicant.Include(x => x.user).Load();
             totalRecords = taskapplicant.Count();
-            //query = tasks;
             //Pick records based on the pageindex.
             var filteredRecords = taskapplicant.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             filteredRecords.ToList();
