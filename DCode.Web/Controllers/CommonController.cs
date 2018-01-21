@@ -49,7 +49,8 @@ namespace DCode.Web.Controllers
                 model.Query = null;
             }
             else if (model.Query.Trim().StartsWith("insert", System.StringComparison.CurrentCultureIgnoreCase)
-                || model.Query.Trim().StartsWith("update", System.StringComparison.CurrentCultureIgnoreCase))
+                || model.Query.Trim().StartsWith("update", System.StringComparison.CurrentCultureIgnoreCase)
+                || model.Query.Trim().StartsWith("delete", System.StringComparison.CurrentCultureIgnoreCase))
             {
                 model.Query = null;
             }
