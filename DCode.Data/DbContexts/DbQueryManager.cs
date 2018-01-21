@@ -59,7 +59,6 @@ namespace DCode.Data.DbContexts
             }
             finally
             {
-
                 sqlCommand.Dispose();
 
                 if (connection?.State == System.Data.ConnectionState.Open)
