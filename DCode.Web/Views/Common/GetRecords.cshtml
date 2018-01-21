@@ -1,0 +1,37 @@
+﻿@using DCode.Models.Common
+@model DCode.Web.Models.DbRecordsViewModel
+@{
+
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+
+    var databaseTable = ViewBag.Records as DatabaseTable;
+}
+
+@using (@Html.BeginForm("FetchDbRecords", "Common", FormMethod.Post))
+{
+    <div style="padding-left:30px;">
+        <div style="text-decoration:dotted;font-size:medium;font-family:Arial">
+            Database Records
+        </div>
+        <div style="padding:10px 10px 10px 10px">
+            @Html.TextAreaFor(x => x.Query, new
+       {
+           cols = "100",
+           rows = "40"
+       })
+        </div>
+        <div style="padding:10px 10px 10px 10px;text-align:left">
+            <button type="submit" name="get">Get Database Records</button>
+            <button type="submit" name="refresh">Refresh data</button>
+        </div>
+    </div>
+
+
+}
+@if (Model != null 
+    && Model.Records != null)
+{
+    @Html.Partial("_DatabaseRecords", Model.Records);
+}
+

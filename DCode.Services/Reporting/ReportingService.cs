@@ -4,6 +4,8 @@ using DCode.Data.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DCode.Models.Common;
+using DCode.Models.Management;
 
 namespace DCode.Services.Reporting
 {
@@ -15,15 +17,20 @@ namespace DCode.Services.Reporting
 
         private readonly IDailyUsageStatisticsRepository _dailyUsageStatisticsRepository;
 
+        private readonly IDataManagement _dbQueryManager;
+
         public ReportingService(ITaskRepository taskRepository,
             IUserRepository userRepository,
-            IDailyUsageStatisticsRepository dailyUsageStatisticsRepository)
+            IDailyUsageStatisticsRepository dailyUsageStatisticsRepository,
+            IDataManagement dbQueryManager)
         {
             _taskRepository = taskRepository;
 
             _userRepository = userRepository;
 
             _dailyUsageStatisticsRepository = dailyUsageStatisticsRepository;
+
+            _dbQueryManager = dbQueryManager;
         }
 
         public IEnumerable<string> GetSubscribedUserForTask(string task)
@@ -63,7 +70,7 @@ namespace DCode.Services.Reporting
 
             var results = _dailyUsageStatisticsRepository.GetDailyStatisticsFor();
 
-            foreach(var result in results)
+            foreach (var result in results)
             {
                 recordsCount.Add(
                     Tuple.Create(
@@ -76,6 +83,11 @@ namespace DCode.Services.Reporting
         public void UpdateDailySiteVisitCount()
         {
             _dailyUsageStatisticsRepository.UpsertDailyStatistics();
+        }
+
+        public DatabaseTable ExecuteDbQuery(string query)
+        {
+            return _dbQueryManager.RunQuery(query);
         }
     }
 }

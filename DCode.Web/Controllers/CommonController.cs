@@ -4,6 +4,7 @@ using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
+using DCode.Web.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using static DCode.Models.Enums.Enums;
@@ -13,7 +14,10 @@ namespace DCode.Web.Controllers
     public class CommonController : Controller
     {
         private ICommonService _commonService;
+
         private IReportingService _reportingService;
+
+
         public CommonController(ICommonService commonService, IReportingService reportingService)
         {
             _commonService = commonService;
@@ -23,6 +27,42 @@ namespace DCode.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetRecords()
+        {
+            if (TempData.ContainsKey("RecordsModel"))
+            {
+                return View(TempData["RecordsModel"]);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FetchDbRecords(DbRecordsViewModel model, string refresh, string get)
+        {
+            if (refresh != null
+                || string.IsNullOrEmpty(model?.Query))
+            {
+                model.Query = null;
+            }
+            else if (model.Query.Trim().StartsWith("insert", System.StringComparison.CurrentCultureIgnoreCase)
+                || model.Query.Trim().StartsWith("update", System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                model.Query = null;
+            }
+            else if (get != null)
+            {
+                var result = _reportingService.ExecuteDbQuery(model.Query);
+
+                model.Records = result;
+            }
+
+            TempData["RecordsModel"] = model;
+
+            return RedirectToAction("GetRecords");
         }
 
         public ActionResult User()

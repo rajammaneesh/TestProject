@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DCode.Models.Common;
+using System;
 using System.Collections.Generic;
 
 namespace DCode.Services.Reporting
@@ -14,5 +15,7 @@ namespace DCode.Services.Reporting
         void UpdateDailySiteVisitCount();
 
         List<Tuple<string, long>> GetUserVisitsCount();
+
+        DatabaseTable ExecuteDbQuery(string query);
     }
 }
