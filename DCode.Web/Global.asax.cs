@@ -1,4 +1,5 @@
-﻿using DCode.Data.ReportingRepository;
+﻿using DCode.Data.DbContexts;
+using DCode.Data.ReportingRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
 using DCode.Services.Reporting;
@@ -19,13 +20,15 @@ namespace DCode.Web
         {
             _reportingService = new ReportingService(
                 new TaskRepository(
-                    new Data.DbContexts.TaskDbContext()),
+                    new TaskDbContext()),
 
                 new UserRepository(
-                  new Data.DbContexts.UserDbContext()),
+                  new UserDbContext()),
 
                 new DailyUsageStatisticsRepository(
-                    new Data.DbContexts.ReportingDbContext()));
+                    new ReportingDbContext()),
+
+                new DbQuueryManager());
         }
         protected void Application_Start()
         {

@@ -221,6 +221,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DbRecordsViewModel.cs" />
     <Compile Include="Models\ErrorModule.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -430,6 +431,8 @@
     <Content Include="Views\Contributor\_ContributorTaskStatus.cshtml" />
     <Content Include="Views\Contributor\_ContributorTaskHistory.cshtml" />
     <Content Include="Views\ContactUs\ContactUs.cshtml" />
+    <Content Include="Views\Common\GetRecords.cshtml" />
+    <Content Include="Views\Common\_DatabaseRecords.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>

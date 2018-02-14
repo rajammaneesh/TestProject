@@ -10,12 +10,11 @@ namespace DCode.Web.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-    using DCode.Models;
     using DCode.Services.Requestor;
     using DCode.Data.TaskRepository;
     using DCode.Services.Common;
     using DCode.Data.RequestorRepository;
-    using DCode.Services.Task;
+    using Services.Task;
     using DCode.Data.LogRepository;
     using DCode.Services.Contributor;
     using DCode.Data.ContributorRepository;
@@ -23,6 +22,8 @@ namespace DCode.Web.App_Start
     using Services.Reporting;
     using Data.ReportingRepository;
     using Data.UserRepository;
+    using DCode.Models.Management;
+    using Data.DbContexts;
 
     public static class NinjectWebCommon
     {
@@ -89,6 +90,7 @@ namespace DCode.Web.App_Start
             kernel.Bind<IContributorRepository>().To<ContributorRepository>();
             kernel.Bind<IServiceLineRepository>().To<ServiceLineRepository>();
             kernel.Bind<IDailyUsageStatisticsRepository>().To<DailyUsageStatisticsRepository>();
+            kernel.Bind<IDataManagement>().To<DbQuueryManager>();
         }
 
     }
