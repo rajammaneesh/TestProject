@@ -122,7 +122,7 @@ namespace DCode.Services.Common
                 {
                     foreach (string propertyName in result.Properties.PropertyNames)
                     {
-                        if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                        if (propertyName.ToLowerInvariant().Equals(Constants.Mail))
                         {
                             _userContext.EmailId = result.Properties[propertyName][0].ToString();
                         }
@@ -137,10 +137,6 @@ namespace DCode.Services.Common
                         else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
                         {
                             _userContext.LastName = result.Properties[propertyName][0].ToString();
-                        }
-                        else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
-                        {
-                            _userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
                         }
                         else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
                         {

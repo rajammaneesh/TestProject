@@ -48,6 +48,7 @@ namespace DCode.Common
         public const string Givenname = "givenname";
         public const string SN = "sn";
         public const string Name = "name";
+        public const string Mail = "mail";
         public const string DeloitteEmailExtn = "@deloitte.com";
         public const string EmployeeId = "employeeid";
         public const string Department = "department";
