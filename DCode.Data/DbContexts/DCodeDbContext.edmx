@@ -46,22 +46,6 @@
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="visits" Type="uint" Nullable="false" />
         </EntityType>
-        <EntityType Name="elmah_error">
-          <Key>
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="ErrorId" Type="guid" Nullable="false" />
-          <Property Name="Application" Type="varchar" MaxLength="60" Nullable="false" />
-          <Property Name="Host" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Source" Type="varchar" MaxLength="60" Nullable="false" />
-          <Property Name="Message" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="StatusCode" Type="int" Nullable="false" />
-          <Property Name="TimeUtc" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AllXml" Type="text" Nullable="false" />
-        </EntityType>
         <EntityType Name="log">
           <Key>
             <PropertyRef Name="Id" />
@@ -109,6 +93,14 @@
           <Property Name="details" Type="varchar" MaxLength="255" />
           <Property Name="user" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="task_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CODE" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="taskapplicants">
           <Key>
             <PropertyRef Name="ID" />
@@ -134,6 +126,7 @@
           <Property Name="TASK_NAME" Type="varchar" MaxLength="50" />
           <Property Name="PROJECT_WBS_Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TYPE" Type="varchar" MaxLength="100" />
+          <Property Name="TASK_TYPE_ID" Type="int" />
           <Property Name="DETAILS" Type="varchar" MaxLength="255" />
           <Property Name="HOURS" Type="int" />
           <Property Name="COMMENTS" Type="varchar" MaxLength="255" />
@@ -292,6 +285,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="tasks_ibfk_3">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="0..1" />
+          <End Role="tasks" Type="Self.tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tasks">
+              <PropertyRef Name="TASK_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="taskskills_ibfk_1">
           <End Role="tasks" Type="Self.tasks" Multiplicity="1" />
           <End Role="taskskills" Type="Self.taskskills" Multiplicity="*" />
@@ -342,12 +347,12 @@
           <EntitySet Name="applicantskills" EntityType="Self.applicantskills" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="approvedapplicant" EntityType="Self.approvedapplicant" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="daily_usage_statistics" EntityType="Self.daily_usage_statistics" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="elmah_error" EntityType="Self.elmah_error" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="log" EntityType="Self.log" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="task_type" EntityType="Self.task_type" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="taskapplicants" EntityType="Self.taskapplicants" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="tasks" EntityType="Self.tasks" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="taskskills" EntityType="Self.taskskills" Schema="dcode" store:Type="Tables" />
@@ -386,6 +391,10 @@
           </AssociationSet>
           <AssociationSet Name="tasks_ibfk_2" Association="Self.tasks_ibfk_2">
             <End Role="service_line" EntitySet="service_line" />
+            <End Role="tasks" EntitySet="tasks" />
+          </AssociationSet>
+          <AssociationSet Name="tasks_ibfk_3" Association="Self.tasks_ibfk_3">
+            <End Role="task_type" EntitySet="task_type" />
             <End Role="tasks" EntitySet="tasks" />
           </AssociationSet>
           <AssociationSet Name="taskskills_ibfk_1" Association="Self.taskskills_ibfk_1">
@@ -477,6 +486,11 @@
             <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
           <EntitySet Name="daily_usage_statistics" EntityType="DCodeDbContext.daily_usage_statistics" />
+          <EntitySet Name="task_type" EntityType="DCodeDbContext.task_type" />
+          <AssociationSet Name="tasks_ibfk_3" Association="DCodeDbContext.tasks_ibfk_3">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="task" EntitySet="tasks" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -603,6 +617,8 @@
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="task" ToRole="taskapplicant" />
           <NavigationProperty Name="user" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="task" ToRole="user" />
           <NavigationProperty Name="taskskills" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="task" ToRole="taskskill" />
+          <Property Name="TASK_TYPE_ID" Type="Int32" />
+          <NavigationProperty Name="task_type" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task" ToRole="task_type" />
         </EntityType>
         <EntityType Name="taskskill">
           <Key>
@@ -812,6 +828,27 @@
           <Property Name="date" Type="DateTime" Nullable="false" />
           <Property Name="visits" Type="Int64" Nullable="false" />
         </EntityType>
+        <EntityType Name="task_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task_type" ToRole="task" />
+        </EntityType>
+        <Association Name="tasks_ibfk_3">
+          <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="0..1" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="TASK_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -921,6 +958,7 @@
           <EntitySetMapping Name="tasks">
             <EntityTypeMapping TypeName="DCodeDbContext.task">
               <MappingFragment StoreEntitySet="tasks">
+                <ScalarProperty Name="TASK_TYPE_ID" ColumnName="TASK_TYPE_ID" />
                 <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
                 <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
                 <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
@@ -979,23 +1017,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="elmah_error">
-            <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
-              <MappingFragment StoreEntitySet="elmah_error">
-                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
-                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Host" ColumnName="Host" />
-                <ScalarProperty Name="Application" ColumnName="Application" />
-                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="notification_subscription">
             <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
               <MappingFragment StoreEntitySet="notification_subscription">
@@ -1011,6 +1032,15 @@
                 <ScalarProperty Name="visits" ColumnName="visits" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="pk" ColumnName="pk" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_type">
+            <EntityTypeMapping TypeName="DCodeDbContext.task_type">
+              <MappingFragment StoreEntitySet="task_type">
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

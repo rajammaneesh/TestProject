@@ -40,6 +40,7 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<elmah_error> elmah_error { get; set; }
         public virtual DbSet<notification_subscription> notification_subscription { get; set; }
         public virtual DbSet<daily_usage_statistics> daily_usage_statistics { get; set; }
+        public virtual DbSet<task_type> task_type { get; set; }
     
         public virtual ObjectResult<elmah_GetErrorsXml_Result> elmah_GetErrorsXml(string app, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {
