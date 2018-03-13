@@ -25,10 +25,12 @@
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_2" />
         <AssociationConnector Association="DCodeDbContext.tasks_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.taskskills_ibfk_1" />
-        <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="DCodeDbContext.notification_subscription" Width="1.5" PointX="3" PointY="15.125" />
         <AssociationConnector Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" />
         <EntityTypeShape EntityType="DCodeDbContext.daily_usage_statistics" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="DCodeDbContext.task_type" Width="1.5" PointX="10.375" PointY="0.875" />
+        <AssociationConnector Association="DCodeDbContext.tasks_ibfk_3" />
+        <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="10.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
