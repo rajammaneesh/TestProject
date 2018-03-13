@@ -479,7 +479,6 @@
             <End Role="task" EntitySet="tasks" />
             <End Role="taskskill" EntitySet="taskskills" />
           </AssociationSet>
-          <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
           <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
           <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
             <End Role="user" EntitySet="users" />
@@ -781,22 +780,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="elmah_error">
-          <Key>
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="ErrorId" Type="Guid" Nullable="false" />
-          <Property Name="Application" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Source" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StatusCode" Type="Int32" Nullable="false" />
-          <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="notification_subscription">
           <Key>
             <PropertyRef Name="notification_subscription_id" />

@@ -37,7 +37,6 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<task> tasks { get; set; }
         public virtual DbSet<taskskill> taskskills { get; set; }
         public virtual DbSet<user> users { get; set; }
-        public virtual DbSet<elmah_error> elmah_error { get; set; }
         public virtual DbSet<notification_subscription> notification_subscription { get; set; }
         public virtual DbSet<daily_usage_statistics> daily_usage_statistics { get; set; }
         public virtual DbSet<task_type> task_type { get; set; }
