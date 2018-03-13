@@ -46,6 +46,22 @@
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="visits" Type="uint" Nullable="false" />
         </EntityType>
+        <EntityType Name="elmah_error">
+          <Key>
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="ErrorId" Type="guid" Nullable="false" />
+          <Property Name="Application" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Host" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Source" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusCode" Type="int" Nullable="false" />
+          <Property Name="TimeUtc" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AllXml" Type="text" Nullable="false" />
+        </EntityType>
         <EntityType Name="log">
           <Key>
             <PropertyRef Name="Id" />
@@ -347,6 +363,7 @@
           <EntitySet Name="applicantskills" EntityType="Self.applicantskills" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="approvedapplicant" EntityType="Self.approvedapplicant" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="daily_usage_statistics" EntityType="Self.daily_usage_statistics" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="elmah_error" EntityType="Self.elmah_error" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="log" EntityType="Self.log" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
@@ -490,6 +507,7 @@
             <End Role="task_type" EntitySet="task_type" />
             <End Role="task" EntitySet="tasks" />
           </AssociationSet>
+          <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
         </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -832,6 +850,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="elmah_error">
+          <Key>
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="ErrorId" Type="Guid" Nullable="false" />
+          <Property Name="Application" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StatusCode" Type="Int32" Nullable="false" />
+          <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1024,6 +1058,23 @@
                 <ScalarProperty Name="CODE" ColumnName="CODE" />
                 <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="elmah_error">
+            <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
+              <MappingFragment StoreEntitySet="elmah_error">
+                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

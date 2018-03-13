@@ -94,6 +94,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DCodeDbContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\elmah_error.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContexts\elmah_GetErrorsXml_Result.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
