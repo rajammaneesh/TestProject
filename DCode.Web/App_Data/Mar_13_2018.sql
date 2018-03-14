@@ -3,6 +3,16 @@ drop database dcode;
 create database dcode;
 use dcode;
 
+DROP TABLE IF EXISTS daily_usage_statistics;
+
+CREATE TABLE daily_usage_statistics (
+  pk int(11) NOT NULL AUTO_INCREMENT,
+  date date NOT NULL,
+  visits int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (pk),
+  UNIQUE KEY date_UNIQUE (date)
+) AUTO_INCREMENT=1 DEFAULT ;
+
 DROP TABLE IF EXISTS task_type;
 
 CREATE TABLE task_type (
@@ -896,6 +906,7 @@ BEGIN
 END//
 
 DELIMITER ;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
