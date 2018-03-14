@@ -4,6 +4,7 @@ using DCode.Data.Repository;
 using System.Linq;
 using static DCode.Models.Enums.Enums;
 using System.Data.Entity;
+using System;
 
 namespace DCode.Data.UserRepository
 {
@@ -138,6 +139,14 @@ namespace DCode.Data.UserRepository
                     && i.STATUS == UserStatus.Active.ToString());
 
             return query?.Select(i => i.EMAIL_ID)?.ToList();
+        }
+
+        public IEnumerable<string> GetAllActiveUsers()
+        {
+            var query = Context.Set<user>()
+                .Where(x => x.STATUS == UserStatus.Active.ToString());
+
+            return query?.Select(x => x.EMAIL_ID)?.ToList();
         }
     }
 }

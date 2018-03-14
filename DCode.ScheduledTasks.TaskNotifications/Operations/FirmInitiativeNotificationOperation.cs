@@ -1,10 +1,14 @@
 ﻿using DCode.Common;
 using DCode.Models.Common;
+using DCode.Models.Email;
 using DCode.Models.Reporting;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using Ninject;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 
 namespace DCode.ScheduledTasks.TaskNotifications.Operations
 {
@@ -37,21 +41,28 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 Console.WriteLine($"Application Started at {DateTime.Now.ToString()}");
                 LogMessage($"Application Started at {DateTime.Now.ToString()}");
 
-                //Get skills for firm initiatives added yesterday
+                IEnumerable<string> skills = null;
 
-                //If skills is zero close the process
+                if (skills == null
+                    || skills.Count() == 0)
+                {
+                    Console.WriteLine($"No skills fetched from DB. Process Ended");
+                    LogMessage($"No skills fetched from DB. Process Ended");
+
+                    return;
+                }
 
                 Console.WriteLine($"Number skills fetched from DB = ");
                 LogMessage($"Number skills fetched from DB = ");
 
-                //Get all registered users
+                var registeredUsers = _reportingService.GetAllActiveUsers();
 
-                //Get notification objects to be sent out
+                var notifications = GetNotificationsForNewFirmInitiatives(registeredUsers, skills);
 
                 Console.WriteLine($"Sending bulk emails");
                 LogMessage($"Sending bulk emails");
 
-                //Sed out bulk emails
+                _emailService.SendBulkEmail(notifications);
 
                 Console.WriteLine($"Sending bulk emails completed");
                 LogMessage($"Sending bulk emails completed");
@@ -61,6 +72,29 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 Console.WriteLine($"An error occurred while executing :: {ex.StackTrace}");
                 LogMessage($"An error occurred while executing :: {ex.StackTrace}");
             }
+        }
+
+        private IEnumerable<Notification> GetNotificationsForNewFirmInitiatives(
+            IEnumerable<string> registeredUsers,
+            IEnumerable<string> skills)
+        {
+            List<Notification> notifications = null;
+
+            if (skills != null && skills.Any())
+            {
+                notifications = new List<Notification>();
+            }
+
+            notifications.AddRange(
+                skills.Select(skill => new Notification
+            {
+                    BccAddresses = registeredUsers?.ToList(),
+                    Skill = skill,
+                    TaskDetails = null,// How do we implement this
+                    ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId]
+                }));
+
+            return notifications;
         }
 
         private void LogMessage(string description)

@@ -89,5 +89,15 @@ namespace DCode.Services.Reporting
         {
             return _dbQueryManager.RunQuery(query);
         }
+
+        public IEnumerable<string> GetAllActiveUsers()
+        {
+            return _userRepository.GetAllActiveUsers();
+        }
+
+        public IEnumerable<string> GetSkillsForFirmInitiativesCreatedYesterday(string skill)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
