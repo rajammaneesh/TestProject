@@ -2,6 +2,7 @@
 using DCode.Models.Common;
 using DCode.Models.Email;
 using DCode.Models.Reporting;
+using DCode.ScheduledTasks.TaskNotifications;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using Ninject;
@@ -10,9 +11,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 
-namespace DCode.ScheduledTasks.TaskNotifications
+namespace DCode.ScheduledTasks.Operations.TaskNotifications
 {
-    internal class DailyNotificationsOperation : IReportingExecutor
+    internal class TaskNotificationsOperation : IReportingExecutor
     {
         private readonly IReportingService _reportingService;
 
@@ -20,7 +21,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
         private readonly ILoggerService _logService;
 
-        public DailyNotificationsOperation(IKernel kernel)
+        public TaskNotificationsOperation(IKernel kernel)
         {
             _reportingService = kernel.Get<ReportingService>();
 

@@ -97,7 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationConstants.cs" />
-    <Compile Include="DailyNotificationsOperation.cs" />
+    <Compile Include="Operations\FirmInitiativeNotificationOperation.cs" />
+    <Compile Include="Operations\TaskNotificationsOperation.cs" />
     <Compile Include="Executable.cs" />
     <Compile Include="NotificationManagerModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
