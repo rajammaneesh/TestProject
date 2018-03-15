@@ -52,6 +52,10 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(IDailyUsageStatisticsRepository))
               .To(typeof(DailyUsageStatisticsRepository))
               .InSingletonScope();
+
+            Bind(typeof(INotificationContentFactory))
+            .To(typeof(NotificationContentFactory))
+            .InSingletonScope();
         }
     }
 }

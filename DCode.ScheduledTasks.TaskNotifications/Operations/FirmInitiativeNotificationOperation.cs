@@ -20,6 +20,10 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private readonly ILoggerService _logService;
 
+        private readonly INotificationContentFactory _notificationContentFactory;
+
+        private readonly ITaskNotificationContent _notificationContent;
+
         public FirmInitiativeNotificationOperation(IKernel kernel)
         {
             _reportingService = kernel.Get<ReportingService>();
@@ -27,6 +31,11 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
             _emailService = kernel.Get<EmailService>();
 
             _logService = kernel.Get<LoggerService>();
+
+            _notificationContentFactory = kernel.Get<NotificationContentFactory>();
+
+            _notificationContent =
+                _notificationContentFactory.GetTaskNotificationContentGenerator(Models.Enums.Enums.TaskType.FirmInitiative);
         }
 
         public void Dispose()
@@ -87,11 +96,12 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
             notifications.AddRange(
                 skills.Select(skill => new Notification
-            {
+                {
                     BccAddresses = registeredUsers?.ToList(),
                     Skill = skill,
                     TaskDetails = null,// How do we implement this
-                    ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId]
+                    ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
+                    Subject = _notificationContent.GetSubject(null)
                 }));
 
             return notifications;

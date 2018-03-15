@@ -14,5 +14,9 @@ namespace DCode.Models.Email
         public IEnumerable<Tuple<string, string>> TaskDetails { get; set; }
 
         public string Skill { get; set; }
+
+        public string Subject { get; set; }
+
+        public string Body { get; set; }
     }
 }

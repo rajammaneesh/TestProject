@@ -47,22 +47,24 @@ namespace DCode.Common
 
             mailMessage.To.Add(notification?.ToAddresses);
 
-            mailMessage.Subject = $"TechX :: New Task available for {notification.Skill} skillset";
+            mailMessage.Subject = notification.Subject;
 
             mailMessage.IsBodyHtml = true;
 
             var pathGenerator = _assetPathGeneratorFactory.GetGenerator(PathGeneratorType.Notification);
 
-            LinkedResource inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath));
+            var inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath));
 
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
 
-            LinkedResource inlineDeloitteLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.Deloittepath));
+            var inlineDeloitteLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.Deloittepath));
 
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
 
             mailMessage.Body =
-                GetBodyForNotificationEmail(notification.Skill, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId, notification.TaskDetails);
+                GetBodyForNotificationEmail(notification.Body,
+                inlineDeloitteLogo.ContentId,
+                inlineDCodeLogo.ContentId);
 
             using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
             {
@@ -76,14 +78,12 @@ namespace DCode.Common
             }
         }
 
-        private string GetBodyForNotificationEmail(string skill, string deloitteLogoId, string inlineTechId, IEnumerable<Tuple<string, string>> projectInfo)
+        private string GetBodyForNotificationEmail(string body, string deloitteLogoId, string inlineTechId)
         {
             var htmlBody = GetEmail(PathGeneratorType.Notification);
 
-            var mainBody =
-                string.Format(Constants.NotificationBody, skill, GenerateHtmlTableForProjectNotifications(projectInfo));
-
-            return string.Format(htmlBody, string.Empty, mainBody, deloitteLogoId, inlineTechId);
+            //Common implementation from here
+            return string.Format(htmlBody, string.Empty, body, deloitteLogoId, inlineTechId);
         }
 
         public void SendEmail(string toMailAddress, string ccMailAddress, MailMessage mailMessage)
@@ -135,22 +135,6 @@ namespace DCode.Common
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
             return htmlBody;
-        }
-
-        private string GenerateHtmlTableForProjectNotifications(IEnumerable<Tuple<string, string>> projectData)
-        {
-            var tableContent = string.Empty;
-
-            tableContent += $"<tr><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Project Name</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'> Task Name</th></tr>";
-
-            foreach (var item in projectData)
-            {
-                tableContent += $"<tr><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item1}</td><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item2}</td></tr>";
-            }
-
-            var tableHtml = $"<table style='border-collapse:collapse;width:80%;'>{tableContent}</table>";
-
-            return $"<p>{tableHtml}</p>";
         }
     }
 }

@@ -4,6 +4,7 @@ using DCode.Models.Email;
 using DCode.Models.Reporting;
 using DCode.ScheduledTasks.TaskNotifications;
 using DCode.Services.Common;
+using DCode.Services.Email;
 using DCode.Services.Reporting;
 using Ninject;
 using System;
@@ -21,6 +22,10 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
 
         private readonly ILoggerService _logService;
 
+        private readonly INotificationContentFactory _notificationContentFactory;
+
+        private readonly ITaskNotificationContent _notificationContentType;
+
         public TaskNotificationsOperation(IKernel kernel)
         {
             _reportingService = kernel.Get<ReportingService>();
@@ -28,6 +33,12 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
             _emailService = kernel.Get<EmailService>();
 
             _logService = kernel.Get<LoggerService>();
+
+            _notificationContentFactory = kernel.Get<NotificationContentFactory>();
+
+            _notificationContentType =
+                _notificationContentFactory.GetTaskNotificationContentGenerator(
+                    Models.Enums.Enums.TaskType.ClientService);
         }
 
         public void Dispose()
@@ -95,12 +106,25 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
                 Console.WriteLine($"Number of recipients for {skill} is {(recipients != null ? recipients.Count() : 0)}");
                 LogMessage($"Number of recipients for {skill} is {(recipients != null ? recipients.Count() : 0)}");
 
+                var subjectRequest = new ClientServiceTaskNotificationSubject
+                {
+                    Skill = skill,
+                };
+
+                var contentRequest = new ClientServiceNotificationContent
+                {
+                    ProjectData = projectInfo,
+                    Skill = skill
+                };
+
                 return new Notification
                 {
                     BccAddresses = recipients?.ToList(),
                     Skill = skill,
                     ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                    TaskDetails = projectInfo
+                    TaskDetails = projectInfo,
+                    Subject = _notificationContentType.GetSubject(subjectRequest),
+                    Body = _notificationContentType.GetEmailBody(contentRequest)
                 };
             }));
 
