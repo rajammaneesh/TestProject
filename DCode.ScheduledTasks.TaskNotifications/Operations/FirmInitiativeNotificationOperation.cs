@@ -22,7 +22,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private readonly INotificationContentFactory _notificationContentFactory;
 
-        private readonly ITaskNotificationContent _notificationContent;
+        private readonly ITaskNotificationContent _notificationContentGenerator;
 
         public FirmInitiativeNotificationOperation(IKernel kernel)
         {
@@ -34,7 +34,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
             _notificationContentFactory = kernel.Get<NotificationContentFactory>();
 
-            _notificationContent =
+            _notificationContentGenerator =
                 _notificationContentFactory.GetTaskNotificationContentGenerator(Models.Enums.Enums.TaskType.FirmInitiative);
         }
 
@@ -105,8 +105,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
             {
                 BccAddresses = registeredUsers?.ToList(),
                 ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                Subject = _notificationContent.GetSubject(null),
-                Body = _notificationContent.GetEmailBody(bodyRequest)
+                Subject = _notificationContentGenerator.GetSubject(null),
+                Body = _notificationContentGenerator.GetEmailBody(bodyRequest)
             });
 
             return notifications;
