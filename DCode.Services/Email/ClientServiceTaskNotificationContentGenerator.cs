@@ -6,11 +6,11 @@ using System.IO;
 
 namespace DCode.Services.Email
 {
-    public class ClientServiceTaskNotificationContent : ITaskNotificationContent
+    public class ClientServiceTaskNotificationContentGenerator : ITaskNotificationContent
     {
         private readonly IAssetPathGeneratorFactory _assetPathGeneratorFactory;
 
-        public ClientServiceTaskNotificationContent(IAssetPathGeneratorFactory assetPathGeneratorFactory)
+        public ClientServiceTaskNotificationContentGenerator(IAssetPathGeneratorFactory assetPathGeneratorFactory)
         {
             _assetPathGeneratorFactory = assetPathGeneratorFactory;
         }

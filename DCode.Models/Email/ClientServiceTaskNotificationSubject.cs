@@ -1,6 +1,4 @@
-﻿using DCode.Models.Email;
-
-namespace DCode.Services.Email
+﻿namespace DCode.Models.Email
 {
     public class ClientServiceTaskNotificationSubject : ITaskNotificationSubject
     {

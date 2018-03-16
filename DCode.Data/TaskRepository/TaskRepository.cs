@@ -151,6 +151,10 @@ namespace DCode.Data.TaskRepository
                                 && x.STATUS == TaskStatus.Active.ToString()
                                 && x.TASK_TYPE_ID == ((int?)TaskType.FirmInitiative));
 
+            query.Include(x => x.TASK_NAME).Load();
+            query.Include(x => x.DETAILS).Load();
+            query.Include(x => x.taskskills.Select(y => y.skill)).Load();
+
             return query.ToList();
         }
     }

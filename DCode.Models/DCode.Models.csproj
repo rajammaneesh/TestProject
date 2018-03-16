@@ -55,7 +55,9 @@
     <Compile Include="Common\TableColumn.cs" />
     <Compile Include="Common\TableRow.cs" />
     <Compile Include="Email\ClientServiceNotificationContent.cs" />
+    <Compile Include="Email\ClientServiceTaskNotificationSubject.cs" />
     <Compile Include="Email\FirmInitiativeDynamicContent.cs" />
+    <Compile Include="Email\FirmInitiativeTaskNotificationContent.cs" />
     <Compile Include="Email\INotificationContent.cs" />
     <Compile Include="Email\ITaskNotificationSubject.cs" />
     <Compile Include="Email\Notification.cs" />

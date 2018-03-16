@@ -95,9 +95,28 @@ namespace DCode.Services.Reporting
             return _userRepository.GetAllActiveUsers();
         }
 
-        public IEnumerable<string> GetSkillsForFirmInitiativesCreatedYesterday(string skill)
+        public IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday()
         {
-            throw new NotImplementedException();
+            var result =
+                _taskRepository.GetFirmInitiativesForDate(DateTime.Now.AddDays(-1));
+
+            if (result == null || result.Count() == 0)
+            {
+                return null;
+            }
+
+            var mappedResult = new List<Tuple<string, string, string>>();
+
+            foreach (var resultItem in result)
+            {
+                mappedResult.Add(
+                    Tuple.Create<string, string, string>(
+                        resultItem.TASK_NAME,
+                        resultItem.DETAILS,
+                        resultItem.taskskills.FirstOrDefault().skill.VALUE));
+            }
+
+            return mappedResult;
         }
     }
 }

@@ -18,10 +18,10 @@ namespace DCode.Models.Common
             switch (type)
             {
                 case TaskType.ClientService:
-                    return new ClientServiceTaskNotificationContent(_assetPathGeneratorFactory);
+                    return new ClientServiceTaskNotificationContentGenerator(_assetPathGeneratorFactory);
 
                 case TaskType.FirmInitiative:
-                    return new FirmInitiativeTaskNotificationContent();
+                    return new FirmInitiativeTaskNotificationContentGenerator(_assetPathGeneratorFactory);
 
                 default:
                     throw new ArgumentException($"Invalid notification content Generated");

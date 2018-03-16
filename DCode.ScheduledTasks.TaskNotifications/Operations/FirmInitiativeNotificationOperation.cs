@@ -94,6 +94,11 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 notifications = new List<Notification>();
             }
 
+            var bodyRequest = new FirmInitiativeTaskNotificationContent
+            {
+                ProjectData = _reportingService.GetFirmInitiativeTasksCreatedYesterday()
+            };
+
             notifications.AddRange(
                 skills.Select(skill => new Notification
                 {
@@ -101,7 +106,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                     Skill = skill,
                     TaskDetails = null,// How do we implement this
                     ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                    Subject = _notificationContent.GetSubject(null)
+                    Subject = _notificationContent.GetSubject(null),
+                    Body = _notificationContent.GetEmailBody(bodyRequest)
                 }));
 
             return notifications;

@@ -5,6 +5,7 @@ using DCode.Data.ReportingRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
 using DCode.Models.Common;
+using DCode.Models.Management;
 using DCode.Services.Common;
 using DCode.Services.ModelFactory;
 using DCode.Services.ModelFactory.CommonFactory;
@@ -56,6 +57,10 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(INotificationContentFactory))
             .To(typeof(NotificationContentFactory))
             .InSingletonScope();
+
+            Bind(typeof(IDataManagement))
+         .To(typeof(DbQuueryManager))
+         .InSingletonScope();
         }
     }
 }

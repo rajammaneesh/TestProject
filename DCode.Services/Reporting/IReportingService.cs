@@ -12,7 +12,7 @@ namespace DCode.Services.Reporting
 
         IEnumerable<Tuple<string, string>> GetProjectDetailsForNewTasksAddedYesterday(string skill);
 
-        IEnumerable<string> GetSkillsForFirmInitiativesCreatedYesterday(string skill);
+        IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday();
 
         void UpdateDailySiteVisitCount();
 
