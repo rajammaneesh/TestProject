@@ -52,7 +52,7 @@ namespace DCode.Services.Email
             var mainBody =
               string.Format(Constants.FirmInitiativeNotificationBody, GetDynamicTableContent(content));
 
-            return string.Empty;
+            return mainBody;
         }
 
         public string GetSubject(ITaskNotificationSubject subject)

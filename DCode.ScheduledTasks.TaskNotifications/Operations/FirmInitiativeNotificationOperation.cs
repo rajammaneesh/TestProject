@@ -47,26 +47,28 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         {
             try
             {
-                Console.WriteLine($"Application Started at {DateTime.Now.ToString()}");
-                LogMessage($"Application Started at {DateTime.Now.ToString()}");
+                var registeredUsers = _reportingService.GetAllActiveUsers();
 
-                IEnumerable<string> skills = null;
+                Console.WriteLine($"Number of registered users ={registeredUsers.Count()}");
+                LogMessage($"Number of registered users ={registeredUsers.Count()}");
 
-                if (skills == null
-                    || skills.Count() == 0)
+                var firmInitiatives = _reportingService.GetFirmInitiativeTasksCreatedYesterday();
+
+                if (firmInitiatives != null && firmInitiatives.Count() == 0)
                 {
-                    Console.WriteLine($"No skills fetched from DB. Process Ended");
-                    LogMessage($"No skills fetched from DB. Process Ended");
+                    Console.WriteLine($"No firm initiatives from yesterday. Ending execution");
+                    LogMessage($"No firm initiatives from yesterday. Ending execution");
 
                     return;
                 }
 
-                Console.WriteLine($"Number skills fetched from DB = ");
-                LogMessage($"Number skills fetched from DB = ");
+                Console.WriteLine($"Number of firm initiatives ={firmInitiatives.Count()}");
+                LogMessage($"Number of firm initiatives  ={firmInitiatives.Count()}");
 
-                var registeredUsers = _reportingService.GetAllActiveUsers();
+                var notifications = GetNotificationsForNewFirmInitiatives(registeredUsers, firmInitiatives);
 
-                var notifications = GetNotificationsForNewFirmInitiatives(registeredUsers, skills);
+                Console.WriteLine($"Number of notifications ={notifications.Count()}");
+                LogMessage($"Number of notifications  ={notifications.Count()}");
 
                 Console.WriteLine($"Sending bulk emails");
                 LogMessage($"Sending bulk emails");
@@ -85,30 +87,27 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private IEnumerable<Notification> GetNotificationsForNewFirmInitiatives(
             IEnumerable<string> registeredUsers,
-            IEnumerable<string> skills)
+            IEnumerable<Tuple<string, string, string>> projectData)
         {
             List<Notification> notifications = null;
 
-            if (skills != null && skills.Any())
+            if (projectData != null && projectData.Any())
             {
                 notifications = new List<Notification>();
             }
 
             var bodyRequest = new FirmInitiativeTaskNotificationContent
             {
-                ProjectData = _reportingService.GetFirmInitiativeTasksCreatedYesterday()
+                ProjectData = projectData
             };
 
-            notifications.AddRange(
-                skills.Select(skill => new Notification
-                {
-                    BccAddresses = registeredUsers?.ToList(),
-                    Skill = skill,
-                    TaskDetails = null,// How do we implement this
-                    ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                    Subject = _notificationContent.GetSubject(null),
-                    Body = _notificationContent.GetEmailBody(bodyRequest)
-                }));
+            notifications.Add(new Notification
+            {
+                BccAddresses = registeredUsers?.ToList(),
+                ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
+                Subject = _notificationContent.GetSubject(null),
+                Body = _notificationContent.GetEmailBody(bodyRequest)
+            });
 
             return notifications;
         }

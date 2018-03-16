@@ -1,4 +1,5 @@
 ﻿using DCode.ScheduledTasks.Operations.TaskNotifications;
+using DCode.ScheduledTasks.TaskNotifications.Operations;
 using Ninject;
 using System;
 
@@ -18,15 +19,21 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
                 var taskNotificationOperation = new TaskNotificationsOperation(kernel);
 
-         //       var firmInitiativeNotificationOperation = new FirmInitiativeNotificationOperation(kernel);
+                var firmInitiativeNotificationOperation = new FirmInitiativeNotificationOperation(kernel);
 
                 Console.WriteLine("Initialized operation");
 
-                taskNotificationOperation.Invoke();
+                Console.WriteLine("Initialized operation for client service notification");
+                //   taskNotificationOperation.Invoke();
+                Console.WriteLine("Ended operation for client service notification");
+
+                Console.WriteLine("Initialized operation for firm initiative notification");
+                firmInitiativeNotificationOperation.Invoke();
+                Console.WriteLine("ended operation for firm initiative notification");
 
                 Console.WriteLine("Done sending out newly added task notifications");
 
-              //  firmInitiativeNotificationOperation.Invoke();
+                //  firmInitiativeNotificationOperation.Invoke();
 
                 Console.WriteLine("Done sending out firm initiative notifications to registered users");
 

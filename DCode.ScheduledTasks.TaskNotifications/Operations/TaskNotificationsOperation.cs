@@ -122,7 +122,6 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
                     BccAddresses = recipients?.ToList(),
                     Skill = skill,
                     ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                    TaskDetails = projectInfo,
                     Subject = _notificationContentType.GetSubject(subjectRequest),
                     Body = _notificationContentType.GetEmailBody(contentRequest)
                 };

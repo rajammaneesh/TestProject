@@ -61,6 +61,10 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(IDataManagement))
          .To(typeof(DbQuueryManager))
          .InSingletonScope();
+
+            Bind(typeof(INotificationContentFactory))
+         .To(typeof(NotificationContentFactory))
+         .InSingletonScope();
         }
     }
 }
