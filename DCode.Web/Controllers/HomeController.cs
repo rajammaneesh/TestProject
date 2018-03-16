@@ -18,7 +18,13 @@ namespace DCode.Web.Controllers
 
         public ActionResult Index()
         {
-            if (SessionHelper.Retrieve(Constants.MockUser) == null && ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True))
+            var mockUserContextValue = Convert.ToString(ConfigurationManager.AppSettings[Constants.MockUserLogin]);
+
+            var isTestFlowEnabled = ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True);
+
+            if (SessionHelper.Retrieve(Constants.MockUser) == null
+                && isTestFlowEnabled
+                && string.IsNullOrWhiteSpace(mockUserContextValue))
             {
                 return View();
             }
@@ -26,7 +32,7 @@ namespace DCode.Web.Controllers
             {
                 var auth = new AuthorizeDCode();
                 auth.OnAuthorization(new AuthorizationContext());
-
+             
                 var userContext = _commonService.GetCurrentUserContext();
 
                 if (userContext == null
@@ -45,7 +51,7 @@ namespace DCode.Web.Controllers
                 }
                 else
                 {
-                    if (userContext.SkillSet == null || (userContext.SkillSet !=null && userContext.SkillSet.Count == 0))
+                    if (userContext.SkillSet == null || (userContext.SkillSet != null && userContext.SkillSet.Count == 0))
                     {
                         return RedirectToAction("profile", "profile");
                     }

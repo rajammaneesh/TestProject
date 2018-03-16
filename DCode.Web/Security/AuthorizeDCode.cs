@@ -37,14 +37,27 @@ namespace DCode.Web.Security
         {
             var userIdentity = ConfigurationManager.AppSettings[Constants.UseWindowsIdentity].Equals(Constants.True) ? WindowsIdentity.GetCurrent() : HttpContext.Current.User.Identity;
 
-            if (userIdentity != null && userIdentity.IsAuthenticated)
+            var isTestFlowEnabled = ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True);
+
+            var mockUserContextValue = Convert.ToString(ConfigurationManager.AppSettings[Constants.MockUserLogin]);
+
+            string userName = string.Empty;
+
+            if (isTestFlowEnabled && !string.IsNullOrWhiteSpace(mockUserContextValue))
+            {
+                userName = mockUserContextValue;
+            }
+            else if (userIdentity != null && userIdentity.IsAuthenticated)
+            {
+                userName = userIdentity.Name.Substring(userIdentity.Name.IndexOf(@"\") + 1);
+            }
+
+            if (!string.IsNullOrWhiteSpace(userName))
             {
                 var commonService = _kernel.Value.Get<ICommonService>();
 
                 if (SessionHelper.Retrieve(Constants.UserContext) == null)
                 {
-                    var userName = userIdentity.Name.Substring(userIdentity.Name.IndexOf(@"\") + 1);
-
                     var userContext = commonService.GetCurrentUserContext(userName);
 
                     var isTechXAccessible = commonService.GetTechXAccess();
@@ -62,6 +75,7 @@ namespace DCode.Web.Security
             else
             {
                 filterContext.Result = new HttpUnauthorizedResult();
+
                 return;
             }
         }

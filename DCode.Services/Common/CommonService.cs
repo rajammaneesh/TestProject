@@ -225,13 +225,15 @@ namespace DCode.Services.Common
         {
             var designation = _userContext.Designation.ToLowerInvariant();
 
-            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
+            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner")
+                || designation.Contains("senior consultant") || designation.Contains("specialist senior"))
             {
                 //_userContext.Role = Enums.Role.Admin;
                 _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
-            else if (designation.Contains("manager") || designation.Contains("master") || designation.Contains("mngr") || designation.Contains("mgr"))
+            else if (designation.Contains("manager") || designation.Contains("master") || designation.Contains("mngr") || designation.Contains("mgr")
+                || designation.Contains("exec. mngr"))
             {
                 _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
