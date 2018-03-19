@@ -37,9 +37,16 @@ namespace DCode.Services.Common
         private SkillModelFactory _skillModelFactory;
         private SuggestionModelFactory _suggestionModelFactory;
         private IServiceLineRepository _serviceLineRepository;
+        private ITaskTypeRepository _taskTypeRepository;
         private ServiceLineModelFactory _serviceLineModelFactory;
+        private TaskTypeModelFactory _taskTypeModelFactory;
 
-        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository, LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository, UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory, SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory, IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory)
+        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository, 
+            LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository, 
+            UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory, 
+            SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory, 
+            IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -53,6 +60,8 @@ namespace DCode.Services.Common
             _suggestionModelFactory = suggestionModelFactory;
             _serviceLineRepository = serviceLineRepository;
             _serviceLineModelFactory = serviceLineModelFactory;
+            _taskTypeModelFactory = taskTypeModelFactory;
+            _taskTypeRepository = taskTypeRepository;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -444,6 +453,13 @@ namespace DCode.Services.Common
             var serviceLines = _serviceLineRepository.GetServiceLines();
 
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
+        }
+
+        public IEnumerable<Models.ResponseModels.Common.TaskType> GetTaskTypes()
+        {
+            var taskTypes = _taskTypeRepository.GetTaskTypes();
+
+            return _taskTypeModelFactory.CreateModelList<Models.ResponseModels.Common.TaskType>(taskTypes);
         }
 
         public int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName)

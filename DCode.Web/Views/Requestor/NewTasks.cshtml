@@ -141,6 +141,20 @@
                             <div class="new-style-DTM-space-column">&nbsp;</div>
                             <div class="new-style-DTM-main-column">
                                 <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Type</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
+                                <div class="form-group datepicker">
+                                    <div class="input-group search-wbs-code" style="width:100%;" id="divTaskType">
+                                        <select class="form-control" id="ddlTaskType" ng-model="taskRequest.SelectedTaskType" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" @*required*@></select>
+                                    </div>
+                                    <span class="error">Select Task Type</span>
+
+                                </div>
+                            </div>
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-main-column">
+                                <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Name</span>
                                     <span class="requiredField">*</span>
                                 </h3>

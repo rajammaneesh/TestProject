@@ -229,6 +229,12 @@ namespace DCode.Web.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetTaskTypes()
+        {
+            return Json(_commonService.GetTaskTypes(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public JsonResult GetNameFromEmailId(string emailId)
         {
             return Json(_commonService.GetNameFromEmailId(emailId));

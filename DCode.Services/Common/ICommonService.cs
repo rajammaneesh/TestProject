@@ -27,6 +27,8 @@ namespace DCode.Services.Common
 
         IEnumerable<ServiceLine> GetServiceLines();
 
+        IEnumerable<TaskType> GetTaskTypes();
+
         string GetNameFromEmailId(string emailId);
 
         int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName);
