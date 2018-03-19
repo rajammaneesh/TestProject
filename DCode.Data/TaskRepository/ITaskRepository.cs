@@ -12,6 +12,7 @@ namespace DCode.Data.TaskRepository
         int InsertTask(task task, IEnumerable<taskskill> taskSkills);
         task GetTaskById(int id);
         int UpdateTask(task task);
+        int CloseTask(int taskId);
         IEnumerable<task> GetTasks();
         //IEnumerable<task> GetTasks(int pageCount, int totalRecords);
         //applicant GetApplicantById(int id);

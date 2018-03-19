@@ -68,7 +68,7 @@ namespace DCode.Services.ModelFactory
                 task.StatusDate = input.STATUS_DATE;
                 task.Type = input.TYPE;
                 task.OnBoardingDate = CommonHelper.ConvertToDateUI(input.ONBOARDING_DATE);
-                task.ServiceLine = input.service_line.Name;
+                task.ServiceLine = input.service_line?.Name;
                 task.Duration = CommonHelper.CalculateDuration(input.CREATED_ON);
                 task.TaskName = input.TASK_NAME;
             }
@@ -122,13 +122,19 @@ namespace DCode.Services.ModelFactory
                 dbTask.HOURS = modelTask.Hours;
                 dbTask.ID = modelTask.Id;
                 dbTask.PROJECT_NAME = modelTask.ProjectName;
-                dbTask.PROJECT_WBS_Code = modelTask.WBSCode;
+                dbTask.PROJECT_WBS_Code = modelTask.ProjectWBSCode;
                 //dbTask.REQUESTOR_EMAIL_ID = user.EmailId;
                 //dbTask.SKILLS = modelTask.SkillSet;
                 dbTask.STATUS = TaskStatus.Active.ToString();
                 dbTask.STATUS_DATE = DateTime.Now;
                 dbTask.TYPE = modelTask.Type;
                 dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
+                dbTask.TASK_TYPE_ID = 1;
+                if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
+                {
+                    input.Status = dbTask.STATUS = TaskStatus.Closed.ToString();
+                }
+
             }
             return dbTask;
         }
@@ -139,6 +145,7 @@ namespace DCode.Services.ModelFactory
             var modelTask = input as Models.ResponseModels.Task.Task;
             if (modelTask != null)
             {
+                
                 dbTask.COMMENTS = modelTask.Comments;
                 //dbTask.CREATED_BY = modelTask.CreatedB
                 dbTask.CREATED_ON = modelTask.CreatedOn;
@@ -155,6 +162,10 @@ namespace DCode.Services.ModelFactory
                 dbTask.TYPE = modelTask.Type;
                 //dbTask.UPDATED_BY = 
                 //dbTask.UPDATED_ON =
+                if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
+                {
+                    input.Status= dbTask.STATUS=TaskStatus.Closed.ToString();
+                }
             }
             return dbTask;
         }

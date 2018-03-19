@@ -20,7 +20,8 @@ namespace DCode.Models.RequestModels
         public string RequestorEmailId { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
-        public string WBSCode { get; set; }
+        public string ProjectWBSCode { get; set; }
+        public int TaskType { get; set; }
 
         public string SelectedServiceLine { get; set; }
     }

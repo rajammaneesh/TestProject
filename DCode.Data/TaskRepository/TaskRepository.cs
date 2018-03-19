@@ -51,6 +51,15 @@ namespace DCode.Data.TaskRepository
             return Context.SaveChanges();
         }
 
+        public int CloseTask(int taskID)
+        {
+            var dbTasks = Context.Set<task>().Where(x => x.ID == taskID).FirstOrDefault();
+            var dbTask = dbTasks;
+            dbTask.STATUS = TaskStatus.Closed.ToString();
+            Context.Entry(dbTasks).CurrentValues.SetValues(dbTasks);
+            return Context.SaveChanges();
+        }
+
         public IEnumerable<task> GetTasks()
         {
             var tasks = Context.Set<task>().OrderByDescending(x => x.STATUS_DATE);
