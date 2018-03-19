@@ -55,6 +55,9 @@
     <Compile Include="Common\LoggerService.cs" />
     <Compile Include="Contributor\ContributorService.cs" />
     <Compile Include="Contributor\IContributorService.cs" />
+    <Compile Include="Email\ClientServiceTaskNotificationContentGenerator.cs" />
+    <Compile Include="Email\FirmInitiativeTaskNotificationContentGenerator.cs" />
+    <Compile Include="Email\NotificationContentGeneratorFactory.cs" />
     <Compile Include="ModelFactory\ApplicantModelFactory.cs" />
     <Compile Include="ModelFactory\ApplicantSkillModelFactory.cs" />
     <Compile Include="ModelFactory\ApprovedApplicantModelFactory.cs" />

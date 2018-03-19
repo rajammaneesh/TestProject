@@ -12,10 +12,14 @@ namespace DCode.Services.Reporting
 
         IEnumerable<Tuple<string, string>> GetProjectDetailsForNewTasksAddedYesterday(string skill);
 
+        IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday();
+
         void UpdateDailySiteVisitCount();
 
         List<Tuple<string, long>> GetUserVisitsCount();
 
         DatabaseTable ExecuteDbQuery(string query);
+
+        IEnumerable<string> GetAllActiveUsers();
     }
 }

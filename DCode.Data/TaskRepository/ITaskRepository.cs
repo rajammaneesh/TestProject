@@ -26,6 +26,8 @@ namespace DCode.Data.TaskRepository
 
         IEnumerable<Tuple<string, int>> GetTaskCountBySkillForDate(DateTime date);
 
+        IEnumerable<task> GetFirmInitiativesForDate(DateTime date);
+
         IEnumerable<task> GetProjectDetailsForNewTasksFromDateForSkill(DateTime date, string skillName);
     }
 }

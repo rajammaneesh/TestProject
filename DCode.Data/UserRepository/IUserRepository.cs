@@ -17,5 +17,7 @@ namespace DCode.Data.UserRepository
         IEnumerable<suggestion> GetSuggestions();
         int UpdateManager(int userId, string managerName, string managerEmailId);
         IEnumerable<string> GetSubscribedUserForTask(string task);
+
+        IEnumerable<string> GetAllActiveUsers();
     }
 }

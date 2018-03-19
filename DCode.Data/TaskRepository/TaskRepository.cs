@@ -141,5 +141,19 @@ namespace DCode.Data.TaskRepository
 
             return tasks.ToList();
         }
+
+        public IEnumerable<task> GetFirmInitiativesForDate(DateTime date)
+        {
+            var query = Context.Set<task>()
+                            .Where(x => x.CREATED_ON.Value.Day == date.Date.Day
+                                && x.CREATED_ON.Value.Month == date.Date.Month
+                                && x.CREATED_ON.Value.Year == date.Date.Year
+                                && x.STATUS == TaskStatus.Active.ToString()
+                                && x.TASK_TYPE_ID == ((int?)TaskType.FirmInitiative));
+
+            query.Include(x => x.taskskills.Select(y => y.skill)).Load();
+
+            return query.ToList();
+        }
     }
 }
