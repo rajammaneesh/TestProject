@@ -139,7 +139,9 @@
     </Compile>
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\ITaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\IServiceLineRepository.cs" />
+    <Compile Include="MetadataRepository\TaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\ServiceLineRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportingRepository\IDailyUsageStatisticsRepository.cs" />

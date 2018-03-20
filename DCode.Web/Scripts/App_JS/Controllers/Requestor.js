@@ -370,6 +370,7 @@
         $scope.divVisibiltyModel = { showCreate: false, showDetails: false, showSummary: false, showSuccess: false };
         $scope.skills = [];
         $scope.serviceLines = [];
+        $scope.taskTypes = [];
         $scope.selectedSkills = [];
         $scope.selectedSkillDesc = null;
         $scope.selectedSkill = null;
@@ -388,7 +389,8 @@
               Hours: "",
               SkillSet: [],
               IsRewardsEnabled: "",
-              SelectedServiceLine: ''
+              SelectedServiceLine: '',
+              SelectedTaskType: ''
           };
         }
 
@@ -502,6 +504,11 @@
         $("#ddlServiceLine").change(function () {
             $("#divServiceLine").removeClass("invalid");
         });
+
+        $("#ddlTaskType").change(function () {
+            $("#ddlTaskType").removeClass("invalid");
+        });
+
         $('#txtTaskName').focusout(function () {
             $("#divTaskName").removeClass("invalid");
         });
@@ -560,7 +567,7 @@
             else {
                 var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
                 var val = $("#txtWBSCode").val().toLocaleLowerCase();
-                if (val.length == 19 && regex.test(val)) {
+                if (val.length == 22 && regex.test(val)) {
                     if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
                         $("#divWBSCode").addClass("invalid");
                         //return;
@@ -600,6 +607,17 @@
                 if (!focusSet) {
                     focusSet = true;
                     $('#ddlServiceLine').focus();
+                }
+                isValid = false;
+                //$scope.ServiceLineValidation = false;
+            }
+
+            //validating task Type
+            if ($scope.taskRequest.SelectedTaskType == null || $scope.taskRequest.SelectedTaskType == "") {
+                $("#divTaskType").addClass("invalid");
+                if (!focusSet) {
+                    focusSet = true;
+                    $('#ddlTaskType').focus();
                 }
                 isValid = false;
                 //$scope.ServiceLineValidation = false;
@@ -880,10 +898,25 @@
             });
         }
 
+        $scope.getAllTaskTypes = function () {
+            var reqObj = $scope.task;
+            $http({
+                url: "/Common/GetTaskTypes",
+                method: "GET"
+            }).success(function (data, status, config) {
+
+                if (data != null) {
+                    $scope.taskTypes = data;
+                }
+            }).error(function (error) {
+            });
+        }
+
         $scope.onLoad = function () {
             $scope.isFirstTimeUser();
             $scope.getAllSkills();
             $scope.getAllServiceLines();
+            $scope.getAllTaskTypes();
         }
         $scope.onLoad();
 
