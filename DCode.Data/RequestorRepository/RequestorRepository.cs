@@ -27,7 +27,7 @@ namespace DCode.Data.RequestorRepository
         /// <param name="recordsCount"></param>
         /// <param name="emailId"></param>
         /// <returns></returns>
-        public IEnumerable<task> GetTaskApplicantsForApproval(int currentPageIndex, int recordsCount, string emailId, out int totalRecords)
+        public IEnumerable<task> GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount, string emailId, out int totalRecords)
         {
             var start = DateTime.Now;
             IQueryable<task> tasks;
@@ -39,7 +39,8 @@ namespace DCode.Data.RequestorRepository
             else
             {
                 tasks = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId
-                && x.STATUS == TaskStatus.Active.ToString());
+                && x.STATUS == TaskStatus.Active.ToString()
+                && x.TASK_TYPE_ID == selectedTaskTypeId);
             }
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             tasks.Include(x => x.user).Load();
@@ -78,7 +79,7 @@ namespace DCode.Data.RequestorRepository
         //    return approvedApplicants;
         //}
 
-        public IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords)
+        public IEnumerable<approvedapplicant> GetStatusOftasks(int selectedTaskType, string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords)
         {
             IEnumerable<int> taskIdList;
             //Admin login
@@ -88,7 +89,9 @@ namespace DCode.Data.RequestorRepository
             //}
             //else
             //{
-            taskIdList = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == TaskStatus.Assigned.ToString()).Select(y => y.ID).ToList();
+            taskIdList = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId
+            && x.STATUS == TaskStatus.Assigned.ToString()
+            && x.TASK_TYPE_ID == selectedTaskType).Select(y => y.ID).ToList();
             //}
 
             IQueryable<approvedapplicant> query;

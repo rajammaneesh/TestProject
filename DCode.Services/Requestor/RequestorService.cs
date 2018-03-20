@@ -44,7 +44,7 @@ namespace DCode.Services.Requestor
             _skillModelFactory = skillModelFactory;
         }
 
-        public TaskApplicantsReponse GetTaskApplicantsForApproval(int currentPageIndex, int recordsCount)
+        public TaskApplicantsReponse GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount)
         {
             var start = DateTime.Now;
             var response = new TaskApplicantsReponse();
@@ -56,11 +56,11 @@ namespace DCode.Services.Requestor
             var user = _commonService.GetCurrentUserContext();
             if (!true)
             {
-                dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(currentPageIndex, recordsCount, string.Empty, out totalRecords);
+                dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount, string.Empty, out totalRecords);
             }
             else
             {
-                dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(currentPageIndex, recordsCount, user.EmailId, out totalRecords);
+                dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount, user.EmailId, out totalRecords);
             }
             foreach (var dbTaskApproval in dbTaskApprovals)
             {
@@ -125,18 +125,18 @@ namespace DCode.Services.Requestor
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
                 var applicantUserContext = _commonService.MapDetailsFromDeloitteNetworkWithoutUserContextObject(applicant.user.EMAIL_ID.Split('@')[0]);
                 var RMGroupEmailAddress = _commonService.GetRMGroupEmailAddress(applicantUserContext.Department);
-                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId+ ";" + applicant.user.MANAGER_EMAIL_ID+ ";" + RMGroupEmailAddress);
+                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId + ";" + applicant.user.MANAGER_EMAIL_ID + ";" + RMGroupEmailAddress);
             }
             return result;
         }
 
-        public TaskStatusResponse GetStatusOftasks(int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder)
+        public TaskStatusResponse GetStatusOftasks(int selectedTaskType, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder)
         {
             var user = _commonService.GetCurrentUserContext();
             var response = new TaskStatusResponse();
             var totalRecords = 0;
             var taskStatusList = new List<Models.ResponseModels.Requestor.TaskStatus>();
-            var dbApprovedApplicants = _requestorRepository.GetStatusOftasks(user.EmailId, currentPageIndex, recordsCount, TaskStatusSortFields.Name, SortOrder.DESC, out totalRecords);
+            var dbApprovedApplicants = _requestorRepository.GetStatusOftasks(selectedTaskType, user.EmailId, currentPageIndex, recordsCount, TaskStatusSortFields.Name, SortOrder.DESC, out totalRecords);
             foreach (var dbApprovedApplicant in dbApprovedApplicants)
             {
                 var taskStatus = new Models.ResponseModels.Requestor.TaskStatus();

@@ -22,6 +22,12 @@
         $scope.searchBox = { text: null };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false };
         $scope.taskStatusVisibility = { showFirst: true };
+        $scope.taskTypes = [{ Id: 1, Description: "Client Service" }, { Id: 2, Description: "Firm Initiative" }];
+        $scope.selectedTaskTypes = {
+            taskApplications: 1,
+            taskStatus: 1,
+            taskHistory: 1
+        };
         $scope.workAgain = [];
         $scope.ratingValue = [];
         $scope.classValue = null;
@@ -165,12 +171,18 @@
             return $scope.reviewIndex == index;
         };
 
+        $scope.changeTaskTypeForTaskApplications = function () {
+            $scope.taskApplicants = null;
+            $scope.taskApplicantsCount = 0;
+            $scope.getApplicants();
+        };
+
         $scope.getApplicants = function () {
             //Make service calls only if fetched records are less than total records
             if ($scope.taskApplicants == null || ($scope.taskApplicants.length < $scope.taskApplicantsTotalRecords)) {
                 $scope.taskApplicantsCount++;
                 $http({
-                    url: "/Requestor/GetTaskApplicantsForApproval?currentPageIndex=" + $scope.taskApplicantsCount + "&recordsCount=" + $scope.taskApplicantsRecordCount,
+                    url: "/Requestor/GetTaskApplicantsForApproval?currentPageIndex=" + $scope.taskApplicantsCount + "&recordsCount=" + $scope.taskApplicantsRecordCount + "&selectedTaskTypeId=" + $scope.selectedTaskTypes.taskApplications,
                     method: "GET",
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -199,12 +211,18 @@
             }
         }
 
+        $scope.changeTaskTypeForTaskStatus = function () {
+            $scope.taskStatuses = null;
+            $scope.taskStatusCount = 0;
+            $scope.getStatusOftasks();
+        };
+
         $scope.getStatusOftasks = function () {
             //Make service calls only if fetched records are less than total records
             if ($scope.taskStatuses == null || ($scope.taskStatuses.length < $scope.taskStatusesTotalRecords)) {
                 $scope.taskStatusCount++;
                 $http({
-                    url: "/Requestor/GetStatusOftasks?currentPageIndex=" + $scope.taskStatusCount + "&recordsCount=" + $scope.taskStatusRecordCount,
+                    url: "/Requestor/GetStatusOftasks?currentPageIndex=" + $scope.taskStatusCount + "&recordsCount=" + $scope.taskStatusRecordCount + "&selectedTaskType=" + $scope.selectedTaskTypes.taskStatus,
                     method: "GET",
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -472,7 +490,7 @@
                 return false;
             };
         });
-       
+
         $('#skillsetNewTask').keydown(function (e) {
             var order = e.which;
             $scope.taskRequest.SkillSet = null;

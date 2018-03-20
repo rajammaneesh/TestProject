@@ -127,7 +127,7 @@ namespace DCode.Services.ModelFactory
                 //dbTask.SKILLS = modelTask.SkillSet;
                 dbTask.STATUS = TaskStatus.Active.ToString();
                 dbTask.STATUS_DATE = DateTime.Now;
-                dbTask.TYPE = modelTask.SelectedTaskType;
+                dbTask.TASK_TYPE_ID = Convert.ToInt32(modelTask.SelectedTaskType);
                 dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
             }
             return dbTask;
