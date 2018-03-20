@@ -61,6 +61,14 @@ namespace DCode.Web.Controllers
         }
 
         [AuthorizeRoute(Role.Contributor)]
+        public JsonResult ApplyFITask(int taskId)
+        {
+            var result = _contributorService.ApplyFITask(taskId);
+
+            return Json(result, JsonRequestBehavior.DenyGet);
+        }
+
+        [AuthorizeRoute(Role.Contributor)]
         public JsonResult GetAssignedTasks(int currentPageIndex, int recordsCount)
         {
             return Json(_contributorService.GetApprovedTasksForCurrentUser(currentPageIndex, recordsCount), JsonRequestBehavior.AllowGet);

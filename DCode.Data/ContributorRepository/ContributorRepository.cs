@@ -104,7 +104,7 @@ namespace DCode.Data.ContributorRepository
         public IEnumerable<taskapplicant> GetAppliedTasks(int userId)
         {
             IQueryable<taskapplicant> query;
-            query = Context.Set<taskapplicant>().Where(x => x.APPLICANT_ID == userId && x.STATUS == TaskApplicant.Active.ToString());
+            query = Context.Set<taskapplicant>().Where(x => x.APPLICANT_ID == userId && (x.STATUS == TaskApplicant.Active.ToString()|| x.STATUS == TaskApplicant.ManagerApproved.ToString()));
             return query.ToList();
         }
 

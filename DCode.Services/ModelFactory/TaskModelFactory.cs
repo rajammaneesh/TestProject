@@ -66,7 +66,7 @@ namespace DCode.Services.ModelFactory
                 task.Skills = ConvertTaskSkillsToString(input.taskskills);
                 task.Status = input.STATUS;
                 task.StatusDate = input.STATUS_DATE;
-                task.Type = input.TYPE;
+                task.TypeId = input.TASK_TYPE_ID.GetValueOrDefault();
                 task.OnBoardingDate = CommonHelper.ConvertToDateUI(input.ONBOARDING_DATE);
                 task.ServiceLine = input.service_line.Name;
                 task.Duration = CommonHelper.CalculateDuration(input.CREATED_ON);
@@ -152,7 +152,7 @@ namespace DCode.Services.ModelFactory
                 //dbTask.SKILLS = modelTask.Skills;
                 dbTask.STATUS = modelTask.Status;
                 dbTask.STATUS_DATE = modelTask.StatusDate;
-                dbTask.TYPE = modelTask.Type;
+                dbTask.TASK_TYPE_ID = modelTask.TypeId;
                 //dbTask.UPDATED_BY = 
                 //dbTask.UPDATED_ON =
             }

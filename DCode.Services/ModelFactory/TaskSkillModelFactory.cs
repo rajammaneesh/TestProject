@@ -38,7 +38,7 @@ namespace DCode.Services.ModelFactory
             task.Status = input.task.STATUS;
             task.StatusDate = input.task.STATUS_DATE;
             task.TaskName = input.task.TASK_NAME;
-            task.Type = input.task.TYPE;
+            task.TypeId = input.task.TASK_TYPE_ID.GetValueOrDefault();
             task.UpdatedBy = input.task.UPDATED_BY;
             task.UpdatedOn = input.task.UPDATED_ON;
             task.Id = input.task.ID;

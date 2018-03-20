@@ -7,7 +7,7 @@ namespace DCode.Models.ResponseModels.Task
     {
         public int Id { get; set; }
         public string ProjectWBSCode { get; set; }
-        public string Type { get; set; }
+        public int TypeId { get; set; }
         public string Details { get; set; }
         public string RequestorEmailId { get; set; }
         public string Skills { get; set; }
