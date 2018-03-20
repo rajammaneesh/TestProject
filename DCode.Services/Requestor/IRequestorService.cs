@@ -8,7 +8,7 @@ namespace DCode.Services.Requestor
 {
     public interface IRequestorService
     {
-        TaskApplicantsReponse GetTaskApplicantsForApproval(int currentPageIndex, int recordsCount);
+        TaskApplicantsReponse GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount);
         int AssignTask(AssignTaskRequest taskRequest);
         //IEnumerable<ApprovedContributor> GetApprovedApplicantsByTaskId(int taskId);
         TaskStatusResponse GetStatusOftasks(int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder);
@@ -22,6 +22,6 @@ namespace DCode.Services.Requestor
         int RejectTask(RejectTaskRequest rejectTaskRequest);
         TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount);
         int GetPermissionsCount();
-        
+
     }
 }

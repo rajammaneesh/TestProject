@@ -27,7 +27,7 @@ namespace DCode.Data.RequestorRepository
         /// <param name="recordsCount"></param>
         /// <param name="emailId"></param>
         /// <returns></returns>
-        public IEnumerable<task> GetTaskApplicantsForApproval(int currentPageIndex, int recordsCount, string emailId, out int totalRecords)
+        public IEnumerable<task> GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount, string emailId, out int totalRecords)
         {
             var start = DateTime.Now;
             IQueryable<task> tasks;
@@ -39,7 +39,8 @@ namespace DCode.Data.RequestorRepository
             else
             {
                 tasks = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId
-                && x.STATUS == TaskStatus.Active.ToString());
+                && x.STATUS == TaskStatus.Active.ToString()
+                && x.TASK_TYPE_ID == selectedTaskTypeId);
             }
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             tasks.Include(x => x.user).Load();
