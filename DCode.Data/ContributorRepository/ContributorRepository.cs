@@ -127,6 +127,7 @@ namespace DCode.Data.ContributorRepository
 
         public IEnumerable<taskskill> GetFilteredTasks(List<string> skillFilters,
             string serviceLine,
+            int selectedTaskType,
             string searchText,
             int currentPageIndex,
             int recordsCount,
@@ -152,6 +153,8 @@ namespace DCode.Data.ContributorRepository
             {
                 query = query.Where(x => x.task.service_line.Name.ToString().Equals(serviceLine));
             }
+
+            query = query.Where(x => x.task.TASK_TYPE_ID == selectedTaskType);
 
             query.Include(x => x.skill).Load();
 

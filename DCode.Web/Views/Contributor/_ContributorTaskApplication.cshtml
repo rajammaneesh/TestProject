@@ -14,7 +14,12 @@
                             </span>
                         </div>
                     </div>
-                    <div class="new-style-DTM-div-middle-33">&nbsp;</div>
+                    <div class="new-style-DTM-div-33">
+                        <span>Task type: </span>
+                        <div class="input-group" style="float:right !important;">
+                            <select @*style="width:250px;"*@ class="form-control" id="ddlTaskType" ng-model="taskSearch.selectedTaskType" ng-options="filter.Id as filter.Description for filter in selectTaskTypes" ng-change="refreshTasksBasedonInput()"></select>
+                        </div>
+                    </div>
                     <div class="new-style-DTM-div-33">
                         <div class="input-group" style="float:right !important;">
                             <select @*style="width:250px;"*@ class="form-control" id="ddlServiceLine" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
@@ -199,9 +204,13 @@
             </div>
             <div class="modal-body text-center" style="padding-bottom:120px;">
                 <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
-                <div class="gray-text font-size-16 opacity-normal">
+                <div class="gray-text font-size-16 opacity-normal" ng-show="$scope.taskSearch.selectedTaskType == 1">
                     <div>You have requested permission for <span class="color-8e44ad">{{taskRequest.TaskName}}</span> under project <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> for {{taskRequest.Hours}} hrs starting {{taskRequest.StartingDate}}.</div>
                     <div>While you wait for your manager to get back, complete your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Profile</span> for better task recommendations.</div>
+                </div>
+                <div class="gray-text font-size-16 opacity-normal" ng-show="$scope.taskSearch.selectedTaskType == 2">
+                    <div>You have requested to be assigned for <span class="color-8e44ad">{{task.TaskName}}</span> under project <span class="color-8e44ad">{{task.ProjectName}}</span> for {{task.Hours}} hrs starting {{task.OnBoardingDate}}.</div>
+                    <div>While you wait for your application to be approved, complete your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Profile</span> for better task recommendations.</div>
                 </div>
             </div>
         </div>

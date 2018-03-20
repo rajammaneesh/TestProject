@@ -21,7 +21,7 @@
         $scope.tasksCount = 0;
         $scope.taskApplicantsTotalRecords = 0;
         $scope.searchBox = { text: null };
-        $scope.taskSearch = { text: null, searchFilter: "A" };
+        $scope.taskSearch = { text: null, searchFilter: "A", selectedTaskType: 1 };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false, showCreate: false };
         $scope.divVisibiltyModel = { showDetails: true, showSummary: true, showSuccess: false, showApply: true };
         $scope.workAgain = [];
@@ -39,6 +39,10 @@
         $scope.searchFilters = [//{ Id: "M", Description: "My Service Line" },  // HotFix. Need to review later.
         { Id: "R", Description: "Recommended Tasks" },
         { Id: "A", Description: "All Service Lines" }];
+
+        $scope.selectTaskTypes = [
+            { Id: 1, Description: "Client Service" },
+            { Id: 2, Description: "Firm Initiative" }];
 
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
@@ -73,12 +77,19 @@
             return $scope.activeParentIndex == index;
         };
         $scope.showReviewOptions = function (index) {
-            $scope.divVisibiltyModel.showSummary = true;
-            $scope.divVisibiltyModel.showSuccess = false;
-            $scope.reviewIndex = index;
-            //document.getElementById('divManagerEmailId' + index).get(0).focus();
-            setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-            //$location.hash('div' + index);
+            if ($scope.selectedTaskType == 1) {
+
+                $scope.divVisibiltyModel.showSummary = true;
+                $scope.divVisibiltyModel.showSuccess = false;
+                $scope.reviewIndex = index;
+                //document.getElementById('divManagerEmailId' + index).get(0).focus();
+                setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
+                //$location.hash('div' + index);
+            }
+            else
+            {
+
+            }
 
         };
 
@@ -173,7 +184,7 @@
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
 
                 var url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
-                 + "&searchFilter=" + $scope.taskSearch.searchFilter;
+                    + "&searchFilter=" + $scope.taskSearch.searchFilter + "&selectedTaskType=" + $scope.taskSearch.selectedTaskType;
 
                 $http({
                     url: url,
