@@ -32,7 +32,25 @@ namespace DCode.Web.Controllers
         [HttpPost]
         public ActionResult UpsertTask(TaskRequest taskRequest)
         {
-            var result = _taskService.UpsertTask(taskRequest);
+            try
+            {
+                var result = _taskService.UpsertTask(taskRequest);
+                return Json(result, JsonRequestBehavior.DenyGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// This method is used to change the status of the task to close
+        /// </summary>
+        /// <param name="taskId">Task Id</param>
+        /// <returns></returns>
+        public ActionResult CloseTask(int taskId)
+        {
+            var result = _taskService.CloseTask(taskId);
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 

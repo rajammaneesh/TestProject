@@ -21,6 +21,7 @@ namespace DCode.Models.RequestModels
         public string Status { get; set; }
         public string SelectedTaskType { get; set; }
         public string WBSCode { get; set; }
+        public int TaskType { get; set; }
 
         public string SelectedServiceLine { get; set; }
     }
