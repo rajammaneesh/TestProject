@@ -572,40 +572,43 @@
                 isValid = false;
             }
 
-            //validating WBS Code
-            if ($("#txtWBSCode").val() == '' || $("#txtWBSCode").val() == null) {
-                $("#divWBSCode").addClass("invalid");
+            //Skip wbs validation if task type is firm initiative
+            if ($scope.taskRequest.SelectedTaskType != 2) {
+                //validating WBS Code
+                if ($("#txtWBSCode").val() == '' || $("#txtWBSCode").val() == null) {
+                    $("#divWBSCode").addClass("invalid");
 
-                if (!focusSet) {
-                    $('#txtWBSCode').focus();
-                    focusSet = true;
+                    if (!focusSet) {
+                        $('#txtWBSCode').focus();
+                        focusSet = true;
+                    }
+                    isValid = false;
                 }
-                isValid = false;
-            }
-            else {
-                var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
-                var val = $("#txtWBSCode").val().toLocaleLowerCase();
-                if (val.length == 22 && regex.test(val)) {
-                    if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
+                else {
+                    var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
+                    var val = $("#txtWBSCode").val().toLocaleLowerCase();
+                    if (val.length == 22 && regex.test(val)) {
+                        if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
+                            $("#divWBSCode").addClass("invalid");
+                            //return;
+                            if (!focusSet) {
+                                focusSet = true;
+                                $('#txtWBSCode').focus();
+                            }
+                            isValid = false;
+                        }
+                        else {
+                            $("#divWBSCode").removeClass("invalid");
+                        }
+                    } else {
                         $("#divWBSCode").addClass("invalid");
-                        //return;
                         if (!focusSet) {
                             focusSet = true;
                             $('#txtWBSCode').focus();
                         }
                         isValid = false;
+                        //return;
                     }
-                    else {
-                        $("#divWBSCode").removeClass("invalid");
-                    }
-                } else {
-                    $("#divWBSCode").addClass("invalid");
-                    if (!focusSet) {
-                        focusSet = true;
-                        $('#txtWBSCode').focus();
-                    }
-                    isValid = false;
-                    //return;
                 }
             }
 
@@ -801,7 +804,10 @@
 
                         //$scope.GetWBSValidation();
 
-                        var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
+                        var wbsCheckValue = (!!$scope.taskRequest.WBSCode && $scope.taskRequest.SelectedTaskType == 1)
+                            || $scope.taskRequest.SelectedTaskType == 2;
+
+                        var isvalid = !!$scope.taskRequest.ProjectName && wbsCheckValue && selectedSkill
                             && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
                             && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
 
