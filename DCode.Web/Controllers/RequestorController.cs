@@ -58,7 +58,7 @@ namespace DCode.Web.Controllers
         /// <returns></returns>
         public JsonResult GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex = 1, int recordsCount = 10)
         {
-            var tasks = _requestorService.GetTaskApplicantsForApproval(selectedTaskTypeId,currentPageIndex, recordsCount);
+            var tasks = _requestorService.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount);
             return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
@@ -71,9 +71,9 @@ namespace DCode.Web.Controllers
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetStatusOftasks(int currentPageIndex = 1, int recordsCount = 10, TaskStatusSortFields sortField = TaskStatusSortFields.Name, SortOrder sortOrder = SortOrder.DESC)
+        public JsonResult GetStatusOftasks(int selectedTaskType, int currentPageIndex = 1, int recordsCount = 10, TaskStatusSortFields sortField = TaskStatusSortFields.Name, SortOrder sortOrder = SortOrder.DESC)
         {
-            var tasksStatuses = _requestorService.GetStatusOftasks(currentPageIndex, recordsCount, sortField, sortOrder);
+            var tasksStatuses = _requestorService.GetStatusOftasks(selectedTaskType, currentPageIndex, recordsCount, sortField, sortOrder);
             return Json(tasksStatuses, JsonRequestBehavior.AllowGet);
         }
 

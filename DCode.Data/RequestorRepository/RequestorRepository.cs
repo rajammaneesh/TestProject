@@ -79,7 +79,7 @@ namespace DCode.Data.RequestorRepository
         //    return approvedApplicants;
         //}
 
-        public IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords)
+        public IEnumerable<approvedapplicant> GetStatusOftasks(int selectedTaskType, string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords)
         {
             IEnumerable<int> taskIdList;
             //Admin login
@@ -89,7 +89,9 @@ namespace DCode.Data.RequestorRepository
             //}
             //else
             //{
-            taskIdList = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId && x.STATUS == TaskStatus.Assigned.ToString()).Select(y => y.ID).ToList();
+            taskIdList = Context.Set<task>().Where(x => x.user.EMAIL_ID == emailId
+            && x.STATUS == TaskStatus.Assigned.ToString()
+            && x.TASK_TYPE_ID == selectedTaskType).Select(y => y.ID).ToList();
             //}
 
             IQueryable<approvedapplicant> query;

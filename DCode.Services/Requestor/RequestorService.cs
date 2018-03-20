@@ -130,13 +130,13 @@ namespace DCode.Services.Requestor
             return result;
         }
 
-        public TaskStatusResponse GetStatusOftasks(int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder)
+        public TaskStatusResponse GetStatusOftasks(int selectedTaskType, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder)
         {
             var user = _commonService.GetCurrentUserContext();
             var response = new TaskStatusResponse();
             var totalRecords = 0;
             var taskStatusList = new List<Models.ResponseModels.Requestor.TaskStatus>();
-            var dbApprovedApplicants = _requestorRepository.GetStatusOftasks(user.EmailId, currentPageIndex, recordsCount, TaskStatusSortFields.Name, SortOrder.DESC, out totalRecords);
+            var dbApprovedApplicants = _requestorRepository.GetStatusOftasks(selectedTaskType, user.EmailId, currentPageIndex, recordsCount, TaskStatusSortFields.Name, SortOrder.DESC, out totalRecords);
             foreach (var dbApprovedApplicant in dbApprovedApplicants)
             {
                 var taskStatus = new Models.ResponseModels.Requestor.TaskStatus();

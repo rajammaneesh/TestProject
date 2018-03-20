@@ -9,7 +9,7 @@ namespace DCode.Data.RequestorRepository
         IEnumerable<task> GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount, string emailId, out int totalRecords);
         int AssignTask(approvedapplicant dbApprovedApplicant);
         //IEnumerable<approvedapplicant> GetApprovedApplicantsByTaskId(int taskId);
-        IEnumerable<approvedapplicant> GetStatusOftasks(string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords);
+        IEnumerable<approvedapplicant> GetStatusOftasks(int selectedTaskType, string emailId, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder, out int totalRecords);
         //approvedapplicant GetApprovedApplicantById(int id);
         int ReviewTask(approvedapplicant approvedApplicant);
         //IEnumerable<task> GetTaskHistroyByEmailId(string emailId);

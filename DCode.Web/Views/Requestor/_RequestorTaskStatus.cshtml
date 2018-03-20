@@ -28,6 +28,14 @@
                     </div>
                 </div>
             </div>
+            <div class="new-style-DTM-dashboard-menu-search">
+                Task Type
+                <div class="form-group no-margin">
+                    <div class="input-group search-by-project">
+                        <select class="form-control" id="ddlTaskType" ng-model="selectedTaskTypes.taskStatus" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskStatus()"></select>
+                    </div>
+                </div>
+            </div>
 
             <div class="project-details" style="padding:20px;" ng-repeat="taskStatus in taskStatuses">
                 <div>

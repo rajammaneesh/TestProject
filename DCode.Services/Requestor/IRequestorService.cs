@@ -11,7 +11,7 @@ namespace DCode.Services.Requestor
         TaskApplicantsReponse GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount);
         int AssignTask(AssignTaskRequest taskRequest);
         //IEnumerable<ApprovedContributor> GetApprovedApplicantsByTaskId(int taskId);
-        TaskStatusResponse GetStatusOftasks(int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder);
+        TaskStatusResponse GetStatusOftasks(int selectedTaskType, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder);
         int ReviewTask(ReviewTaskRequest reviewTaskRequest);
         IEnumerable<TaskHistory> GetTaskHistory();
         bool IsFirstTimeUserForNewTask();
