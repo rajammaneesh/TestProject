@@ -76,8 +76,8 @@
         $scope.isShowing = function (index) {
             return $scope.activeParentIndex == index;
         };
-        $scope.showReviewOptions = function (index) {
-            if ($scope.selectedTaskType == 1) {
+        $scope.showReviewOptions = function (index, task) {
+            if (task.TypeId == 1) {
 
                 $scope.divVisibiltyModel.showSummary = true;
                 $scope.divVisibiltyModel.showSuccess = false;
@@ -86,9 +86,10 @@
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
                 //$location.hash('div' + index);
             }
-            else
+            else if (task.TypeId == 2)
             {
-
+                $scope.reviewIndex = index;
+                $scope.applyFITask(task)
             }
 
         };
@@ -282,7 +283,47 @@
                                     TaskName: task.TaskName,
                                     ProjectName: task.ProjectName,
                                     Hours: task.Hours,
-                                    StartingDate: task.OnBoardingDate
+                                    StartingDate: task.OnBoardingDate,
+                                    TaskType: task.TypeId
+                                }
+
+                            $scope.divVisibiltyModel.showSuccess = true;
+                            $scope.divVisibiltyModel.showSummary = false;
+                            $scope.refreshTasks();
+                            //$location.hash('divCongrats');
+                            $('#divCongrats').modal('show');
+                        }
+                    }
+
+                }).error(function (error) {
+                });
+            }
+        }
+
+        $scope.applyFITask = function (task) {
+            var userEmail = "";
+            if ($rootScope.userContext != null) {
+                userEmail = $rootScope.userContext.EmailId;
+            }
+            if (userEmail != task.RequestorEmailId)
+            {
+                $http({
+                    url: "/Contributor/ApplyFITask",
+                    method: "POST",
+                    data: {
+                        taskId: task.Id,
+                    }
+                }).success(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        if (data != null && data > 0) {
+
+                            $scope.taskRequest =
+                                {
+                                    TaskName: task.TaskName,
+                                    ProjectName: task.ProjectName,
+                                    Hours: task.Hours,
+                                    StartingDate: task.OnBoardingDate,
+                                    TaskType: task.TypeId
                                 }
 
                             $scope.divVisibiltyModel.showSuccess = true;

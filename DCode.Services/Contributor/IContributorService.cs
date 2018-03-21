@@ -17,5 +17,6 @@ namespace DCode.Services.Contributor
         int UpdateHours(int approvedApplicantId, int hours);
         TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount,string searchFilter, int selectedTaskType);
         TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount);
+        int ApplyFITask(int taskId);
     }
 }

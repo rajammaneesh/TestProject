@@ -146,6 +146,35 @@ namespace DCode.Services.Contributor
             }
         }
 
+        public int ApplyFITask(int taskId)
+        {
+            try
+            {
+                var user = _commonService.GetCurrentUserContext();
+
+                var taskApplicant = new taskapplicant
+                {
+                    APPLICANT_ID = user.UserId,
+                    TASK_ID = taskId,
+                    STATUS = ApplicantStatus.ManagerApproved.ToString(),
+                    STATUS_DATE = DateTime.Now,
+                    STATEMENT_OF_PURPOSE = "Interested for Firm Initiative"
+                };
+
+                MapAuditFields(ActionType.Insert, taskApplicant);
+
+                var result = _contributorRepository.ApplyForTask(taskApplicant);            
+                  
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var logDetails = new DCode.Models.Common.Log { Description = ex.Message, Details = ex.ToString() };
+                _commonService.LogToDatabase(logDetails);
+                return -1;
+            }
+        }
+
 
         public AssignedTasksResponse GetApprovedTasksForCurrentUser(int currentPageIndex, int recordsCount)
         {
