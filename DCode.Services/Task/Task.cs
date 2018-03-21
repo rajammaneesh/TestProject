@@ -28,6 +28,10 @@ namespace DCode.Services.Task
             var result = 0;
             if (taskRequest.ActionType == ActionType.Insert)
             {
+                taskRequest.WBSCode = string.IsNullOrWhiteSpace(taskRequest.WBSCode)
+                    ? "WBS00000-00-00-00-0000"
+                    : taskRequest.WBSCode;
+
                 var dbTask = _taskModelFactory.CreateModel<TaskRequest>(taskRequest);
                 MapAuditFields<task>(ActionType.Insert, dbTask);
                 var dbTaskSkills = _taskSkillModelFactory.CreateModelList(taskRequest.SkillSet);
