@@ -122,7 +122,7 @@ namespace DCode.Services.ModelFactory
                 dbTask.HOURS = modelTask.Hours;
                 dbTask.ID = modelTask.Id;
                 dbTask.PROJECT_NAME = modelTask.ProjectName;
-                dbTask.PROJECT_WBS_Code = modelTask.ProjectWBSCode;
+                dbTask.PROJECT_WBS_Code = modelTask.WBSCode;
                 //dbTask.REQUESTOR_EMAIL_ID = user.EmailId;
                 //dbTask.SKILLS = modelTask.SkillSet;
                 dbTask.STATUS = TaskStatus.Active.ToString();
