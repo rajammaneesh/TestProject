@@ -50,6 +50,11 @@ namespace DCode.Services.Task
             return result;
         }
 
+        public int CloseTask(int taskId)
+        {
+            return _taskRepository.CloseTask(taskId);
+        }
+
         public IEnumerable<Skill> GetSkills()
         {
             var dbSkills = _taskRepository.GetAllSkills();
