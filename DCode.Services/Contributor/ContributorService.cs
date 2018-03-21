@@ -177,7 +177,7 @@ namespace DCode.Services.Contributor
             return result;
         }
 
-        public TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string searchFilter)
+        public TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount, string searchFilter, int selectedTaskType)
         {
             var user = _commonService.GetCurrentUserContext();
             var taskList = new TaskResponse();
@@ -196,7 +196,7 @@ namespace DCode.Services.Contributor
             if (!(searchFilter == "R" 
                 && user.SkillSet.Count == 0))
             {
-                dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, searchKey, currentPageIndex, recordsCount, out totalRecords);
+                dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, selectedTaskType, searchKey, currentPageIndex, recordsCount, out totalRecords);
 
                 tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
             }

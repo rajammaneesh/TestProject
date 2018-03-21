@@ -15,7 +15,7 @@ namespace DCode.Services.Contributor
         //AssignedTasksResponse GetApprovedTasksForCurrentUser();
         AssignedTasksResponse GetApprovedTasksForCurrentUser(int currentPageIndex, int recordsCount);
         int UpdateHours(int approvedApplicantId, int hours);
-        TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount,string searchFilter);
+        TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount,string searchFilter, int selectedTaskType);
         TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount);
     }
 }
