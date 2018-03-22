@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using static DCode.Models.Enums.Enums;
+using System;
 
 namespace DCode.Data.ContributorRepository
 {
@@ -25,7 +26,7 @@ namespace DCode.Data.ContributorRepository
             query.Include(x => x.skill).Load();
             query.Include(x => x.task.user).Load();
             query.Include(x => x.task.service_line).Load();
-            return query.ToList();
+            return query.Where(x => x.task.DUE_DATE >= DateTime.Now).ToList();
         }
 
         public IEnumerable<taskskill> GetTasksBasedOnSkill(string skill, int currentPageIndex, int recordsCount, out int totalRecords)
@@ -36,7 +37,7 @@ namespace DCode.Data.ContributorRepository
             query.Include(x => x.task.user).Load();
             totalRecords = query.Count();
             var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
-            return filteredRecords.ToList();
+            return filteredRecords.Where(x => x.task.DUE_DATE >= DateTime.Now).ToList();
         }
 
         public IEnumerable<task> GetAllTasks(int currentPageIndex, int recordsCount, out int totalRecords)
@@ -48,7 +49,7 @@ namespace DCode.Data.ContributorRepository
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             totalRecords = tasks.Count();
             var filteredRecords = tasks.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
-            return filteredRecords.ToList();
+            return filteredRecords.Where(x => x.DUE_DATE >= DateTime.Now).ToList();
         }
 
         public int ApplyForTask(taskapplicant taskApplicant)
@@ -166,7 +167,7 @@ namespace DCode.Data.ContributorRepository
 
             var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
 
-            return filteredRecords.ToList();
+            return filteredRecords.Where(x => x.task.DUE_DATE >= DateTime.Now).ToList();
         }
     }
 }

@@ -214,7 +214,6 @@ namespace DCode.Services.Contributor
             IEnumerable<task> dbTasks;
             IEnumerable<taskskill> dbTaskSkills;
             IEnumerable<Models.ResponseModels.Task.Task> tasks = null;
-            var listofTasks = new List<Models.ResponseModels.Task.Task>();
 
             var serviceLineToSearch = !string.IsNullOrWhiteSpace(searchFilter)
                 && searchFilter == "M" ? user.Department : null;
@@ -230,15 +229,8 @@ namespace DCode.Services.Contributor
 
                 tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
             }
-
-            foreach (var task in tasks)
-            {
-                if (Convert.ToDateTime(task.DueDate) >= DateTime.Today)
-                {
-                    listofTasks.Add(task);
-                }
-            }
-            taskList.Tasks = listofTasks;
+                       
+            taskList.Tasks = tasks;
             taskList.TotalRecords = totalRecords;
             var dbTaskApplicants = _contributorRepository.GetAppliedTasks(user.UserId);
             var dbApplicantSkills = _userRepository.GetSkillsByUserId(user.UserId);
