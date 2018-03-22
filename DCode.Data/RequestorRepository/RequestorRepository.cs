@@ -50,7 +50,7 @@ namespace DCode.Data.RequestorRepository
             //Pick records based on the pageindex.
             var filteredRecords = tasks.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
             var end = DateTime.Now - start;
-            return filteredRecords.ToList();
+            return filteredRecords.ToList().Where(x => x.DUE_DATE >= DateTime.Now);
         }
 
         /// <summary>
