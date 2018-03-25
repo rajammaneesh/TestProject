@@ -15,14 +15,19 @@
                         </div>
                     </div>
                     <div class="new-style-DTM-div-33">
-                        <span style="align-self:center; align-items:center">Task type: </span>
-                        <div class="input-group" style="float:right !important;">
-                            <select @*style="width:250px;"*@ class="form-control" id="ddlTaskType" ng-model="taskSearch.selectedTaskType" ng-options="filter.Id as filter.Description for filter in selectTaskTypes" ng-change="refreshTasksBasedonInput()"></select>
+                        <div class="new-span-width-span" style="padding-top: 8px;"><span>Task type :&nbsp; </span></div>
+                        <div class="input-group new-span-width-select">
+                            <select class="form-control" style="border-radius: 4px;" id="ddlTaskType" ng-model="taskSearch.selectedTaskType" ng-options="filter.Id as filter.Description for filter in selectTaskTypes" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
+                        <div style="clear: both;"></div>
+                        @*<span style="align-self:center; align-items:center">Task type: </span>
+                        <div class="input-group" style="float:right !important;">
+                            <select class="form-control" id="ddlTaskType" ng-model="taskSearch.selectedTaskType" ng-options="filter.Id as filter.Description for filter in selectTaskTypes" ng-change="refreshTasksBasedonInput()"></select>
+                        </div>*@
                     </div>
                     <div class="new-style-DTM-div-33">
-                        <div class="input-group" style="float:right !important;">
-                            <select @*style="width:250px;"*@ class="form-control" id="ddlServiceLine" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
+                        <div class="input-group new-push-to-right">
+                            <select  style="border-radius: 4px;"class="form-control" id="ddlServiceLine" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
                     </div>
                 </div>

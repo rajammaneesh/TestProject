@@ -6,7 +6,7 @@
 
 <div class="main no-padding-left-right" ng-controller="requestorController">
     <div style="background:white;width:100%;height:50px;">
-        <div class="new-style-DTM-dashboard-menu">
+        <div class="new-style-DTM-dashboard-menu" @*style="width: 50% !important;"*@>
             <div class="top-menu">
                 <ul class="nav">
                     <li class="link active new-style-DTM-dashboard-menu-items" id="approval">
@@ -21,29 +21,45 @@
                 </ul>
             </div>
         </div>
-        <div class="new-style-DTM-dashboard-menu-search">
-            Task Type
-            <div class="form-group no-margin">
-                <div class="input-group search-by-project">
-                    <select class="form-control" ng-show="dashboard.showApproval" id="ddlTaskApplicationsTaskType" ng-model="selectedTaskTypes.taskApplications" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskApplications()"></select>
-                    <select class="form-control" ng-show="dashboard.showTaskStatus" id="ddlTaskStatusTaskType" ng-model="selectedTaskTypes.taskStatus" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskStatus()"></select>
+        <div class="new-style-DTM-dashboard-menu-search" @*style="width: 50% !important; "*@>
+
+            @*Task Type*@
+            <div class="form-group no-margin new-search-by-project new-float-left">
+                <div style="float:left; padding-top: 5px;" ng-show="dashboard.showApproval||dashboard.showTaskStatus">Task Type &nbsp;</div>
+                <div class="input-group new-select-detail">
+                    <select class="form-control new-SelectWidth" style="border-radius: 5px;" ng-show="dashboard.showApproval" id="ddlTaskApplicationsTaskType" ng-model="selectedTaskTypes.taskApplications" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskApplications()"></select>
+                    <select class="form-control new-SelectWidth" style="border-radius: 5px;"  ng-show="dashboard.showTaskStatus" id="ddlTaskStatusTaskType" ng-model="selectedTaskTypes.taskStatus" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskStatus()"></select>
 
                 </div>
             </div>
-        </div>
-        <div class="new-style-DTM-dashboard-menu-search" ng-hide="dashboard.showHistory">
-            <div class="form-group no-margin">
+            <div class="input-group new-search-by-project">
+                <input type="text" class="form-control" placeholder="Search by Project Name" ng-model="searchBox.text" ng-change="filterTaskApplicants();">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </span>
+            </div>
+            @*<div style="float :left;">
                 <div class="input-group search-by-project">
                     <input type="text" class="form-control" placeholder="Search by Project Name" ng-model="searchBox.text" ng-change="filterTaskApplicants();">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </span>
                 </div>
-            </div>
+            </div>*@
         </div>
+        @*<div class="new-style-DTM-dashboard-menu-search" ng-hide="dashboard.showHistory">
+                <div class="form-group no-margin">
+                    <div class="input-group search-by-project">
+                        <input type="text" class="form-control" placeholder="Search by Project Name" ng-model="searchBox.text" ng-change="filterTaskApplicants();">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>*@
     </div>
     <div style="clear:both;"></div>
-    <div style="width:100%;">
+    <div style="width:100%;" class="new-overall-div-padding">
         <div class="new-style-DTM-renderbody-inner">
             @{Html.RenderPartial("_RequestorTaskApplications");}
             @{Html.RenderPartial("_RequestorTaskHistory");}

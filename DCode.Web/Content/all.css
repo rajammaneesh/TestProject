@@ -870,6 +870,7 @@ eft-nav-circle-txt-ProjectName {
     width: 20px;
     height: 19px;
 }
+
 .contactus-icon img {
     width: 20px;
     height: 15px;
@@ -1536,7 +1537,8 @@ input.edit-task-btn.width110 {
     color: #8e44ad;
     /*margin-left: 300px;*/
 }
-.new-style-DTM-create-new-task-btn:hover {
+
+    .new-style-DTM-create-new-task-btn:hover {
         background-color: #8e44ad;
         color: white;
     }
@@ -1630,12 +1632,12 @@ input.edit-task-btn.width110 {
 
 .new-style-DTM-dashboard-menu {
     padding-left: 20px;
-    width: 75%;
+    width: 50%;
     float: left;
 }
 
 .new-style-DTM-dashboard-menu-search {
-    width: 25%;
+    width: 50%;
     float: left;
 }
 
@@ -1784,6 +1786,27 @@ input.edit-task-btn.width110 {
     padding-left: 80px;
 }
 
+.new-search-by-project {
+    float: left;
+    padding: 4px;
+    padding-left: 10px;
+    width: 50%;
+}
+.new-float-left {
+    float: left !important;
+}
+.new-select-detail {
+    float: left;
+}
+.new-push-to-right {
+    float: right !important;
+}
+.new-span-width-span {
+    float: left; width: 50%;
+}
+.new-span-width-select {
+    float: left; width: 50%;
+}
 /*@media only screen and (min-width:1024px) and (max-width:1024px) {
 
     .new-style-DTM-main-inner-body {
@@ -1865,6 +1888,33 @@ input.edit-task-btn.width110 {
 
 
 @media only screen and (min-width:768px) and (max-width:1024px) {
+    .new-span-width-span {
+        float: left; width: 15%;
+    }
+    .new-span-width-select {
+        float: left; 
+    }
+    .new-push-to-right {
+        float: none !important;
+    }
+    .new-overall-div-padding {
+        padding-top: 50px;
+    }
+    .new-float-left {
+        float: none;
+        padding-top: 5px;
+    }
+    .new-SelectWidth {
+        width: 75%;
+              
+    }
+    .new-search-by-project {
+        float: none;
+        /*padding: 4px;
+        padding-left: 10px;*/
+        padding-top: 10px;
+        width: 100%;
+    }
     .new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
     }
@@ -2048,6 +2098,36 @@ input.edit-task-btn.width110 {
 }
 
 @media only screen and (min-width:320px) and (max-width:767px) {
+    /*.new-select-detail {
+        float: left; width: 88.7%;
+    }*/
+    .new-span-width-span {
+        float: left; width: 15%;
+    }
+    .new-span-width-select {
+        float: left; 
+    }
+    .new-push-to-right {
+        float: none !important;
+    }
+    .new-overall-div-padding {
+        padding-top: 50px;
+    }
+    .new-float-left {
+        float: none;
+        padding-top: 5px;
+    }
+    .new-SelectWidth {
+        width: 75%;
+              
+    }
+    .new-search-by-project {
+        float: none;
+        /*padding: 4px;
+        padding-left: 10px;*/
+        padding-top: 10px;
+        width: 100%;
+    }
     .new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
     }
