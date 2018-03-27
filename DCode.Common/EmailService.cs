@@ -20,14 +20,17 @@ namespace DCode.Common
 
         public void SendBulkEmail(IEnumerable<Notification> notifications)
         {
-            Parallel.ForEach(notifications, new ParallelOptions
+            if (ConfigurationManager.AppSettings["TestMode"] != "true")
             {
-                MaxDegreeOfParallelism = 4
-            },
-            notification =>
-            {
-                SendEmail(notification);
-            });
+                Parallel.ForEach(notifications, new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = 4
+                },
+                  notification =>
+                  {
+                      SendEmail(notification);
+                  });
+            }
 
         }
 
