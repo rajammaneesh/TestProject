@@ -121,6 +121,7 @@ namespace DCode.Data.TaskRepository
                             .Where(x => x.CREATED_ON.Value.Day == date.Date.Day
                                 && x.CREATED_ON.Value.Month == date.Date.Month
                                 && x.CREATED_ON.Value.Year == date.Date.Year
+                                && x.TASK_TYPE_ID == (int?)TaskType.ClientService
                                 && x.STATUS == Enums.TaskStatus.Active.ToString());
 
             var countResults = tasks
