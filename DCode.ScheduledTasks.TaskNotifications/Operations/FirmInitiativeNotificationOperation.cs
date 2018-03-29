@@ -54,7 +54,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
                 var firmInitiatives = _reportingService.GetFirmInitiativeTasksCreatedYesterday();
 
-                if (firmInitiatives != null && firmInitiatives.Count() == 0)
+                if (firmInitiatives == null || firmInitiatives?.Count() == 0)
                 {
                     Console.WriteLine($"No firm initiatives from yesterday. Ending execution");
                     LogMessage($"No firm initiatives from yesterday. Ending execution");
