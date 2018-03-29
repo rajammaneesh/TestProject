@@ -18,13 +18,7 @@ namespace DCode.Web.Controllers
 
         public ActionResult Index()
         {
-            var mockUserContextValue = Convert.ToString(ConfigurationManager.AppSettings[Constants.MockUserLogin]);
-
-            var isTestFlowEnabled = ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True);
-
-            if (SessionHelper.Retrieve(Constants.MockUser) == null
-                && isTestFlowEnabled
-                && string.IsNullOrWhiteSpace(mockUserContextValue))
+            if (SessionHelper.Retrieve(Constants.MockUser) == null && ConfigurationManager.AppSettings[Constants.EnableTestFlow].ToString().Equals(Constants.True))
             {
                 return View();
             }
