@@ -245,6 +245,11 @@ namespace DCode.Services.Common
                 _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
+            else if (designation.Contains("senior consultant") || designation.Contains("specialist senior") || designation.Contains("asst mgr") || designation.Contains("sr. analyst"))
+            {
+                _userContext.Role = Role.Requestor;
+                _userContext.IsCoreRoleRequestor = true;
+            }
             else
             {
                 _userContext.Role = Role.Contributor;
