@@ -55,6 +55,7 @@ namespace DCode.Common
         public const string TelephoneNumber = "telephonenumber";
         public const string MsArchiveName = "msexcharchivename";
         public const string MockUser = "MockUser";
+        public const string MockUserLogin = "MockUserLogin";
         public static string DcodeEmailId = "DcodeEmailId";
         public static string DcodeEmailPwd = "DcodeEmailPwd";
         public static string EmployeeType = "employeetype";

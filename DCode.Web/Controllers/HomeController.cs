@@ -26,7 +26,7 @@ namespace DCode.Web.Controllers
             {
                 var auth = new AuthorizeDCode();
                 auth.OnAuthorization(new AuthorizationContext());
-
+             
                 var userContext = _commonService.GetCurrentUserContext();
 
                 if (userContext == null
@@ -45,7 +45,7 @@ namespace DCode.Web.Controllers
                 }
                 else
                 {
-                    if (userContext.SkillSet == null || (userContext.SkillSet !=null && userContext.SkillSet.Count == 0))
+                    if (userContext.SkillSet == null || (userContext.SkillSet != null && userContext.SkillSet.Count == 0))
                     {
                         return RedirectToAction("profile", "profile");
                     }
