@@ -94,6 +94,15 @@
 
         };
 
+        $scope.showTimeAddBar = function (index) {
+            $scope.divVisibiltyModel.showSummary = true;
+            $scope.divVisibiltyModel.showSuccess = false;
+            $scope.reviewIndex = index;
+            //document.getElementById('divManagerEmailId' + index).get(0).focus();
+            setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
+                //$location.hash('div' + index);
+        }
+
         $scope.isShowingReview = function (index) {
             return $scope.reviewIndex == index;
         };
