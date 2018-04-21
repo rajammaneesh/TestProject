@@ -248,7 +248,8 @@ namespace DCode.Services.Requestor
             {
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
-                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, userContext.EmailId);
+                var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
+                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress);
             }
 
             return result;
@@ -267,7 +268,8 @@ namespace DCode.Services.Requestor
             {
                 var task = _taskRepository.GetTaskById(rejectTaskRequest.TaskId);
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(rejectTaskRequest.TaskApplicantId);
-                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Rejected, applicant.user.EMAIL_ID, userContext.EmailId);
+                var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
+                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Rejected, applicant.user.EMAIL_ID, ccMailAddress);
             }
             return status;
         }
