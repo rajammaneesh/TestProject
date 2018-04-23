@@ -80,13 +80,16 @@ namespace DCode.Services.ModelFactory
         public IEnumerable<taskskill> CreateModelList(IEnumerable<int> skillIdList)
         {
             var dbTaskSkills = new List<taskskill>();
-            foreach(var skillId in skillIdList)
+            if (skillIdList != null)
             {
-                var dbTaskSkill = new taskskill();
-                dbTaskSkill.SKILL_ID = skillId;
-                dbTaskSkill.STATUS = SkillStatus.Active.ToString();
-                dbTaskSkill.STATUS_DATE = DateTime.Now;
-                dbTaskSkills.Add(dbTaskSkill);
+                foreach (var skillId in skillIdList)
+                {
+                    var dbTaskSkill = new taskskill();
+                    dbTaskSkill.SKILL_ID = skillId;
+                    dbTaskSkill.STATUS = SkillStatus.Active.ToString();
+                    dbTaskSkill.STATUS_DATE = DateTime.Now;
+                    dbTaskSkills.Add(dbTaskSkill);
+                }
             }
             return dbTaskSkills;
         }

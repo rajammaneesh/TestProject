@@ -626,13 +626,15 @@
             }
 
             //validating skill set
-            if ($("#skillsetNewTask_value").val() == '' || $("#skillsetNewTask_value").val() == null) {
-                $("#taskSkill").addClass("invalid");
-                if (!focusSet) {
-                    $('#skillsetNewTask_value').focus();
-                    focusSet = true;
+            if ($scope.taskRequest.SelectedTaskType != 2) {
+                if ($("#skillsetNewTask_value").val() == '' || $("#skillsetNewTask_value").val() == null) {
+                    $("#taskSkill").addClass("invalid");
+                    if (!focusSet) {
+                        $('#skillsetNewTask_value').focus();
+                        focusSet = true;
+                    }
+                    isValid = false;
                 }
-                isValid = false;
             }
 
             //validating service Line
@@ -769,6 +771,11 @@
 
                         var selectedSkill = false;
                         if ($scope.taskRequest.SkillSet != null && $scope.taskRequest.SkillSet != "") {
+                            selectedSkill = true;
+                            //$("#taskSkill").removeClass("invalid");
+                        }
+                        else if ($scope.taskRequest.SelectedTaskType != null && $scope.taskRequest.SelectedTaskType == 2) {
+                            $scope.taskRequest.SkillSet
                             selectedSkill = true;
                             //$("#taskSkill").removeClass("invalid");
                         }
