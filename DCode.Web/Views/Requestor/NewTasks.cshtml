@@ -69,17 +69,17 @@
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
-                            <div class="new-style-DTM-main-column" >
+                            <div class="new-style-DTM-main-column">
                                 <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
-                                    <span class="requiredField" ng-hide="taskRequest.SelectedTaskType==2">*</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Type</span>
+                                    <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
-                                    <div class="input-group search-wbs-code" id="divWBSCode" style="width:100%;">
-                                        <input type="text" id="txtWBSCode" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-00-0000)" @*required*@>
-                                        <span style="font-style:italic;font-size:10px;">XYI, LPX and DCI codes not allowed.</span>
+                                    <div class="input-group search-wbs-code" style="width:100%;" id="divTaskType">
+                                        <select class="form-control" id="ddlTaskType" ng-model="taskRequest.SelectedTaskType" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" @*required*@></select>
                                     </div>
-                                    <span class="error">Invalid WBS Code</span>
+                                    <span class="error">Select Task Type</span>
+
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
@@ -138,18 +138,18 @@
 
                                 </div>
                             </div>
-                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                            <div class="new-style-DTM-space-column">&nbsp;</div>                            
                             <div class="new-style-DTM-main-column">
                                 <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Task Type</span>
-                                    <span class="requiredField">*</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
+                                    <span class="requiredField" ng-hide="taskRequest.SelectedTaskType==2">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
-                                    <div class="input-group search-wbs-code" style="width:100%;" id="divTaskType">
-                                        <select class="form-control" id="ddlTaskType" ng-model="taskRequest.SelectedTaskType" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" @*required*@></select>
+                                    <div class="input-group search-wbs-code" id="divWBSCode" style="width:100%;">
+                                        <input type="text" id="txtWBSCode" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-00-0000)" @*required*@>
+                                        <span style="font-style:italic;font-size:10px;">XYI, LPX and DCI codes not allowed.</span>
                                     </div>
-                                    <span class="error">Select Task Type</span>
-
+                                    <span class="error">Invalid WBS Code</span>
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>
