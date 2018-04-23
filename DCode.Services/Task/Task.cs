@@ -34,6 +34,11 @@ namespace DCode.Services.Task
 
                 var dbTask = _taskModelFactory.CreateModel<TaskRequest>(taskRequest);
                 MapAuditFields<task>(ActionType.Insert, dbTask);
+                if (taskRequest.SelectedTaskType == "2") {
+                    var skill = new List<int>();
+                    skill.Add(281);
+                    taskRequest.SkillSet = skill;
+                }
                 var dbTaskSkills = _taskSkillModelFactory.CreateModelList(taskRequest.SkillSet);
                 foreach (var dbTaskSkill in dbTaskSkills)
                 {
