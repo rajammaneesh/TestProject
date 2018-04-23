@@ -56,15 +56,15 @@
                         <div style="width:100%;">
                             <div class="new-style-DTM-main-column">
                                 <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project Name</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">{{taskRequest.SelectedTaskType===2? 'Firm Initiative': 'Project'}} Name</span>
                                     <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divProjectName">
-                                        <input type="text" id="txtProjectName" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the project" @*required*@>
+                                        <input type="text" id="txtProjectName" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the {{taskRequest.SelectedTaskType===2? 'Firm Initiative': 'Project'}}" @*required*@>
                                         @*<span class="error" style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}">Invalid Project Name</span>*@
                                     </div>
-                                    <span class="error" @*style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}"*@>Invalid Project Name</span>
+                                    <span class="error" @*style="color:red" ng-show="{{newTaskForm.projectName.$error.required}}"*@>Invalid {{taskRequest.SelectedTaskType===2? 'Firm Initiative': 'Project'}} Name</span>
 
                                 </div>
                             </div>
