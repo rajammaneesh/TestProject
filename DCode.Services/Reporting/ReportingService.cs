@@ -90,9 +90,31 @@ namespace DCode.Services.Reporting
             return _dbQueryManager.RunQuery(query);
         }
 
-        public IEnumerable<string> GetAllActiveUsers()
+        public IEnumerable<string> GetConsultingUsers()
         {
-            return _userRepository.GetAllActiveUsers();
+            return new List<string>
+            {
+                "USMUMSIALL@deloitte.com",
+                "USBLRSIServiceLine@DELOITTE.com",
+                "USHYDSIALL@deloitte.com",
+                "USIndiaOracleAll@DELOITTE.com",
+                "USIndiaDDAll@DELOITTE.com",
+                "USHyderabadSAP@deloitte.com",
+                "USBLRSAPServiceLine@DELOITTE.com",
+                "USDelhiSAP@deloitte.com",
+                "USMumbaiSAP@deloitte.com",
+                "USIndiaConsultingTechAppMgmtSvcsBangalore@deloitte.com",
+                "USIndiaConsTechAppMgmtSvcsGurgaon@deloitte.com",
+                "USIndiaConsultingTechAppMgmtSvcsHyderabad@deloitte.com",
+                "USIndiaConsultingTechAppMgmtSvcsMumbai@deloitte.com",
+                "USIndiaCloud@deloitte.com",
+                "USR10BLRConsultingAIMAll@deloitte.com",
+                "USR10DELConsultingAIMAll@deloitte.com",
+                "USR10HYDConsultingAIMAll@deloitte.com",
+                "USR10MUMConsultingAIMAll@deloitte.com",
+                "USR10MUMConsultingAIMAll@deloitte.com"
+            };
+           // return _userRepository.GetAllActiveUsers();
         }
 
         public IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday()

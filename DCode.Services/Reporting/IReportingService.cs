@@ -20,6 +20,6 @@ namespace DCode.Services.Reporting
 
         DatabaseTable ExecuteDbQuery(string query);
 
-        IEnumerable<string> GetAllActiveUsers();
+        IEnumerable<string> GetConsultingUsers();
     }
 }
