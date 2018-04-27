@@ -165,11 +165,11 @@ namespace DCode.Data.ContributorRepository
 
             totalRecords = query.Count();
 
-            var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount).ToList();
+            var dateToBeChecked = DateTime.Today.AddDays(-15).Date;
 
-            var filteredRecord = filteredRecords.Where(x => x.task.DUE_DATE >= DateTime.Today.AddDays(-15));
+            var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount).Where(x => x.task.DUE_DATE >= dateToBeChecked);
 
-            return filteredRecord.ToList();
+            return filteredRecords.ToList();
         }
     }
 }
