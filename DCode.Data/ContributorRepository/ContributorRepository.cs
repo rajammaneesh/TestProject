@@ -155,7 +155,9 @@ namespace DCode.Data.ContributorRepository
                 query = query.Where(x => x.task.service_line.Name.ToString().Equals(serviceLine));
             }
 
-            query = query.Where(x => x.task.TASK_TYPE_ID == selectedTaskType);
+            var dateToBeChecked = DateTime.Today.AddDays(-15).Date;
+
+            query = query.Where(x => x.task.TASK_TYPE_ID == selectedTaskType).Where(x => x.task.DUE_DATE >= dateToBeChecked);
 
             query.Include(x => x.skill).Load();
 
@@ -165,9 +167,7 @@ namespace DCode.Data.ContributorRepository
 
             totalRecords = query.Count();
 
-            var dateToBeChecked = DateTime.Today.AddDays(-15).Date;
-
-            var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount).Where(x => x.task.DUE_DATE >= dateToBeChecked);
+            var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
 
             return filteredRecords.ToList();
         }
