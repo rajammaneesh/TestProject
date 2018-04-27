@@ -21,5 +21,7 @@ namespace DCode.Services.Reporting
         DatabaseTable ExecuteDbQuery(string query);
 
         IEnumerable<string> GetConsultingUsers();
+
+        IEnumerable<string> GetDummyConsultingUsers();
     }
 }

@@ -114,7 +114,7 @@ namespace DCode.Services.Reporting
                 "USR10MUMConsultingAIMAll@deloitte.com",
                 "USR10MUMConsultingAIMAll@deloitte.com"
             };
-           // return _userRepository.GetAllActiveUsers();
+            // return _userRepository.GetAllActiveUsers();
         }
 
         public IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday()
@@ -139,6 +139,14 @@ namespace DCode.Services.Reporting
             }
 
             return mappedResult;
+        }
+
+        public IEnumerable<string> GetDummyConsultingUsers()
+        {
+            return new List<string> {
+               "risen@deloitte.com",
+               "shirastogi@deloitte.com"
+           };
         }
     }
 }

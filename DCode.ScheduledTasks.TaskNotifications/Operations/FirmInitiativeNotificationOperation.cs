@@ -47,7 +47,9 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         {
             try
             {
-                var consultingUsers = _reportingService.GetConsultingUsers();
+                var consultingUsers = ConfigurationManager.AppSettings["TestMode"] == "true"
+                    ? _reportingService.GetDummyConsultingUsers()
+                    : _reportingService.GetConsultingUsers();
 
                 Console.WriteLine($"Number of registered users ={consultingUsers.Count()}");
                 LogMessage($"Number of registered users ={consultingUsers.Count()}");
