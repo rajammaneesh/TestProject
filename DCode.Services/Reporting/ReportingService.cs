@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DCode.Models.Common;
 using DCode.Models.Management;
+using System.Configuration;
 
 namespace DCode.Services.Reporting
 {
@@ -92,28 +93,19 @@ namespace DCode.Services.Reporting
 
         public IEnumerable<string> GetConsultingUsers()
         {
-            return new List<string>
+            var recipientEmailsFromConfig = ConfigurationManager.AppSettings["NotificationEmailerRecipients"];
+
+            if (string.IsNullOrEmpty(recipientEmailsFromConfig))
             {
-                "USMUMSIALL@deloitte.com",
-                "USBLRSIServiceLine@DELOITTE.com",
-                "USHYDSIALL@deloitte.com",
-                "USIndiaOracleAll@DELOITTE.com",
-                "USIndiaDDAll@DELOITTE.com",
-                "USHyderabadSAP@deloitte.com",
-                "USBLRSAPServiceLine@DELOITTE.com",
-                "USDelhiSAP@deloitte.com",
-                "USMumbaiSAP@deloitte.com",
-                "USIndiaConsultingTechAppMgmtSvcsBangalore@deloitte.com",
-                "USIndiaConsTechAppMgmtSvcsGurgaon@deloitte.com",
-                "USIndiaConsultingTechAppMgmtSvcsHyderabad@deloitte.com",
-                "USIndiaConsultingTechAppMgmtSvcsMumbai@deloitte.com",
-                "USIndiaCloud@deloitte.com",
-                "USR10BLRConsultingAIMAll@deloitte.com",
-                "USR10DELConsultingAIMAll@deloitte.com",
-                "USR10HYDConsultingAIMAll@deloitte.com",
-                "USR10MUMConsultingAIMAll@deloitte.com",
-                "USR10MUMConsultingAIMAll@deloitte.com"
-            };
+                return null;
+            }
+
+            var recipientEmails = recipientEmailsFromConfig.Split(',')
+                ?.ToList();
+
+            recipientEmails?.RemoveAll(x => string.IsNullOrEmpty(x));
+
+            return recipientEmails;
             // return _userRepository.GetAllActiveUsers();
         }
 
