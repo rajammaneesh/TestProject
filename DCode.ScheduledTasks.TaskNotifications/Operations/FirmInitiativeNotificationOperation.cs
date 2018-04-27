@@ -47,10 +47,12 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         {
             try
             {
-                var registeredUsers = _reportingService.GetAllActiveUsers();
+                var consultingUsers = ConfigurationManager.AppSettings["TestMode"] == "true"
+                    ? _reportingService.GetDummyConsultingUsers()
+                    : _reportingService.GetConsultingUsers();
 
-                Console.WriteLine($"Number of registered users ={registeredUsers.Count()}");
-                LogMessage($"Number of registered users ={registeredUsers.Count()}");
+                Console.WriteLine($"Number of registered users ={consultingUsers.Count()}");
+                LogMessage($"Number of registered users ={consultingUsers.Count()}");
 
                 var firmInitiatives = _reportingService.GetFirmInitiativeTasksCreatedYesterday();
 
@@ -65,7 +67,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 Console.WriteLine($"Number of firm initiatives ={firmInitiatives.Count()}");
                 LogMessage($"Number of firm initiatives  ={firmInitiatives.Count()}");
 
-                var notifications = GetNotificationsForNewFirmInitiatives(registeredUsers, firmInitiatives);
+                var notifications = GetNotificationsForNewFirmInitiatives(consultingUsers, firmInitiatives);
 
                 Console.WriteLine($"Number of notifications ={notifications.Count()}");
                 LogMessage($"Number of notifications  ={notifications.Count()}");
@@ -86,7 +88,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         }
 
         private IEnumerable<Notification> GetNotificationsForNewFirmInitiatives(
-            IEnumerable<string> registeredUsers,
+            IEnumerable<string> users,
             IEnumerable<Tuple<string, string, string>> projectData)
         {
             List<Notification> notifications = null;
@@ -103,7 +105,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
             notifications.Add(new Notification
             {
-                BccAddresses = registeredUsers?.ToList(),
+                BccAddresses = users?.ToList(),
                 ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
                 Subject = _notificationContentGenerator.GetSubject(null),
                 Body = _notificationContentGenerator.GetEmailBody(bodyRequest)

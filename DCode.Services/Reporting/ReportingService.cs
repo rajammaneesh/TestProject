@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DCode.Models.Common;
 using DCode.Models.Management;
+using System.Configuration;
 
 namespace DCode.Services.Reporting
 {
@@ -90,9 +91,22 @@ namespace DCode.Services.Reporting
             return _dbQueryManager.RunQuery(query);
         }
 
-        public IEnumerable<string> GetAllActiveUsers()
+        public IEnumerable<string> GetConsultingUsers()
         {
-            return _userRepository.GetAllActiveUsers();
+            var recipientEmailsFromConfig = ConfigurationManager.AppSettings["NotificationEmailerRecipients"];
+
+            if (string.IsNullOrEmpty(recipientEmailsFromConfig))
+            {
+                return null;
+            }
+
+            var recipientEmails = recipientEmailsFromConfig.Split(',')
+                ?.ToList();
+
+            recipientEmails?.RemoveAll(x => string.IsNullOrEmpty(x));
+
+            return recipientEmails;
+            // return _userRepository.GetAllActiveUsers();
         }
 
         public IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday()
@@ -117,6 +131,14 @@ namespace DCode.Services.Reporting
             }
 
             return mappedResult;
+        }
+
+        public IEnumerable<string> GetDummyConsultingUsers()
+        {
+            return new List<string> {
+               "risen@deloitte.com",
+               "shirastogi@deloitte.com"
+           };
         }
     }
 }
