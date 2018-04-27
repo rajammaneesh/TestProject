@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using static DCode.Models.Enums.Enums;
+using System;
 
 namespace DCode.Data.ContributorRepository
 {
@@ -164,7 +165,9 @@ namespace DCode.Data.ContributorRepository
 
             totalRecords = query.Count();
 
-            var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
+            var dateToBeChecked = DateTime.Today.AddDays(-15).Date;
+
+            var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount).Where(x => x.task.DUE_DATE >= dateToBeChecked);
 
             return filteredRecords.ToList();
         }
