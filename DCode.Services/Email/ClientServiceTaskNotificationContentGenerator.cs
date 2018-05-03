@@ -33,9 +33,9 @@ namespace DCode.Services.Email
                 tableHtml += $"<tr><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item1}</td><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item2}</td></tr>";
             }
 
-            var finalTableHtml = $"<table style='border-collapse:collapse;width:80%;'>{tableContent}</table>";
+            var finalTableHtml = $"<table style='border-collapse:collapse;width:80%;'>{tableHtml}</table>";
 
-            return $"<p>{tableHtml}</p>";
+            return $"<p>{finalTableHtml}</p>";
         }
 
         public string GetEmailBody(INotificationContent content)
