@@ -1,10 +1,12 @@
-﻿using DCode.Data.DbContexts;
+﻿using DCode.Common;
+using DCode.Data.DbContexts;
 using DCode.Data.TaskRepository;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Services.ModelFactory;
 using System.Collections.Generic;
+using System.Linq;
 using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.Task
@@ -15,6 +17,7 @@ namespace DCode.Services.Task
         private TaskModelFactory _taskModelFactory;
         private TaskSkillModelFactory _taskSkillModelFactory;
         private SkillModelFactory _skillModelFactory;
+
         public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory)
         {
             _taskRepository = taskRepository;
@@ -34,10 +37,21 @@ namespace DCode.Services.Task
 
                 var dbTask = _taskModelFactory.CreateModel<TaskRequest>(taskRequest);
                 MapAuditFields<task>(ActionType.Insert, dbTask);
-                if (taskRequest.SelectedTaskType == "2") {
-                    var skill = new List<int>();
-                    skill.Add(281);
-                    taskRequest.SkillSet = skill;
+                if (taskRequest.SelectedTaskType == "2")
+                {
+
+                    if (taskRequest.SkillSet == null
+                        || !taskRequest.SkillSet.Any())
+                    {
+                        var skill = new List<int>();
+
+                        var firmInitiativeSkill = _taskRepository.GetSkillByName(Constants.FirmInitiativeSkillRecord);
+
+                        taskRequest.SkillSet.Add(
+                            firmInitiativeSkill != null
+                            ? firmInitiativeSkill.ID
+                            : default(int));
+                    }
                 }
                 var dbTaskSkills = _taskSkillModelFactory.CreateModelList(taskRequest.SkillSet);
                 foreach (var dbTaskSkill in dbTaskSkills)
