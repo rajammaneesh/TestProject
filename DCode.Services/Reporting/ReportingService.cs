@@ -127,7 +127,7 @@ namespace DCode.Services.Reporting
                     Tuple.Create<string, string, string>(
                         resultItem.TASK_NAME,
                         resultItem.DETAILS,
-                        resultItem.taskskills?.FirstOrDefault()?.skill.VALUE));
+                        resultItem.taskskills.FirstOrDefault().skill.VALUE));
             }
 
             return mappedResult;

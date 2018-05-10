@@ -22,13 +22,9 @@ namespace DCode.Data.TaskRepository
         public int InsertTask(task task, IEnumerable<taskskill> taskSkills)
         {
             var insertedTask = Context.Set<task>().Add(task);
-
-            if (taskSkills != null)
+            foreach (var skill in taskSkills)
             {
-                foreach (var skill in taskSkills)
-                {
-                    Context.Set<taskskill>().Add(skill);
-                }
+                Context.Set<taskskill>().Add(skill);
             }
             return Context.SaveChanges();
         }

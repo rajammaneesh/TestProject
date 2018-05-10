@@ -5,7 +5,6 @@ using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Services.ModelFactory;
 using System.Collections.Generic;
-using System.Linq;
 using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.Task
@@ -35,21 +34,16 @@ namespace DCode.Services.Task
 
                 var dbTask = _taskModelFactory.CreateModel<TaskRequest>(taskRequest);
                 MapAuditFields<task>(ActionType.Insert, dbTask);
-
-                IEnumerable<taskskill> dbTaskSkills = null;
-
-                if ((taskRequest.SelectedTaskType == "1" ||
-                        (taskRequest.SelectedTaskType == "2"
-                            && (taskRequest.SkillSet != null
-                                || taskRequest.SkillSet.Any()))))
-                {
-                    dbTaskSkills = _taskSkillModelFactory.CreateModelList(taskRequest.SkillSet);
-                    foreach (var dbTaskSkill in dbTaskSkills)
-                    {
-                        MapAuditFields<taskskill>(ActionType.Insert, dbTaskSkill);
-                    }
+                if (taskRequest.SelectedTaskType == "2") {
+                    var skill = new List<int>();
+                    skill.Add(281);
+                    taskRequest.SkillSet = skill;
                 }
-
+                var dbTaskSkills = _taskSkillModelFactory.CreateModelList(taskRequest.SkillSet);
+                foreach (var dbTaskSkill in dbTaskSkills)
+                {
+                    MapAuditFields<taskskill>(ActionType.Insert, dbTaskSkill);
+                }
                 result = _taskRepository.InsertTask(dbTask, dbTaskSkills);
             }
             else if (taskRequest.ActionType == ActionType.Update)
@@ -60,7 +54,6 @@ namespace DCode.Services.Task
             }
             return result;
         }
-
 
         public int CloseTask(int taskId)
         {
