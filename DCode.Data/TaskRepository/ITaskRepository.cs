@@ -30,5 +30,7 @@ namespace DCode.Data.TaskRepository
         IEnumerable<task> GetFirmInitiativesForDate(DateTime date);
 
         IEnumerable<task> GetProjectDetailsForNewTasksFromDateForSkill(DateTime date, string skillName);
+
+        skill GetSkillByName(string name);
     }
 }

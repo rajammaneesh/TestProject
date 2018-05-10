@@ -165,5 +165,14 @@ namespace DCode.Data.TaskRepository
 
             return query.ToList();
         }
+
+        public skill GetSkillByName(string name)
+        {
+            IQueryable<skill> query;
+
+            query = Context.Set<skill>().Where(x => x.VALUE == name);
+
+            return query.FirstOrDefault();
+        }
     }
 }
