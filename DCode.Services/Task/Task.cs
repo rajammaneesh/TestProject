@@ -4,8 +4,10 @@ using DCode.Data.TaskRepository;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
+using DCode.Services.Common;
 using DCode.Services.ModelFactory;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using static DCode.Models.Enums.Enums;
 
@@ -18,12 +20,15 @@ namespace DCode.Services.Task
         private TaskSkillModelFactory _taskSkillModelFactory;
         private SkillModelFactory _skillModelFactory;
 
-        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory)
+        private ICommonService _commonService;
+
+        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService)
         {
             _taskRepository = taskRepository;
             _taskModelFactory = taskModelFactory;
             _taskSkillModelFactory = taskSkillModelFactory;
             _skillModelFactory = skillModelFactory;
+            _commonService = commonService;
         }
 
         public int UpsertTask(TaskRequest taskRequest)
@@ -60,6 +65,18 @@ namespace DCode.Services.Task
                     MapAuditFields<taskskill>(ActionType.Insert, dbTaskSkill);
                 }
                 result = _taskRepository.InsertTask(dbTask, dbTaskSkills);
+
+                if (taskRequest.SelectedTaskType == "2"
+                    && result == 2)
+                {
+                    var currentUser = _commonService.GetCurrentUserContext();
+
+                    EmailHelper.PostNewFINotification(taskRequest.ProjectName,
+                        taskRequest.Hours.ToString(),
+                        taskRequest.OnBoardingDate,
+                        currentUser.EmailId,
+                        GetConsultingEmailUsers());
+                }
             }
             else if (taskRequest.ActionType == ActionType.Update)
             {
@@ -86,6 +103,17 @@ namespace DCode.Services.Task
             var dbTasks = _taskRepository.GetTasks();
             var result = _taskModelFactory.CreateModelList<DCode.Models.ResponseModels.Task.Task>(dbTasks) as IEnumerable<DCode.Models.ResponseModels.Task.Task>;
             return result;
+        }
+
+        private List<string> GetConsultingEmailUsers()
+        {
+            var userEmails = ConfigurationManager.AppSettings["USIConsultingAddresses"];
+
+            var userEmailList = userEmails?.Split(';')?.ToList();
+
+            userEmailList?.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+
+            return userEmailList;
         }
     }
 }
