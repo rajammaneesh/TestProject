@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Net.Mail;
 using System.Configuration;
-using System.Web.Hosting;
 using DCode.Models.Enums;
-using DCode.Models.Email;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.IO;
-using System.Reflection;
 using DCode.Models.Common;
-using System.Threading;
+using System.Linq;
 
 namespace DCode.Common
 {
@@ -18,7 +14,7 @@ namespace DCode.Common
         private static LinkedResource inlineDCodeLogo;
 
         private static LinkedResource inlineDeloitteLogo;
-        public static void SendEmail(string toMailAddress, string ccMailAddress, MailMessage mailMessage)
+        public static void SendEmail(string toMailAddress, string ccMailAddress, MailMessage mailMessage, List<string> bccAddress = null)
         {
             try
             {
@@ -44,6 +40,14 @@ namespace DCode.Common
                         else
                         {
                             mailMessage.CC.Add(ccMailAddress);
+                        }
+                    }
+
+                    if (bccAddress != null && bccAddress.Any())
+                    {
+                        foreach (var address in bccAddress)
+                        {
+                            mailMessage.Bcc.Add(address);
                         }
                     }
 
@@ -121,6 +125,50 @@ namespace DCode.Common
                     mailMessage.AlternateViews.Add(view);
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }
+        }
+
+        public static void ApplyFINotification(string requestorName, string contributorName, string taskName, string taskDescription, string hours, string startDateTime, string toMailAddress, string ccMailAddress)
+        {
+            var htmlBody = GetEmail(PathGeneratorType.Server);
+            inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
+            inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var textBody = string.Format(Constants.ApplyFIBody, contributorName, taskName, hours, startDateTime);
+                mailMessage.Body = string.Format(htmlBody, requestorName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
+
+                    SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }
+        }
+
+        public static void PostNewFINotification(string taskName, string hours, string startDateTime, string ccMailAddress, List<string> bccMailAddress)
+        {
+            var htmlBody = GetEmail(PathGeneratorType.Server);
+            inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
+            inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime);
+                mailMessage.Body = string.Format(htmlBody, "All", textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
+
+                    SendEmail(ConfigurationManager.AppSettings["DcodeEmailId"], ccMailAddress, mailMessage, bccMailAddress);
                 }
             }
         }
