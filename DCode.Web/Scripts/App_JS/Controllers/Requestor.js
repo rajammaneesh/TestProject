@@ -82,6 +82,7 @@
                 $scope.dashboard.showApproval = false;
                 $scope.dashboard.showTaskStatus = false;
                 $scope.dashboard.showHistory = true;
+                $("#projectNam").attr("placeholder", "Search by Project Name/Firm Initiative");
             }
             //$scope.$apply();
             //$scope.$digest();
