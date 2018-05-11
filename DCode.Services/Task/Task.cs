@@ -43,14 +43,15 @@ namespace DCode.Services.Task
                     if (taskRequest.SkillSet == null
                         || !taskRequest.SkillSet.Any())
                     {
-                        var skill = new List<int>();
+                        var listOfSkills = new List<int>();
 
                         var firmInitiativeSkill = _taskRepository.GetSkillByName(Constants.FirmInitiativeSkillRecord);
 
-                        taskRequest.SkillSet.Add(
-                            firmInitiativeSkill != null
+                        listOfSkills.Add(firmInitiativeSkill != null
                             ? firmInitiativeSkill.ID
                             : default(int));
+
+                        taskRequest.SkillSet = listOfSkills;
                     }
                 }
                 var dbTaskSkills = _taskSkillModelFactory.CreateModelList(taskRequest.SkillSet);

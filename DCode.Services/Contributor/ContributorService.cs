@@ -146,7 +146,7 @@ namespace DCode.Services.Contributor
             }
         }
 
-        public int ApplyFITask(int taskId)
+        public int ApplyFITask(int taskId, string requestor)
         {
             try
             {
@@ -163,8 +163,25 @@ namespace DCode.Services.Contributor
 
                 MapAuditFields(ActionType.Insert, taskApplicant);
 
-                var result = _contributorRepository.ApplyForTask(taskApplicant);            
-                  
+                var result = _contributorRepository.ApplyForTask(taskApplicant);
+
+                if (result > 0)
+                {
+                    var requestorName = _commonService.GetNameFromEmailId(requestor);
+
+                    var task = _taskRepository.GetTaskById(taskId);
+
+                    EmailHelper.ApplyFINotification(
+                        requestorName,
+                        $"{user.FirstName}{Constants.Space}{user.LastName}",
+                        task.TASK_NAME,
+                        task.DETAILS,
+                        task.HOURS.ToString(),
+                         task.ONBOARDING_DATE.Value.ToShortDateString(),
+                         requestor,
+                         user.EmailId);
+                }
+
                 return result;
             }
             catch (Exception ex)
@@ -189,7 +206,7 @@ namespace DCode.Services.Contributor
             {
                 var taskStatus = new AssignedTask();
                 taskStatus.Applicant = _approvedApplicantModelFactory.CreateModel<DCode.Models.ResponseModels.Contributor.Contributor>(dbApprovedApplicant);
-                taskStatus.Task = _taskModelFactory.CreateModel<DCode.Models.ResponseModels.Task.Task>(dbApprovedApplicant.task);
+                taskStatus.Task = _taskModelFactory.CreateModel<Models.ResponseModels.Task.Task>(dbApprovedApplicant.task);
                 taskStatus.Applicant.ProjectManagerName = taskStatus.Task.FullName;
                 taskStatus.ApprovedApplicantId = dbApprovedApplicant.ID;
                 taskStatusList.Add(taskStatus);
@@ -222,7 +239,7 @@ namespace DCode.Services.Contributor
                 && searchFilter == "R" ? user.SkillSet.Select(x => x.Value)?.ToList()
                 : null;
 
-            if (!(searchFilter == "R" 
+            if (!(searchFilter == "R"
                 && user.SkillSet.Count == 0))
             {
                 dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, selectedTaskType, searchKey, currentPageIndex, recordsCount, out totalRecords);

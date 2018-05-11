@@ -125,6 +125,28 @@ namespace DCode.Common
             }
         }
 
+        public static void ApplyFINotification(string requestorName, string contributorName, string taskName, string taskDescription, string hours, string startDateTime, string toMailAddress, string ccMailAddress)
+        {
+            var htmlBody = GetEmail(PathGeneratorType.Server);
+            inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
+            inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
+            using (var mailMessage = new MailMessage())
+            {
+                mailMessage.Subject = Constants.DCodeNotification;
+                mailMessage.IsBodyHtml = true;
+                var textBody = string.Format(Constants.ApplyFIBody, contributorName, taskName, hours, startDateTime);
+                mailMessage.Body = string.Format(htmlBody, requestorName, textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
+                using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
+                {
+                    view.LinkedResources.Add(inlineDCodeLogo);
+                    view.LinkedResources.Add(inlineDeloitteLogo);
+                    mailMessage.AlternateViews.Add(view);
+
+                    SendEmail(toMailAddress, ccMailAddress, mailMessage);
+                }
+            }
+        }
+
         public static void ReviewNotification(string personName, string taskName, string projectName, string toMailAddress, string ccMailAddress)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);

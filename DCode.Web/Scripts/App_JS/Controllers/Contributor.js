@@ -321,6 +321,7 @@
                     method: "POST",
                     data: {
                         taskId: task.Id,
+                        requestor: task.RequestorEmailId
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {

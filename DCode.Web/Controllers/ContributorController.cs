@@ -61,9 +61,9 @@ namespace DCode.Web.Controllers
         }
 
         [AuthorizeRoute(Role.Contributor)]
-        public JsonResult ApplyFITask(int taskId)
+        public JsonResult ApplyFITask(int taskId, string requestor)
         {
-            var result = _contributorService.ApplyFITask(taskId);
+            var result = _contributorService.ApplyFITask(taskId, requestor);
 
             return Json(result, JsonRequestBehavior.DenyGet);
         }
