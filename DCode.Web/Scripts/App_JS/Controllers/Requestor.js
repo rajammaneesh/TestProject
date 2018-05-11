@@ -249,7 +249,8 @@
             $scope.AssignTask = {
                 TaskId: task.Id,
                 ApplicantId: applicant.ApplicantId,
-                TaskApplicantId: applicant.TaskApplicantId
+                TaskApplicantId: applicant.TaskApplicantId,
+                TaskTypeId:task.TypeId
             };
             $http({
                 method: 'POST',

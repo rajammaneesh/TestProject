@@ -125,7 +125,12 @@ namespace DCode.Services.Requestor
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
                 var applicantUserContext = _commonService.MapDetailsFromDeloitteNetworkWithoutUserContextObject(applicant.user.EMAIL_ID.Split('@')[0]);
                 var RMGroupEmailAddress = _commonService.GetRMGroupEmailAddress(applicantUserContext.Department);
-                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, userContext.EmailId + ";" + applicant.user.MANAGER_EMAIL_ID + ";" + RMGroupEmailAddress);
+
+                var ccEmailAddress = taskRequest.TaskTypeId == 1
+                    ? $"{userContext.EmailId};{applicant.user.MANAGER_EMAIL_ID};{RMGroupEmailAddress}"
+                    : userContext.EmailId;
+
+                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, ccEmailAddress);
             }
             return result;
         }
