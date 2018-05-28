@@ -61,7 +61,7 @@ namespace DCode.Common
         public static string EnableTestFlow = "EnableTestFlow";
         public static string True = "true";
         public static string DCodeNotification = "TechX Notification";
-        public static string DCodeNewFINotification = "New TechX FI Task Notification";
+        public static string DCodeNewFINotification = "New TechX FI Task Notification {0}";
         public static string UseWindowsIdentity = "UseWindowsIdentity";
         public static string SmtpDeloitte = "smtp.deloitte.com";
         public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team";

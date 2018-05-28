@@ -158,7 +158,7 @@ namespace DCode.Common
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             using (var mailMessage = new MailMessage())
             {
-                mailMessage.Subject = Constants.DCodeNewFINotification;
+                mailMessage.Subject = string.Format(Constants.DCodeNewFINotification,taskName);
                 mailMessage.IsBodyHtml = true;
                 var textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description);
                 mailMessage.Body = string.Format(htmlBody, "All", textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
