@@ -390,6 +390,7 @@
             {
                 ProjectName: "",
                 OnBoardingDate: "",
+                Description:"",
                 DueDate: "",
                 WBSCode: "",
                 TaskName: "",
@@ -416,6 +417,7 @@
           {
               ProjectName: "",
               OnBoardingDate: "",
+              Description: "",
               DueDate: "",
               WBSCode: "",
               TaskName: "",

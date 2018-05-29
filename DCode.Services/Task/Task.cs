@@ -73,6 +73,7 @@ namespace DCode.Services.Task
 
                     EmailHelper.PostNewFINotification(taskRequest.ProjectName,
                         taskRequest.Hours.ToString(),
+                        taskRequest.Description,
                         taskRequest.OnBoardingDate,
                         currentUser.EmailId,
                         GetConsultingEmailUsers());

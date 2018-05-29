@@ -151,16 +151,16 @@ namespace DCode.Common
             }
         }
 
-        public static void PostNewFINotification(string taskName, string hours, string startDateTime, string ccMailAddress, List<string> bccMailAddress)
+        public static void PostNewFINotification(string taskName, string hours,string description, string startDateTime, string ccMailAddress, List<string> bccMailAddress)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             using (var mailMessage = new MailMessage())
             {
-                mailMessage.Subject = Constants.DCodeNewFINotification;
+                mailMessage.Subject = string.Format(Constants.DCodeNewFINotification,taskName);
                 mailMessage.IsBodyHtml = true;
-                var textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime);
+                var textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description);
                 mailMessage.Body = string.Format(htmlBody, "All", textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
                 using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
                 {

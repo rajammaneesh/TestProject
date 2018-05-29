@@ -61,7 +61,7 @@ namespace DCode.Common
         public static string EnableTestFlow = "EnableTestFlow";
         public static string True = "true";
         public static string DCodeNotification = "TechX Notification";
-        public static string DCodeNewFINotification = "New TechX FI Task Notification";
+        public static string DCodeNewFINotification = "New TechX FI Task Notification {0}";
         public static string UseWindowsIdentity = "UseWindowsIdentity";
         public static string SmtpDeloitte = "smtp.deloitte.com";
         public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team";
@@ -69,7 +69,7 @@ namespace DCode.Common
         public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team";
         public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team";
         public static string ApplyFIBody = "{0} has requested to be assigned for the Firm Initiative <b>{1}</b> for {2} hours starting {3}.<br/><br/>Regards,<br/>TechX Team";
-        public static string PostNewFIBody = "A New Firm Initiative <b>{0}</b> has been added to the TechX portal for {1} hours starting {2} by the lead (cc'ed).<br/><br/>Regards,<br/>TechX Team";
+        public static string PostNewFIBody = "A New Firm Initiative <b>{0}</b> has been added to the TechX portal for {1} hours starting {2} by the lead (cc'ed).<br/><br/>Description {3} <br/><br/>Please apply for the task through TechX <br/><br/>Regards,<br/>TechX Team";
         public static string ClientServiceNotificationBody = "New Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the {0} skillset.{1}<br/><br/>Regards,<br/>TechX Team";
         public static string FirmInitiativeNotificationBody = "New Firm Initiatives have been added to the  <a href=\"http://techx/\">TechX</a> portal.{0}<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
