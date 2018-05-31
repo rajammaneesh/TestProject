@@ -47,13 +47,6 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         {
             try
             {
-                var consultingUsers = ConfigurationManager.AppSettings["TestMode"] == "true"
-                    ? _reportingService.GetDummyConsultingUsers()
-                    : _reportingService.GetConsultingUsers();
-
-                Console.WriteLine($"Number of registered users ={consultingUsers.Count()}");
-                LogMessage($"Number of registered users ={consultingUsers.Count()}");
-
                 var firmInitiatives = _reportingService.GetFirmInitiativeTasksCreatedYesterday();
 
                 if (firmInitiatives == null || firmInitiatives?.Count() == 0)
@@ -67,7 +60,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 Console.WriteLine($"Number of firm initiatives ={firmInitiatives.Count()}");
                 LogMessage($"Number of firm initiatives  ={firmInitiatives.Count()}");
 
-                var notifications = GetNotificationsForNewFirmInitiatives(consultingUsers, firmInitiatives);
+                var notifications = GetNotificationsForNewFirmInitiatives(firmInitiatives);
 
                 Console.WriteLine($"Number of notifications ={notifications.Count()}");
                 LogMessage($"Number of notifications  ={notifications.Count()}");
@@ -88,8 +81,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         }
 
         private IEnumerable<Notification> GetNotificationsForNewFirmInitiatives(
-            IEnumerable<string> users,
-            IEnumerable<Tuple<string, string, string>> projectData)
+            IEnumerable<Tuple<string, string, string, Int32>> projectData)
         {
             List<Notification> notifications = null;
 
@@ -98,18 +90,27 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 notifications = new List<Notification>();
             }
 
-            var bodyRequest = new FirmInitiativeTaskNotificationContent
-            {
-                ProjectData = projectData
-            };
+            var serviceLines = projectData.Select(x => x.Item4).Distinct();
 
-            notifications.Add(new Notification
+            foreach (var serviceLine in serviceLines)
             {
-                BccAddresses = users?.ToList(),
-                ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                Subject = _notificationContentGenerator.GetSubject(null),
-                Body = _notificationContentGenerator.GetEmailBody(bodyRequest)
-            });
+                var bodyRequest = new FirmInitiativeTaskNotificationContent
+                {
+                    ProjectData = projectData.Where(x => x.Item4 == serviceLine)
+                };
+
+                var recipients = ConfigurationManager.AppSettings["TestMode"] == "true"
+                  ? _reportingService.GetDummyConsultingUsers()
+                  : _reportingService.GetConsultingUsersForServiceLine(serviceLine);
+
+                notifications.Add(new Notification
+                {
+                    BccAddresses = recipients?.ToList(),
+                    ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
+                    Subject = _notificationContentGenerator.GetSubject(null),
+                    Body = _notificationContentGenerator.GetEmailBody(bodyRequest)
+                });
+            }
 
             return notifications;
         }

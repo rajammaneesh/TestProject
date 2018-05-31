@@ -1,7 +1,9 @@
 ﻿using DCode.Common;
 using DCode.Data.DbContexts;
 using DCode.Data.LogRepository;
+using DCode.Data.MetadataRepository;
 using DCode.Data.ReportingRepository;
+using DCode.Data.RequestorRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
 using DCode.Models.Common;
@@ -65,6 +67,22 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(INotificationContentFactory))
          .To(typeof(NotificationContentFactory))
          .InSingletonScope();
+
+            Bind(typeof(ICommonService))
+      .To(typeof(CommonService))
+      .InSingletonScope();
+
+            Bind(typeof(IRequestorRepository))
+                .To(typeof(RequestorRepository))
+                .InSingletonScope();
+
+            Bind(typeof(ITaskTypeRepository))
+             .To(typeof(TaskTypeRepository))
+             .InSingletonScope();
+
+            Bind(typeof(IServiceLineRepository))
+          .To(typeof(ServiceLineRepository))
+          .InSingletonScope();
         }
     }
 }
