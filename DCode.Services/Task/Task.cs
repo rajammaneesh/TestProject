@@ -6,6 +6,7 @@ using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Services.Common;
 using DCode.Services.ModelFactory;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -71,12 +72,15 @@ namespace DCode.Services.Task
                 {
                     var currentUser = _commonService.GetCurrentUserContext();
 
+                    var serviceLineRecipients = _commonService.GetFINotificationRecipientsForServiceLine(
+                        Convert.ToInt32(taskRequest.SelectedServiceLine));
+
                     EmailHelper.PostNewFINotification(taskRequest.ProjectName,
                         taskRequest.Hours.ToString(),
                         taskRequest.Description,
                         taskRequest.OnBoardingDate,
                         currentUser.EmailId,
-                        GetConsultingEmailUsers());
+                       serviceLineRecipients);
                 }
             }
             else if (taskRequest.ActionType == ActionType.Update)
