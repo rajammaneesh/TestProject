@@ -21,8 +21,11 @@ namespace DCode.Data.DbContexts
         }
     
         public int Id { get; set; }
-        public string Value { get; set; }
+        public string Description { get; set; }
         public int Portfolio_Id { get; set; }
+        public string Code { get; set; }
+        public string RM_Email_Group { get; set; }
+        public string Practice_Email_Group { get; set; }
     
         public virtual portfolio portfolio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
