@@ -83,6 +83,14 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(IServiceLineRepository))
           .To(typeof(ServiceLineRepository))
           .InSingletonScope();
+
+            Bind(typeof(IOfferingRepository))
+         .To(typeof(OfferingRepository))
+         .InSingletonScope();
+
+            Bind(typeof(IPortfolioRepository))
+         .To(typeof(PortfolioRepository))
+         .InSingletonScope();
         }
     }
 }

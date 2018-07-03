@@ -129,7 +129,8 @@ namespace DCode.Services.ModelFactory
                 dbTask.STATUS_DATE = DateTime.Now;
                 dbTask.TASK_TYPE_ID = Convert.ToInt32(modelTask.SelectedTaskType);
                 dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
-             
+                dbTask.OFFERING_ID = Convert.ToInt32(modelTask.SelectedOffering);
+
                 if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
                 {
                     input.Status = dbTask.STATUS = TaskStatus.Closed.ToString();

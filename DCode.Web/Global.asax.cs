@@ -49,7 +49,11 @@ namespace DCode.Web
                 new ServiceLineRepository(new MetadataDbContext()),
                 new Services.ModelFactory.ServiceLineModelFactory(),
                 new TaskTypeRepository(new MetadataDbContext()),
-                new Services.ModelFactory.TaskTypeModelFactory()));
+                new Services.ModelFactory.TaskTypeModelFactory(),
+                new Services.ModelFactory.OfferingModelFactory(),
+                new Services.ModelFactory.PortfolioModelFactory(),
+                new OfferingRepository(new MetadataDbContext()),
+                new PortfolioRepository(new MetadataDbContext())));
         }
         protected void Application_Start()
         {

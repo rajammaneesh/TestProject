@@ -89,6 +89,8 @@ namespace DCode.Web.App_Start
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IContributorRepository>().To<ContributorRepository>();
             kernel.Bind<IServiceLineRepository>().To<ServiceLineRepository>();
+            kernel.Bind<IOfferingRepository>().To<OfferingRepository>();
+            kernel.Bind<IPortfolioRepository>().To<PortfolioRepository>();
             kernel.Bind<ITaskTypeRepository>().To<TaskTypeRepository>();
             kernel.Bind<IDailyUsageStatisticsRepository>().To<DailyUsageStatisticsRepository>();
             kernel.Bind<IDataManagement>().To<DbQuueryManager>();

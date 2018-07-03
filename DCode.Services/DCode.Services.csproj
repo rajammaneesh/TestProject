@@ -64,6 +64,8 @@
     <Compile Include="ModelFactory\ApprovedContributorModelFactory.cs" />
     <Compile Include="ModelFactory\CommonFactory\IModelFactory.cs" />
     <Compile Include="ModelFactory\LogModelFactory.cs" />
+    <Compile Include="ModelFactory\PortfolioModelFactory.cs" />
+    <Compile Include="ModelFactory\OfferingModelFactory.cs" />
     <Compile Include="ModelFactory\ServiceLineModelFactory.cs" />
     <Compile Include="ModelFactory\SkillModelFactory.cs" />
     <Compile Include="ModelFactory\SuggestionModelFactory.cs" />

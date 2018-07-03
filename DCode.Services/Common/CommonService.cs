@@ -40,6 +40,10 @@ namespace DCode.Services.Common
         private ITaskTypeRepository _taskTypeRepository;
         private ServiceLineModelFactory _serviceLineModelFactory;
         private TaskTypeModelFactory _taskTypeModelFactory;
+        private OfferingModelFactory _offeringModelFactory;
+        private PortfolioModelFactory _portfolioModelFactory;
+        private IOfferingRepository _offeringRepository;
+        private IPortfolioRepository _portfolioRepository;
 
 
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
@@ -47,7 +51,8 @@ namespace DCode.Services.Common
             UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
             SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
-            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory)
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,
+            PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, IPortfolioRepository portfolioRepository)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -63,6 +68,10 @@ namespace DCode.Services.Common
             _serviceLineModelFactory = serviceLineModelFactory;
             _taskTypeModelFactory = taskTypeModelFactory;
             _taskTypeRepository = taskTypeRepository;
+            _offeringModelFactory = offeringModelFactory;
+            _portfolioModelFactory = portfolioModelFactory;
+            _offeringRepository = offeringRepository;
+            _portfolioRepository = portfolioRepository;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -459,6 +468,20 @@ namespace DCode.Services.Common
             var serviceLines = _serviceLineRepository.GetServiceLines();
 
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
+        }
+
+        public IEnumerable<Offering> GetOfferings()
+        {
+            var offerings = _offeringRepository.GetOfferings();
+
+            return _offeringModelFactory.CreateModelList<Offering>(offerings);
+        }
+
+        public IEnumerable<Portfolio> GetPortfolios()
+        {
+            var portfolios = _portfolioRepository.GetPortfolios();
+
+            return _portfolioModelFactory.CreateModelList<Portfolio>(portfolios);
         }
 
         public IEnumerable<Models.ResponseModels.Common.TaskType> GetTaskTypes()

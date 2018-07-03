@@ -22,7 +22,7 @@ namespace DCode.Models.RequestModels
         public string SelectedTaskType { get; set; }
         public string WBSCode { get; set; }
         public int TaskType { get; set; }
-
+        public string SelectedOffering { get; set; }
         public string SelectedServiceLine { get; set; }
     }
 }

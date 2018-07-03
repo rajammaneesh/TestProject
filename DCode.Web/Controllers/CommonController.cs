@@ -229,6 +229,18 @@ namespace DCode.Web.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetOfferings()
+        {
+            return Json(_commonService.GetOfferings(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetPortfolios()
+        {
+            return Json(_commonService.GetPortfolios(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public JsonResult GetTaskTypes()
         {
             return Json(_commonService.GetTaskTypes(), JsonRequestBehavior.AllowGet);

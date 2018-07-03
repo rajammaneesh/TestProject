@@ -145,8 +145,12 @@
     </Compile>
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\IOfferingRepository.cs" />
+    <Compile Include="MetadataRepository\IPortfolioRepository.cs" />
     <Compile Include="MetadataRepository\ITaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\IServiceLineRepository.cs" />
+    <Compile Include="MetadataRepository\PortfolioRepository.cs" />
+    <Compile Include="MetadataRepository\OfferingRepository.cs" />
     <Compile Include="MetadataRepository\TaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\ServiceLineRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
