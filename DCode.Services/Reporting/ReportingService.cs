@@ -7,7 +7,6 @@ using System.Linq;
 using DCode.Models.Common;
 using DCode.Models.Management;
 using System.Configuration;
-using DCode.Services.Common;
 
 namespace DCode.Services.Reporting
 {
@@ -21,13 +20,10 @@ namespace DCode.Services.Reporting
 
         private readonly IDataManagement _dbQueryManager;
 
-        private readonly ICommonService _commonService;
-
         public ReportingService(ITaskRepository taskRepository,
             IUserRepository userRepository,
             IDailyUsageStatisticsRepository dailyUsageStatisticsRepository,
-            IDataManagement dbQueryManager,
-            ICommonService commonService)
+            IDataManagement dbQueryManager)
         {
             _taskRepository = taskRepository;
 
@@ -36,8 +32,6 @@ namespace DCode.Services.Reporting
             _dailyUsageStatisticsRepository = dailyUsageStatisticsRepository;
 
             _dbQueryManager = dbQueryManager;
-
-            _commonService = commonService;
         }
 
         public IEnumerable<string> GetSubscribedUserForTask(string task)
@@ -97,15 +91,25 @@ namespace DCode.Services.Reporting
             return _dbQueryManager.RunQuery(query);
         }
 
-        public IEnumerable<string> GetConsultingUsersForServiceLine(int serviceLineId)
+        public IEnumerable<string> GetConsultingUsers()
         {
-            var recipientEmailsFromConfig = 
-                _commonService.GetFINotificationRecipientsForServiceLine(serviceLineId);
+            var recipientEmailsFromConfig = ConfigurationManager.AppSettings["NotificationEmailerRecipients"];
 
-            return recipientEmailsFromConfig;
+            if (string.IsNullOrEmpty(recipientEmailsFromConfig))
+            {
+                return null;
+            }
+
+            var recipientEmails = recipientEmailsFromConfig.Split(',')
+                ?.ToList();
+
+            recipientEmails?.RemoveAll(x => string.IsNullOrEmpty(x));
+
+            return recipientEmails;
+            // return _userRepository.GetAllActiveUsers();
         }
 
-        public IEnumerable<Tuple<string, string, string, int>> GetFirmInitiativeTasksCreatedYesterday()
+        public IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday()
         {
             var result =
                 _taskRepository.GetFirmInitiativesForDate(DateTime.Now.AddDays(-1));
@@ -115,16 +119,15 @@ namespace DCode.Services.Reporting
                 return null;
             }
 
-            var mappedResult = new List<Tuple<string, string, string, int>>();
+            var mappedResult = new List<Tuple<string, string, string>>();
 
             foreach (var resultItem in result)
             {
                 mappedResult.Add(
-                    Tuple.Create<string, string, string, int>(
+                    Tuple.Create<string, string, string>(
                         resultItem.TASK_NAME,
                         resultItem.DETAILS,
-                        resultItem.taskskills.FirstOrDefault().skill.VALUE,
-                        resultItem.SERVICE_LINE_ID));
+                        resultItem.taskskills.FirstOrDefault().skill.VALUE));
             }
 
             return mappedResult;

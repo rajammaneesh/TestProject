@@ -5,36 +5,32 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2e54ab8b08d949fba955778899a78df1" Name="Diagram1">
-        <EntityTypeShape EntityType="DCodeDbContext.applicantskill" Width="1.5" PointX="3" PointY="11.25" />
-        <EntityTypeShape EntityType="DCodeDbContext.approvedapplicant" Width="1.5" PointX="3" PointY="5.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.daily_usage_statistics" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.log" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.notification_subscription" Width="1.5" PointX="3" PointY="31.875" />
-        <EntityTypeShape EntityType="DCodeDbContext.offering" Width="1.5" PointX="0.75" PointY="18.5" />
-        <EntityTypeShape EntityType="DCodeDbContext.portfolio" Width="1.5" PointX="1.5" PointY="22.875" />
-        <EntityTypeShape EntityType="DCodeDbContext.service_line" Width="1.5" PointX="0.75" PointY="25.875" />
-        <EntityTypeShape EntityType="DCodeDbContext.skill" Width="1.5" PointX="0.75" PointY="6.375" />
-        <EntityTypeShape EntityType="DCodeDbContext.suggestion" Width="1.5" PointX="5.75" PointY="3.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.task_type" Width="1.5" PointX="0.75" PointY="16" />
-        <EntityTypeShape EntityType="DCodeDbContext.taskapplicant" Width="1.5" PointX="6" PointY="11.125" />
-        <EntityTypeShape EntityType="DCodeDbContext.task" Width="1.5" PointX="3" PointY="15.625" />
-        <EntityTypeShape EntityType="DCodeDbContext.taskskill" Width="1.5" PointX="5.25" PointY="17.25" />
-        <EntityTypeShape EntityType="DCodeDbContext.user" Width="1.5" PointX="0.75" PointY="10.375" />
+        <EntityTypeShape EntityType="DCodeDbContext.applicantskill" Width="1.5" PointX="6" PointY="4.375" />
+        <EntityTypeShape EntityType="DCodeDbContext.approvedapplicant" Width="1.5" PointX="5.25" PointY="8.875" />
+        <EntityTypeShape EntityType="DCodeDbContext.log" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DCodeDbContext.service_line" Width="1.5" PointX="0.75" PointY="6.125" />
+        <EntityTypeShape EntityType="DCodeDbContext.skill" Width="1.5" PointX="3.75" PointY="3.5" />
+        <EntityTypeShape EntityType="DCodeDbContext.suggestion" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DCodeDbContext.taskapplicant" Width="1.5" PointX="8.25" PointY="9.25" />
+        <EntityTypeShape EntityType="DCodeDbContext.task" Width="1.5" PointX="3" PointY="8.125" />
+        <EntityTypeShape EntityType="DCodeDbContext.taskskill" Width="1.5" PointX="8.25" PointY="5.375" />
+        <EntityTypeShape EntityType="DCodeDbContext.user" Width="1.5" PointX="0.75" PointY="8.625" />
         <AssociationConnector Association="DCodeDbContext.applicantskills_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.applicantskills_ibfk_2" />
         <AssociationConnector Association="DCodeDbContext.approvedapplicant_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.approvedapplicant_ibfk_2" />
-        <AssociationConnector Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" />
-        <AssociationConnector Association="DCodeDbContext.PORT_OFFR_FK" />
-        <AssociationConnector Association="DCodeDbContext.tasks_ibfk_4" />
         <AssociationConnector Association="DCodeDbContext.tasks_ibfk_2" />
         <AssociationConnector Association="DCodeDbContext.taskskills_ibfk_2" />
-        <AssociationConnector Association="DCodeDbContext.tasks_ibfk_3" />
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_2" />
         <AssociationConnector Association="DCodeDbContext.tasks_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.taskskills_ibfk_1" />
+        <EntityTypeShape EntityType="DCodeDbContext.notification_subscription" Width="1.5" PointX="3" PointY="15.125" />
+        <AssociationConnector Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" />
+        <EntityTypeShape EntityType="DCodeDbContext.daily_usage_statistics" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="DCodeDbContext.task_type" Width="1.5" PointX="10.375" PointY="0.875" />
+        <AssociationConnector Association="DCodeDbContext.tasks_ibfk_3" />
+        <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="10.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

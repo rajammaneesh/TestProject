@@ -79,25 +79,6 @@
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="subscription_status" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="offerings">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="longtext" Nullable="false" />
-          <Property Name="Portfolio_Id" Type="int" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="RM_Email_Group" Type="longtext" />
-          <Property Name="Practice_Email_Group" Type="longtext" />
-        </EntityType>
-        <EntityType Name="portfolios">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="Description" Type="longtext" Nullable="false" />
-        </EntityType>
         <EntityType Name="service_line">
           <Key>
             <PropertyRef Name="ID" />
@@ -162,7 +143,6 @@
           <Property Name="PROJECT_WBS_Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TYPE" Type="varchar" MaxLength="100" />
           <Property Name="TASK_TYPE_ID" Type="int" />
-          <Property Name="OFFERING_ID" Type="int" />
           <Property Name="DETAILS" Type="varchar" MaxLength="255" />
           <Property Name="HOURS" Type="int" />
           <Property Name="COMMENTS" Type="varchar" MaxLength="255" />
@@ -273,18 +253,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PORT_OFFR_FK">
-          <End Role="portfolios" Type="Self.portfolios" Multiplicity="1" />
-          <End Role="offerings" Type="Self.offerings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="portfolios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="offerings">
-              <PropertyRef Name="Portfolio_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="taskapplicants_ibfk_1">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="taskapplicants" Type="Self.taskapplicants" Multiplicity="*" />
@@ -345,18 +313,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="tasks_ibfk_4">
-          <End Role="offerings" Type="Self.offerings" Multiplicity="0..1" />
-          <End Role="tasks" Type="Self.tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="offerings">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tasks">
-              <PropertyRef Name="OFFERING_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="taskskills_ibfk_1">
           <End Role="tasks" Type="Self.tasks" Multiplicity="1" />
           <End Role="taskskills" Type="Self.taskskills" Multiplicity="*" />
@@ -410,8 +366,6 @@
           <EntitySet Name="elmah_error" EntityType="Self.elmah_error" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="log" EntityType="Self.log" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="offerings" EntityType="Self.offerings" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="portfolios" EntityType="Self.portfolios" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode" store:Type="Tables" />
@@ -440,10 +394,6 @@
             <End Role="users" EntitySet="users" />
             <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
-          <AssociationSet Name="PORT_OFFR_FK" Association="Self.PORT_OFFR_FK">
-            <End Role="portfolios" EntitySet="portfolios" />
-            <End Role="offerings" EntitySet="offerings" />
-          </AssociationSet>
           <AssociationSet Name="taskapplicants_ibfk_1" Association="Self.taskapplicants_ibfk_1">
             <End Role="users" EntitySet="users" />
             <End Role="taskapplicants" EntitySet="taskapplicants" />
@@ -462,10 +412,6 @@
           </AssociationSet>
           <AssociationSet Name="tasks_ibfk_3" Association="Self.tasks_ibfk_3">
             <End Role="task_type" EntitySet="task_type" />
-            <End Role="tasks" EntitySet="tasks" />
-          </AssociationSet>
-          <AssociationSet Name="tasks_ibfk_4" Association="Self.tasks_ibfk_4">
-            <End Role="offerings" EntitySet="offerings" />
             <End Role="tasks" EntitySet="tasks" />
           </AssociationSet>
           <AssociationSet Name="taskskills_ibfk_1" Association="Self.taskskills_ibfk_1">
@@ -502,16 +448,10 @@
           </FunctionImport>
           <EntitySet Name="applicantskills" EntityType="DCodeDbContext.applicantskill" />
           <EntitySet Name="approvedapplicants" EntityType="DCodeDbContext.approvedapplicant" />
-          <EntitySet Name="daily_usage_statistics" EntityType="DCodeDbContext.daily_usage_statistics" />
-          <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
           <EntitySet Name="logs" EntityType="DCodeDbContext.log" />
-          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
-          <EntitySet Name="offerings" EntityType="DCodeDbContext.offering" />
-          <EntitySet Name="portfolios" EntityType="DCodeDbContext.portfolio" />
           <EntitySet Name="service_line" EntityType="DCodeDbContext.service_line" />
           <EntitySet Name="skills" EntityType="DCodeDbContext.skill" />
           <EntitySet Name="suggestions" EntityType="DCodeDbContext.suggestion" />
-          <EntitySet Name="task_type" EntityType="DCodeDbContext.task_type" />
           <EntitySet Name="taskapplicants" EntityType="DCodeDbContext.taskapplicant" />
           <EntitySet Name="tasks" EntityType="DCodeDbContext.task" />
           <EntitySet Name="taskskills" EntityType="DCodeDbContext.taskskill" />
@@ -532,18 +472,6 @@
             <End Role="task" EntitySet="tasks" />
             <End Role="approvedapplicant" EntitySet="approvedapplicants" />
           </AssociationSet>
-          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
-            <End Role="user" EntitySet="users" />
-            <End Role="notification_subscription" EntitySet="notification_subscription" />
-          </AssociationSet>
-          <AssociationSet Name="PORT_OFFR_FK" Association="DCodeDbContext.PORT_OFFR_FK">
-            <End Role="portfolio" EntitySet="portfolios" />
-            <End Role="offering" EntitySet="offerings" />
-          </AssociationSet>
-          <AssociationSet Name="tasks_ibfk_4" Association="DCodeDbContext.tasks_ibfk_4">
-            <End Role="offering" EntitySet="offerings" />
-            <End Role="task" EntitySet="tasks" />
-          </AssociationSet>
           <AssociationSet Name="tasks_ibfk_2" Association="DCodeDbContext.tasks_ibfk_2">
             <End Role="service_line" EntitySet="service_line" />
             <End Role="task" EntitySet="tasks" />
@@ -551,10 +479,6 @@
           <AssociationSet Name="taskskills_ibfk_2" Association="DCodeDbContext.taskskills_ibfk_2">
             <End Role="skill" EntitySet="skills" />
             <End Role="taskskill" EntitySet="taskskills" />
-          </AssociationSet>
-          <AssociationSet Name="tasks_ibfk_3" Association="DCodeDbContext.tasks_ibfk_3">
-            <End Role="task_type" EntitySet="task_type" />
-            <End Role="task" EntitySet="tasks" />
           </AssociationSet>
           <AssociationSet Name="taskapplicants_ibfk_1" Association="DCodeDbContext.taskapplicants_ibfk_1">
             <End Role="user" EntitySet="users" />
@@ -572,7 +496,19 @@
             <End Role="task" EntitySet="tasks" />
             <End Role="taskskill" EntitySet="taskskills" />
           </AssociationSet>
-          </EntityContainer>
+          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
+          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
+            <End Role="user" EntitySet="users" />
+            <End Role="notification_subscription" EntitySet="notification_subscription" />
+          </AssociationSet>
+          <EntitySet Name="daily_usage_statistics" EntityType="DCodeDbContext.daily_usage_statistics" />
+          <EntitySet Name="task_type" EntityType="DCodeDbContext.task_type" />
+          <AssociationSet Name="tasks_ibfk_3" Association="DCodeDbContext.tasks_ibfk_3">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="task" EntitySet="tasks" />
+          </AssociationSet>
+          <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
+        </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
           <Key>
@@ -611,30 +547,6 @@
           <NavigationProperty Name="user" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="approvedapplicant" ToRole="user" />
           <NavigationProperty Name="task" Relationship="DCodeDbContext.approvedapplicant_ibfk_2" FromRole="approvedapplicant" ToRole="task" />
         </EntityType>
-        <EntityType Name="daily_usage_statistics">
-          <Key>
-            <PropertyRef Name="pk" />
-          </Key>
-          <Property Name="pk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="date" Type="DateTime" Nullable="false" />
-          <Property Name="visits" Type="Int64" Nullable="false" />
-        </EntityType>
-        <EntityType Name="elmah_error">
-          <Key>
-            <PropertyRef Name="Sequence" />
-          </Key>
-          <Property Name="ErrorId" Type="Guid" Nullable="false" />
-          <Property Name="Application" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Source" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StatusCode" Type="Int32" Nullable="false" />
-          <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="log">
           <Key>
             <PropertyRef Name="Id" />
@@ -643,37 +555,6 @@
           <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="details" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="notification_subscription">
-          <Key>
-            <PropertyRef Name="notification_subscription_id" />
-          </Key>
-          <Property Name="notification_subscription_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="user_id" Type="Int32" Nullable="false" />
-          <Property Name="subscription_status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
-        </EntityType>
-        <EntityType Name="offering">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Portfolio_Id" Type="Int32" Nullable="false" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="RM_Email_Group" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Practice_Email_Group" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="portfolio" Relationship="DCodeDbContext.PORT_OFFR_FK" FromRole="offering" ToRole="portfolio" />
-          <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="offering" ToRole="task" />
-        </EntityType>
-        <EntityType Name="portfolio">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="offerings" Relationship="DCodeDbContext.PORT_OFFR_FK" FromRole="portfolio" ToRole="offering" />
         </EntityType>
         <EntityType Name="service_line">
           <Key>
@@ -689,7 +570,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VALUE" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALUE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="STATUS_DATE" Type="DateTime" />
           <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -708,15 +589,6 @@
           <Property Name="details" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="task_type">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DESCRIPTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task_type" ToRole="task" />
-        </EntityType>
         <EntityType Name="taskapplicant">
           <Key>
             <PropertyRef Name="ID" />
@@ -724,9 +596,9 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TASK_ID" Type="Int32" Nullable="false" />
           <Property Name="APPLICANT_ID" Type="Int32" Nullable="false" />
-          <Property Name="STATEMENT_OF_PURPOSE" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="STATUS_DATE" Type="DateTime" />
+          <Property Name="STATEMENT_OF_PURPOSE" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CREATED_ON" Type="DateTime" />
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -744,8 +616,6 @@
           <Property Name="TASK_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PROJECT_WBS_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TYPE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TASK_TYPE_ID" Type="Int32" />
-          <Property Name="OFFERING_ID" Type="Int32" />
           <Property Name="DETAILS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="HOURS" Type="Int32" />
           <Property Name="COMMENTS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -760,12 +630,12 @@
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_2" FromRole="task" ToRole="approvedapplicant" />
-          <NavigationProperty Name="offering" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="task" ToRole="offering" />
           <NavigationProperty Name="service_line" Relationship="DCodeDbContext.tasks_ibfk_2" FromRole="task" ToRole="service_line" />
-          <NavigationProperty Name="task_type" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task" ToRole="task_type" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="task" ToRole="taskapplicant" />
           <NavigationProperty Name="user" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="task" ToRole="user" />
           <NavigationProperty Name="taskskills" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="task" ToRole="taskskill" />
+          <Property Name="TASK_TYPE_ID" Type="Int32" />
+          <NavigationProperty Name="task_type" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task" ToRole="task_type" />
         </EntityType>
         <EntityType Name="taskskill">
           <Key>
@@ -804,9 +674,9 @@
           <Property Name="UPDATED_ON" Type="DateTime" />
           <NavigationProperty Name="applicantskills" Relationship="DCodeDbContext.applicantskills_ibfk_1" FromRole="user" ToRole="applicantskill" />
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="user" ToRole="approvedapplicant" />
-          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
+          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
@@ -856,44 +726,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_USERS_NOTIFICATION_STATUS">
-          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="notification_subscription">
-              <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PORT_OFFR_FK">
-          <End Type="DCodeDbContext.portfolio" Role="portfolio" Multiplicity="1" />
-          <End Type="DCodeDbContext.offering" Role="offering" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="portfolio">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="offering">
-              <PropertyRef Name="Portfolio_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="tasks_ibfk_4">
-          <End Type="DCodeDbContext.offering" Role="offering" Multiplicity="0..1" />
-          <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="offering">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="task">
-              <PropertyRef Name="OFFERING_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="tasks_ibfk_2">
           <End Type="DCodeDbContext.service_line" Role="service_line" Multiplicity="1" />
           <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
@@ -915,18 +747,6 @@
             </Principal>
             <Dependent Role="taskskill">
               <PropertyRef Name="SKILL_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="tasks_ibfk_3">
-          <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="0..1" />
-          <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="task_type">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="task">
-              <PropertyRef Name="TASK_TYPE_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -978,7 +798,75 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <EntityType Name="notification_subscription">
+          <Key>
+            <PropertyRef Name="notification_subscription_id" />
+          </Key>
+          <Property Name="notification_subscription_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="subscription_status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_USERS_NOTIFICATION_STATUS">
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="notification_subscription">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="daily_usage_statistics">
+          <Key>
+            <PropertyRef Name="pk" />
+          </Key>
+          <Property Name="pk" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
+          <Property Name="visits" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="task_type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task_type" ToRole="task" />
+        </EntityType>
+        <Association Name="tasks_ibfk_3">
+          <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="0..1" />
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="TASK_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="elmah_error">
+          <Key>
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="ErrorId" Type="Guid" Nullable="false" />
+          <Property Name="Application" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StatusCode" Type="Int32" Nullable="false" />
+          <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1025,68 +913,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="daily_usage_statistics">
-            <EntityTypeMapping TypeName="DCodeDbContext.daily_usage_statistics">
-              <MappingFragment StoreEntitySet="daily_usage_statistics">
-                <ScalarProperty Name="visits" ColumnName="visits" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="pk" ColumnName="pk" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="elmah_error">
-            <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
-              <MappingFragment StoreEntitySet="elmah_error">
-                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
-                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Host" ColumnName="Host" />
-                <ScalarProperty Name="Application" ColumnName="Application" />
-                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="logs">
             <EntityTypeMapping TypeName="DCodeDbContext.log">
               <MappingFragment StoreEntitySet="log">
                 <ScalarProperty Name="user" ColumnName="user" />
                 <ScalarProperty Name="details" ColumnName="details" />
                 <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="notification_subscription">
-            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
-              <MappingFragment StoreEntitySet="notification_subscription">
-                <ScalarProperty Name="subscription_status" ColumnName="subscription_status" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="notification_subscription_id" ColumnName="notification_subscription_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="offerings">
-            <EntityTypeMapping TypeName="DCodeDbContext.offering">
-              <MappingFragment StoreEntitySet="offerings">
-                <ScalarProperty Name="Practice_Email_Group" ColumnName="Practice_Email_Group" />
-                <ScalarProperty Name="RM_Email_Group" ColumnName="RM_Email_Group" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Portfolio_Id" ColumnName="Portfolio_Id" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="portfolios">
-            <EntityTypeMapping TypeName="DCodeDbContext.portfolio">
-              <MappingFragment StoreEntitySet="portfolios">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1124,15 +956,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="task_type">
-            <EntityTypeMapping TypeName="DCodeDbContext.task_type">
-              <MappingFragment StoreEntitySet="task_type">
-                <ScalarProperty Name="CODE" ColumnName="CODE" />
-                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="taskapplicants">
             <EntityTypeMapping TypeName="DCodeDbContext.taskapplicant">
               <MappingFragment StoreEntitySet="taskapplicants">
@@ -1140,9 +963,9 @@
                 <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
                 <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
                 <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="STATEMENT_OF_PURPOSE" ColumnName="STATEMENT_OF_PURPOSE" />
                 <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATEMENT_OF_PURPOSE" ColumnName="STATEMENT_OF_PURPOSE" />
                 <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
                 <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1152,6 +975,7 @@
           <EntitySetMapping Name="tasks">
             <EntityTypeMapping TypeName="DCodeDbContext.task">
               <MappingFragment StoreEntitySet="tasks">
+                <ScalarProperty Name="TASK_TYPE_ID" ColumnName="TASK_TYPE_ID" />
                 <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
                 <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
                 <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
@@ -1165,8 +989,6 @@
                 <ScalarProperty Name="COMMENTS" ColumnName="COMMENTS" />
                 <ScalarProperty Name="HOURS" ColumnName="HOURS" />
                 <ScalarProperty Name="DETAILS" ColumnName="DETAILS" />
-                <ScalarProperty Name="OFFERING_ID" ColumnName="OFFERING_ID" />
-                <ScalarProperty Name="TASK_TYPE_ID" ColumnName="TASK_TYPE_ID" />
                 <ScalarProperty Name="TYPE" ColumnName="TYPE" />
                 <ScalarProperty Name="PROJECT_WBS_Code" ColumnName="PROJECT_WBS_Code" />
                 <ScalarProperty Name="TASK_NAME" ColumnName="TASK_NAME" />
@@ -1212,7 +1034,51 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <EntitySetMapping Name="notification_subscription">
+            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
+              <MappingFragment StoreEntitySet="notification_subscription">
+                <ScalarProperty Name="subscription_status" ColumnName="subscription_status" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="notification_subscription_id" ColumnName="notification_subscription_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="daily_usage_statistics">
+            <EntityTypeMapping TypeName="DCodeDbContext.daily_usage_statistics">
+              <MappingFragment StoreEntitySet="daily_usage_statistics">
+                <ScalarProperty Name="visits" ColumnName="visits" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="pk" ColumnName="pk" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_type">
+            <EntityTypeMapping TypeName="DCodeDbContext.task_type">
+              <MappingFragment StoreEntitySet="task_type">
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="elmah_error">
+            <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
+              <MappingFragment StoreEntitySet="elmah_error">
+                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

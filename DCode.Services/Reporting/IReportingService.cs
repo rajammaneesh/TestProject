@@ -12,7 +12,7 @@ namespace DCode.Services.Reporting
 
         IEnumerable<Tuple<string, string>> GetProjectDetailsForNewTasksAddedYesterday(string skill);
 
-        IEnumerable<Tuple<string, string, string, int>> GetFirmInitiativeTasksCreatedYesterday();
+        IEnumerable<Tuple<string, string, string>> GetFirmInitiativeTasksCreatedYesterday();
 
         void UpdateDailySiteVisitCount();
 
@@ -20,7 +20,7 @@ namespace DCode.Services.Reporting
 
         DatabaseTable ExecuteDbQuery(string query);
 
-        IEnumerable<string> GetConsultingUsersForServiceLine(int serviceLineId);
+        IEnumerable<string> GetConsultingUsers();
 
         IEnumerable<string> GetDummyConsultingUsers();
     }

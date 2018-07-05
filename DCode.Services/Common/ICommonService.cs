@@ -38,7 +38,5 @@ namespace DCode.Services.Common
         bool GetTechXAccess();
 
         string GetRMGroupEmailAddress(string department);
-
-        List<string> GetFINotificationRecipientsForServiceLine(int serviceLineCode);
     }
 }

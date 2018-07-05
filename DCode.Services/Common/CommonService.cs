@@ -41,11 +41,10 @@ namespace DCode.Services.Common
         private ServiceLineModelFactory _serviceLineModelFactory;
         private TaskTypeModelFactory _taskTypeModelFactory;
 
-
-        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
-            LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository,
-            UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
-            SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
+        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository, 
+            LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository, 
+            UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory, 
+            SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory, 
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
             ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory)
         {
@@ -539,24 +538,6 @@ namespace DCode.Services.Common
             }
 
             return ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + currentUsersServiceLine];
-        }
-
-        public List<string> GetFINotificationRecipientsForServiceLine(int serviceLineId)
-        {
-            var serviceLines = GetServiceLines();
-
-            var matchingServiceLine = serviceLines?.FirstOrDefault(x => x.Id == serviceLineId)?.Name;
-
-            if (matchingServiceLine == null)
-            {
-                return null;
-            }
-
-            var appSettingValue = ConfigurationManager.AppSettings[$"FI_{matchingServiceLine}"];
-
-            return appSettingValue
-                ?.Split(',')
-                ?.ToList();
         }
     }
 }

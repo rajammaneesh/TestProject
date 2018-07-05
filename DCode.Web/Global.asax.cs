@@ -1,11 +1,7 @@
 ﻿using DCode.Data.DbContexts;
-using DCode.Data.LogRepository;
-using DCode.Data.MetadataRepository;
 using DCode.Data.ReportingRepository;
-using DCode.Data.RequestorRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
-using DCode.Services.Common;
 using DCode.Services.Reporting;
 using System;
 using System.Web;
@@ -32,24 +28,7 @@ namespace DCode.Web
                 new DailyUsageStatisticsRepository(
                     new ReportingDbContext()),
 
-                new DbQuueryManager(),
-
-                new CommonService(new TaskRepository(
-                    new TaskDbContext()),
-                new DCode.Models.User.UserContext(),
-                new LogRepository(
-                    new LogDbContext()),
-                new Services.ModelFactory.LogModelFactory(),
-                new RequestorRepository(new TaskDbContext()),
-                new UserRepository(new UserDbContext()),
-                new Services.ModelFactory.UserModelFactory(),
-                new Services.ModelFactory.ApplicantSkillModelFactory(),
-                new Services.ModelFactory.SkillModelFactory(),
-                new Services.ModelFactory.SuggestionModelFactory(),
-                new ServiceLineRepository(new MetadataDbContext()),
-                new Services.ModelFactory.ServiceLineModelFactory(),
-                new TaskTypeRepository(new MetadataDbContext()),
-                new Services.ModelFactory.TaskTypeModelFactory()));
+                new DbQuueryManager());
         }
         protected void Application_Start()
         {

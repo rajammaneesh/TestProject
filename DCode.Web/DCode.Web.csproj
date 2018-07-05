@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -251,6 +252,8 @@
     <Content Include="Content\Images\Email-Active.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\faviconOld.ico" />
+    <Content Include="Content\Images\tech-x-circle-logo.png" />
+    <Content Include="Content\Images\tech-x-logo-black-bg-circle.png" />
     <Content Include="Content\Images\history-active.png" />
     <Content Include="Content\Images\history-icon.png" />
     <Content Include="Content\Images\Loading.gif" />

@@ -22,11 +22,16 @@ namespace DCode.Common
         {
             if (ConfigurationManager.AppSettings["TestMode"] != "true")
             {
-                foreach (var item in notifications)
+                Parallel.ForEach(notifications, new ParallelOptions
                 {
-                    SendEmail(item);
-                }
+                    MaxDegreeOfParallelism = 4
+                },
+                  notification =>
+                  {
+                      SendEmail(notification);
+                  });
             }
+
         }
 
         private void SendEmail(Notification notification)

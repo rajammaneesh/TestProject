@@ -74,7 +74,7 @@ namespace DCode.Common
         public static string FirmInitiativeNotificationBody = "New Firm Initiatives have been added to the  <a href=\"http://techx/\">TechX</a> portal.{0}<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
         public static string EmailTemplatePath = "\\EmailTemplates\\email-template.html";
-        public static string DCodeLogoPath = "\\Content\\Images\\tech-x-logo-black-bg.png";
+        public static string DCodeLogoPath = "\\Content\\Images\\tech-x-logo-black-bg-circle.png";
         public static string Deloittepath = "\\Content\\Images\\Deloite_logo.png";
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
         public const string FirmInitiativeSkillRecord = "Firm Initiative";
