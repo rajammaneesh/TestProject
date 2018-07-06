@@ -251,6 +251,8 @@
     <Content Include="Content\Images\Email-Active.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\faviconOld.ico" />
+    <Content Include="Content\Images\tech-x-circle-logo.png" />
+    <Content Include="Content\Images\tech-x-circle-logo-black-bg.png" />
     <Content Include="Content\Images\history-active.png" />
     <Content Include="Content\Images\history-icon.png" />
     <Content Include="Content\Images\Loading.gif" />
