@@ -36,6 +36,8 @@ namespace DCode.Web
 
                 new CommonService(new TaskRepository(
                     new TaskDbContext()),
+                    new OfferingsRepository(
+                    new OfferingDbContext()),
                 new DCode.Models.User.UserContext(),
                 new LogRepository(
                     new LogDbContext()),
@@ -49,7 +51,9 @@ namespace DCode.Web
                 new ServiceLineRepository(new MetadataDbContext()),
                 new Services.ModelFactory.ServiceLineModelFactory(),
                 new TaskTypeRepository(new MetadataDbContext()),
-                new Services.ModelFactory.TaskTypeModelFactory()));
+                new Services.ModelFactory.TaskTypeModelFactory(),
+                new Services.ModelFactory.OfferingModelFactory()
+                ));
         }
         protected void Application_Start()
         {
