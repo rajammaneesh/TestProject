@@ -111,6 +111,7 @@
     <Compile Include="DbContexts\offering.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\OfferingDbContext.cs" />
     <Compile Include="DbContexts\portfolio.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
