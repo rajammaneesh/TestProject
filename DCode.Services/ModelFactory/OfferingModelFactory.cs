@@ -7,12 +7,8 @@ using System.Collections.Generic;
 
 namespace DCode.Services.ModelFactory
 {
-   public class OfferingModelFactory : IModelFactory<offering>
+   public class OfferingModelFactory 
     {
-        public offering CreateModel<TModel>(TModel input) where TModel : class
-        {
-            throw new NotImplementedException();
-        }
 
         public TModel CreateModel<TModel>(offering input) where TModel : class
         {
@@ -23,10 +19,6 @@ namespace DCode.Services.ModelFactory
             return null;
         }
 
-        public offering CreateModel<TModel>(offering input, TModel model) where TModel : class
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<offering> inputList) where TModel : class
         {
