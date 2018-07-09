@@ -111,6 +111,7 @@
     <Compile Include="DbContexts\offering.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\OfferingDbContext.cs" />
     <Compile Include="DbContexts\portfolio.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
@@ -145,8 +146,10 @@
     </Compile>
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\IOfferingsRepository.cs" />
     <Compile Include="MetadataRepository\ITaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\IServiceLineRepository.cs" />
+    <Compile Include="MetadataRepository\OfferingsRepository.cs" />
     <Compile Include="MetadataRepository\TaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\ServiceLineRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

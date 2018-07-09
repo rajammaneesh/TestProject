@@ -71,6 +71,7 @@
     <Compile Include="RequestModels\ReviewTaskRequest.cs" />
     <Compile Include="RequestModels\TaskRequest.cs" />
     <Compile Include="ResponseModels\Base\ResponseBase.cs" />
+    <Compile Include="ResponseModels\Common\Offering.cs" />
     <Compile Include="ResponseModels\Common\ServiceLine.cs" />
     <Compile Include="ResponseModels\Common\Skill.cs" />
     <Compile Include="ResponseModels\Common\TaskType.cs" />
