@@ -465,11 +465,11 @@ namespace DCode.Services.Common
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
         }
 
-        public IEnumerable<offering> GetOfferings()
+        public IEnumerable<Offering> GetOfferings()
         {
             var offerings = _offeringsRepository.GetOfferings();
 
-            return _offeringModelFactory.CreateModelList<offering>(offerings);
+            return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
 
         public IEnumerable<Models.ResponseModels.Common.TaskType> GetTaskTypes()

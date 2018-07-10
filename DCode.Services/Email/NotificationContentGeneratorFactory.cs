@@ -23,6 +23,9 @@ namespace DCode.Models.Common
                 case TaskType.FirmInitiative:
                     return new FirmInitiativeTaskNotificationContentGenerator(_assetPathGeneratorFactory);
 
+                case TaskType.ClientServiceCollective:
+                    return new ClientServiceCollectiveNotificationContentGenerator(_assetPathGeneratorFactory);
+
                 default:
                     throw new ArgumentException($"Invalid notification content Generated");
 

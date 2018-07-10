@@ -55,6 +55,7 @@
     <Compile Include="Common\LoggerService.cs" />
     <Compile Include="Contributor\ContributorService.cs" />
     <Compile Include="Contributor\IContributorService.cs" />
+    <Compile Include="Email\ClientServiceCollectiveNotificationContentGenerator.cs" />
     <Compile Include="Email\ClientServiceTaskNotificationContentGenerator.cs" />
     <Compile Include="Email\FirmInitiativeTaskNotificationContentGenerator.cs" />
     <Compile Include="Email\NotificationContentGeneratorFactory.cs" />

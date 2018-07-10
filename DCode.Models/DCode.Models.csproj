@@ -54,6 +54,8 @@
     <Compile Include="Common\Suggestion.cs" />
     <Compile Include="Common\TableColumn.cs" />
     <Compile Include="Common\TableRow.cs" />
+    <Compile Include="Email\ClientServiceCollectiveTaskNotificationContent.cs" />
+    <Compile Include="Email\ClientServiceCollectiveTaskNotificationSubject.cs" />
     <Compile Include="Email\ClientServiceNotificationContent.cs" />
     <Compile Include="Email\ClientServiceTaskNotificationSubject.cs" />
     <Compile Include="Email\FirmInitiativeDynamicContent.cs" />

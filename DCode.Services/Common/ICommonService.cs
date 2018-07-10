@@ -40,5 +40,7 @@ namespace DCode.Services.Common
         string GetRMGroupEmailAddress(string department);
 
         List<string> GetFINotificationRecipientsForServiceLine(int serviceLineCode);
+
+        IEnumerable<Offering> GetOfferings();
     }
 }

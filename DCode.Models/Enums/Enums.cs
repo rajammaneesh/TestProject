@@ -7,7 +7,7 @@ namespace DCode.Models.Enums
     {
         public enum Role { Admin, Requestor, Contributor };
         public enum TaskStatus { Active, Assigned, Closed };
-        public enum TaskType { ClientService=1, FirmInitiative=2};
+        public enum TaskType { ClientService = 1, FirmInitiative = 2, ClientServiceCollective = 3 };
         public enum ApplicantStatus { Active, ManagerApproved, Assigned, ManagerRejected, Closed };
         public enum ActionType { Insert, Update };
         public enum SortOrder { ASC, DESC };
