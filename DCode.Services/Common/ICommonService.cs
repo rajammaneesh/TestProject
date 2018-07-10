@@ -27,6 +27,10 @@ namespace DCode.Services.Common
 
         IEnumerable<ServiceLine> GetServiceLines();
 
+        IEnumerable<Offering> GetOfferings();
+
+        IEnumerable<Portfolio> GetPortfolios();
+
         IEnumerable<TaskType> GetTaskTypes();
 
         string GetNameFromEmailId(string emailId);

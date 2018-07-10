@@ -6,18 +6,12 @@ using System.Threading.Tasks;
 
 namespace DCode.Models.ResponseModels.Common
 {
-    public class Offering
+    public class Portfolio
     {
         public int Id { get; set; }
 
-        public string Description { get; set; }
-
         public string Code { get; set; }
 
-        public int PortfolioId { get; set; }
-
-        public string RMEmailGroup { get; set; }
-
-        public string PracticeEmailGroup { get; set; }
+        public string Description { get; set; }
     }
 }

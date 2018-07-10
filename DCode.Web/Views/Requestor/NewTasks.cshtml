@@ -127,14 +127,14 @@
                         <div style="width:100%;">
                             <div class="new-style-DTM-main-column">
                                 <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Service Line</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Offering</span>
                                     <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divServiceLine">
-                                        <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedServiceLine" ng-options="serviceLine.Id as serviceLine.Description for serviceLine in serviceLines" @*required*@></select>
+                                        <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedOffering" ng-options="offering.Id as offering.Description for offering in offerings" @*required*@></select>
                                     </div>
-                                    <span class="error">Select Service Line</span>
+                                    <span class="error">Select Offering</span>
 
                                 </div>
                             </div>
