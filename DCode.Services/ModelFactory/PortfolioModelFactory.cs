@@ -6,30 +6,20 @@ using System.Collections.Generic;
 
 namespace DCode.Services.ModelFactory
 {
-    public class PortfolioModelFactory : IModelFactory<portfolio>
+    public class PortfolioModelFactory
     {
-        public portfolio CreateModel<TModel>(TModel input) where TModel : class
-        {
-            throw new NotImplementedException();
-        }
-
         public TModel CreateModel<TModel>(portfolio input) where TModel : class
         {
-            if (typeof(TModel) == typeof(Portfolio))
+            if (typeof(TModel) == typeof(portfolio))
             {
                 return TranslateToOutput(input) as TModel;
             }
             return null;
         }
 
-        public portfolio CreateModel<TModel>(portfolio input, TModel model) where TModel : class
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<portfolio> inputList) where TModel : class
         {
-            if (typeof(TModel) == typeof(Portfolio))
+            if (typeof(TModel) == typeof(portfolio))
             {
                 if (inputList == null)
                 {
