@@ -474,6 +474,8 @@ namespace DCode.Services.Common
         {
             var offerings = _offeringRepository.GetOfferings();
 
+            SetOfferingCodeAndInsertIntoDb(offerings);
+
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
 
@@ -580,6 +582,17 @@ namespace DCode.Services.Common
             return appSettingValue
                 ?.Split(',')
                 ?.ToList();
+        }
+
+        public void SetOfferingCodeAndInsertIntoDb(IEnumerable<offering> offerings)
+        {
+            var portfolios = GetPortfolios();
+            for(int i=0;i < offerings.ToList().Count; i++)
+            {
+                offerings.ToList()[i].Code = portfolios?.FirstOrDefault(x => x.Id == offerings.FirstOrDefault().Portfolio_Id)?.Code.Substring(0,3).ToUpper();
+                offerings.ToList().Add(offerings.ToList()[i]);
+                _offeringRepository.UpdateOffering(offerings.ToList()[i]);
+            }
         }
     }
 }

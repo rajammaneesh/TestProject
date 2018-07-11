@@ -6,5 +6,7 @@ namespace DCode.Data.MetadataRepository
     public interface IOfferingRepository
     {
         IEnumerable<offering> GetOfferings();
+
+        int UpdateOffering(offering offering);
     }
 }
