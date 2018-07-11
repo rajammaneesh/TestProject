@@ -1,4 +1,5 @@
-﻿using DCode.Models;
+﻿using DCode.Data.DbContexts;
+using DCode.Models;
 using DCode.Models.Common;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
@@ -44,5 +45,7 @@ namespace DCode.Services.Common
         string GetRMGroupEmailAddress(string department);
 
         List<string> GetFINotificationRecipientsForServiceLine(int serviceLineCode);
+
+        void SetOfferingCodeAndInsertIntoDb(IEnumerable<offering> offerings);
     }
 }

@@ -19,7 +19,7 @@ namespace DCode.Services.ModelFactory
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<portfolio> inputList) where TModel : class
         {
-            if (typeof(TModel) == typeof(portfolio))
+            if (typeof(TModel) == typeof(Portfolio))
             {
                 if (inputList == null)
                 {
