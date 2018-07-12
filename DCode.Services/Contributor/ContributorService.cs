@@ -228,12 +228,11 @@ namespace DCode.Services.Contributor
             var user = _commonService.GetCurrentUserContext();
             var taskList = new TaskResponse();
             var totalRecords = 0;
-            IEnumerable<task> dbTasks;
             IEnumerable<taskskill> dbTaskSkills;
             IEnumerable<Models.ResponseModels.Task.Task> tasks = null;
 
-            var serviceLineToSearch = !string.IsNullOrWhiteSpace(searchFilter)
-                && searchFilter == "M" ? user.Department : null;
+            var offeringToSearch = !string.IsNullOrWhiteSpace(searchFilter)
+                && searchFilter == "M" ? user.Department.Split(' ')[0] : null;
 
             var listOfSkills = !string.IsNullOrWhiteSpace(searchFilter)
                 && searchFilter == "R" ? user.SkillSet.Select(x => x.Value)?.ToList()
@@ -242,7 +241,7 @@ namespace DCode.Services.Contributor
             if (!(searchFilter == "R"
                 && user.SkillSet.Count == 0))
             {
-                dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, serviceLineToSearch, selectedTaskType, searchKey, currentPageIndex, recordsCount, out totalRecords);
+                dbTaskSkills = _contributorRepository.GetFilteredTasks(listOfSkills, offeringToSearch, selectedTaskType, searchKey, currentPageIndex, recordsCount, out totalRecords);
 
                 tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
             }

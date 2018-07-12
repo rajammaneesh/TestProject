@@ -470,6 +470,31 @@ namespace DCode.Services.Common
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
         }
 
+        public IEnumerable<PortfolioOffering> GetPortfolioOfferings()
+        {
+            var offeringsDisplayList = new List<PortfolioOffering>();
+            var portfolios = _portfolioRepository.GetPortfoliosOfferings();
+
+            foreach (var portfolio in portfolios)
+            {
+                foreach (var offering in portfolio.offerings)
+                {
+                    var offeringToDisplay = new PortfolioOffering
+                    {
+                        PortfolioId = portfolio.Id,
+                        OfferingId = offering.Id,
+                        OfferingCode = offering.Code,
+                        DisplayName = $"{ portfolio.Code} - { offering.Description }"
+                    };
+
+                    offeringsDisplayList.Add(offeringToDisplay);
+                }
+            }
+
+            return offeringsDisplayList;
+        }
+
+
         public IEnumerable<Offering> GetOfferings()
         {
             var offerings = _offeringRepository.GetOfferings();
@@ -548,34 +573,34 @@ namespace DCode.Services.Common
 
         public string GetRMGroupEmailAddress(string department)
         {
-            var serviceLines = GetServiceLines();
+            var offerings = GetOfferings();
 
-            var currentUsersServiceLine = string.Empty;
-            foreach (var serviceLine in serviceLines)
+            var resourceManagerEmailId = string.Empty;
+            foreach (var offering in offerings)
             {
                 var splitDep = department.Split(' ');
-                if (splitDep.Contains(serviceLine.Name.ToUpperInvariant()) || splitDep.Contains("EBS"))
+                if (splitDep.Contains(offering.Code.ToUpperInvariant()))
                 {
-                    currentUsersServiceLine = serviceLine.Name;
+                    resourceManagerEmailId = offering.RMEmailGroup;
                     break;
                 }
             }
 
-            return ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + currentUsersServiceLine];
+            return resourceManagerEmailId;
         }
 
-        public List<string> GetFINotificationRecipientsForServiceLine(int serviceLineId)
+        public List<string> GetFINotificationRecipientsForOffering(int offeringId)
         {
-            var serviceLines = GetServiceLines();
+            var offerings = GetOfferings();
 
-            var matchingServiceLine = serviceLines?.FirstOrDefault(x => x.Id == serviceLineId)?.Name;
+            var matchingOffering = offerings?.FirstOrDefault(x => x.Id == offeringId)?.PracticeEmailGroup;
 
-            if (matchingServiceLine == null)
+            if (string.IsNullOrEmpty(matchingOffering))
             {
                 return null;
             }
 
-            var appSettingValue = ConfigurationManager.AppSettings[$"FI_{matchingServiceLine}"];
+            var appSettingValue = matchingOffering;
 
             return appSettingValue
                 ?.Split(',')

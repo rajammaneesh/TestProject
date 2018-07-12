@@ -73,6 +73,7 @@
     <Compile Include="ResponseModels\Base\ResponseBase.cs" />
     <Compile Include="ResponseModels\Common\Offering.cs" />
     <Compile Include="ResponseModels\Common\Portfolio.cs" />
+    <Compile Include="ResponseModels\Common\PortfolioOffering.cs" />
     <Compile Include="ResponseModels\Common\ServiceLine.cs" />
     <Compile Include="ResponseModels\Common\Skill.cs" />
     <Compile Include="ResponseModels\Common\TaskType.cs" />

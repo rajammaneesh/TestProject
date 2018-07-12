@@ -44,7 +44,7 @@ namespace DCode.Data.RequestorRepository
             }
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             tasks.Include(x => x.user).Load();
-            tasks.Include(x => x.service_line).Load();
+            tasks.Include(x => x.offering).Load();
             tasks.Include(x => x.taskapplicants.Select(y => y.user)).Load();
             totalRecords = tasks.Count();
             //Pick records based on the pageindex.
@@ -188,7 +188,7 @@ namespace DCode.Data.RequestorRepository
                 taskapplicant = Context.Set<taskapplicant>().Where(x => x.user.MANAGER_EMAIL_ID == emailId && x.STATUS == TaskStatus.Active.ToString());
             }
             taskapplicant.Include(x => x.task).Load();
-            taskapplicant.Include(x => x.task.service_line).Load();
+            taskapplicant.Include(x => x.task.offering).Load();
             taskapplicant.Include(x => x.user).Load();
             totalRecords = taskapplicant.Count();
             //query = tasks;

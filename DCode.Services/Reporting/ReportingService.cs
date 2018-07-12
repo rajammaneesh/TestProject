@@ -100,7 +100,7 @@ namespace DCode.Services.Reporting
         public IEnumerable<string> GetConsultingUsersForServiceLine(int serviceLineId)
         {
             var recipientEmailsFromConfig = 
-                _commonService.GetFINotificationRecipientsForServiceLine(serviceLineId);
+                _commonService.GetFINotificationRecipientsForOffering(serviceLineId);
 
             return recipientEmailsFromConfig;
         }

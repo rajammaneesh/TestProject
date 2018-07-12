@@ -71,6 +71,7 @@ namespace DCode.Services.ModelFactory
                 task.ServiceLine = input.service_line?.Name;
                 task.Duration = CommonHelper.CalculateDuration(input.CREATED_ON);
                 task.TaskName = input.TASK_NAME;
+                task.Offering = input.offering?.Description;
             }
             return task;
         }
@@ -128,7 +129,7 @@ namespace DCode.Services.ModelFactory
                 dbTask.STATUS = TaskStatus.Active.ToString();
                 dbTask.STATUS_DATE = DateTime.Now;
                 dbTask.TASK_TYPE_ID = Convert.ToInt32(modelTask.SelectedTaskType);
-                dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
+                dbTask.SERVICE_LINE_ID = 1; //Dummy value, to suppress foreign key excption. Need to be removed once schema updated
                 dbTask.OFFERING_ID = Convert.ToInt32(modelTask.SelectedOffering);
 
                 if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
