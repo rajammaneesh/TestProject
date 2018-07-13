@@ -126,72 +126,6 @@ namespace DCode.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult TestEmailForBulk()
-        //{
-        //    var listOfNotifications = new List<Notification>
-        //    {
-        //        new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="JAVA"
-        //        },
-        //          new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill=".NET"
-        //        },
-        //            new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="Guidewire"
-        //        },
-        //              new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="Hybris"
-        //        },
-        //                new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="Sitecore"
-        //        },
-        //                  new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","debabhattacharya@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="AEM"
-        //        },
-        //                    new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="QA"
-        //        },
-        //                      new Notification {
-        //            ToAddresses= "risen@deloitte.com",
-        //            CcAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            BccAddresses=new List<string> { "risen@deloitte.com","risen@deloitte.com"},
-        //            Content="Some Context",
-        //            Skill="Salesforce"
-        //        }
-        //    };
-        //    EmailHelper.SendBulkEmail(listOfNotifications);
-
-        //    return Json("succes", JsonRequestBehavior.AllowGet);
-        //}
-
         public JsonResult testemail()
         {
             EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com");
@@ -226,6 +160,12 @@ namespace DCode.Web.Controllers
         public JsonResult GetServiceLines()
         {
             return Json(_commonService.GetServiceLines(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetPortfolioOfferings()
+        {
+            return Json(_commonService.GetPortfolioOfferings(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

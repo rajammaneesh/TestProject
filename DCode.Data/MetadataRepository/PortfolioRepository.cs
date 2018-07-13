@@ -21,5 +21,10 @@ namespace DCode.Data.MetadataRepository
         {
             return Context.Set<portfolio>().ToList();
         }
+
+        public IEnumerable<portfolio> GetPortfoliosOfferings()
+        {
+            return Context.Set<portfolio>().Include(x=>x.offerings).ToList();
+        }
     }
 }

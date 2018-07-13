@@ -127,7 +127,7 @@ namespace DCode.Data.ContributorRepository
         }
 
         public IEnumerable<taskskill> GetFilteredTasks(List<string> skillFilters,
-            string serviceLine,
+            string offering,
             int selectedTaskType,
             string searchText,
             int currentPageIndex,
@@ -150,9 +150,9 @@ namespace DCode.Data.ContributorRepository
                              || x.task.PROJECT_NAME.Contains(searchText));
             }
 
-            if (!string.IsNullOrEmpty(serviceLine))
+            if (!string.IsNullOrEmpty(offering))
             {
-                query = query.Where(x => x.task.service_line.Name.ToString().Equals(serviceLine));
+                query = query.Where(x => x.task.offering.Code.ToString().Equals(offering));
             }
 
             var dateToBeChecked = DateTime.Today.AddDays(-15).Date;
@@ -163,7 +163,7 @@ namespace DCode.Data.ContributorRepository
 
             query.Include(x => x.task.user).Load();
 
-            query.Include(x => x.task.service_line).Load();
+            query.Include(x => x.task.offering).Load();
 
             totalRecords = query.Count();
 

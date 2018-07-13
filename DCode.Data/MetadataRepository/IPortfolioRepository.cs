@@ -6,5 +6,7 @@ namespace DCode.Data.MetadataRepository
     public interface IPortfolioRepository
     {
         IEnumerable<portfolio> GetPortfolios();
+
+        IEnumerable<portfolio> GetPortfoliosOfferings();
     }
 }

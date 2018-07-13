@@ -43,7 +43,7 @@ namespace DCode.Services.ModelFactory
             task.UpdatedOn = input.task.UPDATED_ON;
             task.Id = input.task.ID;
             task.Hours = input.task.HOURS;
-            task.ServiceLine = input.task.service_line.Name;
+            task.Offering = input.task.offering.Code;
             return task;
         }
 

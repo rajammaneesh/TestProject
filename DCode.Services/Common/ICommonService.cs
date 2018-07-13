@@ -43,6 +43,8 @@ namespace DCode.Services.Common
 
         string GetRMGroupEmailAddress(string department);
 
-        List<string> GetFINotificationRecipientsForServiceLine(int serviceLineCode);
+        List<string> GetFINotificationRecipientsForOffering(int serviceLineCode);
+
+        IEnumerable<PortfolioOffering> GetPortfolioOfferings();
     }
 }

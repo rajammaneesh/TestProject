@@ -72,7 +72,7 @@ namespace DCode.Services.Task
                 {
                     var currentUser = _commonService.GetCurrentUserContext();
 
-                    var serviceLineRecipients = _commonService.GetFINotificationRecipientsForServiceLine(
+                    var serviceLineRecipients = _commonService.GetFINotificationRecipientsForOffering(
                         Convert.ToInt32(taskRequest.SelectedServiceLine));
 
                     EmailHelper.PostNewFINotification(taskRequest.ProjectName,
