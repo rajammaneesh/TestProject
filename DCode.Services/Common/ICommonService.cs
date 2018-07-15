@@ -27,6 +27,10 @@ namespace DCode.Services.Common
 
         IEnumerable<ServiceLine> GetServiceLines();
 
+        IEnumerable<Offering> GetOfferings();
+
+        IEnumerable<Portfolio> GetPortfolios();
+
         IEnumerable<TaskType> GetTaskTypes();
 
         string GetNameFromEmailId(string emailId);
@@ -39,8 +43,8 @@ namespace DCode.Services.Common
 
         string GetRMGroupEmailAddress(string department);
 
-        List<string> GetFINotificationRecipientsForServiceLine(int serviceLineCode);
+        List<string> GetFINotificationRecipientsForOffering(int serviceLineCode);
 
-        IEnumerable<Offering> GetOfferings();
+        IEnumerable<PortfolioOffering> GetPortfolioOfferings();
     }
 }

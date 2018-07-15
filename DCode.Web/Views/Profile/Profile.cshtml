@@ -27,8 +27,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.js"></script>
 
     <!-- Angular Material Dependencies -->
-    @*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.js"></script>*@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.js"></script>
 
 </head>
@@ -39,7 +37,7 @@
             <img src="~/Content/Images/tech-x-circle-logo.png" class="new-style-DTM-layout-logo-image logo">
         </div>
         <div class="skill_tag">
-            <div @*class="new-style-DTM-renderbody-inner"*@ style="height:75vh;padding-left:20px;">
+            <div style="height:75vh;padding-left:20px;">
                 <div class="new-style-DTM-profile-main-inner-body" style="padding-right:20px;padding-bottom:20px;">
                     <div class="background-color-fff">
                         <div class="fst-login" ng-show="isFirstTimeLogin">
@@ -107,7 +105,7 @@
                                 <div>
                                     <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
                                         <div class="heading bold">
-                                            Service Line
+                                            Department
                                             <span class="requiredField">*</span>
                                         </div>
                                         <div class="value">{{userContext.Department}}</div>
@@ -117,60 +115,19 @@
                                         <div class="value">{{userContext.MobileNumber}}</div>
                                     </div>
                                 </div>
-                                @*<div>
-                                    <div class="skill-box margin-bottom-40 margin-top-40 new-style-DTM-profile-columns">
-                                        
-                                    </div>
-                                </div>*@
                                 <div style="clear:both;"></div>
                                 <hr style="background:darkgray;" />
                                 <div style="float:right;padding-right:10px;cursor:pointer;">
                                     <span class="glyphicon glyphicon-pencil" ng-show="!isFirstTimeLogin" ng-click="changeToEditMode()"></span>
 
                                 </div>
-                                @*<div>
-                                        <div class="background-color-fff">
-                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-DTM-profile-columns">
-                                                <div class="heading bold new-style-DTM-inner-headings">
-                                                    <span class="glyphicon glyphicon-pencil edit-skill-icon" ng-click="changeToEditMode()"></span>
-                                                </div>
-                                                <div class="new-style-DTM-inner-inputs">
-                                                    <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
-                                                    <div class="value" ng-show="!isEditMode"> {{profile.ManagerEmailId}}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-box margin-bottom-40 new-style-DTM-profile-columns">&nbsp;</div>
-                                    </div>*@
                                 <div style="clear:both;"></div>
-
-                                @*<div>
-                                        <div class="background-color-fff">
-                                            <div class="skill-box margin-bottom-20 margin-top-40 new-style-DTM-profile-columns">
-                                                <div class="heading bold new-style-DTM-inner-headings">
-                                                    Project Manager Email ID
-                                                    <span class="requiredField">*</span>
-                                                </div>
-                                                <div class="new-style-DTM-inner-inputs">
-                                                    <input type="email" ng-show="isEditMode" name="managerEmail" class="form-control" ng-pattern="/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@("@")deloitte\.com$/i" placeholder="xxxxx@deloitte.com" ng-model="profile.ManagerEmailId" required>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.required">Required</span>
-                                                    <span class="help-inline" ng-show="submitted && form.managerEmail.$error.pattern">Invalid email</span>
-                                                    <div class="value" ng-show="!isEditMode"> {{profile.ManagerEmailId}}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-box margin-bottom-40 new-style-DTM-profile-columns">&nbsp;</div>
-                                    </div>
-                                    <div style="clear:both;"></div>*@
                                 <div>
                                     <div class="background-color-fff">
                                         <div class="skill-box margin-bottom-40 margin-top-20 new-style-DTM-profile-columns">
                                             <div class="heading bold new-style-DTM-inner-headings">
                                                 Skill Set
                                                 <span class="requiredField">*</span>
-                                                @*<span ng-show="isEditMode" class="addSkilBut" data-toggle="modal" data-target="#myModal" ng-click="resetSkillValues()"><span class="glyphicon glyphicon-plus"></span>Skill</span>*@
                                             </div>
                                             <div class="form-group datepicker">
                                                 <div style="padding-top:3px;width:87%;padding-left:10px;" class="input-group search-wbs-code skill-set" id="taskSkill">
@@ -198,27 +155,11 @@
                                                 </div>
                                                 <span class="error col-md-6 col-md-offset-2 no-padding">Please add a skill</span>
                                             </div>
-                                            @*<div >
-                                                    <div class="new-style-DTM-inner-search">
-                                                        <angucomplete-alt id="ex1"
-                                                                          placeholder="Search for Skill Set"
-                                                                          pause="100"
-                                                                          selected-object="selectedSkill"
-                                                                          remote-url="/Common/SearchSkill?searchParam="
-                                                                          title-field="Value"
-                                                                          description-field="email"
-                                                                          minlength="1"
-                                                                          clear-selected="true"
-                                                                          input-class="form-control form-control-small" ng-disabled="isEditMode==true" />
-                                                    </div>
-                                                    <div style="float:left">
-                                                        <button class="btn btn-default no-border-left" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                                    </div>
-                                                </div>*@
+  
                                         </div>
                                     </div>
                                     <div class="new-style-DTM-profile-columns" style="min-height:0px; max-height:150px;overflow-y:auto;padding-top:10px;">
-                                        <div @*class="skill-box edit margin-top-bottom-20"*@>
+                                        <div>
                                             <span class="skill-item" name="skills" ng-repeat="skill in skillSet">
                                                 <span>{{skill.Value}}</span><span ng-show="isEditMode" class="glyphicon glyphicon-remove" ng-click="removeSkill($index)"></span>
                                                 <span class="help-inline" ng-show="submitted && form.skills.$error.required">Required</span>
@@ -246,19 +187,6 @@
 
                                     </div>
                                 </div>
-                                @*<div class="background-color-fff" style="height:120px;">
-                                        <div class="background-color-fff">
-
-                                            <div>
-                                                <div class="new-style-DTM-create-btn-side">&nbsp;</div>
-                                                <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-show="!isFirstTimeLogin && !isEditMode" onclick="window.history.back();">Back</div>
-                                                <input type="submit" class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" value="Submit" ng-click="updateProfile()" ng-show="isEditMode" />
-                                                <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
-
-                                            </div>
-                                        </div>
-                                        <div class="skill-box margin-bottom-40 new-style-DTM-profile-columns">&nbsp;</div>
-                                    </div>*@
                             </form>
                         </div>
                     </div>

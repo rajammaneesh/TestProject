@@ -40,16 +40,19 @@ namespace DCode.Services.Common
         private ITaskTypeRepository _taskTypeRepository;
         private ServiceLineModelFactory _serviceLineModelFactory;
         private TaskTypeModelFactory _taskTypeModelFactory;
-        private IOfferingsRepository _offeringsRepository;
         private OfferingModelFactory _offeringModelFactory;
+        private PortfolioModelFactory _portfolioModelFactory;
+        private IOfferingRepository _offeringRepository;
+        private IPortfolioRepository _portfolioRepository;
 
 
-        public CommonService(ITaskRepository taskRepository,IOfferingsRepository offeringsRepository, UserContext userContext, ILogRepository logRepository,
+        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
             LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository,
             UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
             SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
-            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory,OfferingModelFactory offeringModelFactory)
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,
+            PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, IPortfolioRepository portfolioRepository)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -65,8 +68,10 @@ namespace DCode.Services.Common
             _serviceLineModelFactory = serviceLineModelFactory;
             _taskTypeModelFactory = taskTypeModelFactory;
             _taskTypeRepository = taskTypeRepository;
-            _offeringsRepository = offeringsRepository;
             _offeringModelFactory = offeringModelFactory;
+            _portfolioModelFactory = portfolioModelFactory;
+            _offeringRepository = offeringRepository;
+            _portfolioRepository = portfolioRepository;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -465,11 +470,43 @@ namespace DCode.Services.Common
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
         }
 
+        public IEnumerable<PortfolioOffering> GetPortfolioOfferings()
+        {
+            var offeringsDisplayList = new List<PortfolioOffering>();
+            var portfolios = _portfolioRepository.GetPortfoliosOfferings();
+
+            foreach (var portfolio in portfolios)
+            {
+                foreach (var offering in portfolio.offerings)
+                {
+                    var offeringToDisplay = new PortfolioOffering
+                    {
+                        PortfolioId = portfolio.Id,
+                        OfferingId = offering.Id,
+                        OfferingCode = offering.Code,
+                        DisplayName = $"{ portfolio.Code} - { offering.Description }"
+                    };
+
+                    offeringsDisplayList.Add(offeringToDisplay);
+                }
+            }
+
+            return offeringsDisplayList;
+        }
+
+
         public IEnumerable<Offering> GetOfferings()
         {
-            var offerings = _offeringsRepository.GetOfferings();
+            var offerings = _offeringRepository.GetOfferings();
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
+        }
+
+        public IEnumerable<Portfolio> GetPortfolios()
+        {
+            var portfolios = _portfolioRepository.GetPortfolios();
+
+            return _portfolioModelFactory.CreateModelList<Portfolio>(portfolios);
         }
 
         public IEnumerable<Models.ResponseModels.Common.TaskType> GetTaskTypes()
@@ -536,34 +573,34 @@ namespace DCode.Services.Common
 
         public string GetRMGroupEmailAddress(string department)
         {
-            var serviceLines = GetServiceLines();
+            var offerings = GetOfferings();
 
-            var currentUsersServiceLine = string.Empty;
-            foreach (var serviceLine in serviceLines)
+            var resourceManagerEmailId = string.Empty;
+            foreach (var offering in offerings)
             {
                 var splitDep = department.Split(' ');
-                if (splitDep.Contains(serviceLine.Name.ToUpperInvariant()) || splitDep.Contains("EBS"))
+                if (splitDep.Contains(offering.Code.ToUpperInvariant()))
                 {
-                    currentUsersServiceLine = serviceLine.Name;
+                    resourceManagerEmailId = offering.RMEmailGroup;
                     break;
                 }
             }
 
-            return ConfigurationManager.AppSettings[Constants.RMGroupEmailAddressKeyPrefix + currentUsersServiceLine];
+            return resourceManagerEmailId;
         }
 
-        public List<string> GetFINotificationRecipientsForServiceLine(int serviceLineId)
+        public List<string> GetFINotificationRecipientsForOffering(int offeringId)
         {
-            var serviceLines = GetServiceLines();
+            var offerings = GetOfferings();
 
-            var matchingServiceLine = serviceLines?.FirstOrDefault(x => x.Id == serviceLineId)?.Name;
+            var matchingOffering = offerings?.FirstOrDefault(x => x.Id == offeringId)?.PracticeEmailGroup;
 
-            if (matchingServiceLine == null)
+            if (string.IsNullOrEmpty(matchingOffering))
             {
                 return null;
             }
 
-            var appSettingValue = ConfigurationManager.AppSettings[$"FI_{matchingServiceLine}"];
+            var appSettingValue = matchingOffering;
 
             return appSettingValue
                 ?.Split(',')

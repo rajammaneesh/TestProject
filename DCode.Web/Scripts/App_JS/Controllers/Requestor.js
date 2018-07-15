@@ -397,13 +397,15 @@
                 Hours: "",
                 SkillSet: [],
                 IsRewardsEnabled: false,
-                ServiceLineDisplay: ""
+                OfferingDisplay: ""
             };
         $scope.showDetails = false;
         $scope.showSummary = false;
         $scope.divVisibiltyModel = { showCreate: false, showDetails: false, showSummary: false, showSuccess: false };
         $scope.skills = [];
         $scope.serviceLines = [];
+        $scope.offerings = [];
+        $scope.portfolios = [];
         $scope.taskTypes = [];
         $scope.selectedSkills = [];
         $scope.selectedSkillDesc = null;
@@ -424,7 +426,7 @@
               Hours: "",
               SkillSet: [],
               IsRewardsEnabled: "",
-              SelectedServiceLine: '',
+              SelectedOffering: '',
               SelectedTaskType: ''
           };
         }
@@ -558,24 +560,6 @@
             $("#divHours").removeClass("invalid");
         });
 
-
-        //$scope.GetWBSValidation = function () {
-        //    var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
-        //    var val = $("#txtWBSCode").val().toLocaleLowerCase();
-        //    if (val.length == 19 && regex.test(val)) {
-        //        if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
-        //            $("#divWBSCode").addClass("invalid");
-        //            //return;
-        //        }
-        //        else {
-        //            $("#divWBSCode").removeClass("invalid");
-        //        }
-        //    } else {
-        //        $("#divWBSCode").addClass("invalid");
-        //        //return;
-        //    }
-        //};
-
         $scope.ValidateNewTaskData = function () {
             var isValid = true;
             var focusSet = false;
@@ -641,8 +625,8 @@
                 }
             }
 
-            //validating service Line
-            if ($scope.taskRequest.SelectedServiceLine == null || $scope.taskRequest.SelectedServiceLine == "") {
+            //validating offering
+            if ($scope.taskRequest.SelectedOffering == null || $scope.taskRequest.SelectedOffering == "") {
                 $("#divServiceLine").addClass("invalid");
                 if (!focusSet) {
                     focusSet = true;
@@ -704,29 +688,6 @@
                 }
                 isValid = false;
             }
-            //else {
-            //    $("#datetimepicker2").removeClass("invalid");
-            //    $scope.onBoardingDateReview = true;
-            //}
-
-            //validating if due date is more than 2 weeks
-            //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 ) {
-            //    var one_day = 1000 * 60 * 60 * 24;
-            //    var date1 = new Date($('#txtStartDate').val()).getTime();
-            //    var date2 = new Date($('#txtDueDate').val()).getTime();
-            //    var dateDiff = Math.round((date2 - date1) / one_day);
-            //    if (dateDiff > 14) {
-            //        $("#datetimepicker2").addClass("invalid");
-            //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-            //        $scope.onBoardingDateReview = false;
-            //        if (!focusSet) {
-            //            $('#txtDueDate').focus();
-            //            focusSet = true;
-            //        }
-            //        isValid = false;
-            //    }
-
-            //}
 
             //validating Hours
             if ($('#txtHr').val() == '' || $('#txtHr').val() == null) {
@@ -788,43 +749,12 @@
                             $('#skillsetNewTask_value').focus();
                         }
 
-                        angular.forEach($scope.serviceLines, function (value, index) {
-                            if ($scope.taskRequest.SelectedServiceLine == value.Id)
-                                $scope.taskRequest.ServiceLineDisplay = value.Name;
+                        angular.forEach($scope.offerings, function (value, index) {
+                            if ($scope.taskRequest.SelectedOffering== value.OfferingId)
+                                $scope.taskRequest.OfferingDisplay = value.OfferingCode;
                         });
 
-                        //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 && $scope.taskRequest.DueDate != null && $scope.taskRequest.OnBoardingDate != null) {
-                        //    var one_day = 1000 * 60 * 60 * 24;
-                        //    var date1 = new Date($scope.taskRequest.OnBoardingDate).getTime();
-                        //    var date2 = new Date($scope.taskRequest.DueDate).getTime();
-                        //    var dateDiff = Math.round((date2 - date1) / one_day);
-                        //    if (dateDiff > 14) {
-                        //        $("#datetimepicker2").addClass("invalid");
-                        //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-                        //        $scope.onBoardingDateReview = false;
-                        //    }
-
-                        //}
-                        //if ($("#txtHr").val().indexOf('.') > -1) {
-                        //    //$("#spanHrsError").show();
-                        //    $("#divHours").addClass("invalid");
-                        //    $scope.HrsValidation = false;
-                        //}
-                        //else {
-                        //    $("#divHours").removeClass("invalid");
-                        //    //$("#spanHrsError").hide();
-                        //    $scope.HrsValidation = true;
-                        //}
-
-                        //validation to check service line is selected
-                        //if ($scope.taskRequest.SelectedServiceLine == null || $scope.taskRequest.SelectedServiceLine == "") {
-                        //    $("#divServiceLine").addClass("invalid");
-                        //    $scope.ServiceLineValidation = false;
-                        //}
-                        //else {
-                        //    $("#divServiceLine").removeClass("invalid");
-                        //    $scope.ServiceLineValidation = true;
-                        //}
+                        
 
                         //$scope.GetWBSValidation();
 
@@ -835,11 +765,7 @@
                             && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
                             && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
 
-                        //var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
-                        //  && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours //&& !!$scope.taskRequest.IsRewardsEnabled
-                        //  && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview && $scope.HrsValidation && $scope.ServiceLineValidation;
-
-
+                        
                         if (isvalid) {
                             $scope.divVisibiltyModel.showSummary = true;
                             $scope.divVisibiltyModel.showDetails = false;
@@ -932,15 +858,28 @@
             });
         }
 
-        $scope.getAllServiceLines = function () {
+        $scope.getAllOfferings = function () {
             var reqObj = $scope.task;
             $http({
-                url: "/Common/GetServiceLines",
+                url: "/Common/GetPortfolioOfferings",
                 method: "GET"
             }).success(function (data, status, config) {
 
                 if (data != null) {
-                    $scope.serviceLines = data;
+                    $scope.offerings = data;
+                }
+            }).error(function (error) {
+            });
+        }
+        $scope.getAllPortfolios = function () {
+            var reqObj = $scope.task;
+            $http({
+                url: "/Common/GetPortfolios",
+                method: "GET"
+            }).success(function (data, status, config) {
+
+                if (data != null) {
+                    $scope.portfolios = data;
                 }
             }).error(function (error) {
             });
@@ -963,7 +902,8 @@
         $scope.onLoad = function () {
             $scope.isFirstTimeUser();
             $scope.getAllSkills();
-            $scope.getAllServiceLines();
+            $scope.getAllOfferings();
+            $scope.getAllPortfolios();
             $scope.getAllTaskTypes();
         }
         $scope.onLoad();

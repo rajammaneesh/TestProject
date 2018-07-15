@@ -54,14 +54,9 @@ namespace DCode.Services.Requestor
             //If Admin - TBD after usercontext module
             //if (!true)
             var user = _commonService.GetCurrentUserContext();
-            if (!true)
-            {
-                dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount, string.Empty, out totalRecords);
-            }
-            else
-            {
-                dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount, user.EmailId, out totalRecords);
-            }
+
+            dbTaskApprovals = _requestorRepository.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount, user.EmailId, out totalRecords);
+
             foreach (var dbTaskApproval in dbTaskApprovals)
             {
                 var taskApproval = new TaskApproval();
@@ -216,16 +211,9 @@ namespace DCode.Services.Requestor
             var permissionTaskList = new List<PermissionsTask>();
             var totalRecords = 0;
             IEnumerable<taskapplicant> dbTaskApplicants;
-            //If Admin - TBD after usercontext module
-            //if (!true)
-            if (!true)
-            {
-                dbTaskApplicants = _requestorRepository.GetTaskApplicantsForPermissions(currentPageIndex, recordsCount, string.Empty, out totalRecords);
-            }
-            else
-            {
-                dbTaskApplicants = _requestorRepository.GetTaskApplicantsForPermissions(currentPageIndex, recordsCount, user.EmailId, out totalRecords);
-            }
+
+            dbTaskApplicants = _requestorRepository.GetTaskApplicantsForPermissions(currentPageIndex, recordsCount, user.EmailId, out totalRecords);
+            
             foreach (var dbTaskApp in dbTaskApplicants)
             {
                 var permissionsTask = new PermissionsTask();

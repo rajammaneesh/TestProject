@@ -27,13 +27,13 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
                 Console.WriteLine("Initialized operation for client service notification");
 
-              //  taskNotificationOperation.Invoke();
+                taskNotificationOperation.Invoke();
 
                 Console.WriteLine("Ended operation for client service notification");
 
                 Console.WriteLine("Initialized operation for firm initiative notification");
 
-             //   firmInitiativeNotificationOperation.Invoke();
+                firmInitiativeNotificationOperation.Invoke();
 
                 Console.WriteLine("ended operation for firm initiative notification");
 

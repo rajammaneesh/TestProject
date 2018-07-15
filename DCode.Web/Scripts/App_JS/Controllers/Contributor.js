@@ -36,9 +36,9 @@
         $scope.assignedTasks = null;
         $scope.assignedTasksGlobal = null;
         $scope.managersEmailId = "";
-        $scope.searchFilters = [//{ Id: "M", Description: "My Service Line" },  // HotFix. Need to review later.
+        $scope.searchFilters = [{ Id: "M", Description: "My Offering" },  // HotFix. Need to review later.
         { Id: "R", Description: "Recommended Tasks" },
-        { Id: "A", Description: "All Service Lines" }];
+        { Id: "A", Description: "All Portfolios" }];
 
         $scope.selectTaskTypes = [
             { Id: 1, Description: "Client Service" },
