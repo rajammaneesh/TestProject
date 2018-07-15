@@ -112,9 +112,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                     {
                         ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
 
-                        BccAddresses = matchedOfferingRecord.Practice_Email_Group == null
-                            ? null
-                            : new List<string> { matchedOfferingRecord.Practice_Email_Group },
+                        BccAddresses = matchedOfferingRecord.GetPracticeEmailGroupsAsList(),
 
                         Body = _notificationContentGenerator.GetEmailBody(notificationBody),
 
