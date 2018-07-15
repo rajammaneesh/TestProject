@@ -33,10 +33,10 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
             _emailService = kernel.Get<EmailService>();
 
+            _notificationContentFactory = kernel.Get<NotificationContentFactory>();
+
             _notificationContentGenerator =
               _notificationContentFactory.GetTaskNotificationContentGenerator(Models.Enums.Enums.TaskType.ClientServiceCollective);
-
-            _notificationContentFactory = kernel.Get<NotificationContentFactory>();
         }
 
         public void Dispose()
@@ -111,9 +111,14 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                     notifications.Add(new Notification
                     {
                         ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
-                        BccAddresses = new List<string> { matchedOfferingRecord.Practice_Email_Group },
+
+                        BccAddresses = matchedOfferingRecord.Practice_Email_Group == null
+                            ? null
+                            : new List<string> { matchedOfferingRecord.Practice_Email_Group },
+
                         Body = _notificationContentGenerator.GetEmailBody(notificationBody),
-                        Subject = _notificationContentGenerator.GetSubject(null)
+
+                        Subject = _notificationContentGenerator.GetSubject(notificationSubject)
                     });
                 });
 

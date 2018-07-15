@@ -21,19 +21,27 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
                 var firmInitiativeNotificationOperation = new FirmInitiativeNotificationOperation(kernel);
 
+                var clientServiceCollectiveTaskNotificationOperation = new ClientServiceCollectiveTaskNotificationOperation(kernel);
+
                 Console.WriteLine("Initialized operation");
 
                 Console.WriteLine("Initialized operation for client service notification");
 
-                taskNotificationOperation.Invoke();
+              //  taskNotificationOperation.Invoke();
 
                 Console.WriteLine("Ended operation for client service notification");
 
                 Console.WriteLine("Initialized operation for firm initiative notification");
 
-                firmInitiativeNotificationOperation.Invoke();
+             //   firmInitiativeNotificationOperation.Invoke();
 
                 Console.WriteLine("ended operation for firm initiative notification");
+
+                Console.WriteLine("Initialized operation for client service collective task notification");
+
+                clientServiceCollectiveTaskNotificationOperation.Invoke();
+
+                Console.WriteLine("Ended operation for client service collective task notification");
 
                 Console.WriteLine("Operation ended");
             }
