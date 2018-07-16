@@ -1,6 +1,7 @@
 ﻿using DCode.Models.Common;
 using System;
 using System.Collections.Generic;
+using DCode.Models.ResponseModels.Task;
 
 namespace DCode.Services.Reporting
 {
@@ -23,5 +24,7 @@ namespace DCode.Services.Reporting
         IEnumerable<string> GetConsultingUsersForServiceLine(int serviceLineId);
 
         IEnumerable<string> GetDummyConsultingUsers();
+
+        IEnumerable<Models.ResponseModels.Task.Task> GetNotificationsForCollectiveCSTasks(int noOfDays);
     }
 }

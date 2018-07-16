@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using DCode.Models.Common;
 using DCode.Models.Management;
-using System.Configuration;
 using DCode.Services.Common;
+using System.Linq;
+using DCode.Services.ModelFactory;
 
 namespace DCode.Services.Reporting
 {
@@ -23,11 +24,14 @@ namespace DCode.Services.Reporting
 
         private readonly ICommonService _commonService;
 
+        private TaskModelFactory _taskModelFactory;
+
         public ReportingService(ITaskRepository taskRepository,
             IUserRepository userRepository,
             IDailyUsageStatisticsRepository dailyUsageStatisticsRepository,
             IDataManagement dbQueryManager,
-            ICommonService commonService)
+            ICommonService commonService,
+            TaskModelFactory taskModelFactory)
         {
             _taskRepository = taskRepository;
 
@@ -38,6 +42,8 @@ namespace DCode.Services.Reporting
             _dbQueryManager = dbQueryManager;
 
             _commonService = commonService;
+
+            _taskModelFactory = taskModelFactory;
         }
 
         public IEnumerable<string> GetSubscribedUserForTask(string task)
@@ -136,6 +142,30 @@ namespace DCode.Services.Reporting
                "risen@deloitte.com",
                "shirastogi@deloitte.com"
            };
+        }
+
+        public IEnumerable<Models.ResponseModels.Task.Task> GetNotificationsForCollectiveCSTasks(int noOfDays)
+        {
+            var yesterdayDate = DateTime.Now.AddDays(-1);
+
+            var endDate = new DateTime(yesterdayDate.Year, yesterdayDate.Month, yesterdayDate.Day, 23, 59, 59);
+
+            var startDate = endDate.AddDays(noOfDays * -1)
+                .AddHours(-23)
+                .AddMinutes(-59)
+                .AddSeconds(-59);
+
+            var clientServiceTasks =
+                _taskRepository.GetClientServiceTasksCreatedForDateRange(startDate, endDate);
+
+            if (clientServiceTasks == null)
+            {
+                return null;
+            }
+
+            return _taskModelFactory
+                .CreateModelList<Models.ResponseModels.Task.Task>(
+                    clientServiceTasks);
         }
     }
 }

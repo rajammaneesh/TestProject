@@ -6,6 +6,7 @@ using System.Data.Entity;
 using DCode.Models.Enums;
 using System;
 using static DCode.Models.Enums.Enums;
+using System.Threading.Tasks;
 
 namespace DCode.Data.TaskRepository
 {
@@ -55,7 +56,7 @@ namespace DCode.Data.TaskRepository
         {
             var dbTasks = Context.Set<task>().Where(x => x.ID == taskID).FirstOrDefault();
             var dbTask = dbTasks;
-            dbTask.STATUS = TaskStatus.Closed.ToString();
+            dbTask.STATUS = Enums.TaskStatus.Closed.ToString();
             Context.Entry(dbTasks).CurrentValues.SetValues(dbTasks);
             return Context.SaveChanges();
         }
@@ -158,7 +159,7 @@ namespace DCode.Data.TaskRepository
                             .Where(x => x.CREATED_ON.Value.Day == date.Date.Day
                                 && x.CREATED_ON.Value.Month == date.Date.Month
                                 && x.CREATED_ON.Value.Year == date.Date.Year
-                                && x.STATUS == TaskStatus.Active.ToString()
+                                && x.STATUS == Enums.TaskStatus.Active.ToString()
                                 && x.TASK_TYPE_ID == ((int?)TaskType.FirmInitiative));
 
             query.Include(x => x.taskskills.Select(y => y.skill)).Load();
@@ -173,6 +174,19 @@ namespace DCode.Data.TaskRepository
             query = Context.Set<skill>().Where(x => x.VALUE == name);
 
             return query.FirstOrDefault();
+        }
+
+        public IEnumerable<task> GetClientServiceTasksCreatedForDateRange(DateTime startDate, DateTime endDate)
+        {
+            IQueryable<task> query;
+
+            query = Context.Set<task>()
+                .Where(x => x.TASK_TYPE_ID == (int)TaskType.ClientService
+                    && x.CREATED_ON >= startDate
+                    && x.CREATED_ON <= endDate
+                    && x.STATUS == Enums.TaskStatus.Active.ToString());
+
+            return query.ToList();
         }
     }
 }

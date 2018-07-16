@@ -72,6 +72,7 @@ namespace DCode.Common
         public static string PostNewFIBody = "A New Firm Initiative <b>{0}</b> has been added to the TechX portal for {1} hours starting {2} by the lead (cc'ed).<br/><br/>Description {3} <br/><br/>Please apply for the task through TechX <br/><br/>Regards,<br/>TechX Team";
         public static string ClientServiceNotificationBody = "New Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the {0} skillset.{1}<br/><br/>Regards,<br/>TechX Team";
         public static string FirmInitiativeNotificationBody = "New Firm Initiatives have been added to the  <a href=\"http://techx/\">TechX</a> portal.{0}<br/><br/>Regards,<br/>TechX Team";
+        public static string CollectiveClientServiceTasksNotificationBody = "New Client Service Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal.{0}<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
         public static string EmailTemplatePath = "\\EmailTemplates\\email-template.html";
         public static string DCodeLogoPath = "\\Content\\Images\\tech-x-circle-logo-black-bg.png";

@@ -22,19 +22,7 @@ namespace DCode.Web
 
         public MvcApplication()
         {
-            _reportingService = new ReportingService(
-                new TaskRepository(
-                    new TaskDbContext()),
-
-                new UserRepository(
-                  new UserDbContext()),
-
-                new DailyUsageStatisticsRepository(
-                    new ReportingDbContext()),
-
-                new DbQuueryManager(),
-
-                new CommonService(new TaskRepository(
+            var commonService = new CommonService(new TaskRepository(
                     new TaskDbContext()),
                 new DCode.Models.User.UserContext(),
                 new LogRepository(
@@ -53,8 +41,25 @@ namespace DCode.Web
                 new Services.ModelFactory.OfferingModelFactory(),
                 new Services.ModelFactory.PortfolioModelFactory(),
                 new OfferingRepository(new MetadataDbContext()),
-                new PortfolioRepository(new MetadataDbContext())));
+                new PortfolioRepository(new MetadataDbContext()));
+
+
+            _reportingService = new ReportingService(
+                 new TaskRepository(
+                    new TaskDbContext()),
+
+                     new UserRepository(
+                     new UserDbContext()),
+
+                     new DailyUsageStatisticsRepository(new ReportingDbContext()),
+
+                     new DbQuueryManager(),
+
+                     commonService,
+
+                     new Services.ModelFactory.TaskModelFactory(commonService));
         }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

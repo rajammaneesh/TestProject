@@ -32,5 +32,7 @@ namespace DCode.Data.TaskRepository
         IEnumerable<task> GetProjectDetailsForNewTasksFromDateForSkill(DateTime date, string skillName);
 
         skill GetSkillByName(string name);
+
+        IEnumerable<task> GetClientServiceTasksCreatedForDateRange(DateTime startDate, DateTime endDate);
     }
 }

@@ -147,7 +147,7 @@ namespace DCode.Services.ModelFactory
             var modelTask = input as Models.ResponseModels.Task.Task;
             if (modelTask != null)
             {
-                
+
                 dbTask.COMMENTS = modelTask.Comments;
                 //dbTask.CREATED_BY = modelTask.CreatedB
                 dbTask.CREATED_ON = modelTask.CreatedOn;
@@ -166,7 +166,7 @@ namespace DCode.Services.ModelFactory
                 //dbTask.UPDATED_ON =
                 if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
                 {
-                    input.Status= dbTask.STATUS=TaskStatus.Closed.ToString();
+                    input.Status = dbTask.STATUS = TaskStatus.Closed.ToString();
                 }
             }
             return dbTask;

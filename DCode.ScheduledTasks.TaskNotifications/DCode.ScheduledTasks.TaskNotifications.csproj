@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationConstants.cs" />
+    <Compile Include="Operations\ClientServiceCollectiveTaskNotificationOperation.cs" />
     <Compile Include="Operations\FirmInitiativeNotificationOperation.cs" />
     <Compile Include="Operations\TaskNotificationsOperation.cs" />
     <Compile Include="Executable.cs" />
