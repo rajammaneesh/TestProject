@@ -57,7 +57,7 @@ namespace DCode.Services.Email
 
         public string GetSubject(ITaskNotificationSubject subject)
         {
-            return $"New Firm Initiatives available on TechX";
+            return $"New Firm Initiatives available on TX";
         }
     }
 }

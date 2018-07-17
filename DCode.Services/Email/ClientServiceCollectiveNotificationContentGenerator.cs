@@ -62,7 +62,7 @@ namespace DCode.Services.Email
 
             var subjectObject = subject as ClientServiceCollectiveTaskNotificationSubject;
 
-            return $"TechX :: New CS Tasks available for {subjectObject.Offering} offering";
+            return $"TX :: New CS Tasks available for {subjectObject.Offering} offering";
         }
     }
 }

@@ -61,7 +61,7 @@ namespace DCode.Services.Email
 
             var subjectObject = subject as ClientServiceTaskNotificationSubject;
 
-            return $"TechX :: New Task available for {subjectObject.Skill} skillset";
+            return $"TX :: New Task available for {subjectObject.Skill} skillset";
         }
     }
 }
