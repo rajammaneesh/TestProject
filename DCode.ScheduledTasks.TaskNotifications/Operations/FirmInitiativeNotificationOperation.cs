@@ -110,6 +110,10 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                   ? _reportingService.GetDummyConsultingUsers()
                   : _reportingService.GetConsultingUsersForServiceLine(Convert.ToInt32(offering));
 
+                recipients = recipients != null && recipients.Any()
+                    ? recipients
+                    : _commonService.GetDefaultConsultingMailboxes();
+
                 notifications.Add(new Notification
                 {
                     BccAddresses = recipients?.ToList(),

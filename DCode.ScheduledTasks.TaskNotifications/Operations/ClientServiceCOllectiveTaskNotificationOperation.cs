@@ -109,11 +109,17 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                         Offering = matchedOfferingRecord.Description
                     };
 
+                    var practiceEmails = matchedOfferingRecord.GetPracticeEmailGroupsAsList();
+
+                    practiceEmails = practiceEmails != null && practiceEmails.Any()
+                        ? practiceEmails
+                        : _commonService.GetDefaultConsultingMailboxes();
+
                     notifications.Add(new Notification
                     {
                         ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
 
-                        BccAddresses = matchedOfferingRecord.GetPracticeEmailGroupsAsList(),
+                        BccAddresses = practiceEmails,
 
                         Body = _notificationContentGenerator.GetEmailBody(notificationBody),
 

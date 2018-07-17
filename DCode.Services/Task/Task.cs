@@ -75,6 +75,10 @@ namespace DCode.Services.Task
                     var offeringRecipients = _commonService.GetFINotificationRecipientsForOffering(
                         Convert.ToInt32(taskRequest.SelectedServiceLine));
 
+                    offeringRecipients = offeringRecipients != null && offeringRecipients.Any()
+                        ? offeringRecipients
+                        : _commonService.GetDefaultConsultingMailboxes();
+
                     var offering = _commonService.GetOfferings()
                         .Where(x => x.Id == Convert.ToInt32(taskRequest.SelectedServiceLine))
                         .Select(x => x.Description)
