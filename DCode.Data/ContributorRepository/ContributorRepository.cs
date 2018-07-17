@@ -25,6 +25,7 @@ namespace DCode.Data.ContributorRepository
             query = Context.Set<taskskill>().Where(x => skillIds.Contains(x.SKILL_ID) && x.task.STATUS == Models.Enums.Enums.TaskStatus.Active.ToString()).OrderByDescending(x => x.CREATED_ON);
             query.Include(x => x.skill).Load();
             query.Include(x => x.task.user).Load();
+            query.Include(x => x.task.offering).Load();
             query.Include(x => x.task.service_line).Load();
             return query.ToList();
         }
@@ -46,6 +47,7 @@ namespace DCode.Data.ContributorRepository
             tasks = Context.Set<task>().Where(x => x.STATUS == Models.Enums.Enums.TaskStatus.Active.ToString());
             tasks.Include(x => x.user).Load();
             tasks.Include(x => x.service_line).Load();
+            tasks.Include(x => x.offering).Load();
             tasks.Include(x => x.taskskills.Select(y => y.skill)).Load();
             totalRecords = tasks.Count();
             var filteredRecords = tasks.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
@@ -96,6 +98,7 @@ namespace DCode.Data.ContributorRepository
             query.Include(x => x.task).Load();
             query.Include(x => x.task.user).Load();
             query.Include(x => x.task.service_line).Load();
+            query.Include(x => x.task.offering).Load();
             query.Include(x => x.user).Load();
             totalRecordsCount = query.Count();
             var filteredRecords = query.OrderByDescending(x => x.task.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
