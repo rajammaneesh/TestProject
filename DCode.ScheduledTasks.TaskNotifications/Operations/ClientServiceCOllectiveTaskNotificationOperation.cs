@@ -100,7 +100,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                     var notificationBody = new ClientServiceCollectiveTaskNotificationContent
                     {
                         ProjectData = tasksForOffering
-                            .Select(x => Tuple.Create<string, string>(x.TaskName, x.Details))
+                            .Select(x => Tuple.Create<string, string>(x.TaskName, x.Details)),
+                        OfferingName = matchedOfferingRecord.Description
                     };
 
                     var notificationSubject = new ClientServiceCollectiveTaskNotificationSubject

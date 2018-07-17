@@ -48,7 +48,7 @@ namespace DCode.Services.Email
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
             var mainBody =
-              string.Format(Constants.CollectiveClientServiceTasksNotificationBody, GetDynamicTableContent(content));
+              string.Format(Constants.CollectiveClientServiceTasksNotificationBody, GetDynamicTableContent(content), taskContent.OfferingName);
 
             return mainBody;
         }

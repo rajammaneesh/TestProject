@@ -5,6 +5,8 @@ namespace DCode.Models.Email
 {
     public class FirmInitiativeTaskNotificationContent : INotificationContent
     {
-        public IEnumerable<Tuple<string, string, string, int>> ProjectData { get; set; }
+        public IEnumerable<Tuple<string, string, string, int?>> ProjectData { get; set; }
+
+        public string OfferingName { get; set; }
     }
 }

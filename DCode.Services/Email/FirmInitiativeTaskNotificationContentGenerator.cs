@@ -47,10 +47,12 @@ namespace DCode.Services.Email
 
             var pathGenerator = _assetPathGeneratorFactory.GetGenerator(PathGeneratorType.Notification);
 
+            var fiContent = content as FirmInitiativeTaskNotificationContent;
+
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
             var mainBody =
-              string.Format(Constants.FirmInitiativeNotificationBody, GetDynamicTableContent(content));
+              string.Format(Constants.FirmInitiativeNotificationBody, GetDynamicTableContent(content), fiContent.OfferingName);
 
             return mainBody;
         }
