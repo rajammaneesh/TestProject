@@ -254,7 +254,7 @@ namespace DCode.Services.Contributor
 
                 tasks = _taskSkillModelFactory.CreateModelList<Models.ResponseModels.Task.Task>(dbTaskSkills);
             }
-
+                       
             taskList.Tasks = tasks;
             taskList.TotalRecords = totalRecords;
             var dbTaskApplicants = _contributorRepository.GetAppliedTasks(user.UserId);
