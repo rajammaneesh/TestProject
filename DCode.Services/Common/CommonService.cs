@@ -606,5 +606,12 @@ namespace DCode.Services.Common
                 ?.Split(',')
                 ?.ToList();
         }
+
+        public List<string> GetDefaultConsultingMailboxes()
+        {
+            var defaultConsultingMailboxes = ConfigurationManager.AppSettings["DefaultConsultingMailboxes"];
+
+            return defaultConsultingMailboxes?.Split(',')?.ToList();
+        }
     }
 }
