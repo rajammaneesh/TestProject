@@ -48,15 +48,16 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         {
             if (NeedsExecution())
             {
-                var tasksCreatedFromLastTwoDays =
-                    _reportingService.GetNotificationsForCollectiveCSTasks(2);
+                var tasksCreatedFromDateRange =
+                    _reportingService.GetNotificationsForCollectiveCSTasks(
+                        GetExecutionDateRange());
 
-                if (tasksCreatedFromLastTwoDays == null)
+                if (tasksCreatedFromDateRange == null)
                 {
                     return;
                 }
 
-                var notifications = GetNotificationsFromTasks(tasksCreatedFromLastTwoDays);
+                var notifications = GetNotificationsFromTasks(tasksCreatedFromDateRange);
 
                 if (notifications == null)
                 {
@@ -69,9 +70,17 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private bool NeedsExecution()
         {
-            var dayOfYear = DateTime.Now.DayOfYear;
+            return DateTime.Now.DayOfWeek == DayOfWeek.Tuesday
+                  || DateTime.Now.DayOfWeek == DayOfWeek.Thursday;
+        }
 
-            return dayOfYear % 2 == 0;
+        private int GetExecutionDateRange()
+        {
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                return 4;
+            }
+            return 1;
         }
 
         private IEnumerable<Notification> GetNotificationsFromTasks(IEnumerable<Task> tasks)
@@ -100,7 +109,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                     var notificationBody = new ClientServiceCollectiveTaskNotificationContent
                     {
                         ProjectData = tasksForOffering
-                            .Select(x => Tuple.Create<string, string>(x.TaskName, x.Details))
+                            .Select(x => Tuple.Create<string, string>(x.TaskName, x.Details)),
+                        OfferingName = matchedOfferingRecord.Description
                     };
 
                     var notificationSubject = new ClientServiceCollectiveTaskNotificationSubject
@@ -108,11 +118,17 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                         Offering = matchedOfferingRecord.Description
                     };
 
+                    var practiceEmails = matchedOfferingRecord.GetPracticeEmailGroupsAsList();
+
+                    practiceEmails = practiceEmails != null && practiceEmails.Any()
+                        ? practiceEmails
+                        : _commonService.GetDefaultConsultingMailboxes();
+
                     notifications.Add(new Notification
                     {
                         ToAddresses = ConfigurationManager.AppSettings[Constants.DcodeEmailId],
 
-                        BccAddresses = matchedOfferingRecord.GetPracticeEmailGroupsAsList(),
+                        BccAddresses = practiceEmails,
 
                         Body = _notificationContentGenerator.GetEmailBody(notificationBody),
 

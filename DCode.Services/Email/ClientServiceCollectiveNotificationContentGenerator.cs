@@ -48,7 +48,7 @@ namespace DCode.Services.Email
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
             var mainBody =
-              string.Format(Constants.CollectiveClientServiceTasksNotificationBody, GetDynamicTableContent(content));
+              string.Format(Constants.CollectiveClientServiceTasksNotificationBody, GetDynamicTableContent(content), taskContent.OfferingName);
 
             return mainBody;
         }
@@ -62,7 +62,7 @@ namespace DCode.Services.Email
 
             var subjectObject = subject as ClientServiceCollectiveTaskNotificationSubject;
 
-            return $"TechX :: New CS Tasks available for {subjectObject.Offering} offering";
+            return $"TX :: New CS Tasks available for {subjectObject.Offering} offering";
         }
     }
 }

@@ -142,6 +142,9 @@
     <Content Include="Content\Images\Deloite_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Images\tech-x-circle-logo-black-bg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\tech-x-logo-black-bg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

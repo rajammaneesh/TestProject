@@ -47,17 +47,19 @@ namespace DCode.Services.Email
 
             var pathGenerator = _assetPathGeneratorFactory.GetGenerator(PathGeneratorType.Notification);
 
+            var fiContent = content as FirmInitiativeTaskNotificationContent;
+
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
             var mainBody =
-              string.Format(Constants.FirmInitiativeNotificationBody, GetDynamicTableContent(content));
+              string.Format(Constants.FirmInitiativeNotificationBody, GetDynamicTableContent(content), fiContent.OfferingName);
 
             return mainBody;
         }
 
         public string GetSubject(ITaskNotificationSubject subject)
         {
-            return $"New Firm Initiatives available on TechX";
+            return $"New Firm Initiatives available on TX";
         }
     }
 }

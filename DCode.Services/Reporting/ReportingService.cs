@@ -111,7 +111,7 @@ namespace DCode.Services.Reporting
             return recipientEmailsFromConfig;
         }
 
-        public IEnumerable<Tuple<string, string, string, int>> GetFirmInitiativeTasksCreatedYesterday()
+        public IEnumerable<Tuple<string, string, string, int?>> GetFirmInitiativeTasksCreatedYesterday()
         {
             var result =
                 _taskRepository.GetFirmInitiativesForDate(DateTime.Now.AddDays(-1));
@@ -121,16 +121,16 @@ namespace DCode.Services.Reporting
                 return null;
             }
 
-            var mappedResult = new List<Tuple<string, string, string, int>>();
+            var mappedResult = new List<Tuple<string, string, string, int?>>();
 
             foreach (var resultItem in result)
             {
                 mappedResult.Add(
-                    Tuple.Create<string, string, string, int>(
+                    Tuple.Create<string, string, string, int?>(
                         resultItem.TASK_NAME,
                         resultItem.DETAILS,
                         resultItem.taskskills.FirstOrDefault().skill.VALUE,
-                        resultItem.SERVICE_LINE_ID));
+                        resultItem.OFFERING_ID));
             }
 
             return mappedResult;

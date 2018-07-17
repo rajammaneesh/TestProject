@@ -46,5 +46,7 @@ namespace DCode.Services.Common
         List<string> GetFINotificationRecipientsForOffering(int serviceLineCode);
 
         IEnumerable<PortfolioOffering> GetPortfolioOfferings();
+
+        List<string> GetDefaultConsultingMailboxes();
     }
 }

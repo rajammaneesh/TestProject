@@ -124,6 +124,8 @@ namespace DCode.Services.Contributor
 
                     var RMGroupEmailAddress = _commonService.GetRMGroupEmailAddress(user.Department);
 
+                    var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
+
                     EmailHelper.ApplyNotification(
                         managerName,
                         $"{user.FirstName}{Constants.Space}{user.LastName}",
@@ -132,7 +134,8 @@ namespace DCode.Services.Contributor
                         $"{task.HOURS.ToString()}h",
                         task.ONBOARDING_DATE.Value.ToShortDateString(),
                         emailAddress,
-                        $"{user.EmailId};{RMGroupEmailAddress}");
+                        $"{user.EmailId};{RMGroupEmailAddress}",
+                        offering);
 
 
                 }
@@ -171,6 +174,11 @@ namespace DCode.Services.Contributor
 
                     var task = _taskRepository.GetTaskById(taskId);
 
+                    var offering = _commonService.GetOfferings()
+                        .Where(x => x.Id == task.OFFERING_ID)
+                        .Select(x => x.Description)
+                        .FirstOrDefault();
+
                     EmailHelper.ApplyFINotification(
                         requestorName,
                         $"{user.FirstName}{Constants.Space}{user.LastName}",
@@ -179,7 +187,8 @@ namespace DCode.Services.Contributor
                         task.HOURS.ToString(),
                          task.ONBOARDING_DATE.Value.ToShortDateString(),
                          requestor,
-                         user.EmailId);
+                         user.EmailId,
+                         offering);
                 }
 
                 return result;

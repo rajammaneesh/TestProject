@@ -128,10 +128,10 @@ namespace DCode.Web.Controllers
 
         public JsonResult testemail()
         {
-            EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com");
-            EmailHelper.ReviewNotification("User", "task", "projectname", "risen@deloitte.com", "risen@deloitte.com");
-            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Approved, "risen@deloitte.com", "risen@deloitte.com");
-            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Rejected, "risen@deloitte.com", "risen@deloitte.com");
+            EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com", "Test Offering");
+            EmailHelper.ReviewNotification("User", "task", "projectname", "risen@deloitte.com", "risen@deloitte.com", "test Offering");
+            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Approved, "risen@deloitte.com", "risen@deloitte.com", "Test Offering");
+            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Rejected, "risen@deloitte.com", "risen@deloitte.com", "Test Offering");
             return Json("succes", JsonRequestBehavior.AllowGet);
         }
 

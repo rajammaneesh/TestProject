@@ -117,6 +117,7 @@ namespace DCode.Services.Requestor
             if (result > 0)
             {
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
+                var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
                 var applicantUserContext = _commonService.MapDetailsFromDeloitteNetworkWithoutUserContextObject(applicant.user.EMAIL_ID.Split('@')[0]);
                 var RMGroupEmailAddress = _commonService.GetRMGroupEmailAddress(applicantUserContext.Department);
@@ -125,7 +126,7 @@ namespace DCode.Services.Requestor
                     ? $"{userContext.EmailId};{applicant.user.MANAGER_EMAIL_ID};{RMGroupEmailAddress}"
                     : userContext.EmailId;
 
-                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, ccEmailAddress);
+                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, ccEmailAddress, offering);
             }
             return result;
         }
@@ -213,7 +214,7 @@ namespace DCode.Services.Requestor
             IEnumerable<taskapplicant> dbTaskApplicants;
 
             dbTaskApplicants = _requestorRepository.GetTaskApplicantsForPermissions(currentPageIndex, recordsCount, user.EmailId, out totalRecords);
-            
+
             foreach (var dbTaskApp in dbTaskApplicants)
             {
                 var permissionsTask = new PermissionsTask();
@@ -240,9 +241,10 @@ namespace DCode.Services.Requestor
             if (result > 0)
             {
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
+                var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
                 var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
-                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress);
+                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress, offering);
             }
 
             return result;
@@ -260,9 +262,10 @@ namespace DCode.Services.Requestor
             if (status > 0)
             {
                 var task = _taskRepository.GetTaskById(rejectTaskRequest.TaskId);
+                var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(rejectTaskRequest.TaskApplicantId);
                 var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
-                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Rejected, applicant.user.EMAIL_ID, ccMailAddress);
+                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Rejected, applicant.user.EMAIL_ID, ccMailAddress, offering);
             }
             return status;
         }

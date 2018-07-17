@@ -20,6 +20,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private readonly ILoggerService _logService;
 
+        private readonly ICommonService _commonService;
+
         private readonly INotificationContentFactory _notificationContentFactory;
 
         private readonly ITaskNotificationContent _notificationContentGenerator;
@@ -31,6 +33,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
             _emailService = kernel.Get<EmailService>();
 
             _logService = kernel.Get<LoggerService>();
+
+            _commonService = kernel.Get<CommonService>();
 
             _notificationContentFactory = kernel.Get<NotificationContentFactory>();
 
@@ -81,7 +85,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
         }
 
         private IEnumerable<Notification> GetNotificationsForNewFirmInitiatives(
-            IEnumerable<Tuple<string, string, string, Int32>> projectData)
+            IEnumerable<Tuple<string, string, string, Int32?>> projectData)
         {
             List<Notification> notifications = null;
 
@@ -90,18 +94,25 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 notifications = new List<Notification>();
             }
 
-            var serviceLines = projectData.Select(x => x.Item4).Distinct();
+            var offerings = projectData.Select(x => x.Item4).Distinct();
 
-            foreach (var serviceLine in serviceLines)
+            var offeringsColl = _commonService.GetOfferings();
+
+            foreach (var offering in offerings)
             {
                 var bodyRequest = new FirmInitiativeTaskNotificationContent
                 {
-                    ProjectData = projectData.Where(x => x.Item4 == serviceLine)
+                    ProjectData = projectData.Where(x => x.Item4 == offering),
+                    OfferingName = offeringsColl.Where(x => x.Id == Convert.ToInt32(offering)).Select(x => x.Description).FirstOrDefault()
                 };
 
                 var recipients = ConfigurationManager.AppSettings["TestMode"] == "true"
                   ? _reportingService.GetDummyConsultingUsers()
-                  : _reportingService.GetConsultingUsersForServiceLine(serviceLine);
+                  : _reportingService.GetConsultingUsersForServiceLine(Convert.ToInt32(offering));
+
+                recipients = recipients != null && recipients.Any()
+                    ? recipients
+                    : _commonService.GetDefaultConsultingMailboxes();
 
                 notifications.Add(new Notification
                 {
