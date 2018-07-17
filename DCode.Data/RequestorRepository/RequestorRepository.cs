@@ -98,6 +98,7 @@ namespace DCode.Data.RequestorRepository
             query = Context.Set<approvedapplicant>().Where(x => taskIdList.Contains(x.TASK_ID));
             query.Include(x => x.user).Load();
             query.Include(x => x.task).Load();
+            query.Include(x => x.task.offering).Load();
             query.Include(x => x.task.service_line).Load();
             totalRecords = query.Count();
 
