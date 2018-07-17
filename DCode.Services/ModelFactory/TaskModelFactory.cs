@@ -72,6 +72,7 @@ namespace DCode.Services.ModelFactory
                 task.Duration = CommonHelper.CalculateDuration(input.CREATED_ON);
                 task.TaskName = input.TASK_NAME;
                 task.Offering = input.offering?.Description;
+                task.OfferingId = Convert.ToString(input.OFFERING_ID);
             }
             return task;
         }
