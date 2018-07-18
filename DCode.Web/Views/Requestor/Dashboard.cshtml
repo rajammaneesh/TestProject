@@ -5,7 +5,7 @@
 }
 
 <div class="main no-padding-left-right" ng-controller="requestorController">
-    <div style="background:white;width:100%;height:50px;">
+    <div style="background:white;width:100%;height:50px;padding-top: 10px;">
         <div class="new-style-DTM-dashboard-menu" @*style="width: 50% !important;"*@>
             <div class="top-menu">
                 <ul class="nav">
@@ -28,7 +28,7 @@
                 <div style="float:left; padding-top: 5px;" ng-show="dashboard.showApproval||dashboard.showTaskStatus">Task Type &nbsp;</div>
                 <div class="input-group new-select-detail">
                     <select class="form-control new-SelectWidth" style="border-radius: 5px;" ng-show="dashboard.showApproval" id="ddlTaskApplicationsTaskType" ng-model="selectedTaskTypes.taskApplications" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskApplications()"></select>
-                    <select class="form-control new-SelectWidth" style="border-radius: 5px;"  ng-show="dashboard.showTaskStatus" id="ddlTaskStatusTaskType" ng-model="selectedTaskTypes.taskStatus" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskStatus()"></select>
+                    <select class="form-control new-SelectWidth" style="border-radius: 5px;" ng-show="dashboard.showTaskStatus" id="ddlTaskStatusTaskType" ng-model="selectedTaskTypes.taskStatus" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" ng-change="changeTaskTypeForTaskStatus()"></select>
 
                 </div>
             </div>
@@ -38,14 +38,14 @@
                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                 </span>
             </div>
-    </div>
-    <div style="clear:both;"></div>
-    <div style="width:100%;" class="new-overall-div-padding">
-        <div class="new-style-DTM-renderbody-inner">
-            @{Html.RenderPartial("_RequestorTaskApplications");}
-            @{Html.RenderPartial("_RequestorTaskHistory");}
-            @{Html.RenderPartial("_RequestorTaskStatus");}
+        </div>
+        <div style="clear:both;"></div>
+        <div style="width:100%;" class="new-overall-div-padding">
+            <div class="new-style-DTM-renderbody-inner">
+                @{Html.RenderPartial("_RequestorTaskApplications");}
+                @{Html.RenderPartial("_RequestorTaskHistory");}
+                @{Html.RenderPartial("_RequestorTaskStatus");}
+            </div>
         </div>
     </div>
-</div>
 
