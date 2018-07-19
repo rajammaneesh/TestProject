@@ -603,7 +603,7 @@ namespace DCode.Services.Common
             var appSettingValue = matchingOffering;
 
             return appSettingValue
-                ?.Split(',')
+                ?.Split(';')
                 ?.ToList();
         }
 
