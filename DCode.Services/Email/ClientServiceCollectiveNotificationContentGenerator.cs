@@ -27,11 +27,11 @@ namespace DCode.Services.Email
 
             var tableHtml = string.Empty;
 
-            tableHtml += $"<tr><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Task Name</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Task Description</th></tr>";
+            tableHtml += $"<tr><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Task Name</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Task Description</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Requestor</th></tr>";
 
             foreach (var item in tableContent.ProjectData)
             {
-                tableHtml += $"<tr><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item1}</td><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item2}</td></tr>";
+                tableHtml += $"<tr><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item1}</td><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item2}</td><td style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>{item.Item3}</td></tr>";
             }
 
             var finalTableHtml = $"<table style='border-collapse:collapse;width:80%;'>{tableHtml}</table>";
@@ -62,7 +62,7 @@ namespace DCode.Services.Email
 
             var subjectObject = subject as ClientServiceCollectiveTaskNotificationSubject;
 
-            return $"TX :: New CS Tasks available for {subjectObject.Offering} offering";
+            return $"TechX :: New CS Tasks available for {subjectObject.Offering} offering";
         }
     }
 }
