@@ -186,6 +186,8 @@ namespace DCode.Data.TaskRepository
                     && x.CREATED_ON <= endDate
                     && x.STATUS == Enums.TaskStatus.Active.ToString());
 
+            query.Include(x => x.user).Load();
+
             return query.ToList();
         }
     }
