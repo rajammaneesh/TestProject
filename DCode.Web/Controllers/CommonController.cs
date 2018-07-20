@@ -34,19 +34,20 @@ namespace DCode.Web.Controllers
         {
             var userContext = _commonService.GetCurrentUserContext();
 
-            if (userContext.EmailId != "risen@deloitte.com")
+            if (userContext.EmailId == "risen@deloitte.com"
+                || userContext.EmailId == "shirastogi@deloitte.com")
             {
-                TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
+                if (TempData.ContainsKey("RecordsModel"))
+                {
+                    return View(TempData["RecordsModel"]);
+                }
 
-                return RedirectToAction("Index", "Error");
+                return View();
             }
 
-            if (TempData.ContainsKey("RecordsModel"))
-            {
-                return View(TempData["RecordsModel"]);
-            }
+            TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
 
-            return View();
+            return RedirectToAction("Index", "Error");
         }
 
         [HttpPost]
