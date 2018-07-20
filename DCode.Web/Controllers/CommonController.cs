@@ -32,6 +32,15 @@ namespace DCode.Web.Controllers
         [HttpGet]
         public ActionResult GetRecords()
         {
+            var userContext = _commonService.GetCurrentUserContext();
+
+            if (userContext.EmailId != "risen@deloitte.com")
+            {
+                TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
+
+                return RedirectToAction("Index", "Error");
+            }
+
             if (TempData.ContainsKey("RecordsModel"))
             {
                 return View(TempData["RecordsModel"]);
@@ -49,7 +58,6 @@ namespace DCode.Web.Controllers
                 model.Query = null;
             }
             else if (model.Query.Trim().StartsWith("insert", System.StringComparison.CurrentCultureIgnoreCase)
-                || model.Query.Trim().StartsWith("update", System.StringComparison.CurrentCultureIgnoreCase)
                 || model.Query.Trim().StartsWith("delete", System.StringComparison.CurrentCultureIgnoreCase))
             {
                 model.Query = null;

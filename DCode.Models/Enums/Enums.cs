@@ -26,6 +26,9 @@ namespace DCode.Models.Enums
             [Description("You are not permitted to access this portal as you are not a USI practitioner")]
             NonUsiPractitioner,
 
+            [Description("You are unauthorized to view this page")]
+            Unauthorized,
+
             [Description("An unknown error occurred while processing your request.")]
             Unknown
         }
