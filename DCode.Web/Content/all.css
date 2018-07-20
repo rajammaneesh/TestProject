@@ -1617,13 +1617,16 @@ input.edit-task-btn.width110 {
 }
 
 .new-style-DTM-layout-logo {
-    height: 200px;
-    width: 200px;
+    height: 140px;
+    background: white;
+    width: 100%;
+    padding-left: 30px;
+    padding-top: 10px;
 }
 
 .new-style-DTM-layout-logo-image {
-    height: 200px;
-    width: 200px;
+    height: 130px;
+    width: 260px;
 }
 
 
@@ -1790,7 +1793,7 @@ input.edit-task-btn.width110 {
     width: 50%;
 }
 
-.new-float-left {
+/*.new-float-left {
     float: left !important;
 }
 
@@ -1800,7 +1803,7 @@ input.edit-task-btn.width110 {
 
 .new-push-to-right {
     float: right !important;
-}
+}*/
 
 .new-span-width-span {
     float: left;
@@ -1901,7 +1904,7 @@ input.edit-task-btn.width110 {
         float: left;
     }
 
-    .new-push-to-right {
+    /*.new-push-to-right {
         float: none !important;
     }
 
@@ -1912,23 +1915,21 @@ input.edit-task-btn.width110 {
     .new-float-left {
         float: none;
         padding-top: 5px;
-    }
+    }*/
 
     .new-SelectWidth {
         width: 75%;
     }
 
-    .new-search-by-project {
+    /*.new-search-by-project {
         float: none;
-        /*padding: 4px;
-        padding-left: 10px;*/
         padding-top: 10px;
         width: 100%;
     }
 
     .new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
-    }
+    }*/
 
     .new-style-DTM-div-middle-33 {
         display: none;
@@ -2121,11 +2122,11 @@ input.edit-task-btn.width110 {
         float: left;
     }
 
-    .new-push-to-right {
+    /*.new-push-to-right {
         float: none !important;
-    }
+    }*/
 
-    .new-overall-div-padding {
+    /*.new-overall-div-padding {
         padding-top: 50px;
     }
 
@@ -2136,19 +2137,17 @@ input.edit-task-btn.width110 {
 
     .new-SelectWidth {
         width: 75%;
-    }
+    }*/
 
-    .new-search-by-project {
+    /*.new-search-by-project {
         float: none;
-        /*padding: 4px;
-        padding-left: 10px;*/
         padding-top: 10px;
         width: 100%;
-    }
+    }*/
 
-    .new-style-DTM-padding-left-profile-shortName {
+    /*.new-style-DTM-padding-left-profile-shortName {
         padding-left: 120px !important;
-    }
+    }*/
 
     .new-style-DTM-div-middle-33 {
         display: none;
@@ -2292,13 +2291,13 @@ input.edit-task-btn.width110 {
     }
 
     .new-style-DTM-layout-logo {
-        height: 200px;
-        width: 200px;
+        height: 100px;
+        padding-left: 10px;
     }
 
     .new-style-DTM-layout-logo-image {
-        height: 200px;
-        width: 200px;
+        height: 90px;
+        width: 180px;
     }
 
     .new-style-DTM-tracking-main {
