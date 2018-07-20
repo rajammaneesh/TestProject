@@ -6,6 +6,8 @@ using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 using static DCode.Models.Enums.Enums;
 
@@ -32,12 +34,24 @@ namespace DCode.Web.Controllers
         [HttpGet]
         public ActionResult GetRecords()
         {
-            if (TempData.ContainsKey("RecordsModel"))
+            var userContext = _commonService.GetCurrentUserContext();
+
+            var internalUsers = ConfigurationManager.AppSettings["InternalAdminUsers"];
+
+            if (internalUsers != null
+                && internalUsers.Split(',').Any(x => x == userContext.EmailId))
             {
-                return View(TempData["RecordsModel"]);
+                if (TempData.ContainsKey("RecordsModel"))
+                {
+                    return View(TempData["RecordsModel"]);
+                }
+
+                return View();
             }
 
-            return View();
+            TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
+
+            return RedirectToAction("Index", "Error");
         }
 
         [HttpPost]
@@ -49,7 +63,6 @@ namespace DCode.Web.Controllers
                 model.Query = null;
             }
             else if (model.Query.Trim().StartsWith("insert", System.StringComparison.CurrentCultureIgnoreCase)
-                || model.Query.Trim().StartsWith("update", System.StringComparison.CurrentCultureIgnoreCase)
                 || model.Query.Trim().StartsWith("delete", System.StringComparison.CurrentCultureIgnoreCase))
             {
                 model.Query = null;
