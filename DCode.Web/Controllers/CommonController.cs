@@ -6,6 +6,8 @@ using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 using static DCode.Models.Enums.Enums;
 
@@ -34,8 +36,10 @@ namespace DCode.Web.Controllers
         {
             var userContext = _commonService.GetCurrentUserContext();
 
-            if (userContext.EmailId == "risen@deloitte.com"
-                || userContext.EmailId == "shirastogi@deloitte.com")
+            var internalUsers = ConfigurationManager.AppSettings["InternalAdminUsers"];
+
+            if (internalUsers != null
+                && internalUsers.Split(',').Any(x => x == userContext.EmailId))
             {
                 if (TempData.ContainsKey("RecordsModel"))
                 {
