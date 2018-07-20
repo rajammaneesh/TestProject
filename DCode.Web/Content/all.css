@@ -1617,13 +1617,16 @@ input.edit-task-btn.width110 {
 }
 
 .new-style-DTM-layout-logo {
-    height: 200px;
-    width: 200px;
+    height: 140px;
+    background: white;
+    width: 100%;
+    padding-left: 30px;
+    padding-top: 10px;
 }
 
 .new-style-DTM-layout-logo-image {
-    height: 200px;
-    width: 200px;
+    height: 130px;
+    width: 260px;
 }
 
 
@@ -1920,8 +1923,6 @@ input.edit-task-btn.width110 {
 
     .new-search-by-project {
         float: none;
-        /*padding: 4px;
-        padding-left: 10px;*/
         padding-top: 10px;
         width: 100%;
     }
@@ -2140,8 +2141,6 @@ input.edit-task-btn.width110 {
 
     .new-search-by-project {
         float: none;
-        /*padding: 4px;
-        padding-left: 10px;*/
         padding-top: 10px;
         width: 100%;
     }
@@ -2292,13 +2291,13 @@ input.edit-task-btn.width110 {
     }
 
     .new-style-DTM-layout-logo {
-        height: 200px;
-        width: 200px;
+        height: 100px;
+        padding-left: 10px;
     }
 
     .new-style-DTM-layout-logo-image {
-        height: 200px;
-        width: 200px;
+        height: 90px;
+        width: 180px;
     }
 
     .new-style-DTM-tracking-main {

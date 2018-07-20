@@ -75,7 +75,7 @@ namespace DCode.Common
         public static string CollectiveClientServiceTasksNotificationBody = "New Client Service Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the <b>{1}</b> offering.{0}<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
         public static string EmailTemplatePath = "\\EmailTemplates\\email-template.html";
-        public static string DCodeLogoPath = "\\Content\\Images\\tech-x-circle-logo-black-bg.png";
+        public static string DCodeLogoPath = "\\Content\\Images\\tech-x-logo-black-bg.png";
         public static string Deloittepath = "\\Content\\Images\\Deloite_logo.png";
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
         public const string FirmInitiativeSkillRecord = "Firm Initiative";
