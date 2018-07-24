@@ -609,9 +609,18 @@ namespace DCode.Services.Common
 
         public List<string> GetDefaultConsultingMailboxes()
         {
-            var defaultConsultingMailboxes = ConfigurationManager.AppSettings["DefaultConsultingMailboxes"];
+             var offerings = GetOfferings();
 
-            return defaultConsultingMailboxes?.Split(',')?.ToList();
+            var practiceEmails = offerings
+                .Where(x => !string.IsNullOrEmpty(x.PracticeEmailGroup))
+                .SelectMany(x => x.GetPracticeEmailGroupsAsList())
+                ?.Distinct()
+                ?.ToList();
+
+            practiceEmails
+                ?.RemoveAll(x => string.IsNullOrEmpty(x?.Trim()));
+
+            return practiceEmails;
         }
     }
 }
