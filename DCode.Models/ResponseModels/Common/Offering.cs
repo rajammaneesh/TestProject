@@ -31,7 +31,7 @@ namespace DCode.Models.ResponseModels.Common
 
         private List<string> SplitEmailsToList(string emailString)
         {
-            return emailString?.Split(',')?.ToList();
+            return emailString?.Split(';')?.ToList();
         }
     }
 }
