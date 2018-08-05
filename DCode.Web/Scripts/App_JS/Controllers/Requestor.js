@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('requestorController', RequestorController);
+        .controller('requestorController', RequestorController);
 
     RequestorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService', '$uibModal', '$log'];
 
@@ -22,7 +22,7 @@
         $scope.searchBox = { text: null };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false };
         $scope.taskStatusVisibility = { showFirst: true };
-        $scope.taskTypes = [{ Id: 1, Description: "Client Service" }, { Id: 2, Description: "Firm Initiative" }];
+        initializeTaskTypes();
         $scope.selectedTaskTypes = {
             taskApplications: 1,
             taskStatus: 1,
@@ -82,7 +82,7 @@
                 $scope.dashboard.showApproval = false;
                 $scope.dashboard.showTaskStatus = false;
                 $scope.dashboard.showHistory = true;
-                $("#projectNam").attr("placeholder", "Search by Project Name/Firm Initiative");
+                $("#projectNam").attr("placeholder", "Search by project/initiative name");
             }
             //$scope.$apply();
             //$scope.$digest();
@@ -251,7 +251,7 @@
                 TaskId: task.Id,
                 ApplicantId: applicant.ApplicantId,
                 TaskApplicantId: applicant.TaskApplicantId,
-                TaskTypeId:task.TypeId
+                TaskTypeId: task.TypeId
             };
             $http({
                 method: 'POST',
@@ -300,17 +300,17 @@
         }
 
         $scope.closeTheTask = function (task, index) {
-           $http({
+            $http({
                 method: 'POST',
                 url: '/Task/CloseTask',
-                data: {               
+                data: {
                     taskId: task.Task.Id
                 },
                 aync: true,
-           }).success(function (task, tasks,index) {
-               $scope.taskApplicants.splice(index, 1);
-               $scope.getTaskHistory();
-           })
+            }).success(function (task, tasks, index) {
+                $scope.taskApplicants.splice(index, 1);
+                $scope.getTaskHistory();
+            })
         }
 
         $scope.reviewApplicant = function (task, applicant, approvalApplicantId) {
@@ -358,13 +358,17 @@
             //$scope.getStatusOftasks();
         }
         $scope.onLoad();
+
+        function initializeTaskTypes() {
+            $scope.taskTypes = [{ Id: 1, Description: "Client Service" }, { Id: 2, Description: "Firm Initiative" }, { Id: 3, Description: "Industry Initiative" }];
+        }
     }
 })();
 
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('modalInstanceCtrl', ModalInstanceCtrl);
+        .controller('modalInstanceCtrl', ModalInstanceCtrl);
 
     ModalInstanceCtrl.$inject = ['$scope', '$uibModal'];
 
@@ -381,7 +385,7 @@
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('newTaskController', NewTaskController);
+        .controller('newTaskController', NewTaskController);
 
     NewTaskController.$inject = ['$scope', '$http', '$rootScope', '$filter', 'UserContextService'];
 
@@ -390,7 +394,7 @@
             {
                 ProjectName: "",
                 OnBoardingDate: "",
-                Description:"",
+                Description: "",
                 DueDate: "",
                 WBSCode: "",
                 TaskName: "",
@@ -404,7 +408,7 @@
         $scope.divVisibiltyModel = { showCreate: false, showDetails: false, showSummary: false, showSuccess: false };
         $scope.skills = [];
         $scope.serviceLines = [];
-        $scope.offerings = [];
+        $scope.offerings = [$scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }];
         $scope.portfolios = [];
         $scope.taskTypes = [];
         $scope.selectedSkills = [];
@@ -416,19 +420,19 @@
 
         $scope.InitializeTaskRequest = function () {
             $scope.taskRequest =
-          {
-              ProjectName: "",
-              OnBoardingDate: "",
-              Description: "",
-              DueDate: "",
-              WBSCode: "",
-              TaskName: "",
-              Hours: "",
-              SkillSet: [],
-              IsRewardsEnabled: "",
-              SelectedOffering: '',
-              SelectedTaskType: ''
-          };
+                {
+                    ProjectName: "",
+                    OnBoardingDate: "",
+                    Description: "",
+                    DueDate: "",
+                    WBSCode: "",
+                    TaskName: "",
+                    Hours: "",
+                    SkillSet: [],
+                    IsRewardsEnabled: "",
+                    SelectedOffering: -1,
+                    SelectedTaskType: -1
+                };
         }
 
         $scope.InitializeTaskRequest();
@@ -574,7 +578,7 @@
             }
 
             //Skip wbs validation if task type is firm initiative
-            if ($scope.taskRequest.SelectedTaskType != 2) {
+            if ($scope.taskRequest.SelectedTaskType < 2) {
                 //validating WBS Code
                 if ($("#txtWBSCode").val() == '' || $("#txtWBSCode").val() == null) {
                     $("#divWBSCode").addClass("invalid");
@@ -614,7 +618,7 @@
             }
 
             //validating skill set
-            if ($scope.taskRequest.SelectedTaskType != 2) {
+            if ($scope.taskRequest.SelectedTaskType < 2) {
                 if ($("#skillsetNewTask_value").val() == '' || $("#skillsetNewTask_value").val() == null) {
                     $("#taskSkill").addClass("invalid");
                     if (!focusSet) {
@@ -626,7 +630,7 @@
             }
 
             //validating offering
-            if ($scope.taskRequest.SelectedOffering == null || $scope.taskRequest.SelectedOffering == "") {
+            if ($scope.taskRequest.SelectedOffering == null || $scope.taskRequest.SelectedOffering <= 0) {
                 $("#divServiceLine").addClass("invalid");
                 if (!focusSet) {
                     focusSet = true;
@@ -637,7 +641,7 @@
             }
 
             //validating task Type
-            if ($scope.taskRequest.SelectedTaskType == null || $scope.taskRequest.SelectedTaskType == "") {
+            if ($scope.taskRequest.SelectedTaskType == null || $scope.taskRequest.SelectedTaskType <=0) {
                 $("#divTaskType").addClass("invalid");
                 if (!focusSet) {
                     focusSet = true;
@@ -739,7 +743,7 @@
                             selectedSkill = true;
                             //$("#taskSkill").removeClass("invalid");
                         }
-                        else if ($scope.taskRequest.SelectedTaskType != null && $scope.taskRequest.SelectedTaskType == 2) {
+                        else if ($scope.taskRequest.SelectedTaskType != null && $scope.taskRequest.SelectedTaskType >= 2) {
                             $scope.taskRequest.SkillSet
                             selectedSkill = true;
                             //$("#taskSkill").removeClass("invalid");
@@ -750,22 +754,22 @@
                         }
 
                         angular.forEach($scope.offerings, function (value, index) {
-                            if ($scope.taskRequest.SelectedOffering== value.OfferingId)
+                            if ($scope.taskRequest.SelectedOffering == value.OfferingId)
                                 $scope.taskRequest.OfferingDisplay = value.OfferingCode;
                         });
 
-                        
+
 
                         //$scope.GetWBSValidation();
 
                         var wbsCheckValue = (!!$scope.taskRequest.WBSCode && $scope.taskRequest.SelectedTaskType == 1)
-                            || $scope.taskRequest.SelectedTaskType == 2;
+                            || $scope.taskRequest.SelectedTaskType >= 2;
 
                         var isvalid = !!$scope.taskRequest.ProjectName && wbsCheckValue && selectedSkill
                             && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
                             && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
 
-                        
+
                         if (isvalid) {
                             $scope.divVisibiltyModel.showSummary = true;
                             $scope.divVisibiltyModel.showDetails = false;
@@ -858,30 +862,19 @@
             });
         }
 
-        $scope.getAllOfferings = function () {
-            var reqObj = $scope.task;
+        $scope.getAllOfferings = function (Id) {
             $http({
-                url: "/Common/GetPortfolioOfferings",
+                url: "/Common/GetPortfolioOfferings?taskTypeId=" + Id,
                 method: "GET"
             }).success(function (data, status, config) {
 
                 if (data != null) {
                     $scope.offerings = data;
+                    if ($scope.offerings != null)
+                        $scope.offerings.unshift({ PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" });
                 }
-            }).error(function (error) {
-            });
-        }
-        $scope.getAllPortfolios = function () {
-            var reqObj = $scope.task;
-            $http({
-                url: "/Common/GetPortfolios",
-                method: "GET"
-            }).success(function (data, status, config) {
-
-                if (data != null) {
-                    $scope.portfolios = data;
-                }
-            }).error(function (error) {
+                }).error(function (error) {
+                    $scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }
             });
         }
 
@@ -894,16 +887,17 @@
 
                 if (data != null) {
                     $scope.taskTypes = data;
+                    if ($scope.taskTypes != null)
+                        $scope.taskTypes.unshift({ Id: -1, Description: "-- select --" });
                 }
-            }).error(function (error) {
+                }).error(function (error) {
+                    $scope.taskTypes = { Id: -1, Description: "-- select --" };
             });
         }
 
         $scope.onLoad = function () {
             $scope.isFirstTimeUser();
             $scope.getAllSkills();
-            $scope.getAllOfferings();
-            $scope.getAllPortfolios();
             $scope.getAllTaskTypes();
         }
         $scope.onLoad();
@@ -923,7 +917,7 @@
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('historyController', HistoryController);
+        .controller('historyController', HistoryController);
 
     HistoryController.$inject = ['$scope', '$http', '$rootScope', 'UserContextService'];
 

@@ -286,7 +286,7 @@ namespace DCode.Services.Common
                 if (dbUser.notification_subscription != null && dbUser.notification_subscription.Any())
                 {
                     _userContext.IsSubscribedToNotifications
-                        = dbUser.notification_subscription.First().subscription_status;
+                        = dbUser.notification_subscription.First().SUBSCRIPTION_STATUS;
                 }
             }
             else
@@ -470,10 +470,10 @@ namespace DCode.Services.Common
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
         }
 
-        public IEnumerable<PortfolioOffering> GetPortfolioOfferings()
+        public IEnumerable<PortfolioOffering> GetPortfolioOfferings(int taskTypeId)
         {
             var offeringsDisplayList = new List<PortfolioOffering>();
-            var portfolios = _portfolioRepository.GetPortfoliosOfferings();
+            var portfolios = _portfolioRepository.GetPortfoliosOfferings(taskTypeId);
 
             foreach (var portfolio in portfolios)
             {

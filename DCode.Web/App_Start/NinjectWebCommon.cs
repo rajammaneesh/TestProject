@@ -8,8 +8,6 @@ namespace DCode.Web.App_Start
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-    using Ninject;
-    using Ninject.Web.Common;
     using DCode.Services.Requestor;
     using DCode.Data.TaskRepository;
     using DCode.Services.Common;
@@ -24,6 +22,9 @@ namespace DCode.Web.App_Start
     using Data.UserRepository;
     using DCode.Models.Management;
     using Data.DbContexts;
+    using Ninject.Web.Common;
+    using Ninject;
+    using Ninject.Web.Common.WebHost;
 
     public static class NinjectWebCommon
     {

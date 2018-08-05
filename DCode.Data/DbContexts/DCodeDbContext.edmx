@@ -73,11 +73,11 @@
         </EntityType>
         <EntityType Name="notification_subscription">
           <Key>
-            <PropertyRef Name="notification_subscription_id" />
+            <PropertyRef Name="NOTIFICATION_SUBSCRIPTION_ID" />
           </Key>
-          <Property Name="notification_subscription_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="user_id" Type="int" Nullable="false" />
-          <Property Name="subscription_status" Type="bit" Nullable="false" />
+          <Property Name="NOTIFICATION_SUBSCRIPTION_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USER_ID" Type="int" Nullable="false" />
+          <Property Name="SUBSCRIPTION_STATUS" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="offerings">
           <Key>
@@ -89,6 +89,14 @@
           <Property Name="Code" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="RM_Email_Group" Type="longtext" />
           <Property Name="Practice_Email_Group" Type="longtext" />
+        </EntityType>
+        <EntityType Name="portfolio_tasktype">
+          <Key>
+            <PropertyRef Name="portfolioId" />
+            <PropertyRef Name="tasktypeId" />
+          </Key>
+          <Property Name="portfolioId" Type="int" Nullable="false" />
+          <Property Name="tasktypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="portfolios">
           <Key>
@@ -259,6 +267,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Portfolio">
+          <End Role="portfolios" Type="Self.portfolios" Multiplicity="1" />
+          <End Role="portfolio_tasktype" Type="Self.portfolio_tasktype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="portfolios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="portfolio_tasktype">
+              <PropertyRef Name="portfolioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskType">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
+          <End Role="portfolio_tasktype" Type="Self.portfolio_tasktype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="portfolio_tasktype">
+              <PropertyRef Name="tasktypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USERS_NOTIFICATION_STATUS">
           <End Role="users" Type="Self.users" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -269,7 +301,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="notification_subscription">
-              <PropertyRef Name="user_id" />
+              <PropertyRef Name="USER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -411,6 +443,7 @@
           <EntitySet Name="log" EntityType="Self.log" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="offerings" EntityType="Self.offerings" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="portfolio_tasktype" EntityType="Self.portfolio_tasktype" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="portfolios" EntityType="Self.portfolios" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
@@ -435,6 +468,14 @@
           <AssociationSet Name="approvedapplicant_ibfk_2" Association="Self.approvedapplicant_ibfk_2">
             <End Role="tasks" EntitySet="tasks" />
             <End Role="approvedapplicant" EntitySet="approvedapplicant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Portfolio" Association="Self.FK_Portfolio">
+            <End Role="portfolios" EntitySet="portfolios" />
+            <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskType" Association="Self.FK_TaskType">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
           </AssociationSet>
           <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="Self.FK_USERS_NOTIFICATION_STATUS">
             <End Role="users" EntitySet="users" />
@@ -505,7 +546,6 @@
           <EntitySet Name="daily_usage_statistics" EntityType="DCodeDbContext.daily_usage_statistics" />
           <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
           <EntitySet Name="logs" EntityType="DCodeDbContext.log" />
-          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
           <EntitySet Name="offerings" EntityType="DCodeDbContext.offering" />
           <EntitySet Name="portfolios" EntityType="DCodeDbContext.portfolio" />
           <EntitySet Name="service_line" EntityType="DCodeDbContext.service_line" />
@@ -531,10 +571,6 @@
           <AssociationSet Name="approvedapplicant_ibfk_2" Association="DCodeDbContext.approvedapplicant_ibfk_2">
             <End Role="task" EntitySet="tasks" />
             <End Role="approvedapplicant" EntitySet="approvedapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
-            <End Role="user" EntitySet="users" />
-            <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
           <AssociationSet Name="PORT_OFFR_FK" Association="DCodeDbContext.PORT_OFFR_FK">
             <End Role="portfolio" EntitySet="portfolios" />
@@ -571,6 +607,15 @@
           <AssociationSet Name="taskskills_ibfk_1" Association="DCodeDbContext.taskskills_ibfk_1">
             <End Role="task" EntitySet="tasks" />
             <End Role="taskskill" EntitySet="taskskills" />
+          </AssociationSet>
+          <AssociationSet Name="portfolio_tasktype" Association="DCodeDbContext.portfolio_tasktype">
+            <End Role="portfolio" EntitySet="portfolios" />
+            <End Role="task_type" EntitySet="task_type" />
+          </AssociationSet>
+          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
+          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
+            <End Role="user" EntitySet="users" />
+            <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
@@ -644,15 +689,6 @@
           <Property Name="details" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="notification_subscription">
-          <Key>
-            <PropertyRef Name="notification_subscription_id" />
-          </Key>
-          <Property Name="notification_subscription_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="user_id" Type="Int32" Nullable="false" />
-          <Property Name="subscription_status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
-        </EntityType>
         <EntityType Name="offering">
           <Key>
             <PropertyRef Name="Id" />
@@ -674,6 +710,7 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="offerings" Relationship="DCodeDbContext.PORT_OFFR_FK" FromRole="portfolio" ToRole="offering" />
+          <NavigationProperty Name="task_type" Relationship="DCodeDbContext.portfolio_tasktype" FromRole="portfolio" ToRole="task_type" />
         </EntityType>
         <EntityType Name="service_line">
           <Key>
@@ -716,6 +753,7 @@
           <Property Name="DESCRIPTION" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CODE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task_type" ToRole="task" />
+          <NavigationProperty Name="portfolios" Relationship="DCodeDbContext.portfolio_tasktype" FromRole="task_type" ToRole="portfolio" />
         </EntityType>
         <EntityType Name="taskapplicant">
           <Key>
@@ -804,9 +842,9 @@
           <Property Name="UPDATED_ON" Type="DateTime" />
           <NavigationProperty Name="applicantskills" Relationship="DCodeDbContext.applicantskills_ibfk_1" FromRole="user" ToRole="applicantskill" />
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="user" ToRole="approvedapplicant" />
-          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
+          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
@@ -853,20 +891,6 @@
             </Principal>
             <Dependent Role="approvedapplicant">
               <PropertyRef Name="TASK_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_USERS_NOTIFICATION_STATUS">
-          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="notification_subscription">
-              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -978,6 +1002,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="portfolio_tasktype">
+          <End Type="DCodeDbContext.portfolio" Role="portfolio" Multiplicity="*" />
+          <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="*" />
+        </Association>
+        <EntityType Name="notification_subscription">
+          <Key>
+            <PropertyRef Name="NOTIFICATION_SUBSCRIPTION_ID" />
+          </Key>
+          <Property Name="NOTIFICATION_SUBSCRIPTION_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <Property Name="SUBSCRIPTION_STATUS" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_USERS_NOTIFICATION_STATUS">
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="notification_subscription">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1058,15 +1109,6 @@
                 <ScalarProperty Name="details" ColumnName="details" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="notification_subscription">
-            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
-              <MappingFragment StoreEntitySet="notification_subscription">
-                <ScalarProperty Name="subscription_status" ColumnName="subscription_status" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="notification_subscription_id" ColumnName="notification_subscription_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1209,6 +1251,23 @@
                 <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
                 <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="portfolio_tasktype" TypeName="DCodeDbContext.portfolio_tasktype" StoreEntitySet="portfolio_tasktype">
+            <EndProperty Name="task_type">
+              <ScalarProperty Name="ID" ColumnName="tasktypeId" />
+            </EndProperty>
+            <EndProperty Name="portfolio">
+              <ScalarProperty Name="Id" ColumnName="portfolioId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="notification_subscription">
+            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
+              <MappingFragment StoreEntitySet="notification_subscription">
+                <ScalarProperty Name="SUBSCRIPTION_STATUS" ColumnName="SUBSCRIPTION_STATUS" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="NOTIFICATION_SUBSCRIPTION_ID" ColumnName="NOTIFICATION_SUBSCRIPTION_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

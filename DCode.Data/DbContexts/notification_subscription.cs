@@ -14,9 +14,9 @@ namespace DCode.Data.DbContexts
     
     public partial class notification_subscription
     {
-        public int notification_subscription_id { get; set; }
-        public int user_id { get; set; }
-        public bool subscription_status { get; set; }
+        public int NOTIFICATION_SUBSCRIPTION_ID { get; set; }
+        public int USER_ID { get; set; }
+        public bool SUBSCRIPTION_STATUS { get; set; }
     
         public virtual user user { get; set; }
     }

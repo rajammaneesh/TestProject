@@ -70,7 +70,7 @@ namespace DCode.Services.ModelFactory
 
             var subscriptionNotification = new notification_subscription();
 
-            subscriptionNotification.subscription_status
+            subscriptionNotification.SUBSCRIPTION_STATUS
                 = profileRequest.IsSubscribedToNotifications;
 
             user.notification_subscription.Add(subscriptionNotification);

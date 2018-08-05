@@ -176,9 +176,9 @@ namespace DCode.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetPortfolioOfferings()
+        public JsonResult GetPortfolioOfferings(int taskTypeId)
         {
-            return Json(_commonService.GetPortfolioOfferings(), JsonRequestBehavior.AllowGet);
+            return Json(_commonService.GetPortfolioOfferings(taskTypeId), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

@@ -22,9 +22,16 @@ namespace DCode.Data.MetadataRepository
             return Context.Set<portfolio>().ToList();
         }
 
-        public IEnumerable<portfolio> GetPortfoliosOfferings()
+        public IEnumerable<portfolio> GetPortfoliosOfferings(int taskTypeId)
         {
-            return Context.Set<portfolio>().Include(x=>x.offerings).ToList();
+            var taskTypePortFolioOfferings = Context.Set<task_type>().
+                Include(x => x.portfolios).
+                Where(x => x.ID == taskTypeId).
+                SelectMany(x => x.portfolios).
+                Include(y=>y.offerings);
+                
+
+            return taskTypePortFolioOfferings.ToList();
         }
     }
 }

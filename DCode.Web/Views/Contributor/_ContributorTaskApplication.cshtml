@@ -8,14 +8,14 @@
                     <div class="new-style-DTM-div-33">
                         <div class="input-group">
 
-                            <input id="skillInput" placeholder="Search by skill or project name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
+                            <input id="skillInput" placeholder="Search by skill or project/initiative name" class="form-control" ng-model="taskSearch.text" ng-change="refreshTasksBasedonInput()" ng-model-options='{ debounce: 300 }' />
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" ng-click="getTasksOnSearchClick()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                             </span>
                         </div>
                     </div>
                     <div class="new-style-DTM-div-33">
-                        <div class="new-span-width-span" style="padding-top: 8px;"><span>Task type :&nbsp; </span></div>
+                        <div class="new-span-width-span" style="padding-top: 8px;"><span>Task type:&nbsp; </span></div>
                         <div class="input-group new-span-width-select">
                             <select class="form-control" style="border-radius: 4px;" id="ddlTaskType" ng-model="taskSearch.selectedTaskType" ng-options="filter.Id as filter.Description for filter in selectTaskTypes" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="new-style-DTM-div-33">
                         <div class="input-group new-push-to-right">
-                            <select  style="border-radius: 4px;"class="form-control" id="ddlOfferings" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
+                            <select  style="border-radius: 4px;"class="form-control" id="ddlOfferings" ng-if="taskSearch.selectedTaskType!=3" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
                     </div>
                 </div>
@@ -207,11 +207,11 @@
                 <h3 class="dark-grey-blue font-size-24">Congratulations!</h3>
                 <div class="gray-text font-size-16 opacity-normal" ng-show="taskRequest.TaskType == '1'">
                     <div>You have requested permission for <span class="color-8e44ad">{{taskRequest.TaskName}}</span> under project <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> for {{taskRequest.Hours}} hrs starting {{taskRequest.StartingDate}}.</div>
-                    <div>While you wait for your manager to get back, complete your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Profile</span> for better task recommendations.</div>
+                    <div>While you wait for your manager to get back, review your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Skills</span> for better task recommendations.</div>
                 </div>
-                <div class="gray-text font-size-16 opacity-normal" ng-show="taskRequest.TaskType == '2'">
+                <div class="gray-text font-size-16 opacity-normal" ng-show="taskRequest.TaskType >= 2">
                     <div>You have requested to be assigned for <span class="color-8e44ad">{{taskRequest.TaskName}}</span> under project <span class="color-8e44ad">{{taskRequest.ProjectName}}</span> for {{taskRequest.Hours}} hrs starting {{taskRequest.OnBoardingDate}}.</div>
-                    <div>While you wait for your application to be approved, complete your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Profile</span> for better task recommendations.</div>
+                    <div>While you wait for your application to be approved, review your <span class="color-8e44ad link-text" ng-click="NavigateToProfile()">Skills</span> for better task recommendations.</div>
                 </div>
             </div>
         </div>
