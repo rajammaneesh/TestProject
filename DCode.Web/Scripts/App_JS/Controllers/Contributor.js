@@ -42,7 +42,8 @@
 
         $scope.selectTaskTypes = [
             { Id: 1, Description: "Client Service" },
-            { Id: 2, Description: "Firm Initiative" }];
+            { Id: 2, Description: "Firm Initiative" },
+            { Id: 3, Description: "Industry Initiative" }];
 
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
@@ -86,7 +87,7 @@
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
                 //$location.hash('div' + index);
             }
-            else if (task.TypeId == 2)
+            else if (task.TypeId >= 2)
             {
                 $scope.reviewIndex = index;
                 $scope.applyFITask(task)

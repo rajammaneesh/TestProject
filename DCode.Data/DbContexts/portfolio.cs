@@ -18,6 +18,7 @@ namespace DCode.Data.DbContexts
         public portfolio()
         {
             this.offerings = new HashSet<offering>();
+            this.task_type = new HashSet<task_type>();
         }
     
         public int Id { get; set; }
@@ -26,5 +27,7 @@ namespace DCode.Data.DbContexts
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<offering> offerings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<task_type> task_type { get; set; }
     }
 }

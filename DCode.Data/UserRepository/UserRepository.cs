@@ -83,7 +83,7 @@ namespace DCode.Data.UserRepository
 
             if (dbUser.notification_subscription.Any())
             {
-                dbUser.notification_subscription.First().subscription_status = user.notification_subscription.First().subscription_status;
+                dbUser.notification_subscription.First().SUBSCRIPTION_STATUS = user.notification_subscription.First().SUBSCRIPTION_STATUS;
             }
             else
             {
@@ -134,7 +134,7 @@ namespace DCode.Data.UserRepository
         public IEnumerable<string> GetSubscribedUserForTask(string task)
         {
             IQueryable<user> query = Context.Set<user>()
-                 .Where(i => (i.notification_subscription.Count > 0 && i.notification_subscription.FirstOrDefault().subscription_status == true)
+                 .Where(i => (i.notification_subscription.Count > 0 && i.notification_subscription.FirstOrDefault().SUBSCRIPTION_STATUS == true)
                     && i.applicantskills.Any(y => y.skill.VALUE.Trim() == task.Trim())
                     && i.STATUS == UserStatus.Active.ToString());
 

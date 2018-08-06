@@ -56,14 +56,14 @@
                         <div style="width:100%;">
                             <div class="new-style-DTM-main-column">
                                 <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project Name/Firm Initiative</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Project/Initiative Name</span>
                                     <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divProjectName">
-                                        <input type="text" id="txtProjectName" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the {{taskRequest.SelectedTaskType===2? 'Firm Initiative': 'Project'}}">
+                                        <input type="text" id="txtProjectName" class="form-control" name="projectName" maxlength="50" ng-model="taskRequest.ProjectName" placeholder="Add the name of the {{(taskRequest.SelectedTaskType|num) >1 ? Initiative: Project}}">
                                     </div>
-                                    <span class="error">Invalid {{taskRequest.SelectedTaskType===2? 'Firm Initiative': 'Project'}} Name</span>
+                                    <span class="error">Invalid {{(taskRequest.SelectedTaskType|num) >1 ? Initiative: Project}} Name</span>
 
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divTaskType">
-                                        <select class="form-control" id="ddlTaskType" ng-model="taskRequest.SelectedTaskType" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" @*required*@></select>
+                                        <select class="form-control" id="ddlTaskType" ng-change='getAllOfferings(taskRequest.SelectedTaskType)' ng-model="taskRequest.SelectedTaskType" ng-options="taskType.Id as taskType.Description for taskType in taskTypes" @*required*@></select>
                                     </div>
                                     <span class="error">Select Task Type</span>
 
@@ -85,7 +85,7 @@
                             <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Skill Set</span>
-                                    <span class="requiredField" ng-hide="taskRequest.SelectedTaskType==2">*</span>
+                                    <span class="requiredField" ng-hide="taskRequest.SelectedTaskType>1">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div id="taskSkill" style="width:95%;" class="input-group search-wbs-code" >
@@ -120,22 +120,25 @@
                         <div style="width:100%;">
                             <div class="new-style-DTM-main-column">
                                 <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Offering</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number" ng-if="taskRequest.SelectedTaskType <= 0">Industry/Offering</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number" ng-if="taskRequest.SelectedTaskType == 1 || taskRequest.SelectedTaskType == 2">Offering</span>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number" ng-if="taskRequest.SelectedTaskType ==3">Industry</span>
                                     <span class="requiredField">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divServiceLine">
                                         <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedOffering" ng-options="offering.OfferingId as offering.DisplayName for offering in offerings" @*required*@></select>
                                     </div>
-                                    <span class="error">Select Offering</span>
-
+                                    <span class="error" ng-if="taskRequest.SelectedTaskType <= 0">Select Task Type</span>
+                                    <span class="error" ng-if="taskRequest.SelectedTaskType > 2">Select Industry</span>
+                                    <span class="error" ng-if="taskRequest.SelectedTaskType <= 2">Select Offering</span>
                                 </div>
                             </div>
                             <div class="new-style-DTM-space-column">&nbsp;</div>                            
                             <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
-                                    <span class="requiredField" ng-hide="taskRequest.SelectedTaskType==2">*</span>
+                                    <span class="requiredField" ng-hide="taskRequest.SelectedTaskType>1">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" id="divWBSCode" style="width:100%;">
@@ -284,7 +287,7 @@
                         <div class="new-style-DTM-tracking-main">
                             <span class="cal-icon"><img src="/Content/Images/serviceLine.png" /></span>
                             <span class="role-desc dark-grey-blue">{{taskRequest.OfferingDisplay}}</span>
-                            <div class="gray-text">Offering</div>
+                            <div class="gray-text">Offering/Industry</div>
                         </div>
                         <div style="clear:both;"></div>
                         <div>&nbsp;</div>

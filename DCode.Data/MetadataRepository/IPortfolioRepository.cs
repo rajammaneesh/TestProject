@@ -7,6 +7,6 @@ namespace DCode.Data.MetadataRepository
     {
         IEnumerable<portfolio> GetPortfolios();
 
-        IEnumerable<portfolio> GetPortfoliosOfferings();
+        IEnumerable<portfolio> GetPortfoliosOfferings(int taskTypeId);
     }
 }
