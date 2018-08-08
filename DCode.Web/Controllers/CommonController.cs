@@ -5,6 +5,7 @@ using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -208,6 +209,43 @@ namespace DCode.Web.Controllers
         public JsonResult GetVisits()
         {
             return Json(_reportingService.GetUserVisitsCount(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetCollTasks(int id)
+        {
+            if (id == 101)
+            {
+                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
+                         GetExecutionDateRange(DateTime.Now.DayOfWeek));
+
+                return Json(result);
+            }
+
+            return null;
+        }
+
+        [HttpGet]
+        public JsonResult GetCollTasksForDay(int id, DayOfWeek day)
+        {
+            if (id == 101)
+            {
+                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
+                         GetExecutionDateRange(day));
+
+                return Json(result);
+            }
+
+            return null;
+        }
+
+        private int GetExecutionDateRange(DayOfWeek day)
+        {
+            if (day == DayOfWeek.Tuesday)
+            {
+                return 4;
+            }
+            return 1;
         }
     }
 }
