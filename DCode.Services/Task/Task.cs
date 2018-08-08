@@ -80,7 +80,7 @@ namespace DCode.Services.Task
                         : _commonService.GetDefaultConsultingMailboxes();
 
                     var offering = _commonService.GetOfferings()
-                        .Where(x => x.Id == Convert.ToInt32(taskRequest.SelectedServiceLine))
+                        .Where(x => x.Id == Convert.ToInt32(taskRequest.SelectedOffering))
                         .Select(x => x.Description)
                         .FirstOrDefault();
 
