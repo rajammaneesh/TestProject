@@ -17,6 +17,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
     {
         private readonly ICommonService _commonService;
 
+        private readonly ILoggerService _logService;
+
         private readonly IReportingService _reportingService;
 
         private readonly ITaskNotificationContent _notificationContentGenerator;
@@ -33,6 +35,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
             _emailService = kernel.Get<EmailService>();
 
+            _logService = kernel.Get<LoggerService>();
+
             _notificationContentFactory = kernel.Get<NotificationContentFactory>();
 
             _notificationContentGenerator =
@@ -46,25 +50,41 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         public void Invoke()
         {
+            LogMessage("Starting execution of daily consolidated CS task");
+
             if (NeedsExecution())
             {
+                LogMessage("Valid day for execution of consolidated CS task");
+
+                LogMessage($"Date range is { GetExecutionDateRange()}");
+
                 var tasksCreatedFromDateRange =
                     _reportingService.GetNotificationsForCollectiveCSTasks(
                         GetExecutionDateRange());
 
                 if (tasksCreatedFromDateRange == null)
                 {
+                    LogMessage("No records found for date range");
                     return;
                 }
+
+                LogMessage($"Tasks created for date range is {tasksCreatedFromDateRange?.Count()}");
 
                 var notifications = GetNotificationsFromTasks(tasksCreatedFromDateRange);
 
+                LogMessage($"Notifications created for date range is {notifications?.Count()}");
+
                 if (notifications == null)
                 {
+                    LogMessage("No notifications found");
                     return;
                 }
 
+                LogMessage("Sending emails");
+
                 _emailService.SendBulkEmail(notifications);
+
+                LogMessage("Emails sent");
             }
         }
 
@@ -137,6 +157,15 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 });
 
             return notifications;
+        }
+
+        private void LogMessage(string description)
+        {
+            _logService.LogToDatabase(new Log
+            {
+                User = ApplicationConstants.ApplicationName,
+                Description = description
+            });
         }
     }
 }
