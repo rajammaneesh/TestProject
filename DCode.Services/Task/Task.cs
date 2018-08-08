@@ -73,7 +73,7 @@ namespace DCode.Services.Task
                     var currentUser = _commonService.GetCurrentUserContext();
 
                     var offeringRecipients = _commonService.GetFINotificationRecipientsForOffering(
-                        Convert.ToInt32(taskRequest.SelectedServiceLine));
+                        Convert.ToInt32(taskRequest.SelectedOffering));
 
                     offeringRecipients = offeringRecipients != null && offeringRecipients.Any()
                         ? offeringRecipients
