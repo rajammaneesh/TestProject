@@ -27,7 +27,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
                 Console.WriteLine("Initialized operation for client service notification");
 
-             //   taskNotificationOperation.Invoke();
+                taskNotificationOperation.Invoke();
 
                 Console.WriteLine("Ended operation for client service notification");
 
@@ -39,7 +39,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
 
                 Console.WriteLine("Initialized operation for client service collective task notification");
 
-              //  clientServiceCollectiveTaskNotificationOperation.Invoke();
+                clientServiceCollectiveTaskNotificationOperation.Invoke();
 
                 Console.WriteLine("Ended operation for client service collective task notification");
 
