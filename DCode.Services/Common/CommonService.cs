@@ -593,18 +593,9 @@ namespace DCode.Services.Common
         {
             var offerings = GetOfferings();
 
-            var matchingOffering = offerings?.FirstOrDefault(x => x.Id == offeringId)?.PracticeEmailGroup;
+            var matchingOffering = offerings?.FirstOrDefault(x => x.Id == offeringId);
 
-            if (string.IsNullOrEmpty(matchingOffering))
-            {
-                return null;
-            }
-
-            var appSettingValue = matchingOffering;
-
-            return appSettingValue
-                ?.Split(',')
-                ?.ToList();
+            return matchingOffering?.GetPracticeEmailGroupsAsList();
         }
 
         public List<string> GetDefaultConsultingMailboxes()
