@@ -8,18 +8,23 @@ namespace DCode.Web.App_Start
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-    using Ninject;
-    using Ninject.Web.Common;
-    using DCode.Models;
     using DCode.Services.Requestor;
     using DCode.Data.TaskRepository;
     using DCode.Services.Common;
     using DCode.Data.RequestorRepository;
-    using DCode.Services.Task;
+    using Services.Task;
     using DCode.Data.LogRepository;
     using DCode.Services.Contributor;
     using DCode.Data.ContributorRepository;
     using Data.MetadataRepository;
+    using Services.Reporting;
+    using Data.ReportingRepository;
+    using Data.UserRepository;
+    using DCode.Models.Management;
+    using Data.DbContexts;
+    using Ninject.Web.Common;
+    using Ninject;
+    using Ninject.Web.Common.WebHost;
 
     public static class NinjectWebCommon
     {
@@ -76,6 +81,7 @@ namespace DCode.Web.App_Start
             kernel.Bind<ICommonService>().To<CommonService>();
             kernel.Bind<ITask>().To<Task>();
             kernel.Bind<IContributorService>().To<ContributorService>();
+            kernel.Bind<IReportingService>().To<ReportingService>();
 
             //Repo instantiation
             kernel.Bind<ITaskRepository>().To<TaskRepository>();
@@ -84,6 +90,11 @@ namespace DCode.Web.App_Start
             kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IContributorRepository>().To<ContributorRepository>();
             kernel.Bind<IServiceLineRepository>().To<ServiceLineRepository>();
+            kernel.Bind<IOfferingRepository>().To<OfferingRepository>();
+            kernel.Bind<IPortfolioRepository>().To<PortfolioRepository>();
+            kernel.Bind<ITaskTypeRepository>().To<TaskTypeRepository>();
+            kernel.Bind<IDailyUsageStatisticsRepository>().To<DailyUsageStatisticsRepository>();
+            kernel.Bind<IDataManagement>().To<DbQuueryManager>();
         }
 
     }

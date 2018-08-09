@@ -17,6 +17,7 @@ namespace DCode.Data.DbContexts
         public int ID { get; set; }
         public int TASK_ID { get; set; }
         public int APPLICANT_ID { get; set; }
+        public string STATEMENT_OF_PURPOSE { get; set; }
         public string STATUS { get; set; }
         public Nullable<System.DateTime> STATUS_DATE { get; set; }
         public string CREATED_BY { get; set; }

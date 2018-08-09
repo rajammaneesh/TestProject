@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('requestorController', RequestorController);
+        .controller('requestorController', RequestorController);
 
     RequestorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService', '$uibModal', '$log'];
 
@@ -22,6 +22,12 @@
         $scope.searchBox = { text: null };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false };
         $scope.taskStatusVisibility = { showFirst: true };
+        initializeTaskTypes();
+        $scope.selectedTaskTypes = {
+            taskApplications: 1,
+            taskStatus: 1,
+            taskHistory: 1
+        };
         $scope.workAgain = [];
         $scope.ratingValue = [];
         $scope.classValue = null;
@@ -76,6 +82,7 @@
                 $scope.dashboard.showApproval = false;
                 $scope.dashboard.showTaskStatus = false;
                 $scope.dashboard.showHistory = true;
+                $("#projectNam").attr("placeholder", "Search by project/initiative name");
             }
             //$scope.$apply();
             //$scope.$digest();
@@ -165,12 +172,18 @@
             return $scope.reviewIndex == index;
         };
 
+        $scope.changeTaskTypeForTaskApplications = function () {
+            $scope.taskApplicants = null;
+            $scope.taskApplicantsCount = 0;
+            $scope.getApplicants();
+        };
+
         $scope.getApplicants = function () {
             //Make service calls only if fetched records are less than total records
             if ($scope.taskApplicants == null || ($scope.taskApplicants.length < $scope.taskApplicantsTotalRecords)) {
                 $scope.taskApplicantsCount++;
                 $http({
-                    url: "/Requestor/GetTaskApplicantsForApproval?currentPageIndex=" + $scope.taskApplicantsCount + "&recordsCount=" + $scope.taskApplicantsRecordCount,
+                    url: "/Requestor/GetTaskApplicantsForApproval?currentPageIndex=" + $scope.taskApplicantsCount + "&recordsCount=" + $scope.taskApplicantsRecordCount + "&selectedTaskTypeId=" + $scope.selectedTaskTypes.taskApplications,
                     method: "GET",
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -199,12 +212,18 @@
             }
         }
 
+        $scope.changeTaskTypeForTaskStatus = function () {
+            $scope.taskStatuses = null;
+            $scope.taskStatusCount = 0;
+            $scope.getStatusOftasks();
+        };
+
         $scope.getStatusOftasks = function () {
             //Make service calls only if fetched records are less than total records
             if ($scope.taskStatuses == null || ($scope.taskStatuses.length < $scope.taskStatusesTotalRecords)) {
                 $scope.taskStatusCount++;
                 $http({
-                    url: "/Requestor/GetStatusOftasks?currentPageIndex=" + $scope.taskStatusCount + "&recordsCount=" + $scope.taskStatusRecordCount,
+                    url: "/Requestor/GetStatusOftasks?currentPageIndex=" + $scope.taskStatusCount + "&recordsCount=" + $scope.taskStatusRecordCount + "&selectedTaskType=" + $scope.selectedTaskTypes.taskStatus,
                     method: "GET",
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -231,7 +250,8 @@
             $scope.AssignTask = {
                 TaskId: task.Id,
                 ApplicantId: applicant.ApplicantId,
-                TaskApplicantId: applicant.TaskApplicantId
+                TaskApplicantId: applicant.TaskApplicantId,
+                TaskTypeId: task.TypeId
             };
             $http({
                 method: 'POST',
@@ -279,17 +299,28 @@
             $scope.deselectRating();
         }
 
+        $scope.closeTheTask = function (task, index) {
+            $http({
+                method: 'POST',
+                url: '/Task/CloseTask',
+                data: {
+                    taskId: task.Task.Id
+                },
+                aync: true,
+            }).success(function (task, tasks, index) {
+                $scope.taskApplicants.splice(index, 1);
+                $scope.getTaskHistory();
+            })
+        }
 
-        $scope.reviewApplicant = function (task, applicant, approvalApplicantId, wrkAgainValue, rating, comments) {
+        $scope.reviewApplicant = function (task, applicant, approvalApplicantId) {
             $http({
                 method: 'POST',
                 url: '/Requestor/ReviewTask',
                 data: {
                     TaskId: task.Id,
                     ApplicantId: applicant.ApplicantId,
-                    ApprovedApplicantId: approvalApplicantId,
-                    Rating: rating,
-                    WorkAgain: wrkAgainValue
+                    ApprovedApplicantId: approvalApplicantId
                 },
                 async: true,
             }).success(function (data, status, headers, config) {
@@ -307,7 +338,7 @@
                     task.Status = "Closed";
                     $scope.refreshTasks();
                     $scope.$broadcast('refresh');
-                    $location.hash('divReviewSuccess');
+                    //$location.hash('divReviewSuccess');
                 }
 
             }).error(function (data, status, headers, config) {
@@ -327,13 +358,17 @@
             //$scope.getStatusOftasks();
         }
         $scope.onLoad();
+
+        function initializeTaskTypes() {
+            $scope.taskTypes = [{ Id: 1, Description: "Client Service" }, { Id: 2, Description: "Firm Initiative" }, { Id: 3, Description: "Industry Initiative" }];
+        }
     }
 })();
 
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('modalInstanceCtrl', ModalInstanceCtrl);
+        .controller('modalInstanceCtrl', ModalInstanceCtrl);
 
     ModalInstanceCtrl.$inject = ['$scope', '$uibModal'];
 
@@ -350,7 +385,7 @@
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('newTaskController', NewTaskController);
+        .controller('newTaskController', NewTaskController);
 
     NewTaskController.$inject = ['$scope', '$http', '$rootScope', '$filter', 'UserContextService'];
 
@@ -359,18 +394,23 @@
             {
                 ProjectName: "",
                 OnBoardingDate: "",
+                Description: "",
                 DueDate: "",
                 WBSCode: "",
                 TaskName: "",
                 Hours: "",
                 SkillSet: [],
-                IsRewardsEnabled: false
+                IsRewardsEnabled: false,
+                OfferingDisplay: ""
             };
         $scope.showDetails = false;
         $scope.showSummary = false;
         $scope.divVisibiltyModel = { showCreate: false, showDetails: false, showSummary: false, showSuccess: false };
         $scope.skills = [];
         $scope.serviceLines = [];
+        $scope.offerings = [$scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }];
+        $scope.portfolios = [];
+        $scope.taskTypes = [];
         $scope.selectedSkills = [];
         $scope.selectedSkillDesc = null;
         $scope.selectedSkill = null;
@@ -380,17 +420,19 @@
 
         $scope.InitializeTaskRequest = function () {
             $scope.taskRequest =
-          {
-              ProjectName: "",
-              OnBoardingDate: "",
-              DueDate: "",
-              WBSCode: "",
-              TaskName: "",
-              Hours: "",
-              SkillSet: [],
-              IsRewardsEnabled: "",
-              SelectedServiceLine: ''
-          };
+                {
+                    ProjectName: "",
+                    OnBoardingDate: "",
+                    Description: "",
+                    DueDate: "",
+                    WBSCode: "",
+                    TaskName: "",
+                    Hours: "",
+                    SkillSet: [],
+                    IsRewardsEnabled: "",
+                    SelectedOffering: -1,
+                    SelectedTaskType: -1
+                };
         }
 
         $scope.InitializeTaskRequest();
@@ -465,86 +507,276 @@
             $scope.InitializeTaskRequest();
         };
 
+        $('#txtHr').keydown(function (e) {
+            var order = e.which;
+            if (order == 187 || order == 189 || order == 69) {
+                return false;
+            };
+        });
 
-        $scope.reviewClick = function () {
-            $("#spanInvalidDate").text("Due Date cannot be on or before On Boarding Date");
-            if ($scope.taskRequest != null) {
-                if ($scope.taskRequest.ProjectName != null && $scope.taskRequest.ProjectName.length > 2) {
-                    if ($scope.taskRequest.ProjectName.indexOf(" ") > 0) {
-                        var split = $scope.taskRequest.ProjectName.split(" ");
-                        $scope.taskRequest.ShortName = split[0].substring(0, 1) + split[1].substring(0, 1);
+        $('#skillsetNewTask').keydown(function (e) {
+            var order = e.which;
+            $scope.taskRequest.SkillSet = null;
+        });
+        $('#txtStartDate').keydown(function (e) {
+            var order = e.which;
+            if (order != 9) {
+                return false;
+            };
+        });
+        $('#txtDueDate').keydown(function (e) {
+            var order = e.which;
+            if (order != 9) {
+                return false;
+            };
+        });
+
+        //removing invalid class on focusin for all the input fields
+        $('#txtProjectName').focusout(function () {
+            $("#divProjectName").removeClass("invalid");
+        });
+        $("#txtWBSCode").focusout(function () {
+            $("#divWBSCode").removeClass("invalid");
+        });
+        $("#skillsetNewTask_value").focusout(function () {
+            $("#taskSkill").removeClass("invalid");
+        });
+
+        $("#ddlServiceLine").change(function () {
+            $("#divServiceLine").removeClass("invalid");
+        });
+
+        $("#ddlTaskType").change(function () {
+            $("#ddlTaskType").removeClass("invalid");
+        });
+
+        $('#txtTaskName').focusout(function () {
+            $("#divTaskName").removeClass("invalid");
+        });
+
+        $scope.RemoveStartDateValidation = function () {
+            $("#datetimepicker1").removeClass("invalid");
+        };
+        $scope.RemoveDueDateValidation = function () {
+            $("#datetimepicker2").removeClass("invalid");
+        };
+        $('#txtHr').focusout(function () {
+            $("#divHours").removeClass("invalid");
+        });
+
+        $scope.ValidateNewTaskData = function () {
+            var isValid = true;
+            var focusSet = false;
+
+            //validation project Name
+            if ($('#txtProjectName').val() == '' || $('#txtProjectName').val() == null) {
+                $("#divProjectName").addClass("invalid");
+                $('#txtProjectName').focus();
+                if (!focusSet)
+                    focusSet = true;
+                isValid = false;
+            }
+
+            //Skip wbs validation if task type is firm initiative
+            if ($scope.taskRequest.SelectedTaskType < 2) {
+                //validating WBS Code
+                if ($("#txtWBSCode").val() == '' || $("#txtWBSCode").val() == null) {
+                    $("#divWBSCode").addClass("invalid");
+
+                    if (!focusSet) {
+                        $('#txtWBSCode').focus();
+                        focusSet = true;
                     }
-                    else {
-                        $scope.taskRequest.ShortName = $scope.taskRequest.ProjectName.substring(0, 2);
-                    }
+                    isValid = false;
                 }
                 else {
-                    $scope.taskRequest.ShortName = $scope.taskRequest.ProjectName;
-                }
-
-                if (document.querySelector("#datetimepicker1 input").value != "") {
-                    $scope.taskRequest.OnBoardingDate = document.querySelector("#datetimepicker1 input").value;
-                }
-                if (document.querySelector("#datetimepicker2 input").value != "") {
-                    $scope.taskRequest.DueDate = document.querySelector("#datetimepicker2 input").value;
-                }
-                if ($scope.taskRequest != null && $scope.taskRequest.OnBoardingDate != "" && $scope.taskRequest.DueDate != "") {
-                    $scope.onBoardingDateReview = false;
-
-                    if (moment($scope.taskRequest.OnBoardingDate).isAfter($scope.taskRequest.DueDate)) {
-                        $("#datetimepicker2").addClass("invalid");
+                    var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-][0-9]{2,}[-]{1,}[0-9]{4,}$/;
+                    var val = $("#txtWBSCode").val().toLocaleLowerCase();
+                    if (val.length == 22 && regex.test(val)) {
+                        if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
+                            $("#divWBSCode").addClass("invalid");
+                            //return;
+                            if (!focusSet) {
+                                focusSet = true;
+                                $('#txtWBSCode').focus();
+                            }
+                            isValid = false;
+                        }
+                        else {
+                            $("#divWBSCode").removeClass("invalid");
+                        }
                     } else {
-                        $("#datetimepicker2").removeClass("invalid");
+                        $("#divWBSCode").addClass("invalid");
+                        if (!focusSet) {
+                            focusSet = true;
+                            $('#txtWBSCode').focus();
+                        }
+                        isValid = false;
+                        //return;
+                    }
+                }
+            }
+
+            //validating skill set
+            if ($scope.taskRequest.SelectedTaskType < 2) {
+                if ($("#skillsetNewTask_value").val() == '' || $("#skillsetNewTask_value").val() == null) {
+                    $("#taskSkill").addClass("invalid");
+                    if (!focusSet) {
+                        $('#skillsetNewTask_value').focus();
+                        focusSet = true;
+                    }
+                    isValid = false;
+                }
+            }
+
+            //validating offering
+            if ($scope.taskRequest.SelectedOffering == null || $scope.taskRequest.SelectedOffering <= 0) {
+                $("#divServiceLine").addClass("invalid");
+                if (!focusSet) {
+                    focusSet = true;
+                    $('#ddlServiceLine').focus();
+                }
+                isValid = false;
+                //$scope.ServiceLineValidation = false;
+            }
+
+            //validating task Type
+            if ($scope.taskRequest.SelectedTaskType == null || $scope.taskRequest.SelectedTaskType <=0) {
+                $("#divTaskType").addClass("invalid");
+                if (!focusSet) {
+                    focusSet = true;
+                    $('#ddlTaskType').focus();
+                }
+                isValid = false;
+                //$scope.ServiceLineValidation = false;
+            }
+
+            //Validating Task Name
+            if ($('#txtTaskName').val() == '' || $('#txtTaskName').val() == null) {
+                $("#divTaskName").addClass("invalid");
+                if (!focusSet) {
+                    $('#txtTaskName').focus();
+                    focusSet = true;
+                }
+                isValid = false;
+            }
+
+            //validating Start Date
+            if ($('#txtStartDate').val() == '' || $('#txtStartDate').val() == null) {
+                $("#datetimepicker1").addClass("invalid");
+                if (!focusSet) {
+                    focusSet = true;
+                    $('#txtStartDate').focus();
+                }
+                isValid = false;
+            }
+            //validating Due Date
+            if ($('#txtDueDate').val() == '' || $('#txtDueDate').val() == null) {
+                $("#datetimepicker2").addClass("invalid");
+                $("#spanInvalidDate").text("Invalid Due Date");
+
+                if (!focusSet) {
+                    focusSet = true;
+                    $('#txtDueDate').focus();
+                }
+                isValid = false;
+            }
+
+            if (moment($('#txtStartDate').val()).isAfter($('#txtDueDate').val())) {
+                $("#datetimepicker2").addClass("invalid");
+                $("#spanInvalidDate").text("Due Date cannot be on or before Start Date");
+
+                if (!focusSet) {
+                    $('#txtDueDate').focus();
+                    focusSet = true;
+                }
+                isValid = false;
+            }
+
+            //validating Hours
+            if ($('#txtHr').val() == '' || $('#txtHr').val() == null) {
+                $("#divHours").addClass("invalid");
+                if (!focusSet) {
+                    $('#txtHr').focus();
+                    focusSet = true;
+                }
+                isValid = false;
+            }
+            return isValid;
+        };
+
+        $scope.reviewClick = function () {
+            if ($scope.ValidateNewTaskData()) {
+                //$("#spanInvalidDate").text("Due Date cannot be on or before On Boarding Date");
+                if ($scope.taskRequest != null) {
+                    if ($scope.taskRequest.ProjectName != null && $scope.taskRequest.ProjectName.length > 2) {
+                        if ($scope.taskRequest.ProjectName.indexOf(" ") > 0) {
+                            var split = $scope.taskRequest.ProjectName.split(" ");
+                            $scope.taskRequest.ShortName = split[0].substring(0, 1) + split[1].substring(0, 1);
+                        }
+                        else {
+                            $scope.taskRequest.ShortName = $scope.taskRequest.ProjectName.substring(0, 2);
+                        }
+                    }
+                    else {
+                        $scope.taskRequest.ShortName = $scope.taskRequest.ProjectName;
+                    }
+
+                    if (document.querySelector("#datetimepicker1 input").value != "") {
+                        $scope.taskRequest.OnBoardingDate = document.querySelector("#datetimepicker1 input").value;
+                    }
+                    if (document.querySelector("#datetimepicker2 input").value != "") {
+                        $scope.taskRequest.DueDate = document.querySelector("#datetimepicker2 input").value;
+                    }
+                    if ($scope.taskRequest != null && $scope.taskRequest.OnBoardingDate != "" && $scope.taskRequest.DueDate != "") {
                         $scope.onBoardingDateReview = true;
-                    }
 
-                    var selectedSkill = false;
-                    if ($scope.taskRequest.SkillSet != null && $scope.taskRequest.SkillSet != "") {
-                        selectedSkill = true;
-                        $("#taskSkill").removeClass("invalid");
-                    } else {
-                        $("#taskSkill").addClass("invalid");
-                    }
+                        //if (moment($scope.taskRequest.OnBoardingDate).isAfter($scope.taskRequest.DueDate)) {
+                        //    $("#datetimepicker2").addClass("invalid");
+                        //} else {
+                        //    $("#datetimepicker2").removeClass("invalid");
+                        //    $scope.onBoardingDateReview = true;
+                        //}
 
-                    //if ($('#datetimepicker2').attr('class').indexOf("invalid") == -1 && $scope.taskRequest.DueDate != null && $scope.taskRequest.OnBoardingDate != null) {
-                    //    var one_day = 1000 * 60 * 60 * 24;
-                    //    var date1 = new Date($scope.taskRequest.OnBoardingDate).getTime();
-                    //    var date2 = new Date($scope.taskRequest.DueDate).getTime();
-                    //    var dateDiff = Math.round((date2 - date1) / one_day);
-                    //    if (dateDiff > 14) {
-                    //        $("#datetimepicker2").addClass("invalid");
-                    //        $("#spanInvalidDate").text("Due Date cannot be greater that 2 weeks");
-                    //        $scope.onBoardingDateReview = false;
-                    //    }
+                        var selectedSkill = false;
+                        if ($scope.taskRequest.SkillSet != null && $scope.taskRequest.SkillSet != "") {
+                            selectedSkill = true;
+                            //$("#taskSkill").removeClass("invalid");
+                        }
+                        else if ($scope.taskRequest.SelectedTaskType != null && $scope.taskRequest.SelectedTaskType >= 2) {
+                            $scope.taskRequest.SkillSet
+                            selectedSkill = true;
+                            //$("#taskSkill").removeClass("invalid");
+                        }
+                        else {
+                            $("#taskSkill").addClass("invalid");
+                            $('#skillsetNewTask_value').focus();
+                        }
 
-                    //}
-
-                    //if ($scope.taskRequest.WBSCode != "") {
-                    //    var val = $scope.taskRequest.WBSCode.toLocaleLowerCase();
-                    //    if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
-                    //        $("#divWBSCode").addClass("invalid");
-                    //        $scope.WBSCodeValidation = false;
-                    //    }
-                    //    else {
-                    //        $("#divWBSCode").removeClass("invalid");
-                    //        $scope.WBSCodeValidation = true;
-                    //    }
-                    //}
-
-
-                    var isvalid = !!$scope.taskRequest.ProjectName && !!$scope.taskRequest.WBSCode && selectedSkill
-                        && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
-                        && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
+                        angular.forEach($scope.offerings, function (value, index) {
+                            if ($scope.taskRequest.SelectedOffering == value.OfferingId)
+                                $scope.taskRequest.OfferingDisplay = value.OfferingCode;
+                        });
 
 
 
+                        //$scope.GetWBSValidation();
 
-                    if (isvalid) {
-                        $scope.divVisibiltyModel.showSummary = true;
-                        $scope.divVisibiltyModel.showDetails = false;
-                        $scope.divVisibiltyModel.showCreate = false;
-                        $scope.divVisibiltyModel.showSuccess = false;
-                        $scope.onBoardingDateReviewUI = $filter('date')(new Date(document.querySelector("#datetimepicker1 input").value), 'MMM dd, yyyy');
+                        var wbsCheckValue = (!!$scope.taskRequest.WBSCode && $scope.taskRequest.SelectedTaskType == 1)
+                            || $scope.taskRequest.SelectedTaskType >= 2;
+
+                        var isvalid = !!$scope.taskRequest.ProjectName && wbsCheckValue && selectedSkill
+                            && !!$scope.taskRequest.TaskName && !!$scope.taskRequest.DueDate && !!$scope.taskRequest.Hours
+                            && $scope.taskRequest.OnBoardingDate && !!$scope.onBoardingDateReview;
+
+
+                        if (isvalid) {
+                            $scope.divVisibiltyModel.showSummary = true;
+                            $scope.divVisibiltyModel.showDetails = false;
+                            $scope.divVisibiltyModel.showCreate = false;
+                            $scope.divVisibiltyModel.showSuccess = false;
+                            $scope.onBoardingDateReviewUI = $filter('date')(new Date(document.querySelector("#datetimepicker1 input").value), 'MMM dd, yyyy');
+                        }
                     }
                 }
             }
@@ -592,20 +824,11 @@
             });
         };
 
-        $scope.GetWBSValidation = function () {
-            var regex = /^[a-zA-Z]{3,}[0-9]{5,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{2,}[-]{1,}[0-9]{4,}$/;
-            var val = $("#txtWBSCode").val().toLocaleLowerCase();
-            if (val.length==19 && regex.test(val)) {
-                if (val.substring(0, 3).indexOf("xyi") != -1 || val.substring(0, 3).indexOf("lpx") != -1 || val.substring(0, 3).indexOf("dci") != -1) {
-                    $("#divWBSCode").addClass("invalid");
-                }
-                else {
-                    $("#divWBSCode").removeClass("invalid");
-                }
-            } else {
-                $("#divWBSCode").addClass("invalid");
-            }
-        };
+        //$("#txtWBSCode").focusout(function () {
+        //    $scope.GetWBSValidation();
+        //});
+
+
 
         $scope.upsertTask = function () {
             $scope.taskRequest.GiftsOrAwards = $scope.taskRequest.IsRewardsEnabled == "true" ? true : false;
@@ -620,7 +843,7 @@
                     //commented this to show the tast and project values in the success page.
                     //$scope.taskRequest = null;
                     $scope.$broadcast('angucomplete-alt:clearInput', 'skillsetNewTask');
-                    
+
                 }
             }).error(function (error) {
             });
@@ -639,33 +862,62 @@
             });
         }
 
-        $scope.getAllServiceLines = function () {
-            var reqObj = $scope.task;
+        $scope.getAllOfferings = function (Id) {
             $http({
-                url: "/Common/GetServiceLines",
+                url: "/Common/GetPortfolioOfferings?taskTypeId=" + Id,
                 method: "GET"
             }).success(function (data, status, config) {
 
                 if (data != null) {
-                    $scope.serviceLines = data;
+                    $scope.offerings = data;
+                    if ($scope.offerings != null)
+                        $scope.offerings.unshift({ PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" });
                 }
-            }).error(function (error) {
+                }).error(function (error) {
+                    $scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }
+            });
+        }
+
+        $scope.getAllTaskTypes = function () {
+            var reqObj = $scope.task;
+            $http({
+                url: "/Common/GetTaskTypes",
+                method: "GET"
+            }).success(function (data, status, config) {
+
+                if (data != null) {
+                    $scope.taskTypes = data;
+                    if ($scope.taskTypes != null)
+                        $scope.taskTypes.unshift({ Id: -1, Description: "-- select --" });
+                }
+                }).error(function (error) {
+                    $scope.taskTypes = { Id: -1, Description: "-- select --" };
             });
         }
 
         $scope.onLoad = function () {
             $scope.isFirstTimeUser();
             $scope.getAllSkills();
-            $scope.getAllServiceLines();
+            $scope.getAllTaskTypes();
         }
         $scope.onLoad();
+
+        $scope.images = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        $scope.loadMore = function () {
+            var last = $scope.images[$scope.images.length - 1];
+            for (var i = 1; i <= 8; i++) {
+                $scope.images.push(last + i);
+            }
+        };
+
     }
 })();
 
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('historyController', HistoryController);
+        .controller('historyController', HistoryController);
 
     HistoryController.$inject = ['$scope', '$http', '$rootScope', 'UserContextService'];
 
@@ -719,15 +971,6 @@
             $scope.taskHistoryTotalRecords = null;
             $scope.getTaskHistory();
         });
-
-
-       
-
-        //$scope.onLoad = function () {
-        //    $scope.getTaskHistory();
-        //}
-        //$scope.onLoad();
-
     }
 })();
 

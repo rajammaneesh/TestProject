@@ -1,11 +1,5 @@
-﻿using DCode.Common;
-using DCode.Models.Base;
-using DCode.Models.ResponseModels.Task;
+﻿using DCode.Models.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Models.ResponseModels.Task
 {
@@ -13,13 +7,14 @@ namespace DCode.Models.ResponseModels.Task
     {
         public int Id { get; set; }
         public string ProjectWBSCode { get; set; }
-        public string Type { get; set; }
+        public int TypeId { get; set; }
         public string Details { get; set; }
         public string RequestorEmailId { get; set; }
         public string Skills { get; set; }
         public string Comments { get; set; }
         public string OnBoardingDate { get; set; }
-        public bool GiftsOrAwards { get; set; }
+        public string ServiceLine { get; set; }
+        public string Offering { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Status { get; set; }
@@ -27,6 +22,8 @@ namespace DCode.Models.ResponseModels.Task
         public string Duration { get; set; }
         public bool IsApplied { get; set; }
         public bool IsRecommended { get; set; }
+
+        public string OfferingId { get; set; }
         public string FullName
         {
             get

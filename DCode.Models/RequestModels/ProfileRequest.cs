@@ -1,9 +1,5 @@
 ﻿using DCode.Models.ResponseModels.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Models.RequestModels
 {
@@ -14,6 +10,7 @@ namespace DCode.Models.RequestModels
         public string ProjectCode { get; set; }
         public string ManagerName { get; set; }
         public string ManagerEmailId { get; set; }
+        public bool IsSubscribedToNotifications { get; set; }
         public List<Skill> SkillSet { get; set; }
     }
 }

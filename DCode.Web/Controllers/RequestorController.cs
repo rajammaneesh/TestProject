@@ -1,16 +1,10 @@
-﻿using DCode.Common;
-using DCode.Models;
-using DCode.Models.RequestModels;
+﻿using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Requestor;
-using DCode.Models.ResponseModels.Task;
 using DCode.Services.Common;
 using DCode.Services.Requestor;
 using DCode.Web.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Controllers
 {
@@ -19,41 +13,41 @@ namespace DCode.Web.Controllers
     {
         private IRequestorService _requestorService;
         private ICommonService _commonService;
-        public RequestorController(IRequestorService requestorService,ICommonService commonService)
+        public RequestorController(IRequestorService requestorService, ICommonService commonService)
         {
             _requestorService = requestorService;
             _commonService = commonService;
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult Requestor()
         {
             return View();
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult Dashboard()
         {
             return View();
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult NewTasks()
         {
             return View();
         }
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult Permissions()
         {
             return View();
         }
 
-        [AuthorizeRoute(Enums.Role.Requestor)]
+        [AuthorizeRoute(Role.Requestor)]
         public ActionResult History()
         {
             return View();
         }
-        
+
         [HttpGet]
         /// <summary>
         /// Method should return the requestor tasks that are pending his approval. This would return records based on the inputs(Pagination format)
@@ -62,12 +56,12 @@ namespace DCode.Web.Controllers
         /// <param name="currentPageIndex"></param>
         /// <param name="recordsCount"></param>
         /// <returns></returns>
-        public JsonResult GetTaskApplicantsForApproval(int currentPageIndex = 1, int recordsCount = 10)
+        public JsonResult GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex = 1, int recordsCount = 10)
         {
-            var tasks = _requestorService.GetTaskApplicantsForApproval(currentPageIndex, recordsCount);
+            var tasks = _requestorService.GetTaskApplicantsForApproval(selectedTaskTypeId, currentPageIndex, recordsCount);
             return Json(tasks, JsonRequestBehavior.AllowGet);
         }
-        
+
         /// <summary>
         /// Returns all the requestor tasks statuses in pagination format. Sort order can be requested in parameters 
         /// </summary>
@@ -77,9 +71,9 @@ namespace DCode.Web.Controllers
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetStatusOftasks(int currentPageIndex = 1, int recordsCount = 10, Enums.TaskStatusSortFields sortField = Enums.TaskStatusSortFields.Name, Enums.SortOrder sortOrder = Enums.SortOrder.DESC)
+        public JsonResult GetStatusOftasks(int selectedTaskType, int currentPageIndex = 1, int recordsCount = 10, TaskStatusSortFields sortField = TaskStatusSortFields.Name, SortOrder sortOrder = SortOrder.DESC)
         {
-            var tasksStatuses = _requestorService.GetStatusOftasks(currentPageIndex, recordsCount, sortField, sortOrder);
+            var tasksStatuses = _requestorService.GetStatusOftasks(selectedTaskType, currentPageIndex, recordsCount, sortField, sortOrder);
             return Json(tasksStatuses, JsonRequestBehavior.AllowGet);
         }
 
@@ -100,7 +94,7 @@ namespace DCode.Web.Controllers
         public JsonResult AssignTask(AssignTaskRequest assignTaskRequest)
         {
             var result = _requestorService.AssignTask(assignTaskRequest);
-            
+
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
@@ -111,23 +105,23 @@ namespace DCode.Web.Controllers
         //}
 
         [HttpGet]
-        public JsonResult GetTaskhistory(int currentPageIndex,int recordsCount)
+        public JsonResult GetTaskhistory(int currentPageIndex, int recordsCount)
         {
             return Json(_requestorService.GetTaskHistories(currentPageIndex, recordsCount), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-         ///<summary>
-         ///Method should return the requestor tasks that are pending his approval. This would return records based on the inputs(Pagination format)
-         ///Return records in Descending order of task creation date
-         ///</summary>
-         ///<param name="currentPageIndex"></param>
-         ///<param name="recordsCount"></param>
-         ///<returns></returns>
+        ///<summary>
+        ///Method should return the requestor tasks that are pending his approval. This would return records based on the inputs(Pagination format)
+        ///Return records in Descending order of task creation date
+        ///</summary>
+        ///<param name="currentPageIndex"></param>
+        ///<param name="recordsCount"></param>
+        ///<returns></returns>
         public JsonResult GetTaskApplicantsForPermissions(int currentPageIndex = 1, int recordsCount = 10)
         {
             var tasks = _requestorService.GetTaskApplicantsForPermissions(currentPageIndex, recordsCount);
-            return Json(tasks,JsonRequestBehavior.AllowGet);
+            return Json(tasks, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

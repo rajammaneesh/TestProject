@@ -1,14 +1,11 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
+﻿using DCode.Data.DbContexts;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -16,7 +13,7 @@ namespace DCode.Services.ModelFactory
     {
         public TModel CreateModel<TModel>(user input) where TModel : class
         {
-            if(typeof(TModel) == typeof(UserContext))
+            if (typeof(TModel) == typeof(UserContext))
             {
                 return TranslateUser(input) as TModel;
             }
@@ -51,11 +48,11 @@ namespace DCode.Services.ModelFactory
 
         public user CreateModel<TModel>(TModel input) where TModel : class
         {
-            if(typeof(TModel) == typeof(UserContext))
+            if (typeof(TModel) == typeof(UserContext))
             {
                 return TranslateUserContext(input as UserContext);
             }
-            if(typeof(TModel) == typeof(ProfileRequest))
+            if (typeof(TModel) == typeof(ProfileRequest))
             {
                 return TraslateProfile(input as ProfileRequest);
             }
@@ -70,6 +67,14 @@ namespace DCode.Services.ModelFactory
             user.PROJECT_MANAGER_NAME = profileRequest.ManagerName;
             user.PROJECT_CODE = profileRequest.ProjectCode;
             user.PROJECT_NAME = profileRequest.ProjectName;
+
+            var subscriptionNotification = new notification_subscription();
+
+            subscriptionNotification.SUBSCRIPTION_STATUS
+                = profileRequest.IsSubscribedToNotifications;
+
+            user.notification_subscription.Add(subscriptionNotification);
+
             return user;
         }
 
@@ -81,7 +86,7 @@ namespace DCode.Services.ModelFactory
             dbUser.EMAIL_ID = userContext.EmailId;
             dbUser.FIRST_NAME = userContext.FirstName;
             dbUser.LAST_NAME = userContext.LastName;
-            dbUser.STATUS = Enums.UserStatus.Active.ToString();
+            dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
             return dbUser;
         }

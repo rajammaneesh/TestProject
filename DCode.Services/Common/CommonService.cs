@@ -16,6 +16,10 @@ using DCode.Data.RequestorRepository;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Data.MetadataRepository;
+using System.Text.RegularExpressions;
+using static DCode.Models.Enums.Enums;
+using System.Linq;
+using DCode.Data.UserRepository;
 
 namespace DCode.Services.Common
 {
@@ -33,12 +37,24 @@ namespace DCode.Services.Common
         private SkillModelFactory _skillModelFactory;
         private SuggestionModelFactory _suggestionModelFactory;
         private IServiceLineRepository _serviceLineRepository;
+        private ITaskTypeRepository _taskTypeRepository;
         private ServiceLineModelFactory _serviceLineModelFactory;
+        private TaskTypeModelFactory _taskTypeModelFactory;
+        private OfferingModelFactory _offeringModelFactory;
+        private PortfolioModelFactory _portfolioModelFactory;
+        private IOfferingRepository _offeringRepository;
+        private IPortfolioRepository _portfolioRepository;
 
-        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository, LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository, UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory, SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory, IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory)
+
+        public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
+            LogModelFactory logModelFactory, IRequestorRepository requestorRepository, IUserRepository userRepository,
+            UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
+            SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
+            IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,
+            PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, IPortfolioRepository portfolioRepository)
         {
             _taskRepository = taskRepository;
-            //_taskModelFactory = taskModelFactory;
             _logModelFactory = logModelFactory;
             _userContext = userContext;
             _logRepository = logRepository;
@@ -50,6 +66,12 @@ namespace DCode.Services.Common
             _suggestionModelFactory = suggestionModelFactory;
             _serviceLineRepository = serviceLineRepository;
             _serviceLineModelFactory = serviceLineModelFactory;
+            _taskTypeModelFactory = taskTypeModelFactory;
+            _taskTypeRepository = taskTypeRepository;
+            _offeringModelFactory = offeringModelFactory;
+            _portfolioModelFactory = portfolioModelFactory;
+            _offeringRepository = offeringRepository;
+            _portfolioRepository = portfolioRepository;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -94,6 +116,7 @@ namespace DCode.Services.Common
                     }
                 }
             }
+
             if (_userContext.MenuItems == null)
             {
                 _userContext.MenuItems = FetchMenuItems(_userContext.Role);
@@ -105,73 +128,145 @@ namespace DCode.Services.Common
         {
             SearchResultCollection searchResults = null;
             string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
-            var directoryEntry = new DirectoryEntry(path);
-            var directorySearcher = new DirectorySearcher(directoryEntry);
-            directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
-            searchResults = directorySearcher.FindAll();
-            var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
-
-            var propertyDescription = new StringBuilder();
-            foreach (SearchResult result in searchResults)
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
             {
-                foreach (string propertyName in result.Properties.PropertyNames)
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
+                searchResults = directorySearcher.FindAll();
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
                 {
-                    if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                    foreach (string propertyName in result.Properties.PropertyNames)
                     {
-                        _userContext.EmailId = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
-                    {
-                        _userContext.Designation = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
-                    {
-                        _userContext.FirstName = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
-                    {
-                        _userContext.LastName = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
-                    {
-                        _userContext.EmailId = result.Properties[propertyName][0].ToString() + Constants.DeloitteEmailExtn;
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
-                    {
-                        _userContext.EmployeeId = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
-                    {
-                        _userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
-                    }
-                    else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
-                    {
-                        _userContext.Department = result.Properties[propertyName][0].ToString();
+                        if (propertyName.ToLowerInvariant().Equals(Constants.Mail))
+                        {
+                            _userContext.EmailId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                        {
+                            _userContext.Designation = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                        {
+                            _userContext.FirstName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                        {
+                            _userContext.LastName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                        {
+                            _userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
+                        {
+                            _userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
+                        {
+                            _userContext.Department = result.Properties[propertyName][0].ToString();
+                        }
+                        else if ((propertyName.ToLowerInvariant().Equals(Constants.MsArchiveName)))
+                        {
+                            _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
+                        }
                     }
                 }
+                return _userContext;
             }
-            return _userContext;
+        }
+
+        public UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName)
+        {
+            var userContext = new UserContext();
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userName);
+
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
+            {
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userName);
+                searchResults = directorySearcher.FindAll();
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+                foreach (SearchResult result in searchResults)
+                {
+                    foreach (string propertyName in result.Properties.PropertyNames)
+                    {
+                        if (propertyName.ToLowerInvariant().Equals(Constants.Userprincipalname))
+                        {
+                            userContext.EmailId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                        {
+                            userContext.Designation = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Givenname))
+                        {
+                            userContext.FirstName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.SN))
+                        {
+                            userContext.LastName = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Name))
+                        {
+                            var propertyValue = result.Properties[propertyName][0].ToString();
+
+                            if (propertyValue.IndexOf(" ") == -1)
+                            {
+                                userContext.EmailId = propertyValue + Constants.DeloitteEmailExtn;
+                            }
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.EmployeeId))
+                        {
+                            userContext.EmployeeId = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.TelephoneNumber))
+                        {
+                            userContext.TelephoneNumber = result.Properties[propertyName][0].ToString();
+                        }
+                        else if (propertyName.ToLowerInvariant().Equals(Constants.Department))
+                        {
+                            userContext.Department = result.Properties[propertyName][0].ToString();
+                        }
+                    }
+                }
+                return userContext;
+            }
         }
 
         private void SetAndInsertContext()
         {
-            if (_userContext.Designation.Contains("senior manager") || _userContext.Designation.Contains("specialist leader") || _userContext.Designation.Contains("director") || _userContext.Designation.Contains("partner"))
+            var designation = _userContext.Designation.ToLowerInvariant();
+
+            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
             {
                 //_userContext.Role = Enums.Role.Admin;
-                _userContext.Role = Enums.Role.Requestor;
+                _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
-            else if (_userContext.Designation.ToLowerInvariant().Contains("manager") || _userContext.Designation.ToLowerInvariant().Contains("master"))
+            else if (designation.Contains("manager") || designation.Contains("master") || designation.Contains("mngr") || designation.Contains("mgr"))
             {
-                _userContext.Role = Enums.Role.Requestor;
+                _userContext.Role = Role.Requestor;
+                _userContext.IsCoreRoleRequestor = true;
+            }
+            else if (designation.Contains("senior consultant") || designation.Contains("specialist senior") || designation.Contains("asst mgr") || designation.Contains("sr. analyst"))
+            {
+                _userContext.Role = Role.Requestor;
                 _userContext.IsCoreRoleRequestor = true;
             }
             else
             {
-                _userContext.Role = Enums.Role.Contributor;
+                _userContext.Role = Role.Contributor;
                 _userContext.IsCoreRoleRequestor = false;
             }
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
+
             if (dbUser != null && dbUser.ID != null)
             {
                 _userContext.UserId = dbUser.ID;
@@ -187,6 +282,12 @@ namespace DCode.Services.Common
                     skill.Value = dbSkill.skill.VALUE;
                     _userContext.SkillSet.Add(skill);
                 }
+
+                if (dbUser.notification_subscription != null && dbUser.notification_subscription.Any())
+                {
+                    _userContext.IsSubscribedToNotifications
+                        = dbUser.notification_subscription.First().SUBSCRIPTION_STATUS;
+                }
             }
             else
             {
@@ -197,27 +298,26 @@ namespace DCode.Services.Common
             }
         }
 
-        private List<MenuItem> FetchMenuItems(Enums.Role role)
+        private List<MenuItem> FetchMenuItems(Role role)
         {
             var menuItemsList = new List<MenuItem>();
-            //var userContext = GetCurrentUserContext();
-
 
             switch (_userContext.Role)
             {
-                case Enums.Role.Admin:
+                case Role.Admin:
 
                     break;
-                case Enums.Role.Requestor:
+                case Role.Requestor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "CREATE NEW TASK", TabName = Constants.TabNewTask, NavigationUrl = "/Requestor/NewTasks", CssClass = "" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Requestor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
-                    menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "APPROVALS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "CONTACT US", TabName = Constants.ContactUS, NavigationUrl = "/ContactUs/ContactUs", ImageUrlActive = "/Content/Images/Email-Active.png", ImageUrlInactive = "/Content/Images/Email-Inactive.png", CssClass = "contactus-icon" });
                     break;
-                case Enums.Role.Contributor:
-                    menuItemsList.Add(new MenuItem() { MenuItemName = "My TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
-                    //menuItemsList.Add(new MenuItem() { MenuItemName = "PERMISSIONS", TabName = Constants.TabPermissions, NavigationUrl = "/Contributor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
+                case Role.Contributor:
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "CONTACT US", TabName = Constants.ContactUS, NavigationUrl = "/ContactUs/ContactUs", ImageUrlActive = "/Content/Images/Email-Active.png", ImageUrlInactive = "/Content/Images/Email-Inactive.png", CssClass = "contactus-icon" });
                     break;
                 default:
                     break;
@@ -228,7 +328,7 @@ namespace DCode.Services.Common
         public UserContext SwitchRole()
         {
             var userContext = GetCurrentUserContext();
-            userContext.Role = (userContext.Role == Enums.Role.Contributor) ? Enums.Role.Requestor : Enums.Role.Contributor;
+            userContext.Role = (userContext.Role == Role.Contributor) ? Role.Requestor : Role.Contributor;
             userContext.MenuItems = null;
             userContext.MenuItems = FetchMenuItems(userContext.Role);
             SessionHelper.Save(Constants.UserContext, userContext);
@@ -238,13 +338,13 @@ namespace DCode.Services.Common
         public UserContext SwitchRole(string roleFromUI)
         {
             var userContext = GetCurrentUserContext();
-            if (roleFromUI.ToLowerInvariant().Equals(Enums.Role.Requestor.ToString().ToLowerInvariant()))
+            if (roleFromUI.ToLowerInvariant().Equals(Role.Requestor.ToString().ToLowerInvariant()))
             {
-                userContext.Role = Enums.Role.Requestor;
+                userContext.Role = Role.Requestor;
             }
             else
             {
-                userContext.Role = Enums.Role.Contributor;
+                userContext.Role = Role.Contributor;
             }
             userContext.MenuItems = null;
             userContext.MenuItems = FetchMenuItems(userContext.Role);
@@ -275,7 +375,7 @@ namespace DCode.Services.Common
                 var taskApplicant = new taskapplicant();
                 taskApplicant.APPLICANT_ID = applicant.ID;
                 taskApplicant.TASK_ID = model.TaskId;
-                taskApplicant.STATUS = Enums.TaskApplicant.Active.ToString();
+                taskApplicant.STATUS = TaskApplicant.Active.ToString();
                 result = _userRepository.InsertTaskApplicant(taskApplicant);
             }
             else
@@ -287,9 +387,8 @@ namespace DCode.Services.Common
                 applicantt.MANAGER_EMAIL_ID = model.ManagerEmailId;
 
                 var taskApplicant = new taskapplicant();
-                //taskApplicant.APPLICANT_ID = applicant.ID;
                 taskApplicant.TASK_ID = model.TaskId;
-                taskApplicant.STATUS = Enums.TaskApplicant.Active.ToString();
+                taskApplicant.STATUS = TaskApplicant.Active.ToString();
                 result = _userRepository.InsertApplicantAndTask(taskApplicant, applicantt);
             }
             return result;
@@ -298,13 +397,13 @@ namespace DCode.Services.Common
         public int UpdateProfile(ProfileRequest profileRequest)
         {
             var user = _userModelFactory.CreateModel<ProfileRequest>(profileRequest);
-            MapAuditFields<user>(Enums.ActionType.Insert, user);
+            MapAuditFields<user>(ActionType.Insert, user);
             var applicantSkills = _applicantSkillModelFactory.CreateModel<Skill>(profileRequest.SkillSet, profileRequest.UserId);
             if (applicantSkills != null)
             {
                 foreach (var skill in applicantSkills)
                 {
-                    MapAuditFields<applicantskill>(Enums.ActionType.Insert, skill);
+                    MapAuditFields<applicantskill>(ActionType.Insert, skill);
                 }
             }
             var result = _userRepository.UpdateProfile(user, applicantSkills);
@@ -333,7 +432,7 @@ namespace DCode.Services.Common
                 var dbSkill = new skill();
                 dbSkill.CREATED_BY = user.EmailId;
                 dbSkill.CREATED_ON = DateTime.Now;
-                dbSkill.STATUS = Enums.SkillStatus.Active.ToString();
+                dbSkill.STATUS = SkillStatus.Active.ToString();
                 dbSkill.STATUS_DATE = DateTime.Now;
                 dbSkill.VALUE = skillValue;
 
@@ -371,6 +470,52 @@ namespace DCode.Services.Common
             return _serviceLineModelFactory.CreateModelList<ServiceLine>(serviceLines);
         }
 
+        public IEnumerable<PortfolioOffering> GetPortfolioOfferings(int taskTypeId)
+        {
+            var offeringsDisplayList = new List<PortfolioOffering>();
+            var portfolios = _portfolioRepository.GetPortfoliosOfferings(taskTypeId);
+
+            foreach (var portfolio in portfolios)
+            {
+                foreach (var offering in portfolio.offerings)
+                {
+                    var offeringToDisplay = new PortfolioOffering
+                    {
+                        PortfolioId = portfolio.Id,
+                        OfferingId = offering.Id,
+                        OfferingCode = offering.Code,
+                        DisplayName = $"{ portfolio.Code} - { offering.Description }"
+                    };
+
+                    offeringsDisplayList.Add(offeringToDisplay);
+                }
+            }
+
+            return offeringsDisplayList;
+        }
+
+
+        public IEnumerable<Offering> GetOfferings()
+        {
+            var offerings = _offeringRepository.GetOfferings();
+
+            return _offeringModelFactory.CreateModelList<Offering>(offerings);
+        }
+
+        public IEnumerable<Portfolio> GetPortfolios()
+        {
+            var portfolios = _portfolioRepository.GetPortfolios();
+
+            return _portfolioModelFactory.CreateModelList<Portfolio>(portfolios);
+        }
+
+        public IEnumerable<Models.ResponseModels.Common.TaskType> GetTaskTypes()
+        {
+            var taskTypes = _taskTypeRepository.GetTaskTypes();
+
+            return _taskTypeModelFactory.CreateModelList<Models.ResponseModels.Common.TaskType>(taskTypes);
+        }
+
         public int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName)
         {
             var user = _userRepository.GetUserByEmailId(usersEmailAddress);
@@ -378,9 +523,9 @@ namespace DCode.Services.Common
             var request = new ProfileRequest
             {
                 UserId = user.ID,
-                ManagerEmailId = managersEmailAddress,
                 ProjectCode = user.PROJECT_CODE,
                 ProjectName = user.PROJECT_NAME,
+                ManagerEmailId = managersEmailAddress,
                 ManagerName = managersName,
                 SkillSet = new List<Skill>()
             };
@@ -398,15 +543,84 @@ namespace DCode.Services.Common
             {
                 userName = emailSplit[0];
 
-                if(!String.IsNullOrWhiteSpace(userName))
+                if (!String.IsNullOrWhiteSpace(userName))
                 {
-                   var userContext = MapDetailsFromDeloitteNetwork(userName);
-                
-                   return userContext.Name;
+                    var userContext = MapDetailsFromDeloitteNetworkWithoutUserContextObject(userName);
+
+                    return userContext.Name;
                 }
                 return string.Empty;
             }
             return string.Empty;
+        }
+
+        public bool GetTechXAccess()
+        {
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.CheckUsiAccess]) == false)
+            {
+                return true;
+            }
+
+            if (string.IsNullOrEmpty(_userContext?.MsArchiveName))
+            {
+                throw new InvalidOperationException("User Context has not yet been initiated");
+            }
+
+            var archiveName = _userContext.MsArchiveName;
+
+            return Regex.IsMatch(archiveName, @".+(US - )(Hyderabad|Delhi|Bengaluru|Mumbai)[)]");
+        }
+
+        public string GetRMGroupEmailAddress(string department)
+        {
+            var offerings = GetOfferings();
+
+            var resourceManagerEmailId = string.Empty;
+            foreach (var offering in offerings)
+            {
+                var splitDep = department.Split(' ');
+                if (splitDep.Contains(offering.Code.ToUpperInvariant()))
+                {
+                    resourceManagerEmailId = offering.RMEmailGroup;
+                    break;
+                }
+            }
+
+            return resourceManagerEmailId;
+        }
+
+        public List<string> GetFINotificationRecipientsForOffering(int offeringId)
+        {
+            var offerings = GetOfferings();
+
+            var matchingOffering = offerings?.FirstOrDefault(x => x.Id == offeringId)?.PracticeEmailGroup;
+
+            if (string.IsNullOrEmpty(matchingOffering))
+            {
+                return null;
+            }
+
+            var appSettingValue = matchingOffering;
+
+            return appSettingValue
+                ?.Split(',')
+                ?.ToList();
+        }
+
+        public List<string> GetDefaultConsultingMailboxes()
+        {
+             var offerings = GetOfferings();
+
+            var practiceEmails = offerings
+                .Where(x => !string.IsNullOrEmpty(x.PracticeEmailGroup))
+                .SelectMany(x => x.GetPracticeEmailGroupsAsList())
+                ?.Distinct()
+                ?.ToList();
+
+            practiceEmails
+                ?.RemoveAll(x => string.IsNullOrEmpty(x?.Trim()));
+
+            return practiceEmails;
         }
     }
 }

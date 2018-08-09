@@ -1,17 +1,12 @@
 ﻿using DCode.Common;
-using DCode.Data;
 using DCode.Data.DbContexts;
-using DCode.Models;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Task;
 using DCode.Services.Common;
-using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -71,11 +66,13 @@ namespace DCode.Services.ModelFactory
                 task.Skills = ConvertTaskSkillsToString(input.taskskills);
                 task.Status = input.STATUS;
                 task.StatusDate = input.STATUS_DATE;
-                task.Type = input.TYPE;
+                task.TypeId = input.TASK_TYPE_ID.GetValueOrDefault();
                 task.OnBoardingDate = CommonHelper.ConvertToDateUI(input.ONBOARDING_DATE);
-                task.GiftsOrAwards = input.GIFTS == null ? false : Convert.ToBoolean(input.GIFTS);
+                task.ServiceLine = input.service_line?.Name;
                 task.Duration = CommonHelper.CalculateDuration(input.CREATED_ON);
                 task.TaskName = input.TASK_NAME;
+                task.Offering = input.offering?.Description;
+                task.OfferingId = Convert.ToString(input.OFFERING_ID);
             }
             return task;
         }
@@ -115,7 +112,7 @@ namespace DCode.Services.ModelFactory
         {
             var dbTask = new task();
             var user = _commonService.GetCurrentUserContext();
-            var modelTask = input as Models.RequestModels.TaskRequest;
+            var modelTask = input as TaskRequest;
             if (modelTask != null)
             {
                 dbTask.ONBOARDING_DATE = Convert.ToDateTime(modelTask.OnBoardingDate, CultureInfo.InvariantCulture);
@@ -130,11 +127,17 @@ namespace DCode.Services.ModelFactory
                 dbTask.PROJECT_WBS_Code = modelTask.WBSCode;
                 //dbTask.REQUESTOR_EMAIL_ID = user.EmailId;
                 //dbTask.SKILLS = modelTask.SkillSet;
-                dbTask.STATUS = Enums.TaskStatus.Active.ToString();
+                dbTask.STATUS = TaskStatus.Active.ToString();
                 dbTask.STATUS_DATE = DateTime.Now;
-                dbTask.TYPE = modelTask.Type;
-                dbTask.GIFTS = modelTask.GiftsOrAwards;
-                dbTask.SERVICE_LINE_ID = Convert.ToInt32(modelTask.SelectedServiceLine);
+                dbTask.TASK_TYPE_ID = Convert.ToInt32(modelTask.SelectedTaskType);
+                dbTask.SERVICE_LINE_ID = 1; //Dummy value, to suppress foreign key excption. Need to be removed once schema updated
+                dbTask.OFFERING_ID = Convert.ToInt32(modelTask.SelectedOffering);
+
+                if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
+                {
+                    input.Status = dbTask.STATUS = TaskStatus.Closed.ToString();
+                }
+
             }
             return dbTask;
         }
@@ -145,6 +148,7 @@ namespace DCode.Services.ModelFactory
             var modelTask = input as Models.ResponseModels.Task.Task;
             if (modelTask != null)
             {
+
                 dbTask.COMMENTS = modelTask.Comments;
                 //dbTask.CREATED_BY = modelTask.CreatedB
                 dbTask.CREATED_ON = modelTask.CreatedOn;
@@ -158,9 +162,13 @@ namespace DCode.Services.ModelFactory
                 //dbTask.SKILLS = modelTask.Skills;
                 dbTask.STATUS = modelTask.Status;
                 dbTask.STATUS_DATE = modelTask.StatusDate;
-                dbTask.TYPE = modelTask.Type;
+                dbTask.TASK_TYPE_ID = modelTask.TypeId;
                 //dbTask.UPDATED_BY = 
                 //dbTask.UPDATED_ON =
+                if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
+                {
+                    input.Status = dbTask.STATUS = TaskStatus.Closed.ToString();
+                }
             }
             return dbTask;
         }

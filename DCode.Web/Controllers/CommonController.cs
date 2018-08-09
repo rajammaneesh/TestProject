@@ -1,22 +1,83 @@
 ﻿using DCode.Common;
+using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
+using DCode.Services.Reporting;
+using DCode.Web.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Controllers
 {
     public class CommonController : Controller
     {
         private ICommonService _commonService;
-        public CommonController(ICommonService commonService)
+
+        private IReportingService _reportingService;
+
+
+        public CommonController(ICommonService commonService, IReportingService reportingService)
         {
             _commonService = commonService;
+            _reportingService = reportingService;
         }
         // GET: Common
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetRecords()
+        {
+            var userContext = _commonService.GetCurrentUserContext();
+
+            var internalUsers = ConfigurationManager.AppSettings["InternalAdminUsers"];
+
+            if (internalUsers != null
+                && internalUsers.Split(',').Any(x => x == userContext.EmailId))
+            {
+                if (TempData.ContainsKey("RecordsModel"))
+                {
+                    return View(TempData["RecordsModel"]);
+                }
+
+                return View();
+            }
+
+            TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
+
+            return RedirectToAction("Index", "Error");
+        }
+
+        [HttpPost]
+        public ActionResult FetchDbRecords(DbRecordsViewModel model, string refresh, string get)
+        {
+            if (refresh != null
+                || string.IsNullOrEmpty(model?.Query))
+            {
+                model.Query = null;
+            }
+            else if (model.Query.Trim().StartsWith("insert", System.StringComparison.CurrentCultureIgnoreCase)
+                || model.Query.Trim().StartsWith("delete", System.StringComparison.CurrentCultureIgnoreCase))
+            {
+                model.Query = null;
+            }
+            else if (get != null)
+            {
+                var result = _reportingService.ExecuteDbQuery(model.Query);
+
+                model.Records = result;
+            }
+
+            TempData["RecordsModel"] = model;
+
+            return RedirectToAction("GetRecords");
         }
 
         public ActionResult User()
@@ -58,9 +119,9 @@ namespace DCode.Web.Controllers
             return View();
         }
 
-        public JsonResult SetUser(string firstName, string lastName, string emailId, string role, string managerEmailId)
+        public JsonResult SetUser(string firstName, string lastName, string emailId, string role, string managerEmailId, string department)
         {
-            var user = new UserContext { FirstName = firstName, LastName = lastName, EmailId = emailId, Role = role == "Contributor" ? Enums.Role.Contributor : Enums.Role.Requestor, Designation = role == "Contributor" ? "Consultant" : "Manager", ManagerEmailId = managerEmailId };
+            var user = new UserContext { FirstName = firstName, LastName = lastName, EmailId = emailId, Role = role == "Contributor" ? Role.Contributor : Role.Requestor, Designation = role == "Contributor" ? "Consultant" : "Manager", ManagerEmailId = managerEmailId, Department = department, MsArchiveName = "Personal Archive - Lastname, Test (US - Hyderabad)" };
             //user = _commonService.GetCurrentUserContext();
             SessionHelper.Save(Constants.MockUser, user);
             return Json("success", JsonRequestBehavior.DenyGet);
@@ -81,10 +142,10 @@ namespace DCode.Web.Controllers
 
         public JsonResult testemail()
         {
-            EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com");
-            EmailHelper.ReviewNotification("User", "task", "projectname", "risen@deloitte.com", "risen@deloitte.com");
-            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", Enums.EmailType.Approved, "risen@deloitte.com", "risen@deloitte.com");
-            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", Enums.EmailType.Rejected, "risen@deloitte.com", "risen@deloitte.com");
+            EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com", "Test Offering");
+            EmailHelper.ReviewNotification("User", "task", "projectname", "risen@deloitte.com", "risen@deloitte.com", "test Offering");
+            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Approved, "risen@deloitte.com", "risen@deloitte.com", "Test Offering");
+            EmailHelper.SendApproveRejectNotification("User", "task", "projectname", EmailType.Rejected, "risen@deloitte.com", "risen@deloitte.com", "Test Offering");
             return Json("succes", JsonRequestBehavior.AllowGet);
         }
 
@@ -116,9 +177,75 @@ namespace DCode.Web.Controllers
         }
 
         [HttpGet]
+        public JsonResult GetPortfolioOfferings(int taskTypeId)
+        {
+            return Json(_commonService.GetPortfolioOfferings(taskTypeId), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetOfferings()
+        {
+            return Json(_commonService.GetOfferings(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetPortfolios()
+        {
+            return Json(_commonService.GetPortfolios(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetTaskTypes()
+        {
+            return Json(_commonService.GetTaskTypes(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public JsonResult GetNameFromEmailId(string emailId)
         {
             return Json(_commonService.GetNameFromEmailId(emailId));
+        }
+
+        public JsonResult GetVisits()
+        {
+            return Json(_reportingService.GetUserVisitsCount(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetCollTasks(int id)
+        {
+            if (id == 101)
+            {
+                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
+                         GetExecutionDateRange(DateTime.Now.DayOfWeek));
+
+                return Json(result);
+            }
+
+            return null;
+        }
+
+        [HttpGet]
+        public JsonResult GetCollTasksForDay(int id, DayOfWeek day)
+        {
+            if (id == 101)
+            {
+                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
+                         GetExecutionDateRange(day));
+
+                return Json(result);
+            }
+
+            return null;
+        }
+
+        private int GetExecutionDateRange(DayOfWeek day)
+        {
+            if (day == DayOfWeek.Tuesday)
+            {
+                return 4;
+            }
+            return 1;
         }
     }
 }

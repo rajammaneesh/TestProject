@@ -10,5 +10,6 @@ namespace DCode.Services.Task
         int UpsertTask(TaskRequest taskRequest);
         IEnumerable<Skill> GetSkills();
         IEnumerable<DCode.Models.ResponseModels.Task.Task> GetTasks();
+        int CloseTask(int taskId);
     }
 }

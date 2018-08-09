@@ -15,10 +15,11 @@
         $scope.isEditMode = false;
         $scope.test = { isEditMode: false };
         $scope.isFirstTimeLogin = false;
-        $scope.skillModel={ newSkillValue: "",
+        $scope.skillModel = {
+            newSkillValue: "",
             successMessage: null,
             errorMessage: null
-    }
+        }
 
         $scope.resetSkillValues = function () {
             $scope.skillModel.successMessage = null;
@@ -45,7 +46,7 @@
                             else {
                                 $scope.skillModel.errorMessage = data;
                             }
-                            
+
                         }
                     }
                 }).error(function (error) {
@@ -54,7 +55,18 @@
         }
         $scope.changeToEditMode = function () {
             $scope.isEditMode = !$scope.isEditMode;
+            if ($scope.isEditMode) {
+                $('#ex1_value').prop("disabled", false);
+                $('#btnSkillSearch').prop("disabled", false);
+            }
+            else {
+                $('#ex1_value').prop("disabled", true);
+                $('#btnSkillSearch').prop("disabled", true);
+
+            }
         }
+
+
         $scope.selectedSkill = function (value) {
             if (value != null && value.originalObject != null) {
                 if (!$scope.isSkillExist(value.originalObject.Id)) {
@@ -83,45 +95,44 @@
             else {
                 $("#isSkillAdded").addClass("invalid");
             }
-            var isvalid = !!$scope.profile.ProjectName && !!$scope.profile.ProjectCode && 
-                 !!$scope.profile.ManagerName && !!$scope.profile.ManagerEmailId && !!$scope.skillSet;
-            
-             if (isvalid) {
+
+            if (!!$scope.skillSet) {
 
 
-            $scope.profileRequest = {
-                UserId: $scope.userContext.UserId,
-                ProjectName: $scope.profile.ProjectName,
-                ProjectCode: $scope.profile.ProjectCode,
-                ManagerName: $scope.profile.ManagerName,
-                ManagerEmailId: $scope.profile.ManagerEmailId,
-                SkillSet: $scope.skillSet
-            };
+                $scope.profileRequest = {
+                    UserId: $scope.userContext.UserId,
+                    ProjectName: $scope.profile.ProjectName,
+                    ProjectCode: $scope.profile.ProjectCode,
+                    ManagerName: $scope.profile.ManagerName,
+                    ManagerEmailId: $scope.profile.ManagerEmailId,
+                    IsSubscribedToNotifications: !!$scope.profile.IsSubscribedToNotifications,
+                    SkillSet: $scope.skillSet
+                };
 
 
 
-            $http({
-                url: "/Profile/UpdateProfile",
-                method: "POST",
-                data: { profileRequest: $scope.profileRequest }
-            }).success(function (data, status, headers, config) {
-                if (data != undefined) {
-                    if (data != null) {
-                        UserContextService.InitializeUserContext().then(function (data) {
-                            if ($rootScope.userContext != null && $rootScope.userContext.Role == "1") {
-                                location.href = "/Requestor/Dashboard";
-                            }
-                            else {
-                                location.href = "/Contributor/Dashboard";
-                            }
-                        });
+                $http({
+                    url: "/Profile/UpdateProfile",
+                    method: "POST",
+                    data: { profileRequest: $scope.profileRequest }
+                }).success(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        if (data != null) {
+                            UserContextService.InitializeUserContext().then(function (data) {
+                                if ($rootScope.userContext != null && $rootScope.userContext.Role == "1") {
+                                    location.href = "/Requestor/Dashboard";
+                                }
+                                else {
+                                    location.href = "/Contributor/Dashboard";
+                                }
+                            });
+                        }
                     }
-                }
-            }).error(function (error) {
-            });
-        }
-             else
-                 return false;
+                }).error(function (error) {
+                });
+            }
+            else
+                return false;
         }
 
 
@@ -154,21 +165,47 @@
             $scope.profile = $rootScope.userContext;
             $scope.skillSet = $rootScope.userContext.SkillSet;
         }
-        $scope.checkIfFirstTimeLogin = function(){
-            if ($rootScope.userContext != null && ($rootScope.userContext.ManagerEmailId == null || $rootScope.userContext.ManagerEmailId == "")) {
+        $scope.checkIfFirstTimeLogin = function () {
+            if ($rootScope.userContext != null && $rootScope.userContext.SkillSet == null) {
                 $scope.isFirstTimeLogin = true;
                 $scope.isEditMode = true;
+            }
+            else {
+                $scope.isFirstTimeLogin = false;
             }
         }
         $scope.onLoad = function () {
             $scope.populateFieldsFromUserContext();
             $scope.checkIfFirstTimeLogin();
-            
+            if (!$scope.isFirstTimeLogin) {
+                if ($scope.isEditMode) {
+                    $('#btnSkillSearch').prop("disabled", false);
+                    $('#ex1_value').prop("disabled", false);
+                }
+                else {
+                    $('#btnSkillSearch').prop("disabled", true);
+                    $('#ex1_value').prop("disabled", true);
+
+                }
+            }
         }
 
         UserContextService.InitializeUserContext().then(function (data) {
             $scope.onLoad();
         });
+
+        $scope.RemoveData = function () {
+            $('#ex1_value').val('');
+        };
+
+
+        //$(function () {
+        //    alert($('#ex1_value').val());
+        //});
+        //alert($('#ex1_value').val());
+
+
     }
+
 
 })();

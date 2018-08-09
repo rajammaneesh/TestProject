@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.ComponentModel;
 
 namespace DCode.Common
 {
@@ -20,7 +17,8 @@ namespace DCode.Common
         public const string MinutesAgo = " minutes ago";
         public const string MinuteAgo = " minute ago";
         public const string Zero = "0";
-        
+        public const string ErrorRedirectType = "ErrorRedirect";
+
         //Layout 
         public const string UrlDashboard = "dashboard";
         public const string UrlPermissions = "permissions";
@@ -30,7 +28,9 @@ namespace DCode.Common
         public const string TabPermissions = "permissions";
         public const string TabNewTask = "new task";
         public const string TabHistory = "history";
-        public const string PERMISSIONS = "PERMISSIONS";
+        public const string PERMISSIONS = "APPROVALS";
+        public const string CheckUsiAccess = "CheckUsiAccess";
+        public const string ContactUS = "ContactUs";
 
         //Punctuation 
         public const string Comma = ",";
@@ -42,15 +42,18 @@ namespace DCode.Common
         public const string UserContextMenuItems = "DCodeUserContextMenuItems";
         public const string SearchFilter = "(&(objectClass=user)(sAMAccountName={0}))";
         public const string LdapConnection = "LDAPConnection";
+        public const string GenerateRedirectToError = "GenerateRedirectToError";
         public const string Userprincipalname = "userprincipalname";
         public const string Title = "title";
         public const string Givenname = "givenname";
         public const string SN = "sn";
         public const string Name = "name";
+        public const string Mail = "mail";
         public const string DeloitteEmailExtn = "@deloitte.com";
         public const string EmployeeId = "employeeid";
         public const string Department = "department";
         public const string TelephoneNumber = "telephonenumber";
+        public const string MsArchiveName = "msexcharchivename";
         public const string MockUser = "MockUser";
         public static string DcodeEmailId = "DcodeEmailId";
         public static string DcodeEmailPwd = "DcodeEmailPwd";
@@ -58,17 +61,24 @@ namespace DCode.Common
         public static string EnableTestFlow = "EnableTestFlow";
         public static string True = "true";
         public static string DCodeNotification = "TechX Notification";
+        public static string DCodeNewFINotification = "New TechX FI Task Notification {0}";
         public static string UseWindowsIdentity = "UseWindowsIdentity";
         public static string SmtpDeloitte = "smtp.deloitte.com";
-        public static string AssignBody = "You are assigned to work on task - {0} under project - {1}.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ApproveRejectBody = "Your request to work on task - {0} under project - {1} is {2}.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ReviewBody = "Your task - {0} under project - {1} is reviewed and closed.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
-        public static string ApplyBody = "{0} has requested to be assigned for {1} under project {2} for {3} starting {4}.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team<br/>Deloitte Digital";
+        public static string AssignBody = "You are assigned to work on task <b>{0}</b> under project <b>{1}</b> for the offering <b>{4}</b>.<br/><br/>WBS Code for project {2} - {3}<br/><br/>Regards,<br/>TechX Team";
+        public static string ApproveRejectBody = "Your request to work on task <b>{0}</b> under project <b>{1}</b> for the offering <b>{3}</b> is <b>{2}</b>.<br/><br/>Regards,<br/>TechX Team";
+        public static string ReviewBody = "Your task <b>{0}</b> under project <b>{1}</b> for the offering <b>{2}</b> is reviewed and closed.<br/><br/>Regards,<br/>TechX Team";
+        public static string ApplyBody = "<b>{0}</b> has requested to be assigned for <b>{1}</b> under project <b>{2}</b> from the <b>{5}</b> offering for <b>{3}</b> starting <b>{4}</b>.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team";
+        public static string ApplyFIBody = "<b>{0}</b> has requested to be assigned for the Firm Initiative <b>{1}</b> from the <b>{4}</b> offering for <b>{2}</b> hours starting <b>{3}</b>.<br/><br/>Regards,<br/>TechX Team";
+        public static string PostNewFIBody = "A New Firm Initiative <b>{0}</b> from the <b>{4}</b> offering has been added to the TechX portal for <b>{1}</b> hours starting <b>{2}</b> by the lead (cc'ed).<br/><br/>Description {3} <br/><br/>Please apply for the task through TechX <br/><br/>Regards,<br/>TechX Team";
+        public static string ClientServiceNotificationBody = "New Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the <b>{0}</b> skillset.{1}<br/><br/>Regards,<br/>TechX Team";
+        public static string FirmInitiativeNotificationBody = "New Firm Initiatives have been added to the  <a href=\"http://techx/\">TechX</a> portal for the offering <b>{1}</b>.{0}<br/><br/>Regards,<br/>TechX Team";
+        public static string CollectiveClientServiceTasksNotificationBody = "New Client Service Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the <b>{1}</b> offering.{0}<br/><br/>Regards,<br/>TechX Team";
         public static string TextOrHtmlFormat = "text/html";
-        public static string EmailTemplatePath = "~/EmailTemplates/email-template.html";
-        public static string DCodeLogoPath = "~/Content/Images/tech-x-logo-black-bg.png";
-        public static string Deloittepath = "~/Content/Images/Deloite_logo.png";
+        public static string EmailTemplatePath = "\\EmailTemplates\\email-template.html";
+        public static string DCodeLogoPath = "\\Content\\Images\\tech-x-logo-black-bg.png";
+        public static string Deloittepath = "\\Content\\Images\\Deloite_logo.png";
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
+        public const string FirmInitiativeSkillRecord = "Firm Initiative";
 
     }
 
@@ -83,23 +93,5 @@ namespace DCode.Common
     public static class SuccessMessages
     {
         public const string SkillAdded = "Added Skill";
-    }
-
-    public static class Enums
-    {
-        public enum Role { Admin, Requestor, Contributor };
-        public enum TaskStatus{Active, Assigned, Closed};
-        public enum ApplicantStatus { Active, ManagerApproved, Assigned, ManagerRejected, Closed };
-        public enum ActionType { Insert, Update };
-        public enum SortOrder { ASC, DESC };
-        public enum TaskStatusSortFields { Name, Hours, TaskName, ProjectName, DueDate };
-        public enum Rating { Good = 1, Average, Unsatisfactory };
-        public enum SkillStatus { Active, Closed };
-        public enum UserStatus { Active, Closed };
-        public enum TaskApplicant { Active, Closed };
-
-        public enum ApprovedApplicantStatus {Active,Closed };
-        public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };
-        public enum EmailType { Approved,Rejected}
     }
 }

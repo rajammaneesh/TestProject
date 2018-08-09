@@ -1,0 +1,24 @@
+﻿@model DCode.Models.Common.DatabaseTable
+
+@if (Model != null)
+{
+    <table style="border:solid">
+        <tr>
+            @foreach (var columnName in Model.Columns)
+            {
+                <th style="border: 1px solid black;">@columnName</th>
+            }
+        </tr>
+        @foreach (var row in Model.Table)
+        {
+            <tr>
+                @foreach (var column in row.Column)
+                {
+                    <td style="border: 1px solid black;">
+                        @column.ColumnValue
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+}
