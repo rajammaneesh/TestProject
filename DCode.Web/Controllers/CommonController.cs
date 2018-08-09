@@ -35,25 +35,25 @@ namespace DCode.Web.Controllers
         [HttpGet]
         public ActionResult GetRecords()
         {
-            var userContext = _commonService.GetCurrentUserContext();
+            //var userContext = _commonService.GetCurrentUserContext();
 
-            var internalUsers = ConfigurationManager.AppSettings["InternalAdminUsers"];
+            //var internalUsers = ConfigurationManager.AppSettings["InternalAdminUsers"];
 
-            if (internalUsers != null
-                && internalUsers.Split(',').Any(x => x == userContext.EmailId))
+            //if (internalUsers != null
+            //    && internalUsers.Split(',').Any(x => x == userContext.EmailId))
+            //{
+            if (TempData.ContainsKey("RecordsModel"))
             {
-                if (TempData.ContainsKey("RecordsModel"))
-                {
-                    return View(TempData["RecordsModel"]);
-                }
-
-                return View();
+                return View(TempData["RecordsModel"]);
             }
 
-            TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
-
-            return RedirectToAction("Index", "Error");
+            return View();
         }
+
+        //  TempData[Constants.ErrorRedirectType] = ErrorRedirectType.Unauthorized;
+
+        //return RedirectToAction("Index", "Error");
+        //  }
 
         [HttpPost]
         public ActionResult FetchDbRecords(DbRecordsViewModel model, string refresh, string get)
@@ -63,8 +63,7 @@ namespace DCode.Web.Controllers
             {
                 model.Query = null;
             }
-            else if (model.Query.Trim().StartsWith("insert", System.StringComparison.CurrentCultureIgnoreCase)
-                || model.Query.Trim().StartsWith("delete", System.StringComparison.CurrentCultureIgnoreCase))
+            else if (model.Query.Trim().StartsWith("delete", System.StringComparison.CurrentCultureIgnoreCase))
             {
                 model.Query = null;
             }

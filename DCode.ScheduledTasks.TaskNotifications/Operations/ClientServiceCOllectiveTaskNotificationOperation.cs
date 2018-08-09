@@ -82,7 +82,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
                 LogMessage("Sending emails");
 
-                _emailService.SendBulkEmail(notifications);
+                 _emailService.SendBulkEmail(notifications);
 
                 LogMessage("Emails sent");
             }

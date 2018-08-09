@@ -79,6 +79,7 @@ namespace DCode.Common
         public static string Deloittepath = "\\Content\\Images\\Deloite_logo.png";
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
         public const string FirmInitiativeSkillRecord = "Firm Initiative";
+        public const string IndistryInitiativeSkillRecord = "Industry Initiative";      
 
     }
 

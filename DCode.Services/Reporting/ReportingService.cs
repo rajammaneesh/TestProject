@@ -124,12 +124,12 @@ namespace DCode.Services.Reporting
             var mappedResult = new List<Tuple<string, string, string, int?>>();
 
             foreach (var resultItem in result)
-            {
+            {              
                 mappedResult.Add(
                     Tuple.Create<string, string, string, int?>(
                         resultItem.TASK_NAME,
                         resultItem.DETAILS,
-                        resultItem.taskskills.FirstOrDefault().skill.VALUE,
+                        $"{resultItem.user.FIRST_NAME} {resultItem.user.LAST_NAME}",
                         resultItem.OFFERING_ID));
             }
 
