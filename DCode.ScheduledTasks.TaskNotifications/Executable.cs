@@ -48,9 +48,7 @@ namespace DCode.ScheduledTasks.TaskNotifications
             catch (Exception ex)
             {
                 Console.WriteLine("Error::" + ex.StackTrace);
-            }
-
-            Console.ReadKey();
+            }           
         }
     }
 }

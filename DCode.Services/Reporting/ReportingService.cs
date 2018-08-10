@@ -105,7 +105,7 @@ namespace DCode.Services.Reporting
 
         public IEnumerable<string> GetConsultingUsersForServiceLine(int serviceLineId)
         {
-            var recipientEmailsFromConfig = 
+            var recipientEmailsFromConfig =
                 _commonService.GetFINotificationRecipientsForOffering(serviceLineId);
 
             return recipientEmailsFromConfig;
@@ -129,7 +129,7 @@ namespace DCode.Services.Reporting
                     Tuple.Create<string, string, string, int?>(
                         resultItem.TASK_NAME,
                         resultItem.DETAILS,
-                        resultItem.taskskills.FirstOrDefault().skill.VALUE,
+                        $"{resultItem.user.FIRST_NAME} {resultItem.user.LAST_NAME}",
                         resultItem.OFFERING_ID));
             }
 
