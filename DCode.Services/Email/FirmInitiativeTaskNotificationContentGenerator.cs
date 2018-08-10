@@ -26,7 +26,7 @@ namespace DCode.Services.Email
 
             var tableHtml = string.Empty;
 
-            tableHtml += $"<tr><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Firm Initiative Name</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Firm Initiative Details</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Skill</th></tr>";
+            tableHtml += $"<tr><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Firm Initiative Name</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Firm Initiative Details</th><th style='border:1px solid #4d4d4d;text-align:left;padding:8px;'>Requestor</th></tr>";
 
             foreach (var item in tableContent.ProjectData)
             {

@@ -164,6 +164,8 @@ namespace DCode.Data.TaskRepository
 
             query.Include(x => x.taskskills.Select(y => y.skill)).Load();
 
+            query.Include(x => x.user).Load();
+
             return query.ToList();
         }
 
