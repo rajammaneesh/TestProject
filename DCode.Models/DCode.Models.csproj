@@ -59,6 +59,7 @@
     <Compile Include="Email\ClientServiceCollectiveTaskNotificationSubject.cs" />
     <Compile Include="Email\ClientServiceNotificationContent.cs" />
     <Compile Include="Email\ClientServiceTaskNotificationSubject.cs" />
+    <Compile Include="Email\EmailTracker.cs" />
     <Compile Include="Email\FirmInitiativeDynamicContent.cs" />
     <Compile Include="Email\FirmInitiativeTaskNotificationContent.cs" />
     <Compile Include="Email\INotificationContent.cs" />
