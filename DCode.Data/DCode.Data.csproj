@@ -137,6 +137,7 @@
     <Compile Include="DbContexts\elmah_GetErrorsXml_Result.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\EmailDbContext.cs" />
     <Compile Include="DbContexts\log.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
@@ -181,6 +182,8 @@
     <Compile Include="DbContexts\UserDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EmailRepository\EmailRepository.cs" />
+    <Compile Include="EmailRepository\IEmailRepository.cs" />
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
     <Compile Include="MetadataRepository\IOfferingRepository.cs" />

@@ -9,6 +9,6 @@ namespace DCode.Services.Email
 {
     public interface IEmailTrackerService
     {
-        void InsertEmailDetails(EmailTracker emailTracker);
+        int InsertEmail(EmailTracker emailTracker);
     }
 }
