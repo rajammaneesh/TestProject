@@ -18,6 +18,7 @@ namespace DCode.Data.DbContexts
         public task()
         {
             this.approvedapplicants = new HashSet<approvedapplicant>();
+            this.email_tracker = new HashSet<email_tracker>();
             this.taskapplicants = new HashSet<taskapplicant>();
             this.taskskills = new HashSet<taskskill>();
         }
@@ -46,6 +47,8 @@ namespace DCode.Data.DbContexts
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<approvedapplicant> approvedapplicants { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<email_tracker> email_tracker { get; set; }
         public virtual offering offering { get; set; }
         public virtual service_line service_line { get; set; }
         public virtual task_type task_type { get; set; }
