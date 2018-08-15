@@ -4,7 +4,7 @@ using System;
 
 namespace DCode.Data.EmailRepository
 {
-    public class EmailRepository : Repository<emailtracker>, IEmailRepository
+    public class EmailRepository : Repository<email_tracker>, IEmailRepository
     {
         private readonly EmailDbContext _context;
 
@@ -14,11 +14,11 @@ namespace DCode.Data.EmailRepository
             _context = context;
         }
 
-        public int InsertEmailDetails(emailtracker emailTracker)
+        public int InsertEmailDetails(email_tracker emailTracker)
         {
             try
             {
-                var insertedTask = Context.Set<emailtracker>().Add(emailTracker);
+                var insertedTask = Context.Set<email_tracker>().Add(emailTracker);
                 return Context.SaveChanges();
             }
             catch (Exception ex)

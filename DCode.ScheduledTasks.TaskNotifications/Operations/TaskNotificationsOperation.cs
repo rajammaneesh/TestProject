@@ -24,6 +24,8 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
 
         private readonly INotificationContentFactory _notificationContentFactory;
 
+        private readonly IEmailTrackerService _emailTrackerService;
+
         private readonly ITaskNotificationContent _notificationContentType;
 
         public TaskNotificationsOperation(IKernel kernel)
@@ -31,6 +33,8 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
             _reportingService = kernel.Get<ReportingService>();
 
             _emailService = kernel.Get<EmailService>();
+
+            _emailTrackerService = kernel.Get<EmailTrackerService>();
 
             _logService = kernel.Get<LoggerService>();
 
@@ -74,6 +78,20 @@ namespace DCode.ScheduledTasks.Operations.TaskNotifications
                 LogMessage($"Sending bulk emails");
 
                 _emailService.SendBulkEmail(notifications);
+
+                foreach (var notification in notifications)
+                {
+                    var emailTracker = new EmailTracker
+                    {
+                        Subject = notification.Subject,
+                        ToAddresses = notification.ToAddresses,
+                        Body = notification.Body,
+                        CcAddresses = notification.CcAddresses,
+                        BccAddresses = notification.BccAddresses,
+                    };
+
+                    _emailTrackerService.InsertEmail(emailTracker);
+                }
 
                 Console.WriteLine($"Sending bulk emails completed");
                 LogMessage($"Sending bulk emails completed");

@@ -15,6 +15,6 @@ namespace DCode.Data.DbContexts
         {
             throw new UnintentionalCodeFirstException();
         }
-        public virtual DbSet<emailtracker> EmailTracker { get; set; }
+        public virtual DbSet<email_tracker> EmailTracker { get; set; }
     }
 }

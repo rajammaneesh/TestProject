@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DCode.Data.DbContexts;
 
 namespace DCode.Data.EmailRepository
 {
     public interface IEmailRepository
     {
-        int InsertEmailDetails(emailtracker emailTracker);
+        int InsertEmailDetails(email_tracker emailTracker);
     }
 }

@@ -20,7 +20,7 @@ namespace DCode.Models.Email
 
         public DateTime SentDate { get; set; }
 
-        public string TaskId { get; set; }
+        public int? TaskId { get; set; }
 
         public string Source { get; set; }
 

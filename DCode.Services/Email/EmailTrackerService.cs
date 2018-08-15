@@ -2,11 +2,6 @@
 using DCode.Models.Email;
 using DCode.Services.Base;
 using DCode.Services.ModelFactory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Services.Email
 {
@@ -23,7 +18,7 @@ namespace DCode.Services.Email
         public int InsertEmail(EmailTracker emailTracker)
         {
             var dbEmail = _emailModelFactory.CreateModel(emailTracker);
-            var result = _emailRepository.InsertEmailDetails(emailTracker);
+            var result = _emailRepository.InsertEmailDetails(dbEmail);
             return result;
         }
     }

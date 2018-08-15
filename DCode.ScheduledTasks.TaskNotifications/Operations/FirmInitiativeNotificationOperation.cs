@@ -3,6 +3,7 @@ using DCode.Models.Common;
 using DCode.Models.Email;
 using DCode.Models.Reporting;
 using DCode.Services.Common;
+using DCode.Services.Email;
 using DCode.Services.Reporting;
 using Ninject;
 using System;
@@ -22,6 +23,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private readonly ICommonService _commonService;
 
+        private readonly IEmailTrackerService _emailTrackerService;
+
         private readonly INotificationContentFactory _notificationContentFactory;
 
         private readonly ITaskNotificationContent _notificationContentGenerator;
@@ -35,6 +38,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
             _logService = kernel.Get<LoggerService>();
 
             _commonService = kernel.Get<CommonService>();
+
+            _emailTrackerService = kernel.Get<EmailTrackerService>();
 
             _notificationContentFactory = kernel.Get<NotificationContentFactory>();
 
@@ -73,6 +78,20 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 LogMessage($"Sending bulk emails");
 
                 _emailService.SendBulkEmail(notifications);
+
+                foreach (var notification in notifications)
+                {
+                    var emailTracker = new EmailTracker
+                    {
+                        Subject = notification.Subject,
+                        ToAddresses = notification.ToAddresses,
+                        Body = notification.Body,
+                        CcAddresses = notification.CcAddresses,
+                        BccAddresses = notification.BccAddresses,
+                    };
+
+                    _emailTrackerService.InsertEmail(emailTracker);
+                }
 
                 Console.WriteLine($"Sending bulk emails completed");
                 LogMessage($"Sending bulk emails completed");
