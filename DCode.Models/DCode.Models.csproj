@@ -74,6 +74,7 @@
     <Compile Include="RequestModels\ReviewTaskRequest.cs" />
     <Compile Include="RequestModels\TaskRequest.cs" />
     <Compile Include="ResponseModels\Base\ResponseBase.cs" />
+    <Compile Include="ResponseModels\Common\ApprovedApplicant.cs" />
     <Compile Include="ResponseModels\Common\Offering.cs" />
     <Compile Include="ResponseModels\Common\Portfolio.cs" />
     <Compile Include="ResponseModels\Common\PortfolioOffering.cs" />

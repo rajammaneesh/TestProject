@@ -39,8 +39,10 @@ namespace DCode.Web
                 new TaskTypeRepository(new MetadataDbContext()),
                 new Services.ModelFactory.TaskTypeModelFactory(),
                 new Services.ModelFactory.OfferingModelFactory(),
+                new Services.ModelFactory.ApprovedApplicantModelFactory(),
                 new Services.ModelFactory.PortfolioModelFactory(),
                 new OfferingRepository(new MetadataDbContext()),
+                new ApprovedApplicantRepository(new MetadataDbContext()),
                 new PortfolioRepository(new MetadataDbContext()));
 
 

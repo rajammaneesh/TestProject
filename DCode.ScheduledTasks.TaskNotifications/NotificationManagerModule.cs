@@ -91,6 +91,10 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(IPortfolioRepository))
          .To(typeof(PortfolioRepository))
          .InSingletonScope();
+
+            Bind(typeof(IApprovedApplicantRepository))
+         .To(typeof(ApprovedApplicantRepository))
+         .InSingletonScope();
         }
     }
 }
