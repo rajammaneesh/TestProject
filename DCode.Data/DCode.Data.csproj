@@ -185,11 +185,14 @@
     <Compile Include="DbContexts\UserDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DbContexts\UserPointsDbContext.cs" />
     <Compile Include="DbContexts\user_points.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\UserPointsRepository.cs" />
+    <Compile Include="MetadataRepository\IUserPointsRepository.cs" />
     <Compile Include="MetadataRepository\IApprovedApplicantRepository.cs" />
     <Compile Include="MetadataRepository\IOfferingRepository.cs" />
     <Compile Include="MetadataRepository\IPortfolioRepository.cs" />
