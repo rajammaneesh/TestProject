@@ -68,5 +68,7 @@ namespace DCode.Models.User
         public string MsArchiveName { get; set; }
 
         public bool IsSubscribedToNotifications { get; set; }
+
+        public int? OfferingId { get; set; }
     }
 }

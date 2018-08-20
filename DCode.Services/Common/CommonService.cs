@@ -285,6 +285,7 @@ namespace DCode.Services.Common
                 _userContext.ManagerName = dbUser.PROJECT_MANAGER_NAME;
                 _userContext.ProjectName = dbUser.PROJECT_NAME;
                 _userContext.SkillSet = new List<Skill>();
+                _userContext.OfferingId = dbUser.OFFERING_ID;
                 foreach (var dbSkill in dbUser.applicantskills)
                 {
                     var skill = new Skill();
@@ -305,6 +306,7 @@ namespace DCode.Services.Common
                 var result = _userRepository.InsertUser(userDbObj);
                 var dbUserres = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
                 _userContext.UserId = dbUserres.ID;
+                _userContext.OfferingId = dbUserres.OFFERING_ID;
             }
         }
 
