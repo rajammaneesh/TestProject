@@ -98,6 +98,30 @@ namespace DCode.Services.ModelFactory
             dbUser.OFFERING_ID = GetOfferingFromDepartment(userContext?.DepartmentCode);
             dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
+
+            dbUser.user_points = new List<user_points>();
+
+            if (userContext.Role == Role.Requestor)
+            {
+                dbUser.user_points.Add(new user_points
+                {
+                    @event = "REQUESTOR-New Requestor",
+                    created_date = DateTime.Now,
+                    points = 5,
+                    role_id = (int)Role.Requestor,
+                    user_id = userContext.UserId
+                });
+            }
+
+            dbUser.user_points.Add(new user_points
+            {
+                @event = "CONTRIBUTOR-New Contributor",
+                created_date = DateTime.Now,
+                points = 5,
+                role_id = (int)Role.Contributor,
+                user_id = userContext.UserId
+            });
+
             return dbUser;
         }
 

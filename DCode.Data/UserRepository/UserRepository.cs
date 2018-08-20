@@ -29,6 +29,7 @@ namespace DCode.Data.UserRepository
         public int InsertUser(user user)
         {
             var result = Context.Set<user>().Add(user);
+            
             return Context.SaveChanges();
         }
 
