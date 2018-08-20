@@ -30,7 +30,8 @@ namespace DCode.Web
                 new Services.ModelFactory.LogModelFactory(),
                 new RequestorRepository(new TaskDbContext()),
                 new UserRepository(new UserDbContext()),
-                new Services.ModelFactory.UserModelFactory(),
+                new Services.ModelFactory.UserModelFactory(
+                    new OfferingRepository(new MetadataDbContext())),
                 new Services.ModelFactory.ApplicantSkillModelFactory(),
                 new Services.ModelFactory.SkillModelFactory(),
                 new Services.ModelFactory.SuggestionModelFactory(),

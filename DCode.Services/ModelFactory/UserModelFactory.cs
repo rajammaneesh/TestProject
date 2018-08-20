@@ -1,16 +1,25 @@
 ﻿using DCode.Data.DbContexts;
+using DCode.Data.MetadataRepository;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
     public class UserModelFactory : IModelFactory<user>
     {
+        private IOfferingRepository _offeringRepository;
+
+        public UserModelFactory(IOfferingRepository offeringRepository)
+        {
+            _offeringRepository = offeringRepository;
+        }
+
         public TModel CreateModel<TModel>(user input) where TModel : class
         {
             if (typeof(TModel) == typeof(UserContext))
@@ -86,9 +95,17 @@ namespace DCode.Services.ModelFactory
             dbUser.EMAIL_ID = userContext.EmailId;
             dbUser.FIRST_NAME = userContext.FirstName;
             dbUser.LAST_NAME = userContext.LastName;
+            dbUser.OFFERING_ID = GetOfferingFromDepartment(userContext?.DepartmentCode);
             dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
             return dbUser;
+        }
+
+        private int? GetOfferingFromDepartment(string departmentCode)
+        {
+            var offerings = _offeringRepository.GetOfferings();
+
+            return offerings?.Where(x => x.Code == departmentCode)?.FirstOrDefault()?.Id;
         }
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<user> inputList) where TModel : class
