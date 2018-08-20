@@ -46,7 +46,8 @@ namespace DCode.Services.ModelFactory
             {
                 Id = input.Id,
                 user_id = input.user_id,
-                points = input.points
+                points = input.points,
+                @event=input.@event
             };
         }
     }

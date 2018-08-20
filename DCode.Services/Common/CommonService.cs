@@ -85,7 +85,6 @@ namespace DCode.Services.Common
 
         public UserContext GetCurrentUserContext(string userName = null)
         {
-            GetUserPoints();
             if (SessionHelper.Retrieve(Constants.MockUser) != null)
             {
                 if (SessionHelper.Retrieve(Constants.UserContext) != null)
@@ -516,17 +515,47 @@ namespace DCode.Services.Common
 
         public decimal? GetApprovedApplicantHours()
         {
+            var currentUser = GetCurrentUserContext();
             var applicants = _approvedApplicantRepository.GetApprovedApplicants();
-            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants).Where(x => x.APPLICANT_ID == 649);
+            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants).Where(x => x.APPLICANT_ID == currentUser.UserId);
             return hoursWorked.Sum(x => x.HOURS_WORKED);
         }
 
-        public decimal? GetUserPoints()
+        //public int? GetUserPoints()
+        //{
+        //    var currentUser = GetCurrentUserContext();
+        //    var users = _userRepository.GetAllUsers();
+        //    var userpoints = _userPointsRepository.GetUserPoints();
+
+        //    var offering_Users = _userModelFactory.CreateModelList<user>(users).Where(x => x.OFFERING_ID == currentUser.OfferingId).ToList();
+        //    var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+
+        //    var points = new List<int>();
+        //    HashSet<int> userIds = new HashSet<int>(offering_Users.Select(s => s.ID));
+        //    var filteredUserPointsList = userPointsList.Where(m => userIds.Contains(m.Id)).ToList();
+
+        //    return filteredUserPointsList.Sum(x => x.points);
+        //}
+
+        public int? GetUserPoints()
         {
+            var currentUser = GetCurrentUserContext();
             var userpoints = _userPointsRepository.GetUserPoints();
-            //Need to change the hardcoded user id
-            var totalUserPoints = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).Where(x => x.user_id == 649);
-            return totalUserPoints.Sum(x => x.points);
+
+            var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+
+            return userPointsList.Sum(x => x.points);
+        }
+
+        public int? GetRequestorEvents()
+        {
+            var currentUser = GetCurrentUserContext();
+            var userpoints = _userPointsRepository.GetUserPoints();
+
+            var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+
+            return userPointsList.Where(m => m.@event == "REQUESTOR-Task Created").ToList().Count();
+
         }
 
         public IEnumerable<Portfolio> GetPortfolios()

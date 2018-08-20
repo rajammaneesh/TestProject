@@ -134,7 +134,38 @@ namespace DCode.Services.ModelFactory
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<user> inputList) where TModel : class
         {
-            throw new NotImplementedException();
+            if (typeof(TModel) == typeof(user))
+            {
+                if (inputList == null)
+                {
+                    return null;
+                }
+
+                var listOfUsers = new List<user>();
+
+                foreach (var item in inputList)
+                {
+                    listOfUsers.Add(TranslateToOutput(item));
+                }
+
+                return listOfUsers as IEnumerable<TModel>;
+            }
+            return null;
         }
+
+        private user TranslateToOutput(user input)
+        {
+            var dbUser = new user();
+            dbUser.ID = input.ID;
+            dbUser.DESIGNATION = input.DESIGNATION;
+            dbUser.EMAIL_ID = input.EMAIL_ID;
+            dbUser.FIRST_NAME = input.FIRST_NAME;
+            dbUser.LAST_NAME = input.LAST_NAME;
+            dbUser.OFFERING_ID = input.OFFERING_ID;
+            dbUser.STATUS = UserStatus.Active.ToString();
+            dbUser.STATUS_DATE = DateTime.Now;
+            return dbUser;
+        }
+
     }
 }
