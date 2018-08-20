@@ -222,6 +222,14 @@
           <Property Name="event" Type="varchar" MaxLength="60" Nullable="false" />
           <Property Name="points" Type="int" Nullable="false" />
           <Property Name="created_date" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="45" Nullable="false" />
         </EntityType>
         <EntityType Name="users">
           <Key>
@@ -301,6 +309,18 @@
             </Principal>
             <Dependent Role="portfolio_tasktype">
               <PropertyRef Name="portfolioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_roleId_userRole">
+          <End Role="user_role" Type="Self.user_role" Multiplicity="1" />
+          <End Role="user_points" Type="Self.user_points" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="user_points">
+              <PropertyRef Name="role_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -493,6 +513,7 @@
           <EntitySet Name="tasks" EntityType="Self.tasks" Schema="dcode_prod" store:Type="Tables" />
           <EntitySet Name="taskskills" EntityType="Self.taskskills" Schema="dcode_prod" store:Type="Tables" />
           <EntitySet Name="user_points" EntityType="Self.user_points" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dcode_prod" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dcode_prod" store:Type="Tables" />
           <AssociationSet Name="applicantskills_ibfk_1" Association="Self.applicantskills_ibfk_1">
             <End Role="users" EntitySet="users" />
@@ -513,6 +534,10 @@
           <AssociationSet Name="FK_Portfolio" Association="Self.FK_Portfolio">
             <End Role="portfolios" EntitySet="portfolios" />
             <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
+          </AssociationSet>
+          <AssociationSet Name="fk_roleId_userRole" Association="Self.fk_roleId_userRole">
+            <End Role="user_role" EntitySet="user_role" />
+            <End Role="user_points" EntitySet="user_points" />
           </AssociationSet>
           <AssociationSet Name="fk_taskId_task" Association="Self.fk_taskId_task">
             <End Role="tasks" EntitySet="tasks" />
@@ -683,6 +708,11 @@
           <AssociationSet Name="fk_usr_off" Association="DCodeDbContext.fk_usr_off">
             <End Role="offering" EntitySet="offerings" />
             <End Role="user" EntitySet="users" />
+          </AssociationSet>
+          <EntitySet Name="user_role" EntityType="DCodeDbContext.user_role" />
+          <AssociationSet Name="fk_roleId_userRole" Association="DCodeDbContext.fk_roleId_userRole">
+            <End Role="user_role" EntitySet="user_role" />
+            <End Role="user_points" EntitySet="user_points" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
@@ -924,6 +954,8 @@
           <Property Name="points" Type="Int32" Nullable="false" />
           <Property Name="created_date" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="user" Relationship="DCodeDbContext.fk_userId_user" FromRole="user_points" ToRole="user" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user_role" Relationship="DCodeDbContext.fk_roleId_userRole" FromRole="user_points" ToRole="user_role" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -1163,6 +1195,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="user_points" Relationship="DCodeDbContext.fk_roleId_userRole" FromRole="user_role" ToRole="user_points" />
+        </EntityType>
+        <Association Name="fk_roleId_userRole">
+          <End Type="DCodeDbContext.user_role" Role="user_role" Multiplicity="1" />
+          <End Type="DCodeDbContext.user_points" Role="user_points" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="user_points">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1388,6 +1440,7 @@
           <EntitySetMapping Name="user_points">
             <EntityTypeMapping TypeName="DCodeDbContext.user_points">
               <MappingFragment StoreEntitySet="user_points">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
                 <ScalarProperty Name="created_date" ColumnName="created_date" />
                 <ScalarProperty Name="points" ColumnName="points" />
                 <ScalarProperty Name="event" ColumnName="event" />
@@ -1426,6 +1479,14 @@
               <ScalarProperty Name="Id" ColumnName="portfolioId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="user_role">
+            <EntityTypeMapping TypeName="DCodeDbContext.user_role">
+              <MappingFragment StoreEntitySet="user_role">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

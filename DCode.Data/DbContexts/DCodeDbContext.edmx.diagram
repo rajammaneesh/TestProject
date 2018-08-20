@@ -41,6 +41,8 @@
         <AssociationConnector Association="DCodeDbContext.fk_userId_user" />
         <AssociationConnector Association="DCodeDbContext.portfolio_tasktype" />
         <AssociationConnector Association="DCodeDbContext.fk_usr_off" />
+        <EntityTypeShape EntityType="DCodeDbContext.user_role" Width="1.5" PointX="6.375" PointY="6.875" />
+        <AssociationConnector Association="DCodeDbContext.fk_roleId_userRole" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -189,6 +189,9 @@
     <Compile Include="DbContexts\user_points.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\user_role.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
     <Compile Include="MetadataRepository\UserPointsRepository.cs" />
