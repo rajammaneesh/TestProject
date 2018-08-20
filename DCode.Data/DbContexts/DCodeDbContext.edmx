@@ -242,6 +242,7 @@
           <Property Name="CREATED_ON" Type="datetime" Precision="0" />
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="UPDATED_ON" Type="datetime" Precision="0" />
+          <Property Name="OFFERING_ID" Type="int" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Role="users" Type="Self.users" Multiplicity="1" />
@@ -350,6 +351,18 @@
             </Principal>
             <Dependent Role="notification_subscription">
               <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usr_off">
+          <End Role="offerings" Type="Self.offerings" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offerings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="OFFERING_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -517,6 +530,10 @@
             <End Role="users" EntitySet="users" />
             <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
+          <AssociationSet Name="fk_usr_off" Association="Self.fk_usr_off">
+            <End Role="offerings" EntitySet="offerings" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
           <AssociationSet Name="PORT_OFFR_FK" Association="Self.PORT_OFFR_FK">
             <End Role="portfolios" EntitySet="portfolios" />
             <End Role="offerings" EntitySet="offerings" />
@@ -663,6 +680,10 @@
             <End Role="portfolio" EntitySet="portfolios" />
             <End Role="task_type" EntitySet="task_type" />
           </AssociationSet>
+          <AssociationSet Name="fk_usr_off" Association="DCodeDbContext.fk_usr_off">
+            <End Role="offering" EntitySet="offerings" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -771,6 +792,7 @@
           <Property Name="Practice_Email_Group" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="portfolio" Relationship="DCodeDbContext.PORT_OFFR_FK" FromRole="offering" ToRole="portfolio" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="offering" ToRole="task" />
+          <NavigationProperty Name="users" Relationship="DCodeDbContext.fk_usr_off" FromRole="offering" ToRole="user" />
         </EntityType>
         <EntityType Name="portfolio">
           <Key>
@@ -928,6 +950,8 @@
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
           <NavigationProperty Name="user_points" Relationship="DCodeDbContext.fk_userId_user" FromRole="user" ToRole="user_points" />
+          <Property Name="OFFERING_ID" Type="Int32" />
+          <NavigationProperty Name="offering" Relationship="DCodeDbContext.fk_usr_off" FromRole="user" ToRole="offering" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
@@ -1126,6 +1150,18 @@
         <Association Name="portfolio_tasktype">
           <End Type="DCodeDbContext.portfolio" Role="portfolio" Multiplicity="*" />
           <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="*" />
+        </Association>
+        <Association Name="fk_usr_off">
+          <End Type="DCodeDbContext.offering" Role="offering" Multiplicity="0..1" />
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offering">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="OFFERING_ID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1363,6 +1399,7 @@
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="DCodeDbContext.user">
               <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="OFFERING_ID" ColumnName="OFFERING_ID" />
                 <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
                 <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
                 <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
