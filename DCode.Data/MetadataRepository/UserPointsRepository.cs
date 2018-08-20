@@ -2,8 +2,6 @@
 using DCode.Data.DbContexts;
 using DCode.Data.Repository;
 using System.Linq;
-using System.Linq.Dynamic;
-using System.Data.Entity;
 
 namespace DCode.Data.MetadataRepository
 {
@@ -20,6 +18,13 @@ namespace DCode.Data.MetadataRepository
         public IEnumerable<user_points> GetUserPoints()
         {
             return Context.Set<user_points>().ToList();
+        }
+
+        public int InsertUserPoints(user_points pointsRecord)
+        {
+            var record = Context.Set<user_points>().Add(pointsRecord);
+
+            return Context.SaveChanges();
         }
     }
 }

@@ -149,5 +149,13 @@ namespace DCode.Data.UserRepository
 
             return query?.Select(x => x.EMAIL_ID)?.ToList();
         }
+
+        public IEnumerable<user> GetAllActiveUsersDetails()
+        {
+            var query = Context.Set<user>()
+               .Where(x => x.STATUS == UserStatus.Active.ToString());
+
+            return query?.ToList();
+        }
     }
 }

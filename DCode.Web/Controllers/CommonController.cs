@@ -226,6 +226,14 @@ namespace DCode.Web.Controllers
         }
 
         [HttpGet]
+        public JsonResult StartGamificationMigration()
+        {
+            _commonService.MigrateGamificationRecords();
+
+            return Json("done");
+        }
+
+        [HttpGet]
         public JsonResult GetCollTasksForDay(int id, DayOfWeek day)
         {
             if (id == 101)

@@ -55,9 +55,9 @@ namespace DCode.Services.Common
             UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
             SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
-            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,UserPointsModelFactory userPointsModelFactory,
-            ApprovedApplicantModelFactory approvedApplicantModelFactory,PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, 
-            IApprovedApplicantRepository approvedApplicantRepository,IPortfolioRepository portfolioRepository,IUserPointsRepository userPointsRepository)
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory, UserPointsModelFactory userPointsModelFactory,
+            ApprovedApplicantModelFactory approvedApplicantModelFactory, PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository,
+            IApprovedApplicantRepository approvedApplicantRepository, IPortfolioRepository portfolioRepository, IUserPointsRepository userPointsRepository)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -627,7 +627,7 @@ namespace DCode.Services.Common
 
         public List<string> GetDefaultConsultingMailboxes()
         {
-             var offerings = GetOfferings();
+            var offerings = GetOfferings();
 
             var practiceEmails = offerings
                 .Where(x => !string.IsNullOrEmpty(x.PracticeEmailGroup))
@@ -639,6 +639,103 @@ namespace DCode.Services.Common
                 ?.RemoveAll(x => string.IsNullOrEmpty(x?.Trim()));
 
             return practiceEmails;
+        }
+
+        public void MigrateGamificationRecords()
+        {
+            var users = _userRepository.GetAllActiveUsersDetails();
+
+            users.ToList()?.ForEach(x =>
+           {
+               var designation = GetDesignationForUser(x.EMAIL_ID)?.ToLowerInvariant();
+
+               if (designation != null)
+               {
+                   Role userRole;
+
+                   if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
+                   {
+                       userRole = Role.Requestor;
+                   }
+                   else if (designation.Contains("manager") || designation.Contains("master") || designation.Contains("mngr") || designation.Contains("mgr"))
+                   {
+                       userRole = Role.Requestor;
+                   }
+                   else if (designation.Contains("senior consultant") || designation.Contains("specialist senior") || designation.Contains("asst mgr") || designation.Contains("sr. analyst"))
+                   {
+                       userRole = Role.Requestor;
+                   }
+                   else
+                   {
+                       userRole = Role.Contributor;
+                   }
+
+                   if (userRole == Role.Requestor)
+                   {
+                       _userPointsRepository.InsertUserPoints(new user_points
+                       {
+                           created_date = DateTime.Now,
+                           points = 5,
+                           role_id = (int)Role.Requestor,
+                           user_id = x.ID,
+                           @event = "REQUESTOR-Existing Requestor",
+                       });
+                   }
+
+                   _userPointsRepository.InsertUserPoints(new user_points
+                   {
+                       created_date = DateTime.Now,
+                       points = 5,
+                       role_id = (int)Role.Contributor,
+                       user_id = x.ID,
+                       @event = "CONTRIBUTOR-Existing Contributor",
+                   });
+               }
+           });
+        }
+
+        private string GetDesignationForUser(string userName)
+        {
+            var userNameItem = userName.Split('@')?.First();
+
+            if (string.IsNullOrEmpty(userNameItem))
+            {
+                return null;
+            }
+
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userNameItem);
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
+            {
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userNameItem);
+                searchResults = directorySearcher.FindAll();
+
+                if (searchResults.Count == 0)
+                {
+                    return null;
+                }
+
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
+                {
+                    if (result.Properties!=null)
+                    {
+                        return Convert.ToString(result.Properties["title"][0]);
+                    }                 
+                    //foreach (string propertyName in result.Properties.PropertyNames)
+                    //{
+                    //    if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                    //    {
+                    //        return result.Properties[propertyName][0].ToString();
+                    //    }
+                    //}
+                }
+            }
+            return null;
         }
     }
 }

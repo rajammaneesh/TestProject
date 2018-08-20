@@ -1,12 +1,8 @@
-﻿using DCode.Models;
-using DCode.Models.Common;
+﻿using DCode.Models.Common;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DCode.Services.Common
 {
@@ -48,5 +44,7 @@ namespace DCode.Services.Common
         IEnumerable<PortfolioOffering> GetPortfolioOfferings(int taskTypeId);
 
         List<string> GetDefaultConsultingMailboxes();
+
+        void MigrateGamificationRecords();
     }
 }
