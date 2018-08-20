@@ -112,6 +112,7 @@
     <Compile Include="DbContexts\approvedapplicant.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\ApprovedApplicantDbContext.cs" />
     <Compile Include="DbContexts\daily_usage_statistics.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
@@ -184,15 +185,20 @@
     <Compile Include="DbContexts\UserDbContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DbContexts\UserPointsDbContext.cs" />
     <Compile Include="DbContexts\user_points.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\UserPointsRepository.cs" />
+    <Compile Include="MetadataRepository\IUserPointsRepository.cs" />
+    <Compile Include="MetadataRepository\IApprovedApplicantRepository.cs" />
     <Compile Include="MetadataRepository\IOfferingRepository.cs" />
     <Compile Include="MetadataRepository\IPortfolioRepository.cs" />
     <Compile Include="MetadataRepository\ITaskTypeRepository.cs" />
     <Compile Include="MetadataRepository\IServiceLineRepository.cs" />
+    <Compile Include="MetadataRepository\ApprovedApplicantRepository.cs" />
     <Compile Include="MetadataRepository\PortfolioRepository.cs" />
     <Compile Include="MetadataRepository\OfferingRepository.cs" />
     <Compile Include="MetadataRepository\TaskTypeRepository.cs" />

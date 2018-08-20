@@ -44,6 +44,10 @@ namespace DCode.Services.Common
         private PortfolioModelFactory _portfolioModelFactory;
         private IOfferingRepository _offeringRepository;
         private IPortfolioRepository _portfolioRepository;
+        private IApprovedApplicantRepository _approvedApplicantRepository;
+        private ApprovedApplicantModelFactory _approvedApplicantModelFactory;
+        private UserPointsModelFactory _userPointsModelFactory;
+        private IUserPointsRepository _userPointsRepository;
 
 
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
@@ -51,8 +55,9 @@ namespace DCode.Services.Common
             UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
             SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
-            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,
-            PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, IPortfolioRepository portfolioRepository)
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,UserPointsModelFactory userPointsModelFactory,
+            ApprovedApplicantModelFactory approvedApplicantModelFactory,PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, 
+            IApprovedApplicantRepository approvedApplicantRepository,IPortfolioRepository portfolioRepository,IUserPointsRepository userPointsRepository)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -72,10 +77,15 @@ namespace DCode.Services.Common
             _portfolioModelFactory = portfolioModelFactory;
             _offeringRepository = offeringRepository;
             _portfolioRepository = portfolioRepository;
+            _approvedApplicantRepository = approvedApplicantRepository;
+            _approvedApplicantModelFactory = approvedApplicantModelFactory;
+            _userPointsModelFactory = userPointsModelFactory;
+            _userPointsRepository = userPointsRepository;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
         {
+            GetUserPoints();
             if (SessionHelper.Retrieve(Constants.MockUser) != null)
             {
                 if (SessionHelper.Retrieve(Constants.UserContext) != null)
@@ -500,6 +510,21 @@ namespace DCode.Services.Common
             var offerings = _offeringRepository.GetOfferings();
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
+        }
+
+        public decimal? GetApprovedApplicantHours()
+        {
+            var applicants = _approvedApplicantRepository.GetApprovedApplicants();
+            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants).Where(x => x.APPLICANT_ID == 649);
+            return hoursWorked.Sum(x => x.HOURS_WORKED);
+        }
+
+        public decimal? GetUserPoints()
+        {
+            var userpoints = _userPointsRepository.GetUserPoints();
+            //Need to change the hardcoded user id
+            var totalUserPoints = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).Where(x => x.user_id == 649);
+            return totalUserPoints.Sum(x => x.points);
         }
 
         public IEnumerable<Portfolio> GetPortfolios()
