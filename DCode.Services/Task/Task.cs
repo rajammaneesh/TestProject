@@ -47,7 +47,8 @@ namespace DCode.Services.Task
 
                 var dbTask = _taskModelFactory.CreateModel<TaskRequest>(taskRequest);
                 MapAuditFields<task>(ActionType.Insert, dbTask);
-                if (taskRequest.SelectedTaskType == "2")
+                if (taskRequest.SelectedTaskType == "2"
+                    || taskRequest.SelectedTaskType == "3")
                 {
 
                     if (taskRequest.SkillSet == null
@@ -55,10 +56,14 @@ namespace DCode.Services.Task
                     {
                         var listOfSkills = new List<int>();
 
-                        var firmInitiativeSkill = _taskRepository.GetSkillByName(Constants.FirmInitiativeSkillRecord);
+                        var skillName = taskRequest.SelectedTaskType == "2"
+                            ? Constants.FirmInitiativeSkillRecord
+                            : Constants.IndustryInitiativeSkillRecord;
 
-                        listOfSkills.Add(firmInitiativeSkill != null
-                            ? firmInitiativeSkill.ID
+                        var matchedSkill = _taskRepository.GetSkillByName(skillName);
+
+                        listOfSkills.Add(matchedSkill != null
+                            ? matchedSkill.ID
                             : default(int));
 
                         taskRequest.SkillSet = listOfSkills;
