@@ -34,7 +34,7 @@ namespace DCode.Services.Contributor
         private ICommonService _commonService;
         private IUserRepository _userRepository;
         private IEmailTrackerService _emailTrackerService;
-        public ContributorService(ITaskRepository taskRepository, ICommonService commonService, IContributorRepository contributorRepository, TaskSkillModelFactory taskSkillModelFactory, TaskModelFactory taskModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository,IEmailTrackerService emailTrackerService)//, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository)
+        public ContributorService(ITaskRepository taskRepository, ICommonService commonService, IContributorRepository contributorRepository, TaskSkillModelFactory taskSkillModelFactory, TaskModelFactory taskModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, IEmailTrackerService emailTrackerService)//, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository)
         {
             _taskRepository = taskRepository;
             _contributorRepository = contributorRepository;
@@ -146,15 +146,15 @@ namespace DCode.Services.Contributor
                         ToAddresses = emailAddress,
                         Subject = mailMessage.Subject,
                         Body = mailMessage.Body,
-                        TaskId = taskId
+                        TaskId = taskId,
+                        Source = ApplicationSource.WebApp.ToString()
                     };
-                    foreach (var address in emailTracker.CcAddresses)
+
+                    if (RMGroupEmailAddress != null)
                     {
-                        if (RMGroupEmailAddress != null)
-                        {
-                            emailTracker.CcAddresses.Add(RMGroupEmailAddress);
-                        }
+                        emailTracker.CcAddresses.Add(RMGroupEmailAddress);
                     }
+
                     _emailTrackerService.InsertEmail(emailTracker);
 
                 }
@@ -208,20 +208,21 @@ namespace DCode.Services.Contributor
                          requestor,
                          user.EmailId,
                          offering);
+
                     var emailTracker = new EmailTracker
                     {
                         ToAddresses = requestor,
                         Subject = mailMessage.Subject,
                         Body = mailMessage.Body,
-                        TaskId = taskId
+                        TaskId = taskId,
+                        Source = ApplicationSource.WebApp.ToString()
                     };
-                    foreach (var address in emailTracker.CcAddresses)
+
+                    if (user.EmailId != null)
                     {
-                        if (user.EmailId != null)
-                        {
-                            emailTracker.CcAddresses.Add(user.EmailId);
-                        }
+                        emailTracker.CcAddresses.Add(user.EmailId);
                     }
+
                     _emailTrackerService.InsertEmail(emailTracker);
                 }
 

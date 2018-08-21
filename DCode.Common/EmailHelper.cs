@@ -51,9 +51,9 @@ namespace DCode.Common
                         }
                     }
 
-                    SmtpServer.Port = 25;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
-                    SmtpServer.Send(mailMessage);
+                    //SmtpServer.Port = 25;
+                    //SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
+                    //SmtpServer.Send(mailMessage);
                 }
             }
             catch (Exception ex)

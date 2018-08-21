@@ -10,9 +10,11 @@ namespace DCode.Services.Email
         private IEmailRepository _emailRepository;
         private EmailModelFactory _emailModelFactory;
 
-        public EmailTrackerService(IEmailRepository emailRepository)
+        public EmailTrackerService(IEmailRepository emailRepository,
+            EmailModelFactory emailModelFactory)
         {
             _emailRepository = emailRepository;
+            _emailModelFactory = emailModelFactory;
         }
 
         public int InsertEmail(EmailTracker emailTracker)

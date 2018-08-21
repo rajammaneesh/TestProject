@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.ScheduledTasks.TaskNotifications.Operations
 {
@@ -88,6 +89,7 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                         Body = notification.Body,
                         CcAddresses = notification.CcAddresses,
                         BccAddresses = notification.BccAddresses,
+                        Source = ApplicationSource.Notification.ToString()
                     };
 
                     _emailTrackerService.InsertEmail(emailTracker);

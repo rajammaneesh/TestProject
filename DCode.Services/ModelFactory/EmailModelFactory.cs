@@ -19,7 +19,6 @@ namespace DCode.Services.ModelFactory
             emailModel.ToAddresses = input.to_addresses;
             emailModel.Body = input.body;
             emailModel.SentDate = input.sent_date;
-            emailModel.TaskId = input.task_id;
             emailModel.Source = input.source;
             emailModel.Id = input.id;
             if (input.cc_addresses != null)
@@ -58,9 +57,8 @@ namespace DCode.Services.ModelFactory
                 emailTrackerDb.to_addresses = inputModel.ToAddresses;
                 emailTrackerDb.body = inputModel.Body;
                 emailTrackerDb.sent_date = inputModel.SentDate;
-                emailTrackerDb.task_id = inputModel.TaskId;
                 emailTrackerDb.source = inputModel.Source;
-                emailTrackerDb.id = inputModel.Id;
+              //  emailTrackerDb.id = inputModel.Id;
                 if (inputModel.CcAddresses != null)
                 {
                     if(inputModel.CcAddresses.Contains(";"))

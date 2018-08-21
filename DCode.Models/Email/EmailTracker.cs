@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DCode.Models.Email
 {
     public class EmailTracker
     {
+        public EmailTracker()
+        {
+            CcAddresses = new List<string>();
+            BccAddresses = new List<string>();
+            SentDate = DateTime.Now;
+        }
+
         public int Id { get; set; }
 
         public string Subject { get; set; }
@@ -18,7 +22,7 @@ namespace DCode.Models.Email
 
         public List<string> BccAddresses { get; set; }
 
-        public DateTime SentDate { get; set; }
+        public DateTime SentDate { get; set; }       
 
         public int? TaskId { get; set; }
 

@@ -72,7 +72,6 @@
           <Property Name="cc_addresses" Type="longtext" />
           <Property Name="bcc_Addresses" Type="longtext" />
           <Property Name="sent_date" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="task_id" Type="int" />
           <Property Name="source" Type="varchar" MaxLength="45" />
           <Property Name="body" Type="longtext" />
         </EntityType>
@@ -324,18 +323,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_taskId_task">
-          <End Role="tasks" Type="Self.tasks" Multiplicity="0..1" />
-          <End Role="email_tracker" Type="Self.email_tracker" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tasks">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="email_tracker">
-              <PropertyRef Name="task_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TaskType">
           <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
           <End Role="portfolio_tasktype" Type="Self.portfolio_tasktype" Multiplicity="*" />
@@ -539,10 +526,6 @@
             <End Role="user_role" EntitySet="user_role" />
             <End Role="user_points" EntitySet="user_points" />
           </AssociationSet>
-          <AssociationSet Name="fk_taskId_task" Association="Self.fk_taskId_task">
-            <End Role="tasks" EntitySet="tasks" />
-            <End Role="email_tracker" EntitySet="email_tracker" />
-          </AssociationSet>
           <AssociationSet Name="FK_TaskType" Association="Self.FK_TaskType">
             <End Role="task_type" EntitySet="task_type" />
             <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
@@ -623,7 +606,6 @@
           <EntitySet Name="approvedapplicants" EntityType="DCodeDbContext.approvedapplicant" />
           <EntitySet Name="daily_usage_statistics" EntityType="DCodeDbContext.daily_usage_statistics" />
           <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
-          <EntitySet Name="email_tracker" EntityType="DCodeDbContext.email_tracker" />
           <EntitySet Name="logs" EntityType="DCodeDbContext.log" />
           <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
           <EntitySet Name="offerings" EntityType="DCodeDbContext.offering" />
@@ -652,10 +634,6 @@
           <AssociationSet Name="approvedapplicant_ibfk_2" Association="DCodeDbContext.approvedapplicant_ibfk_2">
             <End Role="task" EntitySet="tasks" />
             <End Role="approvedapplicant" EntitySet="approvedapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="fk_taskId_task" Association="DCodeDbContext.fk_taskId_task">
-            <End Role="task" EntitySet="tasks" />
-            <End Role="email_tracker" EntitySet="email_tracker" />
           </AssociationSet>
           <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
             <End Role="user" EntitySet="users" />
@@ -714,6 +692,7 @@
             <End Role="user_role" EntitySet="user_role" />
             <End Role="user_points" EntitySet="user_points" />
           </AssociationSet>
+          <EntitySet Name="email_tracker" EntityType="DCodeDbContext.email_tracker" />
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -776,21 +755,6 @@
           <Property Name="Sequence" Type="Int32" Nullable="false" />
           <Property Name="AllXml" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="User" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="email_tracker">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="subject" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="to_addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="cc_addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="bcc_Addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="sent_date" Type="DateTime" Nullable="false" />
-          <Property Name="task_id" Type="Int32" />
-          <Property Name="source" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="body" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="task" Relationship="DCodeDbContext.fk_taskId_task" FromRole="email_tracker" ToRole="task" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -920,7 +884,6 @@
           <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="UPDATED_ON" Type="DateTime" />
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_2" FromRole="task" ToRole="approvedapplicant" />
-          <NavigationProperty Name="email_tracker" Relationship="DCodeDbContext.fk_taskId_task" FromRole="task" ToRole="email_tracker" />
           <NavigationProperty Name="offering" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="task" ToRole="offering" />
           <NavigationProperty Name="service_line" Relationship="DCodeDbContext.tasks_ibfk_2" FromRole="task" ToRole="service_line" />
           <NavigationProperty Name="task_type" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task" ToRole="task_type" />
@@ -1030,18 +993,6 @@
             </Principal>
             <Dependent Role="approvedapplicant">
               <PropertyRef Name="TASK_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_taskId_task">
-          <End Type="DCodeDbContext.task" Role="task" Multiplicity="0..1" />
-          <End Type="DCodeDbContext.email_tracker" Role="email_tracker" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="task">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="email_tracker">
-              <PropertyRef Name="task_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1215,6 +1166,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="email_tracker">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subject" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="to_addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="cc_addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="bcc_Addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="sent_date" Type="DateTime" Nullable="false" />
+          <Property Name="source" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="body" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1279,21 +1243,6 @@
                 <ScalarProperty Name="Host" ColumnName="Host" />
                 <ScalarProperty Name="Application" ColumnName="Application" />
                 <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="email_tracker">
-            <EntityTypeMapping TypeName="DCodeDbContext.email_tracker">
-              <MappingFragment StoreEntitySet="email_tracker">
-                <ScalarProperty Name="body" ColumnName="body" />
-                <ScalarProperty Name="source" ColumnName="source" />
-                <ScalarProperty Name="task_id" ColumnName="task_id" />
-                <ScalarProperty Name="sent_date" ColumnName="sent_date" />
-                <ScalarProperty Name="bcc_Addresses" ColumnName="bcc_Addresses" />
-                <ScalarProperty Name="cc_addresses" ColumnName="cc_addresses" />
-                <ScalarProperty Name="to_addresses" ColumnName="to_addresses" />
-                <ScalarProperty Name="subject" ColumnName="subject" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1484,6 +1433,20 @@
               <MappingFragment StoreEntitySet="user_role">
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="email_tracker">
+            <EntityTypeMapping TypeName="DCodeDbContext.email_tracker">
+              <MappingFragment StoreEntitySet="email_tracker">
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="source" ColumnName="source" />
+                <ScalarProperty Name="sent_date" ColumnName="sent_date" />
+                <ScalarProperty Name="bcc_Addresses" ColumnName="bcc_Addresses" />
+                <ScalarProperty Name="cc_addresses" ColumnName="cc_addresses" />
+                <ScalarProperty Name="to_addresses" ColumnName="to_addresses" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

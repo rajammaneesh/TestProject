@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="DCodeDbContext.approvedapplicant" Width="1.5" PointX="8.25" PointY="12.625" />
         <EntityTypeShape EntityType="DCodeDbContext.daily_usage_statistics" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.email_tracker" Width="1.5" PointX="8.25" PointY="18" />
         <EntityTypeShape EntityType="DCodeDbContext.log" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="DCodeDbContext.notification_subscription" Width="1.5" PointX="3" PointY="35.375" />
         <EntityTypeShape EntityType="DCodeDbContext.offering" Width="1.5" PointX="3.75" PointY="4.75" />
@@ -27,7 +26,6 @@
         <AssociationConnector Association="DCodeDbContext.applicantskills_ibfk_2" />
         <AssociationConnector Association="DCodeDbContext.approvedapplicant_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.approvedapplicant_ibfk_2" />
-        <AssociationConnector Association="DCodeDbContext.fk_taskId_task" />
         <AssociationConnector Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" />
         <AssociationConnector Association="DCodeDbContext.PORT_OFFR_FK" />
         <AssociationConnector Association="DCodeDbContext.tasks_ibfk_4" />
@@ -43,6 +41,7 @@
         <AssociationConnector Association="DCodeDbContext.fk_usr_off" />
         <EntityTypeShape EntityType="DCodeDbContext.user_role" Width="1.5" PointX="6.375" PointY="6.875" />
         <AssociationConnector Association="DCodeDbContext.fk_roleId_userRole" />
+        <EntityTypeShape EntityType="DCodeDbContext.email_tracker" Width="1.5" PointX="8.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

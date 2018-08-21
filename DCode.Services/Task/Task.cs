@@ -26,7 +26,7 @@ namespace DCode.Services.Task
         private ICommonService _commonService;
         private IEmailTrackerService _emailTrackerService;
 
-        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService,IEmailTrackerService emailTrackerService)
+        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService, IEmailTrackerService emailTrackerService)
         {
             _taskRepository = taskRepository;
             _taskModelFactory = taskModelFactory;
@@ -107,20 +107,18 @@ namespace DCode.Services.Task
                         Body = mailMessage.Body,
                         TaskId = taskRequest.Id
                     };
-                    foreach (var address in emailTracker.CcAddresses)
+
+                    if (currentUser.EmailId != null)
                     {
-                        if (currentUser.EmailId != null)
-                        {
-                            emailTracker.CcAddresses.Add(currentUser.EmailId);
-                        }
+                        emailTracker.CcAddresses.Add(currentUser.EmailId);
                     }
-                    foreach (var address in emailTracker.BccAddresses)
+
+
+                    if (offeringRecipients != null && offeringRecipients.Any())
                     {
-                        if (offeringRecipients != null && offeringRecipients.Any())
-                        {
-                            emailTracker.CcAddresses.AddRange(offeringRecipients);
-                        }
+                        emailTracker.BccAddresses.AddRange(offeringRecipients);
                     }
+
                     _emailTrackerService.InsertEmail(emailTracker);
                 }
             }

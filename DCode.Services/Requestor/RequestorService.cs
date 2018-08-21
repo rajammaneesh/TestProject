@@ -136,15 +136,15 @@ namespace DCode.Services.Requestor
                     ToAddresses = applicant.user.EMAIL_ID,
                     Subject = mailMessage.Subject,
                     Body = mailMessage.Body,
-                    TaskId = taskRequest.TaskId
+                    TaskId = taskRequest.TaskId,
+                    Source = ApplicationSource.WebApp.ToString()
                 };
-                foreach (var address in emailTracker.CcAddresses)
+
+                if (ccEmailAddress != null)
                 {
-                    if (ccEmailAddress != null)
-                    {
-                        emailTracker.CcAddresses.Add(ccEmailAddress);
-                    }
+                    emailTracker.CcAddresses.Add(ccEmailAddress);
                 }
+
                 _emailTrackerService.InsertEmail(emailTracker);
             }
             return result;
@@ -266,14 +266,15 @@ namespace DCode.Services.Requestor
                 var mailMessage = EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress, offering);
                 var emailTracker = new EmailTracker
                 {
-                   ToAddresses = applicant.user.EMAIL_ID,
-                   Subject= mailMessage.Subject,
-                   Body = mailMessage.Body,
-                   TaskId = taskRequest.TaskId
+                    ToAddresses = applicant.user.EMAIL_ID,
+                    Subject = mailMessage.Subject,
+                    Body = mailMessage.Body,
+                    TaskId = taskRequest.TaskId,
+                    Source = ApplicationSource.WebApp.ToString()
                 };
-                foreach(var address in emailTracker.CcAddresses)
+                foreach (var address in emailTracker.CcAddresses)
                 {
-                    if(ccMailAddress !=null)
+                    if (ccMailAddress != null)
                     {
                         emailTracker.CcAddresses.Add(ccMailAddress);
                     }
@@ -305,7 +306,8 @@ namespace DCode.Services.Requestor
                     ToAddresses = applicant.user.EMAIL_ID,
                     Subject = mailMessage.Subject,
                     Body = mailMessage.Body,
-                    TaskId = rejectTaskRequest.TaskId
+                    TaskId = rejectTaskRequest.TaskId,
+                    Source = ApplicationSource.WebApp.ToString()
                 };
                 foreach (var address in emailTracker.CcAddresses)
                 {

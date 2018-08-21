@@ -20,10 +20,7 @@ namespace DCode.Data.DbContexts
         public string cc_addresses { get; set; }
         public string bcc_Addresses { get; set; }
         public System.DateTime sent_date { get; set; }
-        public Nullable<int> task_id { get; set; }
         public string source { get; set; }
         public string body { get; set; }
-    
-        public virtual task task { get; set; }
     }
 }
