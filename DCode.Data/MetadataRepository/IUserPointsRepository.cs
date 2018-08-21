@@ -7,6 +7,8 @@ namespace DCode.Data.MetadataRepository
     {
         IEnumerable<user_points> GetUserPoints();
 
+        int GetUserPointsForUser(int userId, int roleId);
+
         int InsertUserPoints(user_points pointsRecord);
     }
 }

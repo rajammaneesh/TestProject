@@ -1,12 +1,9 @@
 ﻿using DCode.Common;
-using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
@@ -205,25 +202,7 @@ namespace DCode.Web.Controllers
         {
             return Json(_commonService.GetNameFromEmailId(emailId));
         }
-
-        public JsonResult GetVisits()
-        {
-            return Json(_reportingService.GetUserVisitsCount(), JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult GetCollTasks(int id)
-        {
-            if (id == 101)
-            {
-                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
-                         GetExecutionDateRange(DateTime.Now.DayOfWeek));
-
-                return Json(result);
-            }
-
-            return null;
-        }
+  
 
         [HttpGet]
         public JsonResult StartGamificationMigration()
@@ -234,26 +213,11 @@ namespace DCode.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetCollTasksForDay(int id, DayOfWeek day)
+        public JsonResult GetBannerMessage()
         {
-            if (id == 101)
-            {
-                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
-                         GetExecutionDateRange(day));
+            var message = _commonService.GetRequestorEvents();
 
-                return Json(result);
-            }
-
-            return null;
-        }
-
-        private int GetExecutionDateRange(DayOfWeek day)
-        {
-            if (day == DayOfWeek.Tuesday)
-            {
-                return 4;
-            }
-            return 1;
+            return Json(message, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -516,8 +516,12 @@ namespace DCode.Services.Common
         public decimal? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
+
             var applicants = _approvedApplicantRepository.GetApprovedApplicants();
-            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants).Where(x => x.APPLICANT_ID == currentUser.UserId);
+
+            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants)
+                ?.Where(x => x.APPLICANT_ID == currentUser.UserId);
+
             return hoursWorked.Sum(x => x.HOURS_WORKED);
         }
 
@@ -540,23 +544,59 @@ namespace DCode.Services.Common
         public int? GetUserPoints()
         {
             var currentUser = GetCurrentUserContext();
-            var userpoints = _userPointsRepository.GetUserPoints();
 
-            var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+            var userpoints = _userPointsRepository.GetUserPointsForUser(
+                currentUser.UserId,
+                (int)Role.Requestor);
 
-            return userPointsList.Sum(x => x.points);
+            return userpoints;
         }
 
-        public int? GetRequestorEvents()
+        public string GetRequestorEvents()
         {
             var currentUser = GetCurrentUserContext();
-            var userpoints = _userPointsRepository.GetUserPoints();
 
-            var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+            var userpoints = _userPointsRepository
+                .GetUserPoints()
+                ?.Where(m => m.@event == "REQUESTOR-Task Created"
+                     && m.user.OFFERING_ID == currentUser.OfferingId
+                     && m.user_role.Id == (int)Role.Requestor)
+                ?.GroupBy(x => x.user_id)
+                ?.OrderByDescending(x => x.Count())
+                ?.Select(x => new
+                {
+                    UserId = x.Key,
+                    TotalRequests = x.Count()
+                })
+                ?.ToList();
 
-            return userPointsList.Where(m => m.@event == "REQUESTOR-Task Created").ToList().Count();
+            var benchmarkNumber = Convert.ToInt32(ConfigurationManager.AppSettings["BenchmarkRequests"]);
 
+            var currentUsersRecord = userpoints.Where(x => x.UserId == currentUser.UserId);
+
+            if (userpoints.Any(x => x.TotalRequests >= benchmarkNumber))
+            {
+                if (currentUsersRecord != null
+                    && currentUsersRecord.Any()
+                    && currentUsersRecord.First().TotalRequests >= benchmarkNumber)
+                {
+                    var firstUserPointRecord = userpoints.First();
+
+                    if (firstUserPointRecord.UserId == currentUser.UserId)
+                    {
+                        return "Congratulations! You are currently the Leading Requestor in ‘your Offering’.";
+                    }
+                    else
+                    {
+                        var difference = firstUserPointRecord.TotalRequests - currentUsersRecord.First().TotalRequests;
+
+                        return $"You are now {difference} Requests behind the Requesting Leader in ‘your Offering’.";
+                    }
+                }
+            }
+            return "Start creating new Requests now, earn loyalty points and pave your way to the top to be the Requesting Leader in ‘your Offering’.";
         }
+
 
         public IEnumerable<Portfolio> GetPortfolios()
         {
@@ -751,10 +791,10 @@ namespace DCode.Services.Common
 
                 foreach (SearchResult result in searchResults)
                 {
-                    if (result.Properties!=null)
+                    if (result.Properties != null)
                     {
                         return Convert.ToString(result.Properties["title"][0]);
-                    }                 
+                    }
                     //foreach (string propertyName in result.Properties.PropertyNames)
                     //{
                     //    if (propertyName.ToLowerInvariant().Equals(Constants.Title))

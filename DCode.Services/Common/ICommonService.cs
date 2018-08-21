@@ -46,5 +46,11 @@ namespace DCode.Services.Common
         List<string> GetDefaultConsultingMailboxes();
 
         void MigrateGamificationRecords();
+
+        decimal? GetApprovedApplicantHours();
+
+        int? GetUserPoints();
+
+        string GetRequestorEvents();
     }
 }

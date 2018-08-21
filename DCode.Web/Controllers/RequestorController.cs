@@ -154,5 +154,13 @@ namespace DCode.Web.Controllers
         {
             return Json(_requestorService.GetPermissionsCount(), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult GetTotalPoints()
+        {
+            var userPoints = _commonService.GetUserPoints();
+
+            return Json(userPoints ?? 0, JsonRequestBehavior.AllowGet);
+        }
     }
 }

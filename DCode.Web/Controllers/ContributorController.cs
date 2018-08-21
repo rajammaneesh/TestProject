@@ -1,4 +1,5 @@
 ﻿using DCode.Common;
+using DCode.Services.Common;
 using DCode.Services.Contributor;
 using DCode.Web.Security;
 using System.Web.Mvc;
@@ -10,9 +11,15 @@ namespace DCode.Web.Controllers
     public class ContributorController : Controller
     {
         private IContributorService _contributorService;
-        public ContributorController(IContributorService contributorService)
+
+        private ICommonService _commonService;
+
+        public ContributorController(IContributorService contributorService,
+            ICommonService commonService)
         {
             _contributorService = contributorService;
+
+            _commonService = commonService;
         }
 
         [AuthorizeRoute(Role.Contributor)]
@@ -87,6 +94,14 @@ namespace DCode.Web.Controllers
         public JsonResult GetTaskHistories(int currentPageIndex, int recordsCount)
         {
             return Json(_contributorService.GetTaskHistories(currentPageIndex, recordsCount), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetTotalHours()
+        {
+            var userHours = _commonService.GetApprovedApplicantHours();
+
+            return Json(userHours ?? 0, JsonRequestBehavior.AllowGet);
         }
     }
 }
