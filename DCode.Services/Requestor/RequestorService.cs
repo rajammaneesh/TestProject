@@ -15,6 +15,7 @@ using DCode.Services.Common;
 using DCode.Models.ResponseModels.Common;
 using static DCode.Models.Enums.Enums;
 using DCode.Data.UserRepository;
+using DCode.Models.Email;
 
 namespace DCode.Services.Requestor
 {
@@ -244,7 +245,14 @@ namespace DCode.Services.Requestor
                 var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
                 var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
-                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress, offering);
+                var mailMessage = EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress, offering);
+                var emailTracker = new EmailTracker
+                {
+                   ToAddresses = applicant.user.EMAIL_ID,
+                   CcAddresses = ccMailAddress,
+                   Body = mailMessage.Body,
+
+                };
             }
 
             return result;
