@@ -16,6 +16,7 @@ using DCode.Models.ResponseModels.Common;
 using static DCode.Models.Enums.Enums;
 using DCode.Data.UserRepository;
 using DCode.Models.Email;
+using DCode.Services.Email;
 
 namespace DCode.Services.Requestor
 {
@@ -31,7 +32,8 @@ namespace DCode.Services.Requestor
         private SkillModelFactory _skillModelFactory;
         private ICommonService _commonService;
         private IUserRepository _userRepository;
-        public RequestorService(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, SkillModelFactory skillModelFactory)
+        private IEmailTrackerService _emailTrackerService;
+        public RequestorService(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, SkillModelFactory skillModelFactory, IEmailTrackerService emailTrackerService)
         {
             _taskRepository = taskRepository;
             _taskModelFactory = taskModelFactory;
@@ -43,6 +45,7 @@ namespace DCode.Services.Requestor
             _approvedApplicantModelFactory = approvedApplicantModelFactory;
             _userRepository = userRepository;
             _skillModelFactory = skillModelFactory;
+            _emailTrackerService = emailTrackerService;
         }
 
         public TaskApplicantsReponse GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount)
@@ -127,7 +130,22 @@ namespace DCode.Services.Requestor
                     ? $"{userContext.EmailId};{applicant.user.MANAGER_EMAIL_ID};{RMGroupEmailAddress}"
                     : userContext.EmailId;
 
-                EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, ccEmailAddress, offering);
+                var mailMessage = EmailHelper.AssignNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, applicant.task.PROJECT_WBS_Code, applicant.user.EMAIL_ID, ccEmailAddress, offering);
+                var emailTracker = new EmailTracker
+                {
+                    ToAddresses = applicant.user.EMAIL_ID,
+                    Subject = mailMessage.Subject,
+                    Body = mailMessage.Body,
+                    TaskId = taskRequest.TaskId
+                };
+                foreach (var address in emailTracker.CcAddresses)
+                {
+                    if (ccEmailAddress != null)
+                    {
+                        emailTracker.CcAddresses.Add(ccEmailAddress);
+                    }
+                }
+                _emailTrackerService.InsertEmail(emailTracker);
             }
             return result;
         }
@@ -249,10 +267,18 @@ namespace DCode.Services.Requestor
                 var emailTracker = new EmailTracker
                 {
                    ToAddresses = applicant.user.EMAIL_ID,
-                   CcAddresses = ccMailAddress,
+                   Subject= mailMessage.Subject,
                    Body = mailMessage.Body,
-
+                   TaskId = taskRequest.TaskId
                 };
+                foreach(var address in emailTracker.CcAddresses)
+                {
+                    if(ccMailAddress !=null)
+                    {
+                        emailTracker.CcAddresses.Add(ccMailAddress);
+                    }
+                }
+                _emailTrackerService.InsertEmail(emailTracker);
             }
 
             return result;
@@ -273,7 +299,22 @@ namespace DCode.Services.Requestor
                 var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(rejectTaskRequest.TaskApplicantId);
                 var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
-                EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Rejected, applicant.user.EMAIL_ID, ccMailAddress, offering);
+                var mailMessage = EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Rejected, applicant.user.EMAIL_ID, ccMailAddress, offering);
+                var emailTracker = new EmailTracker
+                {
+                    ToAddresses = applicant.user.EMAIL_ID,
+                    Subject = mailMessage.Subject,
+                    Body = mailMessage.Body,
+                    TaskId = rejectTaskRequest.TaskId
+                };
+                foreach (var address in emailTracker.CcAddresses)
+                {
+                    if (ccMailAddress != null)
+                    {
+                        emailTracker.CcAddresses.Add(ccMailAddress);
+                    }
+                }
+                _emailTrackerService.InsertEmail(emailTracker);
             }
             return status;
         }
