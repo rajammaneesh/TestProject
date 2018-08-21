@@ -91,10 +91,12 @@ namespace DCode.Web.App_Start
             kernel.Bind<IContributorRepository>().To<ContributorRepository>();
             kernel.Bind<IServiceLineRepository>().To<ServiceLineRepository>();
             kernel.Bind<IOfferingRepository>().To<OfferingRepository>();
+            kernel.Bind<IApprovedApplicantRepository>().To<ApprovedApplicantRepository>();
             kernel.Bind<IPortfolioRepository>().To<PortfolioRepository>();
             kernel.Bind<ITaskTypeRepository>().To<TaskTypeRepository>();
             kernel.Bind<IDailyUsageStatisticsRepository>().To<DailyUsageStatisticsRepository>();
             kernel.Bind<IDataManagement>().To<DbQuueryManager>();
+            kernel.Bind<IUserPointsRepository>().To<UserPointsRepository>();
         }
 
     }

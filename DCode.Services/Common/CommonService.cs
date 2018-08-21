@@ -44,6 +44,10 @@ namespace DCode.Services.Common
         private PortfolioModelFactory _portfolioModelFactory;
         private IOfferingRepository _offeringRepository;
         private IPortfolioRepository _portfolioRepository;
+        private IApprovedApplicantRepository _approvedApplicantRepository;
+        private ApprovedApplicantModelFactory _approvedApplicantModelFactory;
+        private UserPointsModelFactory _userPointsModelFactory;
+        private IUserPointsRepository _userPointsRepository;
 
 
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
@@ -51,8 +55,9 @@ namespace DCode.Services.Common
             UserModelFactory userModelFactory, ApplicantSkillModelFactory applicantSkillModelFactory,
             SkillModelFactory skillModelFactory, SuggestionModelFactory suggestionModelFactory,
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
-            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory,
-            PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository, IPortfolioRepository portfolioRepository)
+            ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory, UserPointsModelFactory userPointsModelFactory,
+            ApprovedApplicantModelFactory approvedApplicantModelFactory, PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository,
+            IApprovedApplicantRepository approvedApplicantRepository, IPortfolioRepository portfolioRepository, IUserPointsRepository userPointsRepository)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -72,6 +77,10 @@ namespace DCode.Services.Common
             _portfolioModelFactory = portfolioModelFactory;
             _offeringRepository = offeringRepository;
             _portfolioRepository = portfolioRepository;
+            _approvedApplicantRepository = approvedApplicantRepository;
+            _approvedApplicantModelFactory = approvedApplicantModelFactory;
+            _userPointsModelFactory = userPointsModelFactory;
+            _userPointsRepository = userPointsRepository;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -275,6 +284,7 @@ namespace DCode.Services.Common
                 _userContext.ManagerName = dbUser.PROJECT_MANAGER_NAME;
                 _userContext.ProjectName = dbUser.PROJECT_NAME;
                 _userContext.SkillSet = new List<Skill>();
+                _userContext.OfferingId = dbUser.OFFERING_ID;
                 foreach (var dbSkill in dbUser.applicantskills)
                 {
                     var skill = new Skill();
@@ -295,6 +305,7 @@ namespace DCode.Services.Common
                 var result = _userRepository.InsertUser(userDbObj);
                 var dbUserres = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
                 _userContext.UserId = dbUserres.ID;
+                _userContext.OfferingId = dbUserres.OFFERING_ID;
             }
         }
 
@@ -502,6 +513,51 @@ namespace DCode.Services.Common
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
 
+        public decimal? GetApprovedApplicantHours()
+        {
+            var currentUser = GetCurrentUserContext();
+            var applicants = _approvedApplicantRepository.GetApprovedApplicants();
+            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants).Where(x => x.APPLICANT_ID == currentUser.UserId);
+            return hoursWorked.Sum(x => x.HOURS_WORKED);
+        }
+
+        //public int? GetUserPoints()
+        //{
+        //    var currentUser = GetCurrentUserContext();
+        //    var users = _userRepository.GetAllUsers();
+        //    var userpoints = _userPointsRepository.GetUserPoints();
+
+        //    var offering_Users = _userModelFactory.CreateModelList<user>(users).Where(x => x.OFFERING_ID == currentUser.OfferingId).ToList();
+        //    var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+
+        //    var points = new List<int>();
+        //    HashSet<int> userIds = new HashSet<int>(offering_Users.Select(s => s.ID));
+        //    var filteredUserPointsList = userPointsList.Where(m => userIds.Contains(m.Id)).ToList();
+
+        //    return filteredUserPointsList.Sum(x => x.points);
+        //}
+
+        public int? GetUserPoints()
+        {
+            var currentUser = GetCurrentUserContext();
+            var userpoints = _userPointsRepository.GetUserPoints();
+
+            var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+
+            return userPointsList.Sum(x => x.points);
+        }
+
+        public int? GetRequestorEvents()
+        {
+            var currentUser = GetCurrentUserContext();
+            var userpoints = _userPointsRepository.GetUserPoints();
+
+            var userPointsList = _userPointsModelFactory.CreateModelList<UserPoints>(userpoints).ToList();
+
+            return userPointsList.Where(m => m.@event == "REQUESTOR-Task Created").ToList().Count();
+
+        }
+
         public IEnumerable<Portfolio> GetPortfolios()
         {
             var portfolios = _portfolioRepository.GetPortfolios();
@@ -600,7 +656,7 @@ namespace DCode.Services.Common
 
         public List<string> GetDefaultConsultingMailboxes()
         {
-             var offerings = GetOfferings();
+            var offerings = GetOfferings();
 
             var practiceEmails = offerings
                 .Where(x => !string.IsNullOrEmpty(x.PracticeEmailGroup))
@@ -612,6 +668,103 @@ namespace DCode.Services.Common
                 ?.RemoveAll(x => string.IsNullOrEmpty(x?.Trim()));
 
             return practiceEmails;
+        }
+
+        public void MigrateGamificationRecords()
+        {
+            var users = _userRepository.GetAllActiveUsersDetails();
+
+            users.ToList()?.ForEach(x =>
+           {
+               var designation = GetDesignationForUser(x.EMAIL_ID)?.ToLowerInvariant();
+
+               if (designation != null)
+               {
+                   Role userRole;
+
+                   if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
+                   {
+                       userRole = Role.Requestor;
+                   }
+                   else if (designation.Contains("manager") || designation.Contains("master") || designation.Contains("mngr") || designation.Contains("mgr"))
+                   {
+                       userRole = Role.Requestor;
+                   }
+                   else if (designation.Contains("senior consultant") || designation.Contains("specialist senior") || designation.Contains("asst mgr") || designation.Contains("sr. analyst"))
+                   {
+                       userRole = Role.Requestor;
+                   }
+                   else
+                   {
+                       userRole = Role.Contributor;
+                   }
+
+                   if (userRole == Role.Requestor)
+                   {
+                       _userPointsRepository.InsertUserPoints(new user_points
+                       {
+                           created_date = DateTime.Now,
+                           points = 5,
+                           role_id = (int)Role.Requestor,
+                           user_id = x.ID,
+                           @event = "REQUESTOR-Existing Requestor",
+                       });
+                   }
+
+                   _userPointsRepository.InsertUserPoints(new user_points
+                   {
+                       created_date = DateTime.Now,
+                       points = 5,
+                       role_id = (int)Role.Contributor,
+                       user_id = x.ID,
+                       @event = "CONTRIBUTOR-Existing Contributor",
+                   });
+               }
+           });
+        }
+
+        private string GetDesignationForUser(string userName)
+        {
+            var userNameItem = userName.Split('@')?.First();
+
+            if (string.IsNullOrEmpty(userNameItem))
+            {
+                return null;
+            }
+
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userNameItem);
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
+            {
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userNameItem);
+                searchResults = directorySearcher.FindAll();
+
+                if (searchResults.Count == 0)
+                {
+                    return null;
+                }
+
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
+                {
+                    if (result.Properties!=null)
+                    {
+                        return Convert.ToString(result.Properties["title"][0]);
+                    }                 
+                    //foreach (string propertyName in result.Properties.PropertyNames)
+                    //{
+                    //    if (propertyName.ToLowerInvariant().Equals(Constants.Title))
+                    //    {
+                    //        return result.Properties[propertyName][0].ToString();
+                    //    }
+                    //}
+                }
+            }
+            return null;
         }
     }
 }

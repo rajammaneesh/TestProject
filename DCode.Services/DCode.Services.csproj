@@ -79,6 +79,7 @@
     <Compile Include="ModelFactory\TaskSkillModelFactory.cs" />
     <Compile Include="ModelFactory\TaskTypeModelFactory.cs" />
     <Compile Include="ModelFactory\UserModelFactory.cs" />
+    <Compile Include="ModelFactory\UserPointsModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporting\IReportingService.cs" />
     <Compile Include="Reporting\ReportingService.cs" />

@@ -40,6 +40,7 @@ namespace DCode.Data.DbContexts
         public Nullable<System.DateTime> CREATED_ON { get; set; }
         public string UPDATED_BY { get; set; }
         public Nullable<System.DateTime> UPDATED_ON { get; set; }
+        public Nullable<int> OFFERING_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<applicantskill> applicantskills { get; set; }
@@ -53,5 +54,6 @@ namespace DCode.Data.DbContexts
         public virtual ICollection<task> tasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user_points> user_points { get; set; }
+        public virtual offering offering { get; set; }
     }
 }

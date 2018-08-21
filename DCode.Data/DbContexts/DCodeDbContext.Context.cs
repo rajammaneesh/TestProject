@@ -45,6 +45,7 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<taskskill> taskskills { get; set; }
         public virtual DbSet<user_points> user_points { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<user_role> user_role { get; set; }
     
         public virtual ObjectResult<elmah_GetErrorsXml_Result> elmah_GetErrorsXml(string app, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {
