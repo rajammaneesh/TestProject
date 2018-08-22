@@ -143,11 +143,17 @@
             $scope.onLoad();
         });
 
+        $scope.$on('updateBanner', function (event, args) {
+            $scope.GetGamificationStats();
+            $scope.GetGamificationBanner();
+        });
+
         $scope.onLoad = function () {
             $scope.userContext = $rootScope.userContext;
             $scope.GetPermissionsCount();
             $scope.GetGamificationStats();
             $scope.GetGamificationBanner();
+            $('#gamificationModal').modal('toggle'); 
         }
     }
 })();

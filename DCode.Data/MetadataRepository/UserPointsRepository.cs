@@ -29,13 +29,17 @@ namespace DCode.Data.MetadataRepository
 
         public int GetUserPointsForUser(int userId, int roleId)
         {
-            var userPoints = Context.Set<user_points>()
-                .Where(x => x.user_id == userId
+            var userPointRecords = Context.Set<user_points>()
+                ?.Where(x => x.user_id == userId
                     && x.role_id == roleId)
-                ?.Select(x => x.points)
-                ?.Sum();
+                ?.Select(x => x.points);
 
-            return userPoints ?? 0;
+            if (userPointRecords?.Count() > 0)
+            {
+                return userPointRecords.Sum();
+            }
+
+            return 0;           
         }
 
         public int InsertUserPoints(user_points pointsRecord)

@@ -215,9 +215,16 @@ namespace DCode.Web.Controllers
         [HttpGet]
         public JsonResult GetBannerMessage()
         {
-            var message = _commonService.GetRequestorEvents();
+            var currentUser = _commonService.GetCurrentUserContext();
 
-            return Json(message, JsonRequestBehavior.AllowGet);
+            if (currentUser.Role == Role.Requestor)
+            {
+                var message = _commonService.GetRequestorEvents();
+
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
