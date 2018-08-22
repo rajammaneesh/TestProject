@@ -47,7 +47,7 @@ namespace DCode.Services.Common
 
         void MigrateGamificationRecords();
 
-        decimal? GetApprovedApplicantHours();
+        int? GetApprovedApplicantHours();
 
         int? GetUserPoints();
 

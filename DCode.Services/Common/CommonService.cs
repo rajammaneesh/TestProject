@@ -513,7 +513,7 @@ namespace DCode.Services.Common
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
 
-        public decimal? GetApprovedApplicantHours()
+        public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
 
@@ -522,7 +522,9 @@ namespace DCode.Services.Common
             var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants)
                 ?.Where(x => x.APPLICANT_ID == currentUser.UserId);
 
-            return hoursWorked.Sum(x => x.HOURS_WORKED);
+            var sumOfHoursWorked = hoursWorked.Sum(x => x.HOURS_WORKED);
+
+            return sumOfHoursWorked.HasValue ? Convert.ToInt32(sumOfHoursWorked) : (int?)null;
         }
 
         //public int? GetUserPoints()

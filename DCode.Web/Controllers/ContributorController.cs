@@ -95,13 +95,5 @@ namespace DCode.Web.Controllers
         {
             return Json(_contributorService.GetTaskHistories(currentPageIndex, recordsCount), JsonRequestBehavior.AllowGet);
         }
-
-        [HttpGet]
-        public JsonResult GetTotalHours()
-        {
-            var userHours = _commonService.GetApprovedApplicantHours();
-
-            return Json(userHours ?? 0, JsonRequestBehavior.AllowGet);
-        }
     }
 }
