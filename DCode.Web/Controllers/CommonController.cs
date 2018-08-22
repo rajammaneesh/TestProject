@@ -245,5 +245,18 @@ namespace DCode.Web.Controllers
                 return Json($"{ points ?? 0} points", JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public JsonResult SetModalLoaded()
+        {
+            var isModalLoaded = SessionHelper.Retrieve("setModalLoaded");
+
+            if (isModalLoaded == null)
+            {
+                SessionHelper.Save("setModalLoaded", true);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
     }
 }

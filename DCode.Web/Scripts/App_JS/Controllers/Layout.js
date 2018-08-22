@@ -138,6 +138,16 @@
             }).error(function (error) {
             });
         }
+
+        $scope.SetModalLoaded = function () {
+            $http({
+                url: "/Common/SetModalLoaded",
+                method: "GET",
+            }).success(function (data, status, headers, config) {
+            }).error(function (error) {
+            });
+        }
+
         //Load page only after usercontext loads
         UserContextService.InitializeUserContext().then(function (data) {
             $scope.onLoad();
@@ -153,7 +163,8 @@
             $scope.GetPermissionsCount();
             $scope.GetGamificationStats();
             $scope.GetGamificationBanner();
-            $('#gamificationModal').modal('toggle'); 
+          
+            $scope.SetModalLoaded();
         }
     }
 })();
