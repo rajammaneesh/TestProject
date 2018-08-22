@@ -202,7 +202,7 @@ namespace DCode.Web.Controllers
         {
             return Json(_commonService.GetNameFromEmailId(emailId));
         }
-  
+
 
         [HttpGet]
         public JsonResult StartGamificationMigration()
@@ -218,6 +218,25 @@ namespace DCode.Web.Controllers
             var message = _commonService.GetRequestorEvents();
 
             return Json(message, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetGamificationStats()
+        {
+            var currentUser = _commonService.GetCurrentUserContext();
+
+            if (currentUser.Role == Role.Contributor)
+            {
+                var hours = _commonService.GetApprovedApplicantHours();
+
+                return Json($"{ hours ?? 0} hours", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var points = _commonService.GetUserPoints();
+
+                return Json($"{ points ?? 0} points", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

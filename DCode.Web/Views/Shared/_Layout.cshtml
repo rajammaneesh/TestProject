@@ -161,14 +161,28 @@
 
         </div>
         <div class="new-style-DTM-layout-renderbody">
-            <div class="new-style-DTM-layout-logo">
-           @*<div style="height:200px; width:200px">*@
-                <div @*style="float:left;width:80%;"*@>
-                    <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image pull-left logo">
+            <div class="row" style="margin-left: 0px;">
+                <div class="new-style-DTM-layout-logo col-sm-10">
+                    @*<div style="height:200px; width:200px">*@
+                    <div @*style="float:left;width:80%;"*@>
+                        <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image pull-left logo">
+                    </div>
+                    <div class="new-style-DTM-layout-mobile-menu">
+                        <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
+                    </div>
                 </div>
-                <div class="new-style-DTM-layout-mobile-menu">
-                    <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
+                <div class="col-sm-2" style="padding-top:33px;">
+                    <div class="circle" ng-show="gamificationStats!=null">
+                        <img src="~/Content/Images/trophy64px(1).png" style="margin-top:10px;" />
+                        @* <a href="#section_4"></a>*@
+                        <p>{{gamificationStats}}</p>
+
+                    </div>
                 </div>
+            </div>
+
+            <div class="marquee">
+                <p>{{gamificationBannerContent}}</p>
             </div>
 
             <div style="width:100%;">
@@ -247,6 +261,38 @@
                 </div>
             </div>
         </div>
+
+        <!-- Below is the modal to bedisplayed on load to show the gamification rules-->
+        <div class="modal fade" id="gamificationModal" role="dialog">
+            <div class="modal-dialog" style="margin-top:8%;">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #37ad1ab8;">
+                        <h4 class="modal-title" style="font-size: 25px;"><b>Guidelines for Gamification</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: orange;font-size: medium;">
+                            Glad to have you onboard!
+                        </p>
+                        <p>TechX gamification is officially underway and you can refer the following guidelines:</p>
+                        <ul>
+                            <li typeof="disc">Start earning loyalty points from today by creating or applying to contribute to a Request on TechX.</li>
+                            <li typeof="disc">For those who have not registered yet on Techx, the time is just about right to register yourself and create new Requests which gives you a chance to show off the new TechX Badges we’ll be distributing shortly.</li>
+                            <li typeof="disc">Successfully complete multiple new Requests on TechX and you could stand a chance to win a TechX Wireless Mouse.</li>
+                            <li typeof="disc">Keep aggregating loyalty points to be the leader in your offering and stand a chance to win a TechX Coffee Mug or bag the Grand Prize of 3000 Vantage points.</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--  gamification rules modal ends-->
+
+
     </div>
     @RenderSection("scripts", required: false)
     <script type='text/javascript'>

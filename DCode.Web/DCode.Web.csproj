@@ -279,6 +279,7 @@
     <Content Include="Content\Images\tech-x.ico" />
     <Content Include="Content\Images\tech-x_old.ico" />
     <Content Include="Content\Images\tech-x-logo-black-bg.png" />
+    <Content Include="Content\Images\trophy64px%281%29.png" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="EmailTemplates\email-template.html" />
     <Content Include="ExternalAssemblies\MySql.Data.dll" />

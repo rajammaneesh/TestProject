@@ -105,7 +105,8 @@ namespace DCode.Services.Task
                         ToAddresses = ConfigurationManager.AppSettings["DcodeEmailId"],
                         Subject = mailMessage.Subject,
                         Body = mailMessage.Body,
-                        TaskId = taskRequest.Id
+                        TaskId = taskRequest.Id,
+                        Source = ApplicationSource.WebApp.ToString()
                     };
 
                     if (currentUser.EmailId != null)
