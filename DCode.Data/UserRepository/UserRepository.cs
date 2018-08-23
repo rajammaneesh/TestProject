@@ -165,5 +165,17 @@ namespace DCode.Data.UserRepository
 
             return users.ToList();
         }
+
+        public int UpdateOfferingIdForUser(int userId, int? offeringId)
+        {
+            var result = Context.Set<user>().FirstOrDefault(x => x.ID == userId);
+
+            if (result!=null)
+            {
+                result.OFFERING_ID = offeringId;
+            }
+
+            return Context.SaveChanges();
+        }
     }
 }

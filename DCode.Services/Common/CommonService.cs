@@ -714,14 +714,37 @@ namespace DCode.Services.Common
 
         public void MigrateGamificationRecords()
         {
+            var offerings = GetOfferings();
+
             var users = _userRepository.GetAllActiveUsersDetails();
 
             users.ToList()?.ForEach(x =>
            {
-               var designation = GetDesignationForUser(x.EMAIL_ID)?.ToLowerInvariant();
+               var userData = GetDesignationAndDepartmentForUser(x.EMAIL_ID);
 
-               if (designation != null)
+               if (userData != null)
                {
+                   var designation = userData.Item1.ToLowerInvariant();
+
+                   var department = userData.Item2;
+
+                   var offeringId = (int?)null;
+
+                   if (!department.Contains("USI"))
+                   {
+                       offeringId = null;
+                   }
+
+                   try
+                   {
+                       var departmentCode = department.Substring(0, department.IndexOf("USI"))?.Trim();
+                       offeringId = offerings.Where(y => y.Code == departmentCode)?.FirstOrDefault()?.Id;
+                   }
+                   catch (Exception)
+                   {
+
+                   }                  
+
                    Role userRole;
 
                    if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
@@ -753,6 +776,8 @@ namespace DCode.Services.Common
                        });
                    }
 
+                   _userRepository.UpdateOfferingIdForUser(x.ID, offeringId);
+
                    _userPointsRepository.InsertUserPoints(new user_points
                    {
                        created_date = DateTime.Now,
@@ -765,9 +790,12 @@ namespace DCode.Services.Common
            });
         }
 
-        private string GetDesignationForUser(string userName)
+        private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
+
+            string designation = string.Empty;
+            string offering = string.Empty;
 
             if (string.IsNullOrEmpty(userNameItem))
             {
@@ -795,7 +823,10 @@ namespace DCode.Services.Common
                 {
                     if (result.Properties != null)
                     {
-                        return Convert.ToString(result.Properties["title"][0]);
+                        designation = Convert.ToString(result.Properties["title"][0]);
+                        offering = Convert.ToString(result.Properties["department"][0]);
+
+                        return Tuple.Create(designation, offering);
                     }
                     //foreach (string propertyName in result.Properties.PropertyNames)
                     //{

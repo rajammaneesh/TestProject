@@ -58,28 +58,15 @@ namespace DCode.Services.ModelFactory
                 emailTrackerDb.body = inputModel.Body;
                 emailTrackerDb.sent_date = inputModel.SentDate;
                 emailTrackerDb.source = inputModel.Source;
-              //  emailTrackerDb.id = inputModel.Id;
+                //  emailTrackerDb.id = inputModel.Id;
                 if (inputModel.CcAddresses != null)
                 {
-                    if(inputModel.CcAddresses.Contains(";"))
-                    {
-                        emailTrackerDb.cc_addresses = string.Join(";", inputModel.CcAddresses);
-                    }
-                    else
-                    {
-                        emailTrackerDb.cc_addresses = inputModel.CcAddresses.FirstOrDefault();
-                    }
+                    emailTrackerDb.cc_addresses = string.Join(";", inputModel.CcAddresses);
+
                 }
                 if (inputModel.BccAddresses != null)
                 {
-                    if (inputModel.BccAddresses.Contains(";"))
-                    {
-                        emailTrackerDb.bcc_Addresses = string.Join(";", inputModel.BccAddresses);
-                    }
-                    else
-                    {
-                        emailTrackerDb.bcc_Addresses = inputModel.BccAddresses.FirstOrDefault();
-                    }
+                    emailTrackerDb.bcc_Addresses = string.Join(";", inputModel.BccAddresses);
                 }
 
                 return emailTrackerDb;
