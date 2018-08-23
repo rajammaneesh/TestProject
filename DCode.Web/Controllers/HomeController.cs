@@ -38,7 +38,6 @@ namespace DCode.Web.Controllers
                     return RedirectToAction("Index", "Error");
                 }
 
-
                 if (userContext.Role == Role.Requestor)
                 {
                     return RedirectToAction("newtasks", "requestor");

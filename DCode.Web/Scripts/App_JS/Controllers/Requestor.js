@@ -338,6 +338,7 @@
                     task.Status = "Closed";
                     $scope.refreshTasks();
                     $scope.$broadcast('refresh');
+                    $scope.$emit('updateBanner', {});
                     //$location.hash('divReviewSuccess');
                 }
 
