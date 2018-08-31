@@ -1,17 +1,14 @@
 ﻿using DCode.Common;
 using DCode.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Web.Security
 {
     public class AuthorizeRoute : AuthorizeAttribute
     {
-        private Enums.Role Role { get; set; }
-        public AuthorizeRoute(params Enums.Role[] role)
+        private Role Role { get; set; }
+        public AuthorizeRoute(params Role[] role)
         {
             if(role != null)
             {

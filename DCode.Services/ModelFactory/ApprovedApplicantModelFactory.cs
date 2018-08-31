@@ -1,6 +1,7 @@
 ﻿using DCode.Common;
 using DCode.Data.DbContexts;
 using DCode.Models.RequestModels;
+using DCode.Models.ResponseModels.Common;
 using DCode.Models.ResponseModels.Contributor;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
@@ -38,6 +39,7 @@ namespace DCode.Services.ModelFactory
                     contributor.EmailId = input.user.EMAIL_ID;
                     contributor.FirstName = input.user.FIRST_NAME;
                     contributor.LastName = input.user.LAST_NAME;
+                    contributor.ProjectManagerName = input.user.PROJECT_MANAGER_NAME;
                 }
                 contributor.CompletedHours = input.HOURS_WORKED;
                 contributor.CreatedBy = input.CREATED_BY;
@@ -98,7 +100,38 @@ namespace DCode.Services.ModelFactory
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<approvedapplicant> inputList) where TModel : class
         {
-            throw new NotImplementedException();
+            if (typeof(TModel) == typeof(ApprovedApplicant))
+            {
+                if (inputList == null)
+                {
+                    return null;
+                }
+
+                var listOfApplicants = new List<ApprovedApplicant>();
+
+                foreach (var item in inputList)
+                {
+                    listOfApplicants.Add(TranslateToOutput(item));
+                }
+
+                return listOfApplicants as IEnumerable<TModel>;
+            }
+            return null;
+        }
+
+        private ApprovedApplicant TranslateToOutput(approvedapplicant input)
+        {
+            return new ApprovedApplicant
+            {
+                APPLICANT_ID = input.APPLICANT_ID,
+                TASK_ID=input.TASK_ID,
+                HOURS_WORKED=input.HOURS_WORKED,
+                ID = input.ID,
+                RATING = input.RATING,
+                COMMENTS = input.COMMENTS,
+                WORK_AGAIN = input.WORK_AGAIN,
+                POINTS=input.POINTS
+            };
         }
     }
 }

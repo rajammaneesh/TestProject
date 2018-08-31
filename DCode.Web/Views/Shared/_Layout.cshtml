@@ -1,4 +1,5 @@
-﻿@{
+﻿@using DCode.Common
+@{
     List<DCode.Models.User.MenuItem> menuItems = null;
     if (Session != null)
     {
@@ -7,8 +8,6 @@
     }
     var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
     var tabName = string.Empty;
-    var ActiveClass = "active";
-    var EmptyClass = "";
     var liClass = "";
     var spanColor = "";
     if (currentUrl.ToLowerInvariant().Contains(DCode.Common.Constants.UrlDashboard))
@@ -27,6 +26,14 @@
     {
         tabName = DCode.Common.Constants.TabHistory;
     }
+    else if (currentUrl.ToLowerInvariant().Contains(DCode.Common.Constants.ContactUS.ToLowerInvariant()))
+    {
+        tabName = DCode.Common.Constants.ContactUS;
+    }
+
+    var isModalLoaded = SessionHelper.Retrieve("setModalLoaded");
+
+    bool showModal = !(isModalLoaded != null && ((bool)isModalLoaded) == true);
 }
 <!DOCTYPE html>
 <html>
@@ -34,7 +41,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/Images/tech-x.ico" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="http://www.cssscript.com/demo/pretty-checkbox-radio-inputs-with-bootstrap-and-awesome-bootstrap-checkbox-css/build.css">
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
@@ -42,21 +49,49 @@
     <link rel="stylesheet" type="text/css" href="~/Content/loading-bar.css" />
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" ></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
-    @*@Scripts.Render(BundleConfig.JsModernizrBundle)
-
-        @Scripts.Render(BundleConfig.JsJqueryValidationBundle)
-        @Scripts.Render(BundleConfig.JsBootstrapBundle)*@
-    @*@Scripts.Render(BundleConfig.JsJqueryBundle)*@
     @Scripts.Render(BundleConfig.JsAngularBundle)
     @Scripts.Render(BundleConfig.JsAngularAssetsBundle)
+
+    <script type="text/javascript">
+        function openNav() {
+            document.getElementById("myNav").style.height = "100%";
+        }
+
+        /* Close when someone clicks on the "x" symbol inside the overlay */
+        function closeNav() {
+            document.getElementById("myNav").style.height = "0%";
+        }
+    </script>
 </head>
+
 <body ng-app="dCodeApp" class="body" ng-controller="LayoutController">
-    <div class="col-md-12 no-padding-left-right background-color-34495e" ng-cloak>
-        <div class="col-md-2 col-sm-2 sidebar no-padding-left-right background-color-34495e">
+    <div @*style="width:100%;"*@ ng-cloak>
+
+        <div id="suggestionmodel" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div>
+                            <h3>Feedback</h3>
+                        </div>
+                        <div class="col-md-12 no-padding margin-bottom-25">
+                            <lable style="color:green">{{successMessage}}</lable>
+                            <lable style="color:red">{{errorMessage}}</lable>
+                            <textarea name="Text1" class="form-control col-md-5" rows="3" maxlength="250" placeholder="Tell us how can we improve DCode" ng-model="suggestionValue"></textarea>
+                            <div>
+                                <label class="gray-text" style="font-style:italic;">char limit:250</label>
+                            </div>
+                        </div>
+                        <input type="submit" class="review-btn" ng-click="insertSuggestion();" value="Submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="new-style-DTM-layout-left-menu background-color-243342">
             <div class="parent-logo background-color-243342">
                 <div class="sidebar-header padding-left-32">
                     <div class="col-md-12 manager-details">
@@ -69,77 +104,157 @@
                     </div>
                 </div>
             </div>
-            <div id="suggestionmodel" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content col-md-12">
-                        <div class="modal-body text-center">
-                            <div class="col-md-12 margin-bottom-25">
-                                <h3>Feedback</h3>
-                            </div>
-                            <div class="col-md-12 no-padding margin-bottom-25">
-                                <lable style="color:green">{{successMessage}}</lable>
-                                <lable style="color:red">{{errorMessage}}</lable>
-                                <textarea name="Text1" class="form-control col-md-5" rows="3" maxlength="250" placeholder="Tell us how can we improve DCode" ng-model="suggestionValue"></textarea>
-                            </div>
-                            <input type="submit" class="review-btn" ng-click="insertSuggestion();" value="Submit" multiple="true">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="left-menu font-size-14 background-color-34495e">
-                <ul class="nav background-color-34495e no-padding-left-right">
-                    @if (menuItems != null)
-                    {
-                        foreach (var menuItem in menuItems)
+            <div class="left-menu font-size-14">
+                <div>
+                    <ul class="nav background-color-34495e no-padding-left-right">
+                        @if (menuItems != null)
                         {
-                        <a href="@menuItem.NavigationUrl">
-                            @if (@tabName == @menuItem.TabName)
-                                {
-                                    liClass = "active";
-                                    spanColor = "color-9acd66";
-                                }
-                                else
-                                {
-                                    liClass = "";
-                                    spanColor = "";
-                                }
-                            <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
-                                @if (@tabName == @menuItem.TabName)
+                            foreach (var menuItem in menuItems)
+                            {
+                                <a href="@menuItem.NavigationUrl" style="text-decoration-line:none;">
+                                    @if (@tabName == @menuItem.TabName)
                                     {
-                                    <img src="@menuItem.ImageUrlActive" />
+                                        liClass = "active-side-nav";
+                                        spanColor = "color-9acd66";
                                     }
                                     else
                                     {
-                                    <img src="@menuItem.ImageUrlInactive" />
+                                        liClass = "";
+                                        spanColor = "";
                                     }
-                                <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
-                                @if(menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
-                                { 
-                                    <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
-                                }
-                            </li>
-                        </a>
+                                    <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
+                                        @if (@menuItem.MenuItemName != "CREATE NEW TASK")
+                                        {
+                                            if (@tabName == @menuItem.TabName)
+                                            {
+                                                <img src="@menuItem.ImageUrlActive" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@menuItem.ImageUrlInactive" />
+                                            }
+                                        }
+                                        <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
+                                        @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
+                                        {
+                                            <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
+                                        }
+                                    </li>
+                                </a>
+                            }
                         }
-                    }
-                </ul>
-                @*<div class="col-md-10 contribute-button margin-top-24" ng-show="IsRequestor() && isCoreRoleRequestor()" data-toggle="modal" data-target="#alertModel">
+                    </ul>
+                </div>
+                <div style="clear:both;"></div>
+                <div>
+                    <br />
+                    <br />
+                </div>
+                <div class="new-contribute-button" ng-show="IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Contributor')">
                     Switch to Contributor
                 </div>
-                <div class="col-md-10 requestor-button contribute-button margin-top-24" ng-show="!IsRequestor() && isCoreRoleRequestor()" data-toggle="modal" data-target="#alertModel">
-                    Switch to Requestor
-                </div>*@
-                <div class="col-md-10 contribute-button margin-top-24" ng-show="IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Contributor')">
-                    Switch to Contributor
-                </div>
-                <div class="col-md-10 requestor-button contribute-button margin-top-24" ng-show="!IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Requestor')">
+                <div class="new-contribute-button" ng-show="!IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Requestor')">
                     Switch to Requestor
                 </div>
-                <div data-toggle="modal" class="suggestions-button contribute-button" data-target="#suggestionmodel" ng-click="ResetSuccess()">
+                <div>
+                    <br />
+                </div>
+                <div data-toggle="modal" class="suggestions-button new-contribute-button" data-target="#suggestionmodel" ng-click="ResetSuccess()">
                     Suggestions
                 </div>
             </div>
+
         </div>
-        @RenderBody()
+        <div class="new-style-DTM-layout-renderbody">
+            <div class="row" style="margin-left: 0px;">
+                <div class="new-style-DTM-layout-logo col-sm-10">
+                    @*<div style="height:200px; width:200px">*@
+                    <div @*style="float:left;width:80%;"*@>
+                        <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image pull-left logo">
+                    </div>
+                    <div class="new-style-DTM-layout-mobile-menu">
+                        <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
+                    </div>
+                </div>
+                <div class="col-sm-2" style="padding-top:33px;">
+                    <div class="circle" ng-show="gamificationStats!=null">
+                        <img src="~/Content/Images/trophy64px(1).png" style="margin-top:10px;" />
+                        @* <a href="#section_4"></a>*@
+                        <p>{{gamificationStats}}</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="marquee">
+                <p>{{gamificationBannerContent}}</p>
+            </div>
+
+            <div style="width:100%;">
+                @RenderBody()
+            </div>
+        </div>
+        <!-- The overlay -->
+        <div id="myNav" class="overlay">
+
+            <!-- Button to close the overlay navigation -->
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+            <!-- Overlay content -->
+            <div class="overlay-content">
+                <div>
+                    <ul class="nav">
+                        @if (menuItems != null)
+                        {
+                            foreach (var menuItem in menuItems)
+                            {
+                                <a href="@menuItem.NavigationUrl">
+                                    @if (@tabName == @menuItem.TabName)
+                                    {
+                                        liClass = "active";
+                                        spanColor = "color-9acd66";
+                                    }
+                                    else
+                                    {
+                                        liClass = "";
+                                        spanColor = "";
+                                    }
+                                    <li class="@menuItem.CssClass @liClass">
+                                        <span class="@spanColor" style="font-size:20px;">@menuItem.MenuItemName</span>
+                                        @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
+                                        {
+                                            <span class="alert-icon" ng-show="{{permissionsCount > 0}}">{{permissionsCount}}</span>
+                                        }
+                                    </li>
+                                </a>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <br />
+                    <br />
+                    <a>
+                        <div ng-show="IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Contributor')" style="font-size:25px;cursor:pointer;">
+                            Switch to Contributor
+                        </div>
+                    </a>
+                    <a>
+                        <div ng-show="!IsRequestor() && isCoreRoleRequestor()" ng-click="SwitchContext('Requestor')" style="font-size:25px;">
+                            Switch to Requestor
+                        </div>
+                    </a>
+                    <a>
+                        <div data-toggle="modal" data-target="#suggestionmodel" ng-click="ResetSuccess()" style="font-size:25px;">
+                            Suggestions
+                        </div>
+                    </a>
+                    <br />
+                    <br />
+                </div>
+            </div>
+
+        </div>
         <div id="alertModel" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content addSkillDialog  col-md-12 width900">
@@ -151,39 +266,46 @@
                 </div>
             </div>
         </div>
+
+        <!-- Below is the modal to bedisplayed on load to show the gamification rules-->
+        @if (showModal)
+        {
+            <div class="modal fade" id="gamificationModal" role="dialog">
+                <div class="modal-dialog" style="margin-top:8%;">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #37ad1ab8;">
+                            <h4 class="modal-title" style="font-size: 25px;"><b>Guidelines for Gamification</b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: orange;font-size: medium;">
+                                Glad to have you onboard!
+                            </p>
+                            <p>TechX gamification is officially underway and you can refer the following guidelines:</p>
+                            <ul>
+                                <li typeof="disc">Start earning loyalty points from today by creating or applying to contribute to a Request on TechX.</li>
+                                <li typeof="disc">For those who have not registered yet on Techx, the time is just about right to register yourself and create new Requests which gives you a chance to show off the new TechX Badges we’ll be distributing shortly.</li>
+                                <li typeof="disc">Successfully complete multiple new Requests on TechX and you could stand a chance to win a TechX Wireless Mouse.</li>
+                                <li typeof="disc">Keep aggregating loyalty points to be the leader in your offering and stand a chance to win a TechX Coffee Mug or bag the Grand Prize of 3000 Vantage points.</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+        <!--  gamification rules modal ends-->
+
+
     </div>
     @RenderSection("scripts", required: false)
     <script type='text/javascript'>
-        //function toggleTab(showModule, hideModule, curr_id, prev_id) {
-        //    document.getElementById(showModule).style = "display:block;";
-        //    document.getElementById(curr_id).classList.add('active');
-
-
-        //    document.getElementById(prev_id).classList.remove('active');
-        //    document.getElementById(hideModule).style = "display:none";
-        //    if (curr_id == 'trackStatus') {
-        //        document.getElementById(curr_id).querySelector(".alert-icon").style = "display:none";
-        //    } else {
-        //        document.getElementById(prev_id).querySelector(".alert-icon").style = "display:inline-block";
-        //    }
-        //}
-        function calWindowSize() {
-            var headerHeight = 0;
-            if (document.querySelector(".right-body-top") != null)
-                headerHeight = document.querySelector(".right-body-top").clientHeight;
-            var windowHeight = window.innerHeight;
-            var projectContainer_h = windowHeight - headerHeight - 190  + 'px';
-            console.log(projectContainer_h);
-            if (document.querySelector(".right-container") != null)
-                document.querySelector(".right-container").style.height = projectContainer_h;
-        }
-        calWindowSize();
-        window.onresize = function () {
-            calWindowSize();
-            document.querySelector(".right-container").style.height = window.innerHeight - document.querySelector(".right-body-top").clientHeight + 'px';
-        }
         $(document).ready(function () {
-
+          
             $("#datetimepicker1").datetimepicker({
                 minDate: new Date(),
                 useCurrent: false,
@@ -194,7 +316,7 @@
                 useCurrent: false,
                 format: 'MM/DD/YYYY'
             });
-            
+
             $('.nav li a').click(function (e) {
                 $('.nav li').removeClass('active');
                 var $parent = $(this).parent();
@@ -204,13 +326,9 @@
                 e.preventDefault();
             });
 
+            $('#gamificationModal').modal('show');
         });
-
-
     </script>
 
-    <script type="text/javascript">
-
-    </script>
 </body>
 </html>

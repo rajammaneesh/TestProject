@@ -2,69 +2,44 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-sm-10 col-md-10 main no-padding-left-right" ng-controller="contributorController">
-    <div class="right-body-top col-sm-12 background-color-fff no-padding-left-right">
-        <div class="main-header">
-            <div class="col-sm-6 col-md-8 no-padding-left-right">
-                <div class="margin-50 col-md-12 logo-parent">
-                    <div class="col-md-12 no-padding">
-                        <img src="~/Content/Images/tech-x-logo.png" height="150px" width="260px" class="pull-left logo">
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-1 col-md-1"></div>
-            <div class="col-sm-2 col-md-2">
-                <img src="~/Content/Images/settings.png" width="20px" height="20px" class="margin-50 setting-icon pull-right hidden">
+
+<div class="main no-padding-left-right" ng-controller="contributorController">
+    <div style="background:white;width:100%;height:50px;">
+        <div class="new-style-DTM-dashboard-menu">
+            <div class="top-menu">
+                <ul class="nav">
+                    <li class="link active new-style-DTM-dashboard-menu-items" id="approval">
+                        <a ng-click="controlTabsMyTasks('approval')" class="dark-grey-blue-16">APPLICATIONS<span class="dark-grey-blue-16">{{applicantsCount}}</span></a>
+                    </li>
+                    <li class="link new-style-DTM-dashboard-menu-items" id="trackStatus">
+                        <a ng-click="controlTabsMyTasks('taskstatus')" class="dark-grey-blue-16">TRACK STATUS<span class="dark-grey-blue-16">{{taskStatusesGlobal.length}}</span></a>
+                    </li>
+                    <li class="link new-style-DTM-dashboard-menu-items" id="permissions">
+                        <a ng-click="controlTabsMyTasks('history')" class="dark-grey-blue-16">TRACK HISTORY</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="col-sm-12">
-            <ul class="nav col-sm-7 col-md-7 top-menu">
-                <li class="active pull-left margin-left-right-10 letter-spacing-1 link" id="approval">
-                    <a ng-click="controlTabsMyTasks('approval')" class="dark-grey-blue-16">APPLICATIONS</a>
-                </li>
-                <li class="pull-left margin-left-right-10 letter-spacing-1 link" id="trackStatus">
-                    <a ng-click="controlTabsMyTasks('taskstatus')" class="dark-grey-blue-16">TRACK STATUS</a>
-                </li>
-                <li class="pull-left margin-left-right-10 letter-spacing-1 link" id="permissions">
-                    <a ng-click="controlTabsMyTasks('history')" class="dark-grey-blue-16">TRACK HISTORY</a>
-                </li>
-            </ul>
-            <div class="col-sm-5 searchPanel" ng-hide="dashboard.showHistory || dashboard.showApproval">
-                <div class="form-group no-margin">
-                    <div class="input-group search-by-project padding-bottom-10">
-                        <input type="text" class="form-control" placeholder="Search by Project Name" ng-model="searchBox.text" ng-change="filterTasks();">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                        </span>
-                    </div>
+
+        <div class="new-style-DTM-dashboard-menu-search" ng-hide="dashboard.showHistory || dashboard.showApproval">
+            <div class="form-group no-margin">
+                <div class="input-group search-by-project padding-bottom-10">
+                    <input type="text" class="form-control" placeholder="Search by project/initiative name" ng-model="searchBox.text" ng-change="filterTasks();">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
                 </div>
             </div>
         </div>
     </div>
-    <div id="rightcontainer" class="right-container">
+    <div style="clear:both;"></div>
+    <div style="width:100%;">
+        <div class="new-style-DTM-renderbody-inner background-color-ecf0f1">
+            @{Html.RenderPartial("_ContributorTaskApplication");}
 
-        @{Html.RenderPartial("_ContributorTaskApplication");}
+            @{Html.RenderPartial("_ContributorTaskStatus");}
 
-        @{Html.RenderPartial("_ContributorTaskStatus");}
-
-        @{Html.RenderPartial("_ContributorTaskHistory");}
-
-
+            @{Html.RenderPartial("_ContributorTaskHistory");}
+        </div>
     </div>
 </div>
-@*<script type='text/javascript'>
-        function toggleTab(showModule, hideModule, curr_id, prev_id) {
-
-            document.getElementById(curr_id).classList.add('active');
-
-
-            document.getElementById(prev_id).classList.remove('active');
-            document.getElementById(hideModule).style = "display:none";
-            if (curr_id == 'trackStatus') {
-                document.getElementById(curr_id).querySelector(".alert-icon").style = "display:none";
-            } else {
-                document.getElementById(prev_id).querySelector(".alert-icon").style = "display:inline-block";
-            }
-        }
-
-    </script>*@

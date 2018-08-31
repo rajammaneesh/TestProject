@@ -3,9 +3,7 @@ using DCode.Data.DbContexts;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
@@ -40,12 +38,12 @@ namespace DCode.Services.ModelFactory
             task.Status = input.task.STATUS;
             task.StatusDate = input.task.STATUS_DATE;
             task.TaskName = input.task.TASK_NAME;
-            task.Type = input.task.TYPE;
+            task.TypeId = input.task.TASK_TYPE_ID.GetValueOrDefault();
             task.UpdatedBy = input.task.UPDATED_BY;
             task.UpdatedOn = input.task.UPDATED_ON;
             task.Id = input.task.ID;
-            task.GiftsOrAwards = input.task.GIFTS != null ? Convert.ToBoolean(input.task.GIFTS) : false;
             task.Hours = input.task.HOURS;
+            task.Offering = input.task.offering.Code;
             return task;
         }
 
@@ -82,13 +80,16 @@ namespace DCode.Services.ModelFactory
         public IEnumerable<taskskill> CreateModelList(IEnumerable<int> skillIdList)
         {
             var dbTaskSkills = new List<taskskill>();
-            foreach(var skillId in skillIdList)
+            if (skillIdList != null)
             {
-                var dbTaskSkill = new taskskill();
-                dbTaskSkill.SKILL_ID = skillId;
-                dbTaskSkill.STATUS = Enums.SkillStatus.Active.ToString();
-                dbTaskSkill.STATUS_DATE = DateTime.Now;
-                dbTaskSkills.Add(dbTaskSkill);
+                foreach (var skillId in skillIdList)
+                {
+                    var dbTaskSkill = new taskskill();
+                    dbTaskSkill.SKILL_ID = skillId;
+                    dbTaskSkill.STATUS = SkillStatus.Active.ToString();
+                    dbTaskSkill.STATUS_DATE = DateTime.Now;
+                    dbTaskSkills.Add(dbTaskSkill);
+                }
             }
             return dbTaskSkills;
         }

@@ -3,9 +3,9 @@
     angular.module('dCodeApp')
     .controller('contributorController', ContributorController);
 
-    ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window','$anchorScroll','$location', 'UserContextService'];
+    ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService'];
 
-    function ContributorController($scope, $http, $rootScope, $filter, $window,$anchorScroll,$location, UserContextService) {
+    function ContributorController($scope, $http, $rootScope, $filter, $window, $anchorScroll, $location, UserContextService) {
         $scope.userContext = null;
         $scope.taskApplicantsRecordCount = 100;
         $scope.tasksGlobal = null;
@@ -21,7 +21,7 @@
         $scope.tasksCount = 0;
         $scope.taskApplicantsTotalRecords = 0;
         $scope.searchBox = { text: null };
-        $scope.skillSearchBox = { text: null };
+        $scope.taskSearch = { text: null, searchFilter: "A", selectedTaskType: 1 };
         $scope.dashboard = { showApproval: true, showTaskStatus: false, showHistory: false, showCreate: false };
         $scope.divVisibiltyModel = { showDetails: true, showSummary: true, showSuccess: false, showApply: true };
         $scope.workAgain = [];
@@ -36,6 +36,14 @@
         $scope.assignedTasks = null;
         $scope.assignedTasksGlobal = null;
         $scope.managersEmailId = "";
+        $scope.searchFilters = [{ Id: "M", Description: "My Offering" },  // HotFix. Need to review later.
+        { Id: "R", Description: "Recommended Tasks" },
+        { Id: "A", Description: "All Portfolios" }];
+
+        $scope.selectTaskTypes = [
+            { Id: 1, Description: "Client Service" },
+            { Id: 2, Description: "Firm Initiative" },
+            { Id: 3, Description: "Industry Initiative" }];
 
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
@@ -69,12 +77,32 @@
         $scope.isShowing = function (index) {
             return $scope.activeParentIndex == index;
         };
-        $scope.showReviewOptions = function (index) {
+        $scope.showReviewOptions = function (index, task) {
+            if (task.TypeId == 1) {
+
+                $scope.divVisibiltyModel.showSummary = true;
+                $scope.divVisibiltyModel.showSuccess = false;
+                $scope.reviewIndex = index;
+                //document.getElementById('divManagerEmailId' + index).get(0).focus();
+                setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
+                //$location.hash('div' + index);
+            }
+            else if (task.TypeId >= 2)
+            {
+                $scope.reviewIndex = index;
+                $scope.applyFITask(task)
+            }
+
+        };
+
+        $scope.showTimeAddBar = function (index) {
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
-            $location.hash('div' + index);
-        };
+            //document.getElementById('divManagerEmailId' + index).get(0).focus();
+            setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
+                //$location.hash('div' + index);
+        }
 
         $scope.isShowingReview = function (index) {
             return $scope.reviewIndex == index;
@@ -106,6 +134,7 @@
                             $scope.reinitialiseAssignedTasksVariables();
                             $scope.getAssignedTasks()
                             $scope.trackStatus.Hours = null;
+                            $scope.$emit('updateBanner', {});
                         }
                     }
 
@@ -152,10 +181,7 @@
         }
 
         $scope.refreshTasksBasedonInput = function () {
-            if ($scope.skillSearchBox.text.length == 0) {
-                //location.href = "/contributor/dashboard";
-                $scope.refreshTasks();
-            }
+            $scope.refreshTasks();
         }
 
         $scope.getTasksOnSearchClick = function () {
@@ -164,14 +190,14 @@
 
         $scope.getTasks = function () {
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
+
                 $scope.tasksPageIndex++;
-                var url = null;
-                if ($scope.skillSearchBox.text != null) {
-                    url = "/Contributor/GetAllTasks?skill=" + $scope.skillSearchBox.text + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
-                    }
-                else{
-                    url = "/Contributor/GetAllTasks?currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount;
-                }
+
+                var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
+
+                var url = "/Contributor/GetAllTasks?searchKey=" + searchKey + "&currentPageIndex=" + $scope.tasksPageIndex + "&recordsCount=" + $scope.tasksRecordCount
+                    + "&searchFilter=" + $scope.taskSearch.searchFilter + "&selectedTaskType=" + $scope.taskSearch.selectedTaskType;
+
                 $http({
                     url: url,
                     method: "POST",
@@ -197,61 +223,151 @@
             }
         }
 
-        $scope.refreshTasks = function()
-        {
+        $scope.refreshTasks = function () {
             $scope.reinitialiseVariables();
             $scope.getTasks();
         }
 
-        $scope.applyTask = function (task, managersEmailID) {
-
-            var managerEmailAddress = "";
-            if (managersEmailID != null && managersEmailID != "")
-
+        $scope.ValidatePermissionDetails = function (index) {
+            var isValid = true;
+            var userEmail = "";
+            if ($rootScope.userContext != null )
             {
-                managerEmailAddress = managersEmailID;
+                userEmail = $rootScope.userContext.EmailId;
             }
-            $http({
-                url: "/Contributor/ApplyTask",
-                method: "POST",
-                data: { taskId: task.Id, emailAddress: managerEmailAddress}
-            }).success(function (data, status, headers, config) {
-                if (data != undefined) {
-                    if (data != null && data > 0) {
-
-                        $scope.taskRequest =
-                            {
-                                TaskName: task.TaskName,
-                                ProjectName: task.ProjectName,
-                                Hours: task.Hours,
-                                StartingDate: task.OnBoardingDate
-                            }
-                        
-                        $scope.divVisibiltyModel.showSuccess = true;
-                        $scope.divVisibiltyModel.showSummary = false;
-                        $scope.refreshTasks();
-                        $location.hash('divCongrats');
-                    }
+            if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null || $("#txtManagerEmailId" + index).val() == userEmail) {
+                $("#divManagerEmailId" + index).addClass("invalid");
+                isValid = false;
+            }
+                //else {
+                //    $("#divManagerEmailId" + index).removeClass("invalid");
+                //}
+            else {
+                //checking email validation
+                //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
+                if (!re.test($("#txtManagerEmailId" + index).val())) {
+                    $("#divManagerEmailId" + index).addClass("invalid");
+                    isValid = false;
                 }
+                else {
+                    $("#divManagerEmailId" + index).removeClass("invalid");
+                }
+            }
+            if ($("#txtSOP" + index).val() == "" || $("#txtSOP" + index).val() == null) {
+                $("#divSOP" + index).addClass("invalid");
+                isValid = false;
+            }
+            else {
+                $("#divSOP" + index).removeClass("invalid");
+            }
+            return isValid;
+        };
 
-            }).error(function (error) {
-            });
+        $('#txtCompletedHrs').keydown(function (e) {
+            var order = e.which;
+            if (order == 187 || order == 189 || order == 69) {
+                return false;
+            };
+        });
 
+        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal) {
+            if ($scope.ValidatePermissionDetails(indexVal)) {
+                var managerEmailAddress = "";
+                if (managersEmailID != null && managersEmailID != "") {
+                    managerEmailAddress = managersEmailID;
+                }
+                $http({
+                    url: "/Contributor/ApplyTask",
+                    method: "POST",
+                    data: {
+                        taskId: task.Id,
+                        emailAddress: managerEmailAddress,
+                        statementOfPurpose: statementOfPurpose
+                    }
+                }).success(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        if (data != null && data > 0) {
+
+                            $scope.taskRequest =
+                                {
+                                    TaskName: task.TaskName,
+                                    ProjectName: task.ProjectName,
+                                    Hours: task.Hours,
+                                    StartingDate: task.OnBoardingDate,
+                                    TaskType: task.TypeId
+                                }
+
+                            $scope.divVisibiltyModel.showSuccess = true;
+                            $scope.divVisibiltyModel.showSummary = false;
+                            $scope.refreshTasks();
+                            //$location.hash('divCongrats');
+                            $('#divCongrats').modal('show');
+                        }
+                    }
+
+                }).error(function (error) {
+                });
+            }
         }
 
-        $scope.cancelPermission = function()
-        {
+        $scope.applyFITask = function (task) {
+            var userEmail = "";
+            if ($rootScope.userContext != null) {
+                userEmail = $rootScope.userContext.EmailId;
+            }
+            if (userEmail != task.RequestorEmailId)
+            {
+                $http({
+                    url: "/Contributor/ApplyFITask",
+                    method: "POST",
+                    data: {
+                        taskId: task.Id,
+                        requestor: task.RequestorEmailId
+                    }
+                }).success(function (data, status, headers, config) {
+                    if (data != undefined) {
+                        if (data != null && data > 0) {
+
+                            $scope.taskRequest =
+                                {
+                                    TaskName: task.TaskName,
+                                    ProjectName: task.ProjectName,
+                                    Hours: task.Hours,
+                                    StartingDate: task.OnBoardingDate,
+                                    TaskType: task.TypeId
+                                }
+
+                            $scope.divVisibiltyModel.showSuccess = true;
+                            $scope.divVisibiltyModel.showSummary = false;
+                            $scope.refreshTasks();
+                            //$location.hash('divCongrats');
+                            $('#divCongrats').modal('show');
+                        }
+                    }
+
+                }).error(function (error) {
+                });
+            }
+        }
+
+        $scope.cancelPermission = function () {
             $scope.divVisibiltyModel.showSummary = false;
         }
 
-        
-        
+
+
         //will be handled by ng-infinite scroll
         $scope.onLoad = function () {
             //$scope.getTasks();
             //$scope.getAssignedTasks();
         }
         $scope.onLoad();
+
+        $scope.CloseModal = function () {
+            $('#divCongrats').modal('toggle');
+        };
+
     }
 })();
 
@@ -295,7 +411,7 @@
                             $scope.historyVisibility.showFirst = true;
                             $scope.historyVisibility.showHistory = false;
                         }
-                        
+
                     }
                 }).error(function (error) {
                 });

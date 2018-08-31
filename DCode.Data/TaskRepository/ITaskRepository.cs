@@ -12,6 +12,7 @@ namespace DCode.Data.TaskRepository
         int InsertTask(task task, IEnumerable<taskskill> taskSkills);
         task GetTaskById(int id);
         int UpdateTask(task task);
+        int CloseTask(int taskId);
         IEnumerable<task> GetTasks();
         //IEnumerable<task> GetTasks(int pageCount, int totalRecords);
         //applicant GetApplicantById(int id);
@@ -23,5 +24,15 @@ namespace DCode.Data.TaskRepository
 
         List<KeyValuePair<string, string>> GetAllCommentsOnEmailId(string emailId);
         IEnumerable<task> GetTaskHistroyByEmailId(string emailId, int currentPageIndex, int recordsCount, out int totalRecords);
+
+        IEnumerable<Tuple<string, int>> GetTaskCountBySkillForDate(DateTime date);
+
+        IEnumerable<task> GetFirmInitiativesForDate(DateTime date);
+
+        IEnumerable<task> GetProjectDetailsForNewTasksFromDateForSkill(DateTime date, string skillName);
+
+        skill GetSkillByName(string name);
+
+        IEnumerable<task> GetClientServiceTasksCreatedForDateRange(DateTime startDate, DateTime endDate);
     }
 }

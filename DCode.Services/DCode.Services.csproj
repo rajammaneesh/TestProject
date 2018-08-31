@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DCode.Services</RootNamespace>
     <AssemblyName>DCode.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,22 +52,37 @@
     <Compile Include="Base\BaseService.cs" />
     <Compile Include="Common\CommonService.cs" />
     <Compile Include="Common\ICommonService.cs" />
+    <Compile Include="Common\ILoggerService.cs" />
+    <Compile Include="Common\LoggerService.cs" />
     <Compile Include="Contributor\ContributorService.cs" />
     <Compile Include="Contributor\IContributorService.cs" />
+    <Compile Include="Email\ClientServiceCollectiveNotificationContentGenerator.cs" />
+    <Compile Include="Email\ClientServiceTaskNotificationContentGenerator.cs" />
+    <Compile Include="Email\EmailTrackerService.cs" />
+    <Compile Include="Email\FirmInitiativeTaskNotificationContentGenerator.cs" />
+    <Compile Include="Email\IEmailTrackerService.cs" />
+    <Compile Include="Email\NotificationContentGeneratorFactory.cs" />
     <Compile Include="ModelFactory\ApplicantModelFactory.cs" />
     <Compile Include="ModelFactory\ApplicantSkillModelFactory.cs" />
     <Compile Include="ModelFactory\ApprovedApplicantModelFactory.cs" />
     <Compile Include="ModelFactory\ApprovedContributorModelFactory.cs" />
     <Compile Include="ModelFactory\CommonFactory\IModelFactory.cs" />
+    <Compile Include="ModelFactory\EmailModelFactory.cs" />
     <Compile Include="ModelFactory\LogModelFactory.cs" />
+    <Compile Include="ModelFactory\PortfolioModelFactory.cs" />
+    <Compile Include="ModelFactory\OfferingModelFactory.cs" />
     <Compile Include="ModelFactory\ServiceLineModelFactory.cs" />
     <Compile Include="ModelFactory\SkillModelFactory.cs" />
     <Compile Include="ModelFactory\SuggestionModelFactory.cs" />
     <Compile Include="ModelFactory\TaskApplicantModelFactory.cs" />
     <Compile Include="ModelFactory\TaskModelFactory.cs" />
     <Compile Include="ModelFactory\TaskSkillModelFactory.cs" />
+    <Compile Include="ModelFactory\TaskTypeModelFactory.cs" />
     <Compile Include="ModelFactory\UserModelFactory.cs" />
+    <Compile Include="ModelFactory\UserPointsModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\IReportingService.cs" />
+    <Compile Include="Reporting\ReportingService.cs" />
     <Compile Include="Requestor\IRequestorService.cs" />
     <Compile Include="Requestor\RequestorService.cs" />
     <Compile Include="Task\ITask.cs" />

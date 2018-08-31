@@ -1,18 +1,15 @@
-﻿using DCode.Models;
-using DCode.Models.Common;
+﻿using DCode.Models.Common;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DCode.Services.Common
 {
     public interface ICommonService
     {
-        UserContext GetCurrentUserContext(string userName=null);
+        UserContext GetCurrentUserContext(string userName = null);
+
         int LogToDatabase(Log logmodel);
         IEnumerable<Log> GetDBLogs();
         UserContext SwitchRole();
@@ -26,8 +23,34 @@ namespace DCode.Services.Common
 
         IEnumerable<ServiceLine> GetServiceLines();
 
+        IEnumerable<Offering> GetOfferings();
+
+        IEnumerable<Portfolio> GetPortfolios();
+
+        IEnumerable<TaskType> GetTaskTypes();
+
         string GetNameFromEmailId(string emailId);
 
         int UpdateManagersEmail(string usersEmailAddress, string managersEmailAddress, string managersName);
+
+        UserContext MapDetailsFromDeloitteNetworkWithoutUserContextObject(string userName);
+
+        bool GetTechXAccess();
+
+        string GetRMGroupEmailAddress(string department);
+
+        List<string> GetFINotificationRecipientsForOffering(int serviceLineCode);
+
+        IEnumerable<PortfolioOffering> GetPortfolioOfferings(int taskTypeId);
+
+        List<string> GetDefaultConsultingMailboxes();
+
+        void MigrateGamificationRecords();
+
+        int? GetApprovedApplicantHours();
+
+        int? GetUserPoints();
+
+        string GetRequestorEvents();
     }
 }

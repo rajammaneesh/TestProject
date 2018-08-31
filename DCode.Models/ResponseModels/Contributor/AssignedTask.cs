@@ -1,11 +1,4 @@
-﻿using DCode.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DCode.Models.ResponseModels.Contributor
+﻿namespace DCode.Models.ResponseModels.Contributor
 {
     public class AssignedTask
     {
@@ -15,7 +8,7 @@ namespace DCode.Models.ResponseModels.Contributor
         public Contributor Applicant { get; set; }
         public DCode.Models.ResponseModels.Task.Task Task { get; set; }
         //Needed for progress bar under trackstatus tab
-        public string ProgressWidth { get { return (Applicant.CompletedHours.HasValue && Task.Hours.HasValue && Task.Hours.Value > 0) ? ((Applicant.CompletedHours / Task.Hours) * 100).ToString() : Constants.Zero; } }
+        public string ProgressWidth { get { return (Applicant.CompletedHours.HasValue && Task.Hours.HasValue && Task.Hours.Value > 0) ? ((Applicant.CompletedHours / Task.Hours) * 100).ToString() : "0"; } }
 
         public bool? EnableReviewApplicant { set { value = null; } }
 

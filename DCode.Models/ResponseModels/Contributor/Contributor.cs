@@ -17,6 +17,8 @@ namespace DCode.Models.ResponseModels.Contributor
         public string Duration { get; set; }
         public int TaskApplicantId { get; set; }
 
+        public string StatementOfPurpose { get; set; }
+
         public string CreatedBy
         {
             get;
@@ -58,5 +60,7 @@ namespace DCode.Models.ResponseModels.Contributor
             get;
             set;
         }
+
+        public string ProjectManagerName { get; set; }
     }
 }

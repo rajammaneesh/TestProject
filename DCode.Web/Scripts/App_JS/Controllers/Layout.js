@@ -5,7 +5,7 @@
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('LayoutController', LayoutController);
+        .controller('LayoutController', LayoutController);
 
     LayoutController.$inject = ['$scope', '$http', '$rootScope', '$location', 'UserContextService'];
 
@@ -13,15 +13,16 @@
         $scope.tabName = null;
         $scope.userContext = null;
         $rootScope.permissionsCount = null;
+        $scope.gamificationStats = null;
+        $scope.gamificationBannerContent = null;
 
         $scope.navigateToProfile = function () {
             location.href = '/Profile/Profile';
         }
 
-        $scope.showPopup = { isVisible : false}
+        $scope.showPopup = { isVisible: false }
 
-        $scope.IsRequestor = function ()
-        {
+        $scope.IsRequestor = function () {
             if ($scope.userContext != null)
                 return $scope.userContext.Role == 1;
             else
@@ -29,14 +30,13 @@
         }
 
         $scope.isCoreRoleRequestor = function () {
-            if ($scope.userContext != null){
+            if ($scope.userContext != null) {
                 return $scope.userContext.IsCoreRoleRequestor;
             }
             return false;
         }
 
-        $scope.open = function()
-        {
+        $scope.open = function () {
             $scope.showPopup.isVisible = true;
         }
 
@@ -44,8 +44,7 @@
             location.href = '/requestor/Dashboard'
         }
 
-        $scope.submit = function()
-        {
+        $scope.submit = function () {
             $scope.SwitchContext();
         }
 
@@ -55,7 +54,7 @@
             $http({
                 url: "/Common/SwitchRoleFromLayout",
                 method: "POST",
-                data: {roleFromUI: value}
+                data: { roleFromUI: value }
             }).success(function (data, status, headers, config) {
                 var test = data;
                 if (data.Role == 2) {
@@ -67,6 +66,33 @@
             }).error(function (error) {
             });
         }
+
+        $scope.GetGamificationStats = function () {
+            $http({
+                url: "/Common/GetGamificationStats",
+                method: "GET"
+            }).success(function (data, status, headers, config) {
+                if (data != null) {
+                    $scope.gamificationStats = data;
+                }
+            }).error(function (error) {
+                $scope.gamificationStats = null;
+            });
+        }
+
+        $scope.GetGamificationBanner = function () {
+            $http({
+                url: "/Common/GetBannerMessage",
+                method: "GET"
+            }).success(function (data, status, headers, config) {
+                if (data != null) {
+                    $scope.gamificationBannerContent = data;
+                }
+            }).error(function (error) {
+                $scope.gamificationBannerContent = null;
+            });
+        }
+
         $scope.ResetSuccess = function () {
             $scope.successMessage = null;
             $scope.errorMessage = null;
@@ -96,8 +122,7 @@
                 }).error(function (error) {
                 });
             }
-            else
-            { $scope.errorMessage = "Please enter a few words."; }
+            else { $scope.errorMessage = "Please enter a few words."; }
         }
 
         $scope.GetPermissionsCount = function () {
@@ -113,17 +138,34 @@
             }).error(function (error) {
             });
         }
-            //Load page only after usercontext loads
+
+        $scope.SetModalLoaded = function () {
+            $http({
+                url: "/Common/SetModalLoaded",
+                method: "GET",
+            }).success(function (data, status, headers, config) {
+            }).error(function (error) {
+            });
+        }
+
+        //Load page only after usercontext loads
         UserContextService.InitializeUserContext().then(function (data) {
             $scope.onLoad();
         });
 
-        $scope.onLoad = function()
-        {
+        $scope.$on('updateBanner', function (event, args) {
+            $scope.GetGamificationStats();
+            $scope.GetGamificationBanner();
+        });
+
+        $scope.onLoad = function () {
             $scope.userContext = $rootScope.userContext;
             $scope.GetPermissionsCount();
+            $scope.GetGamificationStats();
+            $scope.GetGamificationBanner();
+          
+            $scope.SetModalLoaded();
         }
-        
     }
 })();
 
@@ -133,32 +175,32 @@
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('IndexController', IndexController);
+        .controller('IndexController', IndexController);
 
     IndexController.$inject = ['$scope', '$http', '$rootScope', '$location', 'UserContextService'];
 
     function IndexController($scope, $http, $rootScope, $location, UserContextService) {
         $scope.user = [];
         $scope.loginOptions = ['Requestor', 'Contributor'];
-        $scope.userMockOption = { login: null };
-        $scope.var = 'Helloo';
-        //$scope.setUserContext = function () {
-        //    $http({
-        //        url: "/Common/SetUserContext",
-        //        method: "POST",
-        //        data: { value: $scope.userMockOption.login }
-        //    }).success(function (data, status, headers, config) {
-        //        var test = data;
-        //        if (data != null) {
-        //            alert('User Profile Set!');
-        //            location.href = '/requestor/NewTasks';
-        //            }
-        //    }).error(function (error) {
-        //    });
-        //}
-        $scope.user = [];
-        //$scope.task = [];
+        $scope.userMockOption = { login: null, department: null };
+        $scope.department = [];
 
+        $scope.PopulateDepartment = function () {
+            $http({
+                method: 'GET',
+                url: '/Common/GetServiceLines',
+                async: true,
+            }).success(function (data, status, config) {
+                if (data != null) {
+                    angular.forEach(data, function (value, index) {
+                        $scope.department.push(value.Name);
+                    });
+                }
+                // handle success things
+            }).error(function (data, status, config) {
+                // handle error things
+            });
+        }
         $scope.SetUserContext = function () {
             $http({
                 method: 'POST',
@@ -168,19 +210,14 @@
                     lastName: $scope.user.LastName,
                     emailId: $scope.user.Email,
                     role: $scope.userMockOption.login,
-                    managerEmailId: $scope.user.ManagerEmailId
+                    managerEmailId: $scope.user.ManagerEmailId,
+                    department: $scope.userMockOption.department
                 },
                 async: true,
             }).success(function (data, status, config) {
                 if (data != null) {
                     alert('user set!');
                     location.href = "/";
-                    //if ($scope.userMockOption.login == 'Contributor') {
-                    //    location.href = '/contributor/dashboard';
-                    //}
-                    //else if ($scope.userMockOption.login == 'Requestor') {
-                    //    location.href = '/requestor/newtasks';
-                    //}
                 }
                 // handle success things
             }).error(function (data, status, config) {
@@ -188,7 +225,11 @@
             });
         }
 
-        
+        $scope.onLoad = function () {
+            $scope.PopulateDepartment();
+        }
+
+        $scope.onLoad();
     }
 
 })();

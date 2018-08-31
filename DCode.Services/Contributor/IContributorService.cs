@@ -10,12 +10,13 @@ namespace DCode.Services.Contributor
     {
         IEnumerable<Models.ResponseModels.Task.Task> GetTasksBasedOnApplicantSkills();
         IEnumerable<TaskHistory> GetTaskHistory();
-        int ApplyTask(int taskId, string emailAddress);
+        int ApplyTask(int taskId, string emailAddress, string statementOfPurpose);
 
         //AssignedTasksResponse GetApprovedTasksForCurrentUser();
         AssignedTasksResponse GetApprovedTasksForCurrentUser(int currentPageIndex, int recordsCount);
         int UpdateHours(int approvedApplicantId, int hours);
-        TaskResponse GetAllTasks(string skill, int currentPageIndex, int recordsCount);
+        TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount,string searchFilter, int selectedTaskType);
         TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount);
+        int ApplyFITask(int taskId,string requestor);
     }
 }

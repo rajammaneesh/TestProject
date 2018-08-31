@@ -1,58 +1,72 @@
-﻿
-<div id="historyPage" class="right-body-bottom col-sm-12 history-container" ng-controller="historyController" ng-show="dashboard.showHistory">
-    <div class="background-color-ecf0f1 col-sm-12 no-padding margin-top-25" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'>
-        <div class="background-color-fff col-sm-12 no-padding margin-top-25">
-            <div class="new-task-box no-padding" ng-show="historyVisibility.showFirst">
-                <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
-                <p class="gray-text">This page will give you list of all your previous project tasks that are in completed status. An overview of the hours that made an impact would be displayed here. This would also give information about the resources that have worked on a project task and their skillset.</p>
-                <div class="create-new-task-btn" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
-            </div>
-        </div>
-        <div class="no-padding-left-right col-sm-12" ng-show="historyVisibility.showHistory">
-            <div class="col-md-12 col-sm-12 no-padding track-box" ng-repeat="task in tasksHistory">
-                <div class="col-md-12 col-sm-12 margin-top-24 no-padding">
-                    <div class="col-md-8">
-                        <span class="heading color-8e44ad margin-right-12">{{task.Task.ProjectName}}</span>
-                        <span class="dark-grey-blue margin-right-20">{{task.Task.TaskName}}</span>
-                        <span class="gray-text">{{task.Task.Duration}}</span>
-                    </div>
-                    <div class="col-md-4 pull-right no-padding"><div class="col-md-5 gift-pending back-ground-color-ffa942 no-padding" ng-show="historyVisibility.GiftsOrAwards">GIFT PENDING</div></div>
+﻿<div ng-controller="historyController" ng-show="dashboard.showHistory">
+    <div id="reqhistoryTab" class="new-style-DTM-main-inner-body">
+
+
+        <div class="background-color-ecf0f1" style="padding:20px;" infinite-scroll='getTaskHistory()' infinite-scroll-distance='0'
+             infinite-scroll-container="'#reqhistoryTab'">
+            <div class="new-style-DTM-new-task-background" ng-show="historyVisibility.showFirst">
+                <div>
+                    <h3 class="dark-grey-blue font-size-24">You do not have any tasks running!</h3>
+                    <p class="gray-text">
+                        This page will give you list of all your previous project tasks that are in completed status.
+                        An overview of the hours that made an impact would be displayed here. This would also give information about the resources that have worked on a project task and their skillset.
+                    </p>
                 </div>
-                <div class="col-sm-12 col-md-12 no-padding margin-top-25">
-                    <div class="col-md-3 pull-left">
-                        <div class="circle-txt pull-left margin-right-24">{{task.Applicant.ShortName}}</div>
-                        <div class="pull-left">
-                            <div class="color-8e44ad heading margin-top-5">{{task.Applicant.Name}}</div>
+                <div> &nbsp;</div>
+                <div>
+                    <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                    <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="NavigateToNewTask()">CREATE NEW TASK</div>
+                    <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
+
+                </div>
+            </div>
+            <div class="project-details" style="padding:20px;" ng-show="historyVisibility.showHistory">
+                <div ng-repeat="task in tasksHistory">
+                    <div>
+                        <div>
+                            <div class="new-style-DTM-history-proj-small">
+                                <div><span class="heading color-8e44ad">{{task.Task.ProjectName}}</span></div>
+                                <div class="gray-text">Project Name</div>
+                            </div>
+                            <div class="new-style-DTM-history-proj-big">
+                               
+                                <div>
+                                    <span class="dark-grey-blue">{{task.Task.TaskName}}</span>
+                                    <span class="gray-text">{{task.Task.Duration}}</span>
+                                </div>
+                                <div class="gray-text">Task Name</div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div>&nbsp;</div>
+                        <div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <div class="circle-txt" style="float:left;">{{task.Applicant.ShortName}}</div>
+                                <div>
+                                    <div class="color-8e44ad heading">{{task.Applicant.Name}}</div>
+                                </div>
+                            </div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
+                                <span class="role-desc dark-grey-blue">{{task.Task.Hours}}</span>
+                                <div class="gray-text">Billable hours</div>
+                            </div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                <span class="role-desc dark-grey-blue">{{task.Task.OnBoardingDate}}</span>
+                                <div class="gray-text">Start Date</div>
+                            </div>
+                            <div class="new-style-DTM-tracking-main heading">
+                                <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
+                                <span class="role-desc dark-grey-blue">{{task.Task.DueDate}}</span>
+                                <div class="gray-text">Due Date</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="billable-hours col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="hours-icon"><img src="/Content/Images/hours@2x.png"></span>
-                            <span class="role-desc dark-grey-blue">{{task.Task.Hours}}</span>
-                            <div class="gray-text">Billable hours</div>
-                        </div>
+                    <div style="clear:both;"></div>
+                    <div style="width:100%;">
+                        <hr style="background:lightgray;" />
                     </div>
-                    <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
-                            <span class="role-desc dark-grey-blue">{{task.Task.OnBoardingDate}}</span>
-                            <div class="gray-text">Onboarding Date</div>
-                        </div>
-                    </div>
-                    <div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="cal-icon"><img src="/Content/Images/calendar@2x.png"></span>
-                            <span class="role-desc dark-grey-blue">{{task.Task.DueDate}}</span>
-                            <div class="gray-text">Due Date</div>
-                        </div>
-                    </div>
-                    <!--<div class="on-boarding-date col-sm-2 col-md-3 pull-left no-padding">
-                        <div class="heading">
-                            <span class="cal-icon"><img src="/Content/Images/gift@2x.png"></span>
-                            <span class="role-desc dark-grey-blue">Apple Watch</span>
-                            <div class="gray-text">Awards Details</div>
-                        </div>
-                    </div>-->
                 </div>
             </div>
         </div>

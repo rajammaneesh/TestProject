@@ -1,24 +1,17 @@
-﻿using DCode.Common;
-using DCode.Data.DbContexts;
-using DCode.Models;
-using DCode.Models.RequestModels;
-using DCode.Models.ResponseModels.Common;
-using DCode.Models.ResponseModels.Contributor;
+﻿using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Requestor;
 using DCode.Models.ResponseModels.Task;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.Requestor
 {
     public interface IRequestorService
     {
-        TaskApplicantsReponse GetTaskApplicantsForApproval(int currentPageIndex, int recordsCount);
+        TaskApplicantsReponse GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount);
         int AssignTask(AssignTaskRequest taskRequest);
         //IEnumerable<ApprovedContributor> GetApprovedApplicantsByTaskId(int taskId);
-        TaskStatusResponse GetStatusOftasks(int currentPageIndex, int recordsCount, Enums.TaskStatusSortFields sortField, Enums.SortOrder sortOrder);
+        TaskStatusResponse GetStatusOftasks(int selectedTaskType, int currentPageIndex, int recordsCount, TaskStatusSortFields sortField, SortOrder sortOrder);
         int ReviewTask(ReviewTaskRequest reviewTaskRequest);
         IEnumerable<TaskHistory> GetTaskHistory();
         bool IsFirstTimeUserForNewTask();
@@ -29,6 +22,6 @@ namespace DCode.Services.Requestor
         int RejectTask(RejectTaskRequest rejectTaskRequest);
         TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount);
         int GetPermissionsCount();
-        
+
     }
 }
