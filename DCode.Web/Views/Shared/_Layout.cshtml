@@ -65,6 +65,10 @@
         function closeNav() {
             document.getElementById("myNav").style.height = "0%";
         }
+
+        function expandGmfModal() {
+            document.getElementById('expandGmfModal').style.display = 'block';
+        }
     </script>
 </head>
 
@@ -280,15 +284,21 @@
                         </div>
                         <div class="modal-body">
                             <p style="color: orange;font-size: medium;">
-                                Glad to have you onboard!
+                                Greetings!
                             </p>
-                            <p>TechX gamification is officially underway and you can refer the following guidelines:</p>
-                            <ul>
-                                <li typeof="disc">Start earning loyalty points from today by creating or applying to contribute to a Request on TechX.</li>
-                                <li typeof="disc">For those who have not registered yet on Techx, the time is just about right to register yourself and create new Requests which gives you a chance to show off the new TechX Badges we’ll be distributing shortly.</li>
-                                <li typeof="disc">Successfully complete multiple new Requests on TechX and you could stand a chance to win a TechX Wireless Mouse.</li>
-                                <li typeof="disc">Keep aggregating loyalty points to be the leader in your offering and stand a chance to win a TechX Coffee Mug or bag the Grand Prize of 3000 Vantage points.</li>
-                            </ul>
+                            <p>
+                                Glad to have you onboard! TechX gamification is officially underway and you stand a chance to win some exciting prizes….<a onclick="expandGmfModal()" style="cursor: pointer;">
+                                    Click Here
+                                </a> to know more.
+                            </p>
+                            <div id="expandGmfModal" style="display:none;">
+                                <ul>
+                                    <li typeof="disc">Great time to login to TechX. Now stand a chance to win exciting prizes!</li>
+                                    <li typeof="disc">Requestors can earn loyalty points and Contributors can earn hours of contribution</li>
+                                    <li typeof="disc">More request raised and closed better chance to win</li>
+                                    <li typeof="disc">Both Requestors and Contributors stand a chance to win amazing prizes like Amazon Echo, Vantage Points, etc</li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="modal-footer" style="text-align: center;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
