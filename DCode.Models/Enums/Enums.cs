@@ -21,6 +21,9 @@ namespace DCode.Models.Enums
         public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };
         public enum EmailType { Approved, Rejected }
 
+        public enum ApplicationSource {
+            WebApp,Notification};
+
         public enum ErrorRedirectType
         {
             [Description("You are not permitted to access this portal as you are not a USI practitioner")]

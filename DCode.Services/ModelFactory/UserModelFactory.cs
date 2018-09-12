@@ -1,16 +1,25 @@
 ﻿using DCode.Data.DbContexts;
+using DCode.Data.MetadataRepository;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
 using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static DCode.Models.Enums.Enums;
 
 namespace DCode.Services.ModelFactory
 {
     public class UserModelFactory : IModelFactory<user>
     {
+        private IOfferingRepository _offeringRepository;
+
+        public UserModelFactory(IOfferingRepository offeringRepository)
+        {
+            _offeringRepository = offeringRepository;
+        }
+
         public TModel CreateModel<TModel>(user input) where TModel : class
         {
             if (typeof(TModel) == typeof(UserContext))
@@ -86,14 +95,77 @@ namespace DCode.Services.ModelFactory
             dbUser.EMAIL_ID = userContext.EmailId;
             dbUser.FIRST_NAME = userContext.FirstName;
             dbUser.LAST_NAME = userContext.LastName;
+            dbUser.OFFERING_ID = GetOfferingFromDepartment(userContext?.DepartmentCode);
+            dbUser.STATUS = UserStatus.Active.ToString();
+            dbUser.STATUS_DATE = DateTime.Now;
+
+            dbUser.user_points = new List<user_points>();
+
+            if (userContext.Role == Role.Requestor)
+            {
+                dbUser.user_points.Add(new user_points
+                {
+                    @event = "REQUESTOR-New Requestor",
+                    created_date = DateTime.Now,
+                    points = 5,
+                    role_id = (int)Role.Requestor,
+                    user_id = userContext.UserId
+                });
+            }
+
+            dbUser.user_points.Add(new user_points
+            {
+                @event = "CONTRIBUTOR-New Contributor",
+                created_date = DateTime.Now,
+                points = 5,
+                role_id = (int)Role.Contributor,
+                user_id = userContext.UserId
+            });
+
+            return dbUser;
+        }
+
+        private int? GetOfferingFromDepartment(string departmentCode)
+        {
+            var offerings = _offeringRepository.GetOfferings();
+
+            return offerings?.Where(x => x.Code == departmentCode)?.FirstOrDefault()?.Id;
+        }
+
+        public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<user> inputList) where TModel : class
+        {
+            if (typeof(TModel) == typeof(user))
+            {
+                if (inputList == null)
+                {
+                    return null;
+                }
+
+                var listOfUsers = new List<user>();
+
+                foreach (var item in inputList)
+                {
+                    listOfUsers.Add(TranslateToOutput(item));
+                }
+
+                return listOfUsers as IEnumerable<TModel>;
+            }
+            return null;
+        }
+
+        private user TranslateToOutput(user input)
+        {
+            var dbUser = new user();
+            dbUser.ID = input.ID;
+            dbUser.DESIGNATION = input.DESIGNATION;
+            dbUser.EMAIL_ID = input.EMAIL_ID;
+            dbUser.FIRST_NAME = input.FIRST_NAME;
+            dbUser.LAST_NAME = input.LAST_NAME;
+            dbUser.OFFERING_ID = input.OFFERING_ID;
             dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
             return dbUser;
         }
 
-        public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<user> inputList) where TModel : class
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -4,11 +4,13 @@ using DCode.Data.DbContexts;
 using DCode.Data.RequestorRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
+using DCode.Models.Email;
 using DCode.Models.ResponseModels.Contributor;
 using DCode.Models.ResponseModels.Requestor;
 using DCode.Models.ResponseModels.Task;
 using DCode.Services.Base;
 using DCode.Services.Common;
+using DCode.Services.Email;
 using DCode.Services.ModelFactory;
 using System;
 using System.Collections.Generic;
@@ -31,7 +33,8 @@ namespace DCode.Services.Contributor
         //private ApprovedContributorModelFactory _approvedContributorModelFactory;
         private ICommonService _commonService;
         private IUserRepository _userRepository;
-        public ContributorService(ITaskRepository taskRepository, ICommonService commonService, IContributorRepository contributorRepository, TaskSkillModelFactory taskSkillModelFactory, TaskModelFactory taskModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository)//, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository)
+        private IEmailTrackerService _emailTrackerService;
+        public ContributorService(ITaskRepository taskRepository, ICommonService commonService, IContributorRepository contributorRepository, TaskSkillModelFactory taskSkillModelFactory, TaskModelFactory taskModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, IEmailTrackerService emailTrackerService)//, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository)
         {
             _taskRepository = taskRepository;
             _contributorRepository = contributorRepository;
@@ -45,6 +48,7 @@ namespace DCode.Services.Contributor
             //_taskApplicantModelFactory = taskApplicantModelFactory;
             _approvedApplicantModelFactory = approvedApplicantModelFactory;
             _userRepository = userRepository;
+            _emailTrackerService = emailTrackerService;
         }
 
         public IEnumerable<Models.ResponseModels.Task.Task> GetTasksBasedOnApplicantSkills()
@@ -126,7 +130,7 @@ namespace DCode.Services.Contributor
 
                     var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
 
-                    EmailHelper.ApplyNotification(
+                    var mailMessage = EmailHelper.ApplyNotification(
                         managerName,
                         $"{user.FirstName}{Constants.Space}{user.LastName}",
                         task.TASK_NAME,
@@ -137,6 +141,21 @@ namespace DCode.Services.Contributor
                         $"{user.EmailId};{RMGroupEmailAddress}",
                         offering);
 
+                    var emailTracker = new EmailTracker
+                    {
+                        ToAddresses = emailAddress,
+                        Subject = mailMessage.Subject,
+                        Body = mailMessage.Body,
+                        TaskId = taskId,
+                        Source = ApplicationSource.WebApp.ToString()
+                    };
+
+                    if (RMGroupEmailAddress != null)
+                    {
+                        emailTracker.CcAddresses.Add(RMGroupEmailAddress);
+                    }
+
+                    _emailTrackerService.InsertEmail(emailTracker);
 
                 }
                 return result;
@@ -179,7 +198,7 @@ namespace DCode.Services.Contributor
                         .Select(x => x.Description)
                         .FirstOrDefault();
 
-                    EmailHelper.ApplyFINotification(
+                    var mailMessage = EmailHelper.ApplyFINotification(
                         requestorName,
                         $"{user.FirstName}{Constants.Space}{user.LastName}",
                         task.TASK_NAME,
@@ -189,6 +208,22 @@ namespace DCode.Services.Contributor
                          requestor,
                          user.EmailId,
                          offering);
+
+                    var emailTracker = new EmailTracker
+                    {
+                        ToAddresses = requestor,
+                        Subject = mailMessage.Subject,
+                        Body = mailMessage.Body,
+                        TaskId = taskId,
+                        Source = ApplicationSource.WebApp.ToString()
+                    };
+
+                    if (user.EmailId != null)
+                    {
+                        emailTracker.CcAddresses.Add(user.EmailId);
+                    }
+
+                    _emailTrackerService.InsertEmail(emailTracker);
                 }
 
                 return result;

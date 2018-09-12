@@ -20,10 +20,10 @@ namespace DCode.Data.DbContexts
         public string Type { get; set; }
         public string Source { get; set; }
         public string Message { get; set; }
-        public string User { get; set; }
         public int StatusCode { get; set; }
         public System.DateTime TimeUtc { get; set; }
         public int Sequence { get; set; }
         public string AllXml { get; set; }
+        public string User { get; set; }
     }
 }

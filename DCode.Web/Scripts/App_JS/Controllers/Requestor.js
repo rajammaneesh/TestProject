@@ -338,6 +338,7 @@
                     task.Status = "Closed";
                     $scope.refreshTasks();
                     $scope.$broadcast('refresh');
+                    $scope.$emit('updateBanner', {});
                     //$location.hash('divReviewSuccess');
                 }
 
@@ -840,10 +841,8 @@
                 var test = data;
                 if (data != null) {
                     $scope.successClick();
-                    //commented this to show the tast and project values in the success page.
-                    //$scope.taskRequest = null;
                     $scope.$broadcast('angucomplete-alt:clearInput', 'skillsetNewTask');
-
+                    $scope.$emit('updateBanner', {});
                 }
             }).error(function (error) {
             });

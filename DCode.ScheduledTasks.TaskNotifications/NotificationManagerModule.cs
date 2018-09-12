@@ -1,5 +1,6 @@
 ﻿using DCode.Common;
 using DCode.Data.DbContexts;
+using DCode.Data.EmailRepository;
 using DCode.Data.LogRepository;
 using DCode.Data.MetadataRepository;
 using DCode.Data.ReportingRepository;
@@ -91,6 +92,18 @@ namespace DCode.ScheduledTasks.TaskNotifications
             Bind(typeof(IPortfolioRepository))
          .To(typeof(PortfolioRepository))
          .InSingletonScope();
+
+            Bind(typeof(IApprovedApplicantRepository))
+         .To(typeof(ApprovedApplicantRepository))
+         .InSingletonScope();
+
+            Bind(typeof(IUserPointsRepository))
+         .To(typeof(UserPointsRepository))
+         .InSingletonScope();
+
+            Bind(typeof(IEmailRepository))
+     .To(typeof(EmailRepository))
+     .InSingletonScope();
         }
     }
 }

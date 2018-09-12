@@ -25,6 +25,8 @@ namespace DCode.Web.App_Start
     using Ninject.Web.Common;
     using Ninject;
     using Ninject.Web.Common.WebHost;
+    using DCode.Services.Email;
+    using DCode.Data.EmailRepository;
 
     public static class NinjectWebCommon
     {
@@ -91,10 +93,14 @@ namespace DCode.Web.App_Start
             kernel.Bind<IContributorRepository>().To<ContributorRepository>();
             kernel.Bind<IServiceLineRepository>().To<ServiceLineRepository>();
             kernel.Bind<IOfferingRepository>().To<OfferingRepository>();
+            kernel.Bind<IApprovedApplicantRepository>().To<ApprovedApplicantRepository>();
             kernel.Bind<IPortfolioRepository>().To<PortfolioRepository>();
             kernel.Bind<ITaskTypeRepository>().To<TaskTypeRepository>();
             kernel.Bind<IDailyUsageStatisticsRepository>().To<DailyUsageStatisticsRepository>();
             kernel.Bind<IDataManagement>().To<DbQuueryManager>();
+            kernel.Bind<IUserPointsRepository>().To<UserPointsRepository>();
+            kernel.Bind<IEmailTrackerService>().To<EmailTrackerService>();
+            kernel.Bind<IEmailRepository>().To<EmailRepository>();
         }
 
     }

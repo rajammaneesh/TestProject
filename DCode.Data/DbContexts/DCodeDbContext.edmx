@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DCodeDbContext.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DCodeDbContext.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="applicantskills">
           <Key>
             <PropertyRef Name="ID" />
@@ -48,19 +48,32 @@
         </EntityType>
         <EntityType Name="elmah_error">
           <Key>
-            <PropertyRef Name="Sequence" />
+            <PropertyRef Name="ErrorId" />
           </Key>
           <Property Name="ErrorId" Type="guid" Nullable="false" />
-          <Property Name="Application" Type="varchar" MaxLength="60" Nullable="false" />
-          <Property Name="Host" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Type" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Source" Type="varchar" MaxLength="60" Nullable="false" />
-          <Property Name="Message" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Application" Type="varchar" MaxLength="100" />
+          <Property Name="Host" Type="varchar" MaxLength="100" />
+          <Property Name="Type" Type="varchar" MaxLength="100" />
+          <Property Name="Source" Type="varchar" MaxLength="100" />
+          <Property Name="Message" Type="longtext" />
           <Property Name="StatusCode" Type="int" Nullable="false" />
           <Property Name="TimeUtc" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AllXml" Type="text" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="AllXml" Type="longtext" />
+          <Property Name="User" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="email_tracker">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="subject" Type="longtext" Nullable="false" />
+          <Property Name="to_addresses" Type="longtext" />
+          <Property Name="cc_addresses" Type="longtext" />
+          <Property Name="bcc_Addresses" Type="longtext" />
+          <Property Name="sent_date" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="source" Type="varchar" MaxLength="45" />
+          <Property Name="body" Type="longtext" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -199,6 +212,24 @@
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="UPDATED_ON" Type="datetime" Precision="0" />
         </EntityType>
+        <EntityType Name="user_points">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="event" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="points" Type="int" Nullable="false" />
+          <Property Name="created_date" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
         <EntityType Name="users">
           <Key>
             <PropertyRef Name="ID" />
@@ -218,6 +249,7 @@
           <Property Name="CREATED_ON" Type="datetime" Precision="0" />
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="UPDATED_ON" Type="datetime" Precision="0" />
+          <Property Name="OFFERING_ID" Type="int" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Role="users" Type="Self.users" Multiplicity="1" />
@@ -279,6 +311,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_roleId_userRole">
+          <End Role="user_role" Type="Self.user_role" Multiplicity="1" />
+          <End Role="user_points" Type="Self.user_points" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="user_points">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TaskType">
           <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
           <End Role="portfolio_tasktype" Type="Self.portfolio_tasktype" Multiplicity="*" />
@@ -288,6 +332,18 @@
             </Principal>
             <Dependent Role="portfolio_tasktype">
               <PropertyRef Name="tasktypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_userId_user">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_points" Type="Self.user_points" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="user_points">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -302,6 +358,18 @@
             </Principal>
             <Dependent Role="notification_subscription">
               <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usr_off">
+          <End Role="offerings" Type="Self.offerings" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offerings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="OFFERING_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -413,46 +481,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="elmah_GetErrorsXml" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dcode">
-          <Parameter Name="App" Type="varchar" Mode="In" />
-          <Parameter Name="PageIndex" Type="int" Mode="In" />
-          <Parameter Name="PageSize" Type="int" Mode="In" />
-          <Parameter Name="TotalCount" Type="int" Mode="Out" />
-        </Function>
-        <Function Name="elmah_GetErrorXml" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dcode">
-          <Parameter Name="Id" Type="char" Mode="In" />
-          <Parameter Name="App" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="elmah_LogError" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dcode">
-          <Parameter Name="ErrorId" Type="char" Mode="In" />
-          <Parameter Name="Application" Type="varchar" Mode="In" />
-          <Parameter Name="Host" Type="varchar" Mode="In" />
-          <Parameter Name="Type" Type="varchar" Mode="In" />
-          <Parameter Name="Source" Type="varchar" Mode="In" />
-          <Parameter Name="Message" Type="varchar" Mode="In" />
-          <Parameter Name="User" Type="varchar" Mode="In" />
-          <Parameter Name="AllXml" Type="text" Mode="In" />
-          <Parameter Name="StatusCode" Type="int" Mode="In" />
-          <Parameter Name="TimeUtc" Type="datetime" Mode="In" />
-        </Function>
         <EntityContainer Name="DCodeDbContextStoreContainer">
-          <EntitySet Name="applicantskills" EntityType="Self.applicantskills" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="approvedapplicant" EntityType="Self.approvedapplicant" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="daily_usage_statistics" EntityType="Self.daily_usage_statistics" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="elmah_error" EntityType="Self.elmah_error" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="log" EntityType="Self.log" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="offerings" EntityType="Self.offerings" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="portfolio_tasktype" EntityType="Self.portfolio_tasktype" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="portfolios" EntityType="Self.portfolios" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="task_type" EntityType="Self.task_type" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="taskapplicants" EntityType="Self.taskapplicants" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="tasks" EntityType="Self.tasks" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="taskskills" EntityType="Self.taskskills" Schema="dcode" store:Type="Tables" />
-          <EntitySet Name="users" EntityType="Self.users" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="applicantskills" EntityType="Self.applicantskills" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="approvedapplicant" EntityType="Self.approvedapplicant" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="daily_usage_statistics" EntityType="Self.daily_usage_statistics" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="elmah_error" EntityType="Self.elmah_error" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="email_tracker" EntityType="Self.email_tracker" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="log" EntityType="Self.log" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="notification_subscription" EntityType="Self.notification_subscription" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="offerings" EntityType="Self.offerings" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="portfolio_tasktype" EntityType="Self.portfolio_tasktype" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="portfolios" EntityType="Self.portfolios" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="task_type" EntityType="Self.task_type" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="taskapplicants" EntityType="Self.taskapplicants" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="tasks" EntityType="Self.tasks" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="taskskills" EntityType="Self.taskskills" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="user_points" EntityType="Self.user_points" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dcode_prod" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dcode_prod" store:Type="Tables" />
           <AssociationSet Name="applicantskills_ibfk_1" Association="Self.applicantskills_ibfk_1">
             <End Role="users" EntitySet="users" />
             <End Role="applicantskills" EntitySet="applicantskills" />
@@ -473,13 +522,25 @@
             <End Role="portfolios" EntitySet="portfolios" />
             <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
           </AssociationSet>
+          <AssociationSet Name="fk_roleId_userRole" Association="Self.fk_roleId_userRole">
+            <End Role="user_role" EntitySet="user_role" />
+            <End Role="user_points" EntitySet="user_points" />
+          </AssociationSet>
           <AssociationSet Name="FK_TaskType" Association="Self.FK_TaskType">
             <End Role="task_type" EntitySet="task_type" />
             <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
           </AssociationSet>
+          <AssociationSet Name="fk_userId_user" Association="Self.fk_userId_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_points" EntitySet="user_points" />
+          </AssociationSet>
           <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="Self.FK_USERS_NOTIFICATION_STATUS">
             <End Role="users" EntitySet="users" />
             <End Role="notification_subscription" EntitySet="notification_subscription" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usr_off" Association="Self.fk_usr_off">
+            <End Role="offerings" EntitySet="offerings" />
+            <End Role="users" EntitySet="users" />
           </AssociationSet>
           <AssociationSet Name="PORT_OFFR_FK" Association="Self.PORT_OFFR_FK">
             <End Role="portfolios" EntitySet="portfolios" />
@@ -546,6 +607,7 @@
           <EntitySet Name="daily_usage_statistics" EntityType="DCodeDbContext.daily_usage_statistics" />
           <EntitySet Name="elmah_error" EntityType="DCodeDbContext.elmah_error" />
           <EntitySet Name="logs" EntityType="DCodeDbContext.log" />
+          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
           <EntitySet Name="offerings" EntityType="DCodeDbContext.offering" />
           <EntitySet Name="portfolios" EntityType="DCodeDbContext.portfolio" />
           <EntitySet Name="service_line" EntityType="DCodeDbContext.service_line" />
@@ -555,6 +617,7 @@
           <EntitySet Name="taskapplicants" EntityType="DCodeDbContext.taskapplicant" />
           <EntitySet Name="tasks" EntityType="DCodeDbContext.task" />
           <EntitySet Name="taskskills" EntityType="DCodeDbContext.taskskill" />
+          <EntitySet Name="user_points" EntityType="DCodeDbContext.user_points" />
           <EntitySet Name="users" EntityType="DCodeDbContext.user" />
           <AssociationSet Name="applicantskills_ibfk_1" Association="DCodeDbContext.applicantskills_ibfk_1">
             <End Role="user" EntitySet="users" />
@@ -571,6 +634,10 @@
           <AssociationSet Name="approvedapplicant_ibfk_2" Association="DCodeDbContext.approvedapplicant_ibfk_2">
             <End Role="task" EntitySet="tasks" />
             <End Role="approvedapplicant" EntitySet="approvedapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
+            <End Role="user" EntitySet="users" />
+            <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
           <AssociationSet Name="PORT_OFFR_FK" Association="DCodeDbContext.PORT_OFFR_FK">
             <End Role="portfolio" EntitySet="portfolios" />
@@ -608,15 +675,24 @@
             <End Role="task" EntitySet="tasks" />
             <End Role="taskskill" EntitySet="taskskills" />
           </AssociationSet>
+          <AssociationSet Name="fk_userId_user" Association="DCodeDbContext.fk_userId_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="user_points" EntitySet="user_points" />
+          </AssociationSet>
           <AssociationSet Name="portfolio_tasktype" Association="DCodeDbContext.portfolio_tasktype">
             <End Role="portfolio" EntitySet="portfolios" />
             <End Role="task_type" EntitySet="task_type" />
           </AssociationSet>
-          <EntitySet Name="notification_subscription" EntityType="DCodeDbContext.notification_subscription" />
-          <AssociationSet Name="FK_USERS_NOTIFICATION_STATUS" Association="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS">
+          <AssociationSet Name="fk_usr_off" Association="DCodeDbContext.fk_usr_off">
+            <End Role="offering" EntitySet="offerings" />
             <End Role="user" EntitySet="users" />
-            <End Role="notification_subscription" EntitySet="notification_subscription" />
           </AssociationSet>
+          <EntitySet Name="user_role" EntityType="DCodeDbContext.user_role" />
+          <AssociationSet Name="fk_roleId_userRole" Association="DCodeDbContext.fk_roleId_userRole">
+            <End Role="user_role" EntitySet="user_role" />
+            <End Role="user_points" EntitySet="user_points" />
+          </AssociationSet>
+          <EntitySet Name="email_tracker" EntityType="DCodeDbContext.email_tracker" />
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -666,19 +742,19 @@
         </EntityType>
         <EntityType Name="elmah_error">
           <Key>
-            <PropertyRef Name="Sequence" />
+            <PropertyRef Name="ErrorId" />
           </Key>
           <Property Name="ErrorId" Type="Guid" Nullable="false" />
-          <Property Name="Application" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Source" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="Message" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Application" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Host" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Source" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="StatusCode" Type="Int32" Nullable="false" />
           <Property Name="TimeUtc" Type="DateTime" Nullable="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AllXml" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="AllXml" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="User" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="log">
           <Key>
@@ -688,6 +764,15 @@
           <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="details" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="notification_subscription">
+          <Key>
+            <PropertyRef Name="NOTIFICATION_SUBSCRIPTION_ID" />
+          </Key>
+          <Property Name="NOTIFICATION_SUBSCRIPTION_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <Property Name="SUBSCRIPTION_STATUS" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
         </EntityType>
         <EntityType Name="offering">
           <Key>
@@ -701,6 +786,7 @@
           <Property Name="Practice_Email_Group" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="portfolio" Relationship="DCodeDbContext.PORT_OFFR_FK" FromRole="offering" ToRole="portfolio" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="offering" ToRole="task" />
+          <NavigationProperty Name="users" Relationship="DCodeDbContext.fk_usr_off" FromRole="offering" ToRole="user" />
         </EntityType>
         <EntityType Name="portfolio">
           <Key>
@@ -821,6 +907,19 @@
           <NavigationProperty Name="skill" Relationship="DCodeDbContext.taskskills_ibfk_2" FromRole="taskskill" ToRole="skill" />
           <NavigationProperty Name="task" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="taskskill" ToRole="task" />
         </EntityType>
+        <EntityType Name="user_points">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="event" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="points" Type="Int32" Nullable="false" />
+          <Property Name="created_date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.fk_userId_user" FromRole="user_points" ToRole="user" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user_role" Relationship="DCodeDbContext.fk_roleId_userRole" FromRole="user_points" ToRole="user_role" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
             <PropertyRef Name="ID" />
@@ -842,9 +941,12 @@
           <Property Name="UPDATED_ON" Type="DateTime" />
           <NavigationProperty Name="applicantskills" Relationship="DCodeDbContext.applicantskills_ibfk_1" FromRole="user" ToRole="applicantskill" />
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="user" ToRole="approvedapplicant" />
+          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
-          <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
+          <NavigationProperty Name="user_points" Relationship="DCodeDbContext.fk_userId_user" FromRole="user" ToRole="user_points" />
+          <Property Name="OFFERING_ID" Type="Int32" />
+          <NavigationProperty Name="offering" Relationship="DCodeDbContext.fk_usr_off" FromRole="user" ToRole="offering" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
@@ -891,6 +993,20 @@
             </Principal>
             <Dependent Role="approvedapplicant">
               <PropertyRef Name="TASK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USERS_NOTIFICATION_STATUS">
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="notification_subscription">
+              <PropertyRef Name="USER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1002,45 +1118,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="portfolio_tasktype">
-          <End Type="DCodeDbContext.portfolio" Role="portfolio" Multiplicity="*" />
-          <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="*" />
-        </Association>
-        <EntityType Name="notification_subscription">
-          <Key>
-            <PropertyRef Name="NOTIFICATION_SUBSCRIPTION_ID" />
-          </Key>
-          <Property Name="NOTIFICATION_SUBSCRIPTION_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="USER_ID" Type="Int32" Nullable="false" />
-          <Property Name="SUBSCRIPTION_STATUS" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="user" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="notification_subscription" ToRole="user" />
-        </EntityType>
-        <Association Name="FK_USERS_NOTIFICATION_STATUS">
-          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DCodeDbContext.notification_subscription" Role="notification_subscription" Multiplicity="*" />
+        <Association Name="fk_userId_user">
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
+          <End Type="DCodeDbContext.user_points" Role="user_points" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="notification_subscription">
-              <PropertyRef Name="USER_ID" />
+            <Dependent Role="user_points">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="portfolio_tasktype">
+          <End Type="DCodeDbContext.portfolio" Role="portfolio" Multiplicity="*" />
+          <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="*" />
+        </Association>
+        <Association Name="fk_usr_off">
+          <End Type="DCodeDbContext.offering" Role="offering" Multiplicity="0..1" />
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offering">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="OFFERING_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="user_role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="user_points" Relationship="DCodeDbContext.fk_roleId_userRole" FromRole="user_role" ToRole="user_points" />
+        </EntityType>
+        <Association Name="fk_roleId_userRole">
+          <End Type="DCodeDbContext.user_role" Role="user_role" Multiplicity="1" />
+          <End Type="DCodeDbContext.user_points" Role="user_points" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="user_points">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="email_tracker">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="subject" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="to_addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="cc_addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="bcc_Addresses" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="sent_date" Type="DateTime" Nullable="false" />
+          <Property Name="source" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="body" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DCodeDbContextStoreContainer" CdmEntityContainer="Entities">
-          <FunctionImportMapping FunctionImportName="elmah_GetErrorsXml" FunctionName="DCodeDbContext.Store.elmah_GetErrorsXml">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DCodeDbContext.elmah_GetErrorsXml_Result" />
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="elmah_LogError" FunctionName="DCodeDbContext.Store.elmah_LogError" />
           <EntitySetMapping Name="applicantskills">
             <EntityTypeMapping TypeName="DCodeDbContext.applicantskill">
               <MappingFragment StoreEntitySet="applicantskills">
@@ -1088,11 +1232,11 @@
           <EntitySetMapping Name="elmah_error">
             <EntityTypeMapping TypeName="DCodeDbContext.elmah_error">
               <MappingFragment StoreEntitySet="elmah_error">
+                <ScalarProperty Name="User" ColumnName="User" />
                 <ScalarProperty Name="AllXml" ColumnName="AllXml" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
                 <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="User" ColumnName="User" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Source" ColumnName="Source" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1109,6 +1253,15 @@
                 <ScalarProperty Name="details" ColumnName="details" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notification_subscription">
+            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
+              <MappingFragment StoreEntitySet="notification_subscription">
+                <ScalarProperty Name="SUBSCRIPTION_STATUS" ColumnName="SUBSCRIPTION_STATUS" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="NOTIFICATION_SUBSCRIPTION_ID" ColumnName="NOTIFICATION_SUBSCRIPTION_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1233,9 +1386,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="user_points">
+            <EntityTypeMapping TypeName="DCodeDbContext.user_points">
+              <MappingFragment StoreEntitySet="user_points">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="event" ColumnName="event" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="DCodeDbContext.user">
               <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="OFFERING_ID" ColumnName="OFFERING_ID" />
                 <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
                 <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
                 <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
@@ -1262,16 +1428,29 @@
               <ScalarProperty Name="Id" ColumnName="portfolioId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="notification_subscription">
-            <EntityTypeMapping TypeName="DCodeDbContext.notification_subscription">
-              <MappingFragment StoreEntitySet="notification_subscription">
-                <ScalarProperty Name="SUBSCRIPTION_STATUS" ColumnName="SUBSCRIPTION_STATUS" />
-                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
-                <ScalarProperty Name="NOTIFICATION_SUBSCRIPTION_ID" ColumnName="NOTIFICATION_SUBSCRIPTION_ID" />
+          <EntitySetMapping Name="user_role">
+            <EntityTypeMapping TypeName="DCodeDbContext.user_role">
+              <MappingFragment StoreEntitySet="user_role">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <EntitySetMapping Name="email_tracker">
+            <EntityTypeMapping TypeName="DCodeDbContext.email_tracker">
+              <MappingFragment StoreEntitySet="email_tracker">
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="source" ColumnName="source" />
+                <ScalarProperty Name="sent_date" ColumnName="sent_date" />
+                <ScalarProperty Name="bcc_Addresses" ColumnName="bcc_Addresses" />
+                <ScalarProperty Name="cc_addresses" ColumnName="cc_addresses" />
+                <ScalarProperty Name="to_addresses" ColumnName="to_addresses" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
