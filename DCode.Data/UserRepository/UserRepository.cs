@@ -29,6 +29,7 @@ namespace DCode.Data.UserRepository
         public int InsertUser(user user)
         {
             var result = Context.Set<user>().Add(user);
+            
             return Context.SaveChanges();
         }
 
@@ -144,9 +145,37 @@ namespace DCode.Data.UserRepository
         public IEnumerable<string> GetAllActiveUsers()
         {
             var query = Context.Set<user>()
-                .Where(x => x.STATUS == UserStatus.Active.ToString());
+               .Where(x => x.STATUS == UserStatus.Active.ToString());
 
             return query?.Select(x => x.EMAIL_ID)?.ToList();
+        }
+
+        public IEnumerable<user> GetAllActiveUsersDetails()
+        {
+            var query = Context.Set<user>()
+                .Where(x => x.STATUS == UserStatus.Active.ToString());
+
+            return query?.ToList();
+        }
+
+        public IEnumerable<user> GetAllUsers()
+        {
+            var users = Context.Set<user>()
+                .Where(x => x.STATUS == UserStatus.Active.ToString());
+
+            return users.ToList();
+        }
+
+        public int UpdateOfferingIdForUser(int userId, int? offeringId)
+        {
+            var result = Context.Set<user>().FirstOrDefault(x => x.ID == userId);
+
+            if (result!=null)
+            {
+                result.OFFERING_ID = offeringId;
+            }
+
+            return Context.SaveChanges();
         }
     }
 }

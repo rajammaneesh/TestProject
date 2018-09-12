@@ -30,7 +30,8 @@ namespace DCode.Web
                 new Services.ModelFactory.LogModelFactory(),
                 new RequestorRepository(new TaskDbContext()),
                 new UserRepository(new UserDbContext()),
-                new Services.ModelFactory.UserModelFactory(),
+                new Services.ModelFactory.UserModelFactory(
+                    new OfferingRepository(new MetadataDbContext())),
                 new Services.ModelFactory.ApplicantSkillModelFactory(),
                 new Services.ModelFactory.SkillModelFactory(),
                 new Services.ModelFactory.SuggestionModelFactory(),
@@ -39,9 +40,14 @@ namespace DCode.Web
                 new TaskTypeRepository(new MetadataDbContext()),
                 new Services.ModelFactory.TaskTypeModelFactory(),
                 new Services.ModelFactory.OfferingModelFactory(),
+                new Services.ModelFactory.UserPointsModelFactory(),
+                new Services.ModelFactory.ApprovedApplicantModelFactory(),
                 new Services.ModelFactory.PortfolioModelFactory(),
                 new OfferingRepository(new MetadataDbContext()),
-                new PortfolioRepository(new MetadataDbContext()));
+                new ApprovedApplicantRepository(new MetadataDbContext()),
+                new PortfolioRepository(new MetadataDbContext()),
+                new UserPointsRepository(new MetadataDbContext())
+                );
 
 
             _reportingService = new ReportingService(

@@ -63,7 +63,7 @@ namespace DCode.Common
             }
         }
 
-        public static void SendApproveRejectNotification(string personName, string taskName, string projectName, Enums.EmailType type, string toMailAddress, string ccMailAddress, string offering)
+        public static MailMessage SendApproveRejectNotification(string personName, string taskName, string projectName, Enums.EmailType type, string toMailAddress, string ccMailAddress, string offering)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -82,10 +82,11 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
+                return mailMessage;
             }
         }
 
-        public static void AssignNotification(string personName, string taskName, string projectName, string wbsCode, string toMailAddress, string ccMailAddress, string offering)
+        public static MailMessage AssignNotification(string personName, string taskName, string projectName, string wbsCode, string toMailAddress, string ccMailAddress, string offering)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -104,10 +105,11 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
+                return mailMessage;
             }
         }
 
-        public static void ApplyNotification(string managerName, string personName, string taskName, string projectName, string hours, string startDateTime, string toMailAddress, string ccMailAddress, string offering)
+        public static MailMessage ApplyNotification(string managerName, string personName, string taskName, string projectName, string hours, string startDateTime, string toMailAddress, string ccMailAddress, string offering)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -126,10 +128,11 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
+                return mailMessage;
             }
         }
 
-        public static void ApplyFINotification(string requestorName, string contributorName, string taskName, string taskDescription, string hours, string startDateTime, string toMailAddress, string ccMailAddress, string offering)
+        public static MailMessage ApplyFINotification(string requestorName, string contributorName, string taskName, string taskDescription, string hours, string startDateTime, string toMailAddress, string ccMailAddress, string offering)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -148,10 +151,11 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
+                return mailMessage;
             }
         }
 
-        public static void PostNewFINotification(string taskName, string hours, string description, string startDateTime, string ccMailAddress, List<string> bccMailAddress, string offering)
+        public static MailMessage PostNewFINotification(string taskName, string hours, string description, string startDateTime, string ccMailAddress, List<string> bccMailAddress, string offering)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -170,10 +174,11 @@ namespace DCode.Common
 
                     SendEmail(ConfigurationManager.AppSettings["DcodeEmailId"], ccMailAddress, mailMessage, bccMailAddress);
                 }
+                return mailMessage;
             }
         }
 
-        public static void ReviewNotification(string personName, string taskName, string projectName, string toMailAddress, string ccMailAddress, string offering)
+        public static MailMessage ReviewNotification(string personName, string taskName, string projectName, string toMailAddress, string ccMailAddress, string offering)
         {
             var htmlBody = GetEmail(PathGeneratorType.Server);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
@@ -193,6 +198,7 @@ namespace DCode.Common
 
                     SendEmail(toMailAddress, ccMailAddress, mailMessage);
                 }
+                return mailMessage;
             }
         }
 

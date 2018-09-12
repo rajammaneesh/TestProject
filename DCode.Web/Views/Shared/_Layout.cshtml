@@ -1,4 +1,5 @@
-﻿@{
+﻿@using DCode.Common
+@{
     List<DCode.Models.User.MenuItem> menuItems = null;
     if (Session != null)
     {
@@ -29,6 +30,10 @@
     {
         tabName = DCode.Common.Constants.ContactUS;
     }
+
+    var isModalLoaded = SessionHelper.Retrieve("setModalLoaded");
+
+    bool showModal = !(isModalLoaded != null && ((bool)isModalLoaded) == true);
 }
 <!DOCTYPE html>
 <html>
@@ -36,7 +41,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/Images/tech-x.ico" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="http://www.cssscript.com/demo/pretty-checkbox-radio-inputs-with-bootstrap-and-awesome-bootstrap-checkbox-css/build.css">
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
@@ -44,7 +49,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/loading-bar.css" />
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" ></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
@@ -59,6 +64,10 @@
         /* Close when someone clicks on the "x" symbol inside the overlay */
         function closeNav() {
             document.getElementById("myNav").style.height = "0%";
+        }
+
+        function expandGmfModal() {
+            document.getElementById('expandGmfModal').style.display = 'block';
         }
     </script>
 </head>
@@ -161,14 +170,28 @@
 
         </div>
         <div class="new-style-DTM-layout-renderbody">
-            <div class="new-style-DTM-layout-logo">
-           @*<div style="height:200px; width:200px">*@
-                <div @*style="float:left;width:80%;"*@>
-                    <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image pull-left logo">
+            <div class="row" style="margin-left: 0px;">
+                <div class="new-style-DTM-layout-logo col-sm-10">
+                    @*<div style="height:200px; width:200px">*@
+                    <div @*style="float:left;width:80%;"*@>
+                        <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image pull-left logo">
+                    </div>
+                    <div class="new-style-DTM-layout-mobile-menu">
+                        <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
+                    </div>
                 </div>
-                <div class="new-style-DTM-layout-mobile-menu">
-                    <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
+                <div class="col-sm-2" style="padding-top:33px;">
+                    <div class="circle" ng-show="gamificationStats!=null">
+                        <img src="~/Content/Images/trophy64px(1).png" style="margin-top:10px;" />
+                        @* <a href="#section_4"></a>*@
+                        <p>{{gamificationStats}}</p>
+
+                    </div>
                 </div>
+            </div>
+
+            <div class="marquee">
+                <p>{{gamificationBannerContent}}</p>
             </div>
 
             <div style="width:100%;">
@@ -247,11 +270,52 @@
                 </div>
             </div>
         </div>
+
+        <!-- Below is the modal to bedisplayed on load to show the gamification rules-->
+        @if (showModal)
+        {
+            <div class="modal fade" id="gamificationModal" role="dialog">
+                <div class="modal-dialog" style="margin-top:8%;">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #37ad1ab8;">
+                            <h4 class="modal-title" style="font-size: 25px;"><b>Guidelines for Gamification</b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="color: orange;font-size: medium;">
+                                Greetings!
+                            </p>
+                            <p>
+                                Glad to have you onboard! TechX gamification is officially underway and you stand a chance to win some exciting prizes….<a onclick="expandGmfModal()" style="cursor: pointer;">
+                                    Click Here
+                                </a> to know more.
+                            </p>
+                            <div id="expandGmfModal" style="display:none;">
+                                <ul>
+                                    <li typeof="disc">Great time to login to TechX. Now stand a chance to win exciting prizes!</li>
+                                    <li typeof="disc">Requestors can earn loyalty points and Contributors can earn hours of contribution</li>
+                                    <li typeof="disc">More request raised and closed better chance to win</li>
+                                    <li typeof="disc">Both Requestors and Contributors stand a chance to win amazing prizes like Amazon Echo, Vantage Points, etc</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+        <!--  gamification rules modal ends-->
+
+
     </div>
     @RenderSection("scripts", required: false)
     <script type='text/javascript'>
         $(document).ready(function () {
-
+          
             $("#datetimepicker1").datetimepicker({
                 minDate: new Date(),
                 useCurrent: false,
@@ -272,9 +336,8 @@
                 e.preventDefault();
             });
 
+            $('#gamificationModal').modal('show');
         });
-
-
     </script>
 
 </body>

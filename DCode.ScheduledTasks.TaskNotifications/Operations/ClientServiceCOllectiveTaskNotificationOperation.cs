@@ -4,12 +4,14 @@ using DCode.Models.Email;
 using DCode.Models.Reporting;
 using DCode.Models.ResponseModels.Task;
 using DCode.Services.Common;
+using DCode.Services.Email;
 using DCode.Services.Reporting;
 using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using static DCode.Models.Enums.Enums;
 
 namespace DCode.ScheduledTasks.TaskNotifications.Operations
 {
@@ -27,6 +29,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
 
         private readonly IEmailService _emailService;
 
+        private readonly IEmailTrackerService _emailTrackerService;
+
         public ClientServiceCollectiveTaskNotificationOperation(IKernel kernel)
         {
             _commonService = kernel.Get<CommonService>();
@@ -36,6 +40,8 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
             _emailService = kernel.Get<EmailService>();
 
             _logService = kernel.Get<LoggerService>();
+
+            _emailTrackerService = kernel.Get<EmailTrackerService>();
 
             _notificationContentFactory = kernel.Get<NotificationContentFactory>();
 
@@ -83,6 +89,21 @@ namespace DCode.ScheduledTasks.TaskNotifications.Operations
                 LogMessage("Sending emails");
 
                 _emailService.SendBulkEmail(notifications);
+
+                foreach(var notification in notifications)
+                {
+                    var emailTracker = new EmailTracker
+                    {
+                        Subject = notification.Subject,
+                        ToAddresses = notification.ToAddresses,
+                        Body = notification.Body,
+                        CcAddresses = notification.CcAddresses,
+                        BccAddresses = notification.BccAddresses,
+                        Source = ApplicationSource.Notification.ToString()
+                    };
+
+                    _emailTrackerService.InsertEmail(emailTracker);
+                }
 
                 LogMessage("Emails sent");
             }

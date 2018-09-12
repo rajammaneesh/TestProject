@@ -19,5 +19,10 @@ namespace DCode.Data.UserRepository
         IEnumerable<string> GetSubscribedUserForTask(string task);
 
         IEnumerable<string> GetAllActiveUsers();
+
+        IEnumerable<user> GetAllActiveUsersDetails();
+        IEnumerable<user> GetAllUsers();
+
+        int UpdateOfferingIdForUser(int userId, int? offeringId);
     }
 }

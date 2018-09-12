@@ -44,6 +44,20 @@ namespace DCode.Models.User
         }
         public string TelephoneNumber { get; set; }
         public string Department { get; set; }
+        public string DepartmentCode
+        {
+            get
+            {
+                if (!Department.Contains("USI"))
+                {
+                    return null;
+                }
+
+                var departmentCode = Department.Substring(0, Department.IndexOf("USI"))?.Trim();
+
+                return departmentCode;
+            }
+        }
         public string MobileNumber { get; set; }
         //TBD - Only for Testing
         public string ManagerEmailId { get; set; }
@@ -53,6 +67,8 @@ namespace DCode.Models.User
 
         public string MsArchiveName { get; set; }
 
-        public bool  IsSubscribedToNotifications { get; set; }
+        public bool IsSubscribedToNotifications { get; set; }
+
+        public int? OfferingId { get; set; }
     }
 }

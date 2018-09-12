@@ -1,12 +1,9 @@
 ﻿using DCode.Common;
-using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
@@ -206,46 +203,60 @@ namespace DCode.Web.Controllers
             return Json(_commonService.GetNameFromEmailId(emailId));
         }
 
-        public JsonResult GetVisits()
+
+        [HttpGet]
+        public JsonResult StartGamificationMigration()
         {
-            return Json(_reportingService.GetUserVisitsCount(), JsonRequestBehavior.AllowGet);
+            _commonService.MigrateGamificationRecords();
+
+            return Json("done");
         }
 
         [HttpGet]
-        public JsonResult GetCollTasks(int id)
+        public JsonResult GetBannerMessage()
         {
-            if (id == 101)
-            {
-                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
-                         GetExecutionDateRange(DateTime.Now.DayOfWeek));
+            var currentUser = _commonService.GetCurrentUserContext();
 
-                return Json(result);
+            if (currentUser.Role == Role.Requestor)
+            {
+                var message = _commonService.GetRequestorEvents();
+
+                return Json(message, JsonRequestBehavior.AllowGet);
             }
 
-            return null;
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult GetCollTasksForDay(int id, DayOfWeek day)
+        public JsonResult GetGamificationStats()
         {
-            if (id == 101)
+            var currentUser = _commonService.GetCurrentUserContext();
+
+            if (currentUser.Role == Role.Contributor)
             {
-                var result = _reportingService.GetNotificationsForCollectiveCSTasks(
-                         GetExecutionDateRange(day));
+                var hours = _commonService.GetApprovedApplicantHours();
 
-                return Json(result);
+                return Json($"{ hours ?? 0} hours", JsonRequestBehavior.AllowGet);
             }
+            else
+            {
+                var points = _commonService.GetUserPoints();
 
-            return null;
+                return Json($"{ points ?? 0} points", JsonRequestBehavior.AllowGet);
+            }
         }
 
-        private int GetExecutionDateRange(DayOfWeek day)
+        [HttpGet]
+        public JsonResult SetModalLoaded()
         {
-            if (day == DayOfWeek.Tuesday)
+            var isModalLoaded = SessionHelper.Retrieve("setModalLoaded");
+
+            if (isModalLoaded == null)
             {
-                return 4;
+                SessionHelper.Save("setModalLoaded", true);
             }
-            return 1;
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using DCode.Common;
 using DCode.Data.DbContexts;
 using DCode.Data.TaskRepository;
+using DCode.Models.Email;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Services.Base;
 using DCode.Services.Common;
+using DCode.Services.Email;
 using DCode.Services.ModelFactory;
 using System;
 using System.Collections.Generic;
@@ -22,14 +24,16 @@ namespace DCode.Services.Task
         private SkillModelFactory _skillModelFactory;
 
         private ICommonService _commonService;
+        private IEmailTrackerService _emailTrackerService;
 
-        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService)
+        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService, IEmailTrackerService emailTrackerService)
         {
             _taskRepository = taskRepository;
             _taskModelFactory = taskModelFactory;
             _taskSkillModelFactory = taskSkillModelFactory;
             _skillModelFactory = skillModelFactory;
             _commonService = commonService;
+            _emailTrackerService = emailTrackerService;
         }
 
         public int UpsertTask(TaskRequest taskRequest)
@@ -89,13 +93,34 @@ namespace DCode.Services.Task
                         .Select(x => x.Description)
                         .FirstOrDefault();
 
-                    EmailHelper.PostNewFINotification(taskRequest.ProjectName,
+                    var mailMessage = EmailHelper.PostNewFINotification(taskRequest.ProjectName,
                         taskRequest.Hours.ToString(),
                         taskRequest.Description,
                         taskRequest.OnBoardingDate,
                         currentUser.EmailId,
                        offeringRecipients,
                        offering);
+                    var emailTracker = new EmailTracker
+                    {
+                        ToAddresses = ConfigurationManager.AppSettings["DcodeEmailId"],
+                        Subject = mailMessage.Subject,
+                        Body = mailMessage.Body,
+                        TaskId = taskRequest.Id,
+                        Source = ApplicationSource.WebApp.ToString()
+                    };
+
+                    if (currentUser.EmailId != null)
+                    {
+                        emailTracker.CcAddresses.Add(currentUser.EmailId);
+                    }
+
+
+                    if (offeringRecipients != null && offeringRecipients.Any())
+                    {
+                        emailTracker.BccAddresses.AddRange(offeringRecipients);
+                    }
+
+                    _emailTrackerService.InsertEmail(emailTracker);
                 }
             }
             else if (taskRequest.ActionType == ActionType.Update)

@@ -134,6 +134,7 @@
                             $scope.reinitialiseAssignedTasksVariables();
                             $scope.getAssignedTasks()
                             $scope.trackStatus.Hours = null;
+                            $scope.$emit('updateBanner', {});
                         }
                     }
 
