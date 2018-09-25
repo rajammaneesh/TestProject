@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SearchApplication.Models.Contributor>
+
+@{
+    ViewBag.Title = "Top Contributors List";
+    Layout = "~/Views/Shared/_LayoutReporting.cshtml";
+}
+
+<h2>Top Contributors List</h2>
+
+<form method="post" action="">
+
+    <table>
+        <tr>
+            <th>
+                @Html.ActionLink("Export To Excel", "ExportToExcel", "Reporting")
+            </th>
+        </tr>
+    </table>
+
+</form>
+
+
+<table class="table table-bordered table-responsive table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.APPLICANT_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.APPLICANT_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMAIL_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
