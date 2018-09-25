@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduled Tasks", "Schedule
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCode.ScheduledTasks.TaskNotifications", "DCode.ScheduledTasks.TaskNotifications\DCode.ScheduledTasks.TaskNotifications.csproj", "{590E521D-F1C0-4D1C-872E-8B18FFB7DC4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchApplication", "..\Deloitte Imp\Tech X stuff\Code\SearchApplication\SearchApplication.csproj", "{AFA0752A-6D94-4784-A528-194E83195350}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchApplication", "SearchApplication\SearchApplication.csproj", "{AFA0752A-6D94-4784-A528-194E83195350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
