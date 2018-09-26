@@ -12,16 +12,18 @@ namespace DCode.Data.DbContexts
     using System;
     using System.Collections.Generic;
     
-    public partial class user_points
+    public partial class user_role1
     {
-        public int Id { get; set; }
-        public int user_id { get; set; }
-        public string @event { get; set; }
-        public int points { get; set; }
-        public System.DateTime created_date { get; set; }
-        public int role_id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public user_role1()
+        {
+            this.user_points = new HashSet<user_points1>();
+        }
     
-        public virtual user_role user_role { get; set; }
-        public virtual user user { get; set; }
+        public int Id { get; set; }
+        public string Role { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<user_points1> user_points { get; set; }
     }
 }

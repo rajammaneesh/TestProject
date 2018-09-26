@@ -12,16 +12,15 @@ namespace DCode.Data.DbContexts
     using System;
     using System.Collections.Generic;
     
-    public partial class user_points
+    public partial class email_tracker1
     {
-        public int Id { get; set; }
-        public int user_id { get; set; }
-        public string @event { get; set; }
-        public int points { get; set; }
-        public System.DateTime created_date { get; set; }
-        public int role_id { get; set; }
-    
-        public virtual user_role user_role { get; set; }
-        public virtual user user { get; set; }
+        public int id { get; set; }
+        public string subject { get; set; }
+        public string to_addresses { get; set; }
+        public string cc_addresses { get; set; }
+        public string bcc_Addresses { get; set; }
+        public System.DateTime sent_date { get; set; }
+        public string source { get; set; }
+        public string body { get; set; }
     }
 }

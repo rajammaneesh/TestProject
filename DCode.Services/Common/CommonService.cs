@@ -112,7 +112,7 @@ namespace DCode.Services.Common
                     }
                     catch (Exception ex)
                     {
-                        ErrorSignal.FromCurrentContext().Raise(ex);
+                        //ErrorSignal.FromCurrentContext().Raise(ex);
                         if (SessionHelper.Retrieve(Constants.MockUser) != null)
                         {
                             _userContext = (UserContext)SessionHelper.Retrieve(Constants.MockUser);
@@ -182,6 +182,12 @@ namespace DCode.Services.Common
                         {
                             _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
                         }
+                        else if ((propertyName.ToLowerInvariant().Equals(Constants.Location)))
+                        {
+                            _userContext.LocationName = result.Properties[propertyName][0].ToString();
+                        }
+
+
                     }
                 }
                 return _userContext;
@@ -274,6 +280,24 @@ namespace DCode.Services.Common
                 _userContext.Role = Role.Contributor;
                 _userContext.IsCoreRoleRequestor = false;
             }
+            var location = _userContext.LocationName.ToLowerInvariant();
+
+            if (location.Contains("hyderabad"))
+            {
+                _userContext.Location = LocationEnum.Hyderabad;
+            }
+            else if (location.Contains("delhi"))
+            {
+                _userContext.Location = LocationEnum.Delhi;
+            }
+            else if (location.Contains("mumbai"))
+            {
+                _userContext.Location = LocationEnum.Mumbai;
+            }
+            else if (location.Contains("bengaluru"))
+            {
+                _userContext.Location = LocationEnum.Bengaluru;
+            }
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
@@ -285,6 +309,7 @@ namespace DCode.Services.Common
                 _userContext.ProjectName = dbUser.PROJECT_NAME;
                 _userContext.SkillSet = new List<Skill>();
                 _userContext.OfferingId = dbUser.OFFERING_ID;
+                _userContext.LocationId = dbUser.location_id;
                 foreach (var dbSkill in dbUser.applicantskills)
                 {
                     var skill = new Skill();
@@ -743,7 +768,7 @@ namespace DCode.Services.Common
                    catch (Exception)
                    {
 
-                   }                  
+                   }
 
                    Role userRole;
 
