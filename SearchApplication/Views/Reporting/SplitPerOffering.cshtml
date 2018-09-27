@@ -1,26 +1,9 @@
 ﻿@model IEnumerable<SearchApplication.Models.SplitPerOffering>
-
 @{
     ViewBag.Title = ViewBag.PageTitle;
     Layout = "~/Views/Shared/_LayoutReporting.cshtml";
 }
-
 <h2>@ViewBag.PageTitle</h2>
-
-
-<form method="post" action="">
-
-    <table>
-        <tr>
-            <th>
-                @Html.ActionLink("Export To Excel", "ExportToExcel", "Reporting")
-            </th>
-        </tr>
-    </table>
-
-</form>
-
-
 <table class="table table-bordered table-responsive table-hover">
     <tr>
         <th>
@@ -29,9 +12,7 @@
         <th>
             @Html.DisplayNameFor(model => model.TasksApplied)
         </th>
-
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
@@ -41,10 +22,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TasksApplied)
             </td>
-            
         </tr>
     }
-
 </table>
 
 

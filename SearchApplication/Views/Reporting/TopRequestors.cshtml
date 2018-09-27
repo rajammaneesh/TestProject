@@ -6,20 +6,6 @@
 }
 
 <h2>Top Requestors List</h2>
-
-<form method="post" action="">
-    
-    <table>
-        <tr>
-        <th>
-            @Html.ActionLink("Export To Excel", "ExportToExcel", "Reporting")
-        </th>
-        </tr>
-    </table>
-
-</form>
-   
-
 <table class="table table-bordered table-responsive table-hover">
     <tr>
         <th>
@@ -43,10 +29,7 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EMAIL_ID)
-        </td>
-        
-        
+        </td>            
     </tr>
 }
-
 </table>

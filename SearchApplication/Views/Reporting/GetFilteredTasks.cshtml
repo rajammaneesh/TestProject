@@ -6,37 +6,21 @@
 }
 
 <h2>Filtered Tasks</h2>
-
-<p>
-    @*@Html.ActionLink("Create New", "Create")*@
-</p>
 <form action="GetFilteredTasks" method="post">
-    <table  class="table table-bordered table-condensed table-striped" >
+    <table class="table table-bordered table-condensed table-striped">
         <tr>
             <th>
-                @Html.Label("Task Type") 
-            
-            
+                @Html.Label("Task Type")
                 @Html.DropDownList("ddl_Task_Type", new SelectList(ViewBag.taskTypesList, "ID", "DESCRIPTION"), "All")
             </th>
             <th>
                 @Html.Label("Offerings")
-            
-           
-                @Html.DropDownList("ddl_Offerings", new SelectList(ViewBag.offeringsList, "Id", "Description"),"All")
-            </th>
-            @*<th>
-                @Html.Label("Service Line")
-            </th>
-            <th>
-                @Html.DropDownList("ddl_ServiceLine", new SelectList(ViewBag.serviceLine, "ID", "Name"), "All")
-            </th>*@
+                @Html.DropDownList("ddl_Offerings", new SelectList(ViewBag.offeringsList, "Id", "Description"), "All")
+            </th>         
             <th>
                 @Html.Label("Status")
-            
-            
                 @Html.DropDownList("ddl_Status", new List<SelectListItem>
-                {                
+                {
                     new SelectListItem { Text = "New", Value = "New"},
                     new SelectListItem { Text = "Assigned", Value = "Assigned"},
                     new SelectListItem { Text = "Closed", Value = "Closed" },
@@ -47,14 +31,10 @@
             <th>
                 <input type="submit" value="ApplyFilter" id="btnSubmit" />
             </th>
-            <th>
-                @Html.ActionLink("Export To Excel", "ExportToExcel", "Tasks")
-            </th>
-
         </tr>
-     </table>
+    </table>
 </form>
-<table  class="table table-bordered table-responsive table-hover">
+<table class="table table-bordered table-responsive table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.PROJECT_NAME)
@@ -119,75 +99,71 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROJECT_NAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TASK_NAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROJECT_WBS_Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TYPE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DETAILS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HOURS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.COMMENTS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GIFTS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ONBOARDING_DATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DUE_DATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STATUS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STATUS_DATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CREATED_BY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CREATED_ON)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UPDATED_BY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UPDATED_ON)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.offering.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.service_line.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.task_type.DESCRIPTION)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.user.FIRST_NAME)
-        </td>
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PROJECT_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TASK_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PROJECT_WBS_Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TYPE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DETAILS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HOURS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.COMMENTS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GIFTS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ONBOARDING_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DUE_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.STATUS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.STATUS_DATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATED_BY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CREATED_ON)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UPDATED_BY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UPDATED_ON)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.offering.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.service_line.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.task_type.DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user.FIRST_NAME)
+            </td>         
+        </tr>
+    }
 
 </table>
 

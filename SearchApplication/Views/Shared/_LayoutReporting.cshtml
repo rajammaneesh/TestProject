@@ -27,23 +27,29 @@
                 @Html.ActionLink("Task Applicants Per Offering", "TaskApplicantsPerOffering", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
             </td>
             <td>
-                @Html.ActionLink("Users", "GetFilteredUsers", "Users", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Users", "GetFilteredUsers", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
             </td>
             <td>
-                @Html.ActionLink("Tasks", "GetFilteredTasks", "Tasks", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Tasks", "GetFilteredTasks", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
             </td>
         </tr>
+        <tr>
+            <th style="border-color:none;text-align:center;text-size-adjust:auto">
+                @Html.ActionLink("Export To Excel", "ExportToExcel", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </th>
+        </tr>
     </table>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - TechX</p>
+        <footer>            
+                        @DateTime.Now.Year - TechX                   
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/bootstrap")
+                @RenderSection("scripts", required: false)
 </body>
 </html>

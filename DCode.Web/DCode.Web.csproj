@@ -514,10 +514,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Deloitte Imp\Tech X stuff\Code\SearchApplication\SearchApplication.csproj">
-      <Project>{afa0752a-6d94-4784-a528-194e83195350}</Project>
-      <Name>SearchApplication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DCode.Common\DCode.Common.csproj">
       <Project>{cb32fab3-5fba-4051-a704-9d3d8751de58}</Project>
       <Name>DCode.Common</Name>
@@ -533,6 +529,10 @@
     <ProjectReference Include="..\DCode.Services\DCode.Services.csproj">
       <Project>{d2f6fcfc-ac10-4150-bc8b-a1af7760a385}</Project>
       <Name>DCode.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SearchApplication\SearchApplication.csproj">
+      <Project>{afa0752a-6d94-4784-a528-194e83195350}</Project>
+      <Name>SearchApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

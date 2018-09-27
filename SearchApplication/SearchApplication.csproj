@@ -172,8 +172,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ReportingController.cs" />
-    <Compile Include="Controllers\TasksController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -225,8 +223,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Tasks\GetFilteredTasks.cshtml" />
-    <Content Include="Views\Users\GetFilteredUsers.cshtml" />
+    <Content Include="Views\Reporting\GetFilteredTasks.cshtml" />
+    <Content Include="Views\Reporting\GetFilteredUsers.cshtml" />
     <Content Include="Views\Reporting\TopRequestors.cshtml" />
     <Content Include="Views\Reporting\TopContributors.cshtml" />
     <Content Include="Views\Reporting\SplitPerOffering.cshtml" />
@@ -235,6 +233,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Tasks\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

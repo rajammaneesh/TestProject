@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -39,33 +38,23 @@ namespace DCode.Web.Security
             if (userIdentity != null && userIdentity.IsAuthenticated)
             {
                 var commonService = _kernel.Value.Get<ICommonService>();
-
-                //if (SessionHelper.Retrieve(Constants.UserContext) == null)
+                var userName = userIdentity.Name.Substring(userIdentity.Name.IndexOf(@"\") + 1);
+                var userContext = commonService.GetCurrentUserContext(userName);
+                var isTechXAccessible = commonService.GetTechXAccess();
+                var reportingUsers = ConfigurationManager.AppSettings["ReportingUsers"];
+                var isReportingPageAccessible = reportingUsers.Split(',').Any(x => x == userContext.EmailId);
+                if (!isTechXAccessible || !isReportingPageAccessible)
                 {
-                    var userName = userIdentity.Name.Substring(userIdentity.Name.IndexOf(@"\") + 1);
-
-                    var userContext = commonService.GetCurrentUserContext(userName);
-
-                    var isTechXAccessible = commonService.GetTechXAccess();
-                    var reportingUsers = ConfigurationManager.AppSettings["ReportingUsers"];
-                    var isReportingPageAccessible = reportingUsers.Split(',').Any(x => x == userContext.EmailId);
-
-                    if (!isTechXAccessible || !isReportingPageAccessible)
-                    {
-                        filterContext.Result = new HttpUnauthorizedResult();
-
-                        return;
-                    }
-
-                    SessionHelper.Save(Constants.UserContext, userContext);
+                    filterContext.Result = new HttpUnauthorizedResult();
+                    return;
                 }
+                SessionHelper.Save(Constants.UserContext, userContext);
             }
             else
             {
                 filterContext.Result = new HttpUnauthorizedResult();
                 return;
             }
-
         }
 
 
