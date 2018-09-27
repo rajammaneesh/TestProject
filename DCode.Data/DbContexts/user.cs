@@ -30,6 +30,7 @@ namespace DCode.Data.DbContexts
         public string LAST_NAME { get; set; }
         public string DESIGNATION { get; set; }
         public string EMAIL_ID { get; set; }
+        public string location_id { get; set; }
         public string PROJECT_NAME { get; set; }
         public string PROJECT_CODE { get; set; }
         public string PROJECT_MANAGER_NAME { get; set; }
