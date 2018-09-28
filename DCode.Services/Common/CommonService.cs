@@ -280,24 +280,8 @@ namespace DCode.Services.Common
                 _userContext.Role = Role.Contributor;
                 _userContext.IsCoreRoleRequestor = false;
             }
-            var location = _userContext.LocationName.ToLowerInvariant();
 
-            if (location.Contains("hyderabad"))
-            {
-                _userContext.Location = LocationEnum.Hyderabad;
-            }
-            else if (location.Contains("delhi"))
-            {
-                _userContext.Location = LocationEnum.Delhi;
-            }
-            else if (location.Contains("mumbai"))
-            {
-                _userContext.Location = LocationEnum.Mumbai;
-            }
-            else if (location.Contains("bengaluru"))
-            {
-                _userContext.Location = LocationEnum.Bengaluru;
-            }
+            _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
@@ -331,6 +315,23 @@ namespace DCode.Services.Common
                 var dbUserres = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
                 _userContext.UserId = dbUserres.ID;
                 _userContext.OfferingId = dbUserres.OFFERING_ID;
+            }
+        }
+
+        private LocationEnum MapLocation(string locationName)
+        {
+            switch (locationName)
+            {
+                case Constants.Hyderabad:
+                    return LocationEnum.Hyderabad;
+                case Constants.Bengaluru:
+                    return LocationEnum.Bengaluru;
+                case Constants.Mumbai:
+                    return LocationEnum.Mumbai;
+                case Constants.Delhi:
+                    return LocationEnum.Delhi;
+                default:
+                    return LocationEnum.Hyderabad;
             }
         }
 
