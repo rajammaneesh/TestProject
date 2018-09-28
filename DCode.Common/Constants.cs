@@ -80,6 +80,7 @@ namespace DCode.Common
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
         public const string FirmInitiativeSkillRecord = "Firm Initiative";
         public const string IndustryInitiativeSkillRecord = "Industry Initiative";
+        public const string RequestorGamificationMessage = "Raise more requests to become the top requestor";
     }
 
     public static class ErrorMessages
