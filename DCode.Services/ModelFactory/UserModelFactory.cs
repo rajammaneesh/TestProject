@@ -1,5 +1,7 @@
-﻿using DCode.Data.DbContexts;
+﻿using DCode.Common;
+using DCode.Data.DbContexts;
 using DCode.Data.MetadataRepository;
+using DCode.Data.UserRepository;
 using DCode.Models.RequestModels;
 using DCode.Models.ResponseModels.Common;
 using DCode.Models.User;
@@ -14,10 +16,12 @@ namespace DCode.Services.ModelFactory
     public class UserModelFactory : IModelFactory<user>
     {
         private IOfferingRepository _offeringRepository;
+        private  IUserRepository _userRepository;
 
-        public UserModelFactory(IOfferingRepository offeringRepository)
+        public UserModelFactory(IOfferingRepository offeringRepository,IUserRepository userRepository)
         {
             _offeringRepository = offeringRepository;
+            _userRepository = userRepository;
         }
 
         public TModel CreateModel<TModel>(user input) where TModel : class
@@ -96,6 +100,7 @@ namespace DCode.Services.ModelFactory
             dbUser.FIRST_NAME = userContext.FirstName;
             dbUser.LAST_NAME = userContext.LastName;
             dbUser.OFFERING_ID = GetOfferingFromDepartment(userContext?.DepartmentCode);
+            dbUser.location_id = GetLocationIdFromCity(userContext.Location.GetDescription());
             dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
 
@@ -130,6 +135,13 @@ namespace DCode.Services.ModelFactory
             var offerings = _offeringRepository.GetOfferings();
 
             return offerings?.Where(x => x.Code == departmentCode)?.FirstOrDefault()?.Id;
+        }
+
+        private int? GetLocationIdFromCity(string cityName)
+        {
+            var userlocations = _userRepository.GetAllUser_Locations();
+
+            return userlocations?.Where(x => x.City == cityName)?.FirstOrDefault()?.Id;
         }
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<user> inputList) where TModel : class

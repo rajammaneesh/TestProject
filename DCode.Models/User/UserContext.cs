@@ -64,11 +64,14 @@ namespace DCode.Models.User
         public string ManagerName { get; set; }
         public string ProjectName { get; set; }
         public string ProjectCode { get; set; }
-
         public string MsArchiveName { get; set; }
-
         public bool IsSubscribedToNotifications { get; set; }
-
         public int? OfferingId { get; set; }
+        public int? LocationId { get; set; }
+        public string LocationName { get; set; }
+        public LocationEnum Location { get; set; }
+
+
+
     }
 }

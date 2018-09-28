@@ -18,7 +18,11 @@ namespace DCode.Common
         public const string MinuteAgo = " minute ago";
         public const string Zero = "0";
         public const string ErrorRedirectType = "ErrorRedirect";
-
+        public const string Location = "l";
+        public const string Hyderabad = "hyderabad";
+        public const string Delhi = "delhi";
+        public const string Mumbai = "mumbai";
+        public const string Bengaluru = "bengaluru";
         //Layout 
         public const string UrlDashboard = "dashboard";
         public const string UrlPermissions = "permissions";

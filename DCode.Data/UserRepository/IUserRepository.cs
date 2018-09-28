@@ -22,7 +22,7 @@ namespace DCode.Data.UserRepository
 
         IEnumerable<user> GetAllActiveUsersDetails();
         IEnumerable<user> GetAllUsers();
-
+        IEnumerable<user_locations> GetAllUser_Locations();
         int UpdateOfferingIdForUser(int userId, int? offeringId);
     }
 }
