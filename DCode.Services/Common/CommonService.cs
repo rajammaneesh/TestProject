@@ -538,8 +538,7 @@ namespace DCode.Services.Common
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
-
-       
+               
         public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
@@ -842,8 +841,7 @@ namespace DCode.Services.Common
                 }
             });
         }
-
-
+        
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
@@ -928,7 +926,6 @@ namespace DCode.Services.Common
                         location = Convert.ToString(result.Properties["physicaldeliveryofficename"][0]);
                         return location;
                     }
-
                 }
             }
             return null;
