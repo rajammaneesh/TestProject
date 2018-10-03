@@ -70,5 +70,14 @@ namespace DCode.Models.User
         public bool IsSubscribedToNotifications { get; set; }
 
         public int? OfferingId { get; set; }
+
+        public int? LocationId { get; set; }
+        
+        public string LocationName { get; set; }
+
+        public LocationEnum Location { get; set; }
+
+
+
     }
 }

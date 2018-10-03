@@ -177,5 +177,10 @@ namespace DCode.Data.UserRepository
 
             return Context.SaveChanges();
         }
+
+        public IEnumerable<user_locations> GetAllUser_Locations()
+        {
+            return Context.Set<user_locations>().ToList();
+        }
     }
 }

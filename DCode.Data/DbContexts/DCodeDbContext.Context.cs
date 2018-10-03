@@ -31,6 +31,7 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<approvedapplicant> approvedapplicants { get; set; }
         public virtual DbSet<daily_usage_statistics> daily_usage_statistics { get; set; }
         public virtual DbSet<elmah_error> elmah_error { get; set; }
+        public virtual DbSet<email_tracker> email_tracker { get; set; }
         public virtual DbSet<log> logs { get; set; }
         public virtual DbSet<notification_subscription> notification_subscription { get; set; }
         public virtual DbSet<offering> offerings { get; set; }
@@ -42,10 +43,10 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<taskapplicant> taskapplicants { get; set; }
         public virtual DbSet<task> tasks { get; set; }
         public virtual DbSet<taskskill> taskskills { get; set; }
+        public virtual DbSet<user_locations> user_locations { get; set; }
         public virtual DbSet<user_points> user_points { get; set; }
-        public virtual DbSet<user> users { get; set; }
         public virtual DbSet<user_role> user_role { get; set; }
-        public virtual DbSet<email_tracker> email_tracker { get; set; }
+        public virtual DbSet<user> users { get; set; }
     
         public virtual ObjectResult<elmah_GetErrorsXml_Result> elmah_GetErrorsXml(string app, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

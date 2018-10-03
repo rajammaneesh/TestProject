@@ -30,7 +30,7 @@ namespace DCode.Data.DbContexts
         public string LAST_NAME { get; set; }
         public string DESIGNATION { get; set; }
         public string EMAIL_ID { get; set; }
-        public string location_id { get; set; }
+        public Nullable<int> location_id { get; set; }
         public string PROJECT_NAME { get; set; }
         public string PROJECT_CODE { get; set; }
         public string PROJECT_MANAGER_NAME { get; set; }
@@ -49,12 +49,13 @@ namespace DCode.Data.DbContexts
         public virtual ICollection<approvedapplicant> approvedapplicants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification_subscription> notification_subscription { get; set; }
+        public virtual offering offering { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<taskapplicant> taskapplicants { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<task> tasks { get; set; }
+        public virtual user_locations user_locations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user_points> user_points { get; set; }
-        public virtual offering offering { get; set; }
     }
 }
