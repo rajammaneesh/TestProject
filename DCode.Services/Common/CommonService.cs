@@ -538,7 +538,7 @@ namespace DCode.Services.Common
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
-
+               
         public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
@@ -816,6 +816,32 @@ namespace DCode.Services.Common
            });
         }
 
+        public void UpdatingWorkLocationOfExisitingUsers()
+        {
+            var locations = _userRepository.GetAllLocations();
+            int? locationId = null;
+            var users = _userRepository.GetAllActiveUsersDetails();
+
+            users.ToList()?.ForEach(x =>
+            {
+                var userlocation = GetLocationForUser(x.EMAIL_ID);
+
+                if (userlocation != null)
+                {
+                    try
+                    {
+                        locationId = locations.Where(y => y.City.ToLower() == userlocation.ToLower())?.FirstOrDefault()?.Id;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    
+                    _userRepository.UpdateOfferingIdForUser(x.ID, locationId);
+                }
+            });
+        }
+        
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
@@ -861,6 +887,45 @@ namespace DCode.Services.Common
                     //        return result.Properties[propertyName][0].ToString();
                     //    }
                     //}
+                }
+            }
+            return null;
+        }
+        private string GetLocationForUser(string userName)
+        {
+            var userNameItem = userName.Split('@')?.First();
+
+            string location = string.Empty;
+
+            if (string.IsNullOrEmpty(userNameItem))
+            {
+                return null;
+            }
+
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userNameItem);
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
+            {
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userNameItem);
+                searchResults = directorySearcher.FindAll();
+
+                if (searchResults.Count == 0)
+                {
+                    return null;
+                }
+
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
+                {
+                    if (result.Properties != null)
+                    {
+                        location = Convert.ToString(result.Properties["physicaldeliveryofficename"][0]);
+                        return location;
+                    }
                 }
             }
             return null;
