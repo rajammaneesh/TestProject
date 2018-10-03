@@ -52,6 +52,7 @@ namespace DCode.Services.Common
         int? GetUserPoints();
 
         string GetRequestorEvents();
+
         void UpdatingWorkLocationOfExisitingUsers();
     }
 }

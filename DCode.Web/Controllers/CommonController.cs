@@ -207,11 +207,16 @@ namespace DCode.Web.Controllers
         [HttpGet]
         public JsonResult StartGamificationMigration()
         {
-            //_commonService.MigrateGamificationRecords();
-            _commonService.UpdatingWorkLocationOfExisitingUsers();
-            return Json("done");
+           _commonService.MigrateGamificationRecords();
+           return Json("done");
         }
 
+        [HttpGet]
+        public JsonResult UpdateLocationForExistingUsers()
+        {
+           _commonService.UpdatingWorkLocationOfExisitingUsers();
+            return Json("done");
+        }
         [HttpGet]
         public JsonResult GetBannerMessage()
         {

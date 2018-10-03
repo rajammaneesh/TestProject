@@ -18,7 +18,7 @@ namespace DCode.Common
         public const string MinuteAgo = " minute ago";
         public const string Zero = "0";
         public const string ErrorRedirectType = "ErrorRedirect";
-
+        public const string Location = "l";
         //Layout 
         public const string UrlDashboard = "dashboard";
         public const string UrlPermissions = "permissions";
