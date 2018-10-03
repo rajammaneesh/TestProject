@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ReportingBaseController.cs" />
     <Compile Include="Controllers\RequestorController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
@@ -305,6 +306,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Security\AuthorizeDCode.cs" />
+    <Compile Include="Security\AuthorizeReportingTask.cs" />
     <Compile Include="Security\AuthorizeRoute.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -496,6 +498,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\ReportingBase\Base.cshtml" />
+    <Content Include="Views\Shared\_LayoutReporting.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -527,6 +531,10 @@
     <ProjectReference Include="..\DCode.Services\DCode.Services.csproj">
       <Project>{d2f6fcfc-ac10-4150-bc8b-a1af7760a385}</Project>
       <Name>DCode.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SearchApplication\SearchApplication.csproj">
+      <Project>{afa0752a-6d94-4784-a528-194e83195350}</Project>
+      <Name>SearchApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

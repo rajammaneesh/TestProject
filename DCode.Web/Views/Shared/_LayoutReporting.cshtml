@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*@Styles.Render("~/Content")*@
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    @*@Scripts.Render("~/bundles/modernizr")*@
+</head>
+<body>
+    <h1 style="color:forestgreen; border:double; text-align:center">
+        TechX  Reporting
+    </h1>
+
+    <table class="table table-bordered table-responsive table-hover">
+        <tr>
+            <td>
+                @Html.ActionLink("Top Requestors", "TopRequestors", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @Html.ActionLink("Top Contributors", "TopContributors", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @Html.ActionLink("Task Requestors Per Offering", "TaskRequestorsPerOffering", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @Html.ActionLink("Task Applicants Per Offering", "TaskApplicantsPerOffering", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @Html.ActionLink("Users", "GetFilteredUsers", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </td>
+            <td>
+                @Html.ActionLink("Tasks", "GetFilteredTasks", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </td>
+        </tr>
+        <tr>
+            <th style="border-color:none;text-align:center;text-size-adjust:auto">
+                @Html.ActionLink("Export To Excel", "ExportToExcel", "Reporting", new { area = "" }, new { @class = "navbar-brand" })
+            </th>
+        </tr>
+    </table>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>            
+                        @DateTime.Now.Year - TechX                   
+        </footer>
+    </div>
+
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/bootstrap")
+                @RenderSection("scripts", required: false)
+</body>
+</html>
