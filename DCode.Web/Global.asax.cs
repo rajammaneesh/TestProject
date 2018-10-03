@@ -31,7 +31,7 @@ namespace DCode.Web
                 new RequestorRepository(new TaskDbContext()),
                 new UserRepository(new UserDbContext()),
                 new Services.ModelFactory.UserModelFactory(
-                    new OfferingRepository(new MetadataDbContext())),
+                    new OfferingRepository(new MetadataDbContext()),new UserRepository(new UserDbContext())),
                 new Services.ModelFactory.ApplicantSkillModelFactory(),
                 new Services.ModelFactory.SkillModelFactory(),
                 new Services.ModelFactory.SuggestionModelFactory(),

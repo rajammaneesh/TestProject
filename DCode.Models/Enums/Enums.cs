@@ -20,9 +20,24 @@ namespace DCode.Models.Enums
         public enum ApprovedApplicantStatus { Active, Closed };
         public enum PermissionsSortFields { Name, Hours, TaskName, ProjectName, OnBoardingDate };
         public enum EmailType { Approved, Rejected }
+        public enum LocationEnum
+        {
+            [Description("Hyderabad")]
+            Hyderabad,
+            [Description("Delhi")]
+            Delhi,
+            [Description("Mumbai")]
+            Mumbai,
+            [Description("Bengaluru")]
+            Bengaluru
+        };
 
-        public enum ApplicationSource {
-            WebApp,Notification};
+
+
+        public enum ApplicationSource
+        {
+            WebApp, Notification
+        };
 
         public enum ErrorRedirectType
         {

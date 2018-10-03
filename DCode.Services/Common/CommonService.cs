@@ -112,7 +112,7 @@ namespace DCode.Services.Common
                     }
                     catch (Exception ex)
                     {
-                        ErrorSignal.FromCurrentContext().Raise(ex);
+                        //ErrorSignal.FromCurrentContext().Raise(ex);
                         if (SessionHelper.Retrieve(Constants.MockUser) != null)
                         {
                             _userContext = (UserContext)SessionHelper.Retrieve(Constants.MockUser);
@@ -182,6 +182,12 @@ namespace DCode.Services.Common
                         {
                             _userContext.MsArchiveName = result.Properties[propertyName][0].ToString();
                         }
+                        else if ((propertyName.ToLowerInvariant().Equals(Constants.Location)))
+                        {
+                            _userContext.LocationName = result.Properties[propertyName][0].ToString();
+                        }
+
+
                     }
                 }
                 return _userContext;
@@ -274,6 +280,8 @@ namespace DCode.Services.Common
                 _userContext.Role = Role.Contributor;
                 _userContext.IsCoreRoleRequestor = false;
             }
+
+            _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
@@ -285,6 +293,7 @@ namespace DCode.Services.Common
                 _userContext.ProjectName = dbUser.PROJECT_NAME;
                 _userContext.SkillSet = new List<Skill>();
                 _userContext.OfferingId = dbUser.OFFERING_ID;
+                _userContext.LocationId = dbUser.location_id;
                 foreach (var dbSkill in dbUser.applicantskills)
                 {
                     var skill = new Skill();
@@ -306,6 +315,23 @@ namespace DCode.Services.Common
                 var dbUserres = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
                 _userContext.UserId = dbUserres.ID;
                 _userContext.OfferingId = dbUserres.OFFERING_ID;
+            }
+        }
+
+        private LocationEnum MapLocation(string locationName)
+        {
+            switch (locationName)
+            {
+                case Constants.Hyderabad:
+                    return LocationEnum.Hyderabad;
+                case Constants.Bengaluru:
+                    return LocationEnum.Bengaluru;
+                case Constants.Mumbai:
+                    return LocationEnum.Mumbai;
+                case Constants.Delhi:
+                    return LocationEnum.Delhi;
+                default:
+                    return LocationEnum.Hyderabad;
             }
         }
 
@@ -512,7 +538,7 @@ namespace DCode.Services.Common
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
-
+               
         public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
@@ -743,7 +769,7 @@ namespace DCode.Services.Common
                    catch (Exception)
                    {
 
-                   }                  
+                   }
 
                    Role userRole;
 
@@ -790,6 +816,32 @@ namespace DCode.Services.Common
            });
         }
 
+        public void UpdatingWorkLocationOfExisitingUsers()
+        {
+            var locations = _userRepository.GetAllLocations();
+            int? locationId = null;
+            var users = _userRepository.GetAllActiveUsersDetails();
+
+            users.ToList()?.ForEach(x =>
+            {
+                var userlocation = GetLocationForUser(x.EMAIL_ID);
+
+                if (userlocation != null)
+                {
+                    try
+                    {
+                        locationId = locations.Where(y => y.City.ToLower() == userlocation.ToLower())?.FirstOrDefault()?.Id;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    
+                    _userRepository.UpdateOfferingIdForUser(x.ID, locationId);
+                }
+            });
+        }
+        
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
@@ -835,6 +887,45 @@ namespace DCode.Services.Common
                     //        return result.Properties[propertyName][0].ToString();
                     //    }
                     //}
+                }
+            }
+            return null;
+        }
+        private string GetLocationForUser(string userName)
+        {
+            var userNameItem = userName.Split('@')?.First();
+
+            string location = string.Empty;
+
+            if (string.IsNullOrEmpty(userNameItem))
+            {
+                return null;
+            }
+
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userNameItem);
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
+            {
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userNameItem);
+                searchResults = directorySearcher.FindAll();
+
+                if (searchResults.Count == 0)
+                {
+                    return null;
+                }
+
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
+                {
+                    if (result.Properties != null)
+                    {
+                        location = Convert.ToString(result.Properties["physicaldeliveryofficename"][0]);
+                        return location;
+                    }
                 }
             }
             return null;

@@ -158,6 +158,13 @@ namespace DCode.Data.UserRepository
             return query?.ToList();
         }
 
+        public IEnumerable<user_locations> GetAllLocations()
+        {
+            var query = Context.Set<user_locations>();
+
+            return query?.ToList();
+        }
+
         public IEnumerable<user> GetAllUsers()
         {
             var users = Context.Set<user>()
@@ -176,6 +183,23 @@ namespace DCode.Data.UserRepository
             }
 
             return Context.SaveChanges();
+        }
+
+        public int UpdateLocationForUser(int userId, int? locationId)
+        {
+            var result = Context.Set<user>().FirstOrDefault(x => x.ID == userId);
+
+            if (result != null)
+            {
+                result.location_id = locationId;
+            }
+
+            return Context.SaveChanges();
+        }
+        
+        public IEnumerable<user_locations> GetAllUser_Locations()
+        {
+            return Context.Set<user_locations>().ToList();
         }
     }
 }

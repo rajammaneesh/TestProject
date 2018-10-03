@@ -21,7 +21,7 @@ namespace DCode.Data.DbContexts
         public System.DateTime created_date { get; set; }
         public int role_id { get; set; }
     
-        public virtual user user { get; set; }
         public virtual user_role user_role { get; set; }
+        public virtual user user { get; set; }
     }
 }
