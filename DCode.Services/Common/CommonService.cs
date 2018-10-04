@@ -837,7 +837,7 @@ namespace DCode.Services.Common
 
                     }
                     
-                    _userRepository.UpdateOfferingIdForUser(x.ID, locationId);
+                    _userRepository.UpdateLocationForUser(x.ID, locationId);
                 }
             });
         }
