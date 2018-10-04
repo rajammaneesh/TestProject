@@ -181,10 +181,6 @@
                                         </li>
                                     </a>
                                 }
-
-
-
-
                             }
                         }
                     </ul>
@@ -350,7 +346,6 @@
         }
         <!--  gamification rules modal ends-->
 
-
     </div>
     @RenderSection("scripts", required: false)
     <script type='text/javascript'>
@@ -366,7 +361,6 @@
                 useCurrent: false,
                 format: 'MM/DD/YYYY'
             });
-
             $('.nav li a').click(function (e) {
                 $('.nav li').removeClass('active');
                 var $parent = $(this).parent();
@@ -383,11 +377,8 @@
         }
         );
         function openPDF(tabname) {
-            alert(tabname);
             window.open(tabname, '_blank');
-
         } 
     </script>
-
 </body>
 </html>
