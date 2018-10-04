@@ -262,6 +262,7 @@
     <Content Include="Content\Images\dashboard-disabled%403x.png" />
     <Content Include="Content\Images\dashboard-disabled.png" />
     <Content Include="Content\Images\Deloite_logo.png" />
+    <Content Include="Content\Images\download.png" />
     <Content Include="Content\Images\Email-Inactive.png" />
     <Content Include="Content\Images\Email-Active.png" />
     <Content Include="Content\Images\favicon.ico" />
@@ -407,6 +408,9 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\Documents\TechX Demo_v2.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\IIS DCode Publish.pubxml" />
     <None Include="Properties\PublishProfiles\TechX.pubxml" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -531,10 +535,6 @@
     <ProjectReference Include="..\DCode.Services\DCode.Services.csproj">
       <Project>{d2f6fcfc-ac10-4150-bc8b-a1af7760a385}</Project>
       <Name>DCode.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SearchApplication\SearchApplication.csproj">
-      <Project>{afa0752a-6d94-4784-a528-194e83195350}</Project>
-      <Name>SearchApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
