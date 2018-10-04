@@ -35,6 +35,7 @@ namespace DCode.Common
         public const string PERMISSIONS = "APPROVALS";
         public const string CheckUsiAccess = "CheckUsiAccess";
         public const string ContactUS = "ContactUs";
+        public const string UserManual = "User Manual";
 
         //Punctuation 
         public const string Comma = ",";
