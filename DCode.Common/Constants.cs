@@ -20,7 +20,7 @@ namespace DCode.Common
         public const string ErrorRedirectType = "ErrorRedirect";
         public const string Location = "l";
         public const string Hyderabad = "hyderabad";
-        public const string Delhi = "delhi";
+        public const string Gurgaon = "gurgaon";
         public const string Mumbai = "mumbai";
         public const string Bengaluru = "bengaluru";
         //Layout 

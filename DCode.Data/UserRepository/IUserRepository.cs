@@ -25,5 +25,6 @@ namespace DCode.Data.UserRepository
         IEnumerable<user> GetAllUsers();
         IEnumerable<user_locations> GetAllUser_Locations();
         int UpdateOfferingIdForUser(int userId, int? offeringId);
+        int UpdateLocationForUser(int userId, int? locationId);
     }
 }

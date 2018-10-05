@@ -215,7 +215,7 @@ namespace DCode.Web.Controllers
         public JsonResult UpdateLocationForExistingUsers()
         {
            _commonService.UpdatingWorkLocationOfExisitingUsers();
-            return Json("done");
+            return Json("done", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetBannerMessage()
