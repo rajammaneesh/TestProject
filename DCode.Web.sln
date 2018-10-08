@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCode.Web", "DCode.Web\DCode.Web.csproj", "{E46A1BA1-E816-4DE9-A61C-AB4E2899CD2C}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduled Tasks", "Scheduled Tasks", "{F1DEA89C-E02C-4327-BE63-7A551ABB1F2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCode.ScheduledTasks.TaskNotifications", "DCode.ScheduledTasks.TaskNotifications\DCode.ScheduledTasks.TaskNotifications.csproj", "{590E521D-F1C0-4D1C-872E-8B18FFB7DC4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchApplication", "SearchApplication\SearchApplication.csproj", "{AFA0752A-6D94-4784-A528-194E83195350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,11 +55,18 @@ Global
 		{590E521D-F1C0-4D1C-872E-8B18FFB7DC4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{590E521D-F1C0-4D1C-872E-8B18FFB7DC4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{590E521D-F1C0-4D1C-872E-8B18FFB7DC4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA0752A-6D94-4784-A528-194E83195350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA0752A-6D94-4784-A528-194E83195350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA0752A-6D94-4784-A528-194E83195350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA0752A-6D94-4784-A528-194E83195350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{590E521D-F1C0-4D1C-872E-8B18FFB7DC4B} = {F1DEA89C-E02C-4327-BE63-7A551ABB1F2D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {758C9EDE-0EDF-46EF-BE9F-7E83F594D58D}
 	EndGlobalSection
 EndGlobal

@@ -165,6 +165,10 @@
             $scope.GetGamificationBanner();
           
             $scope.SetModalLoaded();
+
+            $rootScope.$on('cfpLoadingBar:completed', function () {
+                setTimeout($('#gamificationModal').modal('show'), 3000);               
+            });
         }
     }
 })();

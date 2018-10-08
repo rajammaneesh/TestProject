@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\ReportingBaseController.cs" />
     <Compile Include="Controllers\RequestorController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
@@ -261,6 +262,7 @@
     <Content Include="Content\Images\dashboard-disabled%403x.png" />
     <Content Include="Content\Images\dashboard-disabled.png" />
     <Content Include="Content\Images\Deloite_logo.png" />
+    <Content Include="Content\Images\download.png" />
     <Content Include="Content\Images\Email-Inactive.png" />
     <Content Include="Content\Images\Email-Active.png" />
     <Content Include="Content\Images\favicon.ico" />
@@ -305,6 +307,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Security\AuthorizeDCode.cs" />
+    <Compile Include="Security\AuthorizeReportingTask.cs" />
     <Compile Include="Security\AuthorizeRoute.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -405,6 +408,9 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\Documents\TechX Demo_v2.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\IIS DCode Publish.pubxml" />
     <None Include="Properties\PublishProfiles\TechX.pubxml" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -496,6 +502,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\ReportingBase\Base.cshtml" />
+    <Content Include="Views\Shared\_LayoutReporting.cshtml" />
     <None Include="Views\Shared\_SwitchRolesPopup.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
