@@ -24,8 +24,8 @@ namespace DCode.Models.Enums
         {
             [Description("Hyderabad")]
             Hyderabad,
-            [Description("Delhi")]
-            Delhi,
+            [Description("Gurgaon")]
+            Gurgaon,
             [Description("Mumbai")]
             Mumbai,
             [Description("Bengaluru")]

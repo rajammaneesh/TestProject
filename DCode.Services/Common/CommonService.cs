@@ -328,8 +328,8 @@ namespace DCode.Services.Common
                     return LocationEnum.Bengaluru;
                 case Constants.Mumbai:
                     return LocationEnum.Mumbai;
-                case Constants.Delhi:
-                    return LocationEnum.Delhi;
+                case Constants.Gurgaon:
+                    return LocationEnum.Gurgaon;
                 default:
                     return LocationEnum.Hyderabad;
             }
