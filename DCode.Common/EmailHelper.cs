@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using DCode.Models.Common;
 using System.Linq;
+using System.Net;
 
 namespace DCode.Common
 {
@@ -18,7 +19,18 @@ namespace DCode.Common
         {
             try
             {
-                using (SmtpClient SmtpServer = new SmtpClient(Constants.SmtpDeloitte))
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential("<userid>", "<password>")
+                };
+
+                using (smtp)
                 {
                     mailMessage.From = new MailAddress(ConfigurationManager.AppSettings[Constants.DcodeEmailId]);
 
@@ -51,10 +63,48 @@ namespace DCode.Common
                         }
                     }
 
-                    SmtpServer.Port = 25;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
-                    SmtpServer.Send(mailMessage);
+                    smtp.Send(mailMessage);
                 }
+
+
+                ////  using (SmtpClient SmtpServer = new SmtpClient(Constants.SmtpDeloitte))
+                //using (SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com"))
+                //{
+                //    mailMessage.From = new MailAddress(ConfigurationManager.AppSettings[Constants.DcodeEmailId]);
+
+                //    if (!string.IsNullOrWhiteSpace(toMailAddress))
+                //    {
+                //        mailMessage.To.Add(toMailAddress);
+                //    }
+
+                //    if (ccMailAddress != null)
+                //    {
+                //        if (ccMailAddress.Contains(";"))
+                //        {
+                //            var listAddresses = ccMailAddress.Split(';');
+                //            foreach (var address in listAddresses)
+                //            {
+                //                mailMessage.CC.Add(address);
+                //            }
+                //        }
+                //        else
+                //        {
+                //            mailMessage.CC.Add(ccMailAddress);
+                //        }
+                //    }
+
+                //    if (bccAddress != null && bccAddress.Any())
+                //    {
+                //        foreach (var address in bccAddress)
+                //        {
+                //            mailMessage.Bcc.Add(address);
+                //        }
+                //    }
+
+                //    SmtpServer.Port = 25;
+                //    SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
+                //    SmtpServer.Send(mailMessage);
+                //}
             }
             catch (Exception ex)
             {

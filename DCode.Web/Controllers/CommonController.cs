@@ -137,6 +137,13 @@ namespace DCode.Web.Controllers
             return Json(results, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult SendEmailForMac()
+        {
+            EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "reprabhala@deloitte.com", "sakolluru@deloitte.com", "Test offering");
+
+            return Json("succes", JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult testemail()
         {
             EmailHelper.AssignNotification("User", "sample task", "project", "WBC-C_O_D_E", "mrajam@deloitte.com", "risen@deloitte.com", "Test Offering");
