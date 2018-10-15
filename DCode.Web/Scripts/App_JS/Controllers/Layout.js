@@ -163,11 +163,12 @@
             $scope.GetPermissionsCount();
             $scope.GetGamificationStats();
             $scope.GetGamificationBanner();
-          
+
             $scope.SetModalLoaded();
 
             $rootScope.$on('cfpLoadingBar:completed', function () {
-                setTimeout($('#gamificationModal').modal('show'), 3000);               
+                $('#gamificationModal').modal('show');
+                $('#gamificationModal').attr('id', 'gamificationModal1');
             });
         }
     }
