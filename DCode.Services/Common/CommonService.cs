@@ -259,7 +259,7 @@ namespace DCode.Services.Common
         {
             var designation = _userContext.Designation.ToLowerInvariant();
 
-            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
+            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner") || designation.Contains("principal"))
             {
                 //_userContext.Role = Enums.Role.Admin;
                 _userContext.Role = Role.Requestor;
@@ -538,7 +538,7 @@ namespace DCode.Services.Common
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
-               
+
         public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
@@ -836,12 +836,12 @@ namespace DCode.Services.Common
                     {
 
                     }
-                    
+
                     _userRepository.UpdateLocationForUser(x.ID, locationId);
                 }
             });
         }
-        
+
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
