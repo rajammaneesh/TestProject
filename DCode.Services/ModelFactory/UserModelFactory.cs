@@ -100,7 +100,7 @@ namespace DCode.Services.ModelFactory
             dbUser.FIRST_NAME = userContext.FirstName;
             dbUser.LAST_NAME = userContext.LastName;
             dbUser.OFFERING_ID = GetOfferingFromDepartment(userContext?.DepartmentCode);
-            dbUser.location_id = GetLocationIdFromCity(userContext.Location.GetDescription());
+            dbUser.location_id = GetLocationIdFromCity(userContext.Location?.GetDescription());
             dbUser.STATUS = UserStatus.Active.ToString();
             dbUser.STATUS_DATE = DateTime.Now;
 

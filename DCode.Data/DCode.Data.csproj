@@ -157,6 +157,9 @@
     <Compile Include="DbContexts\portfolio.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\proficiency.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContexts\ReportingDbContext.cs" />
     <Compile Include="DbContexts\service_line.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
