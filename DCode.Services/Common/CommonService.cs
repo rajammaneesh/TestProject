@@ -281,7 +281,11 @@ namespace DCode.Services.Common
                 _userContext.IsCoreRoleRequestor = false;
             }
 
-            _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            if (!string.IsNullOrWhiteSpace(_userContext.LocationName))
+            {
+                _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            }
+
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
@@ -538,7 +542,7 @@ namespace DCode.Services.Common
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
-               
+
         public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
@@ -836,12 +840,12 @@ namespace DCode.Services.Common
                     {
 
                     }
-                    
+
                     _userRepository.UpdateLocationForUser(x.ID, locationId);
                 }
             });
         }
-        
+
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
