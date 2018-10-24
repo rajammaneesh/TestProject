@@ -281,7 +281,11 @@ namespace DCode.Services.Common
                 _userContext.IsCoreRoleRequestor = false;
             }
 
-            _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            if (!string.IsNullOrWhiteSpace(_userContext.LocationName))
+            {
+                _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            }
+
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
