@@ -208,10 +208,15 @@ namespace DCode.Web.Controllers
         public JsonResult StartGamificationMigration()
         {
             _commonService.MigrateGamificationRecords();
-
             return Json("done");
         }
 
+        [HttpGet]
+        public JsonResult UpdateLocationForExistingUsers()
+        {
+            _commonService.UpdatingWorkLocationOfExisitingUsers();
+            return Json("done", JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public JsonResult GetBannerMessage()
         {
@@ -219,7 +224,8 @@ namespace DCode.Web.Controllers
 
             if (currentUser.Role == Role.Requestor)
             {
-                var message = _commonService.GetRequestorEvents();
+                //  var message = _commonService.GetRequestorEvents();
+                var message = Constants.RequestorGamificationMessage;
 
                 return Json(message, JsonRequestBehavior.AllowGet);
             }

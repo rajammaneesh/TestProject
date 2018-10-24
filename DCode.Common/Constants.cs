@@ -20,7 +20,7 @@ namespace DCode.Common
         public const string ErrorRedirectType = "ErrorRedirect";
         public const string Location = "l";
         public const string Hyderabad = "hyderabad";
-        public const string Delhi = "delhi";
+        public const string Gurgaon = "gurgaon";
         public const string Mumbai = "mumbai";
         public const string Bengaluru = "bengaluru";
         //Layout 
@@ -35,6 +35,7 @@ namespace DCode.Common
         public const string PERMISSIONS = "APPROVALS";
         public const string CheckUsiAccess = "CheckUsiAccess";
         public const string ContactUS = "ContactUs";
+        public const string UserManual = "User Manual";
 
         //Punctuation 
         public const string Comma = ",";
@@ -84,6 +85,7 @@ namespace DCode.Common
         public const string RMGroupEmailAddressKeyPrefix = "ServiceLineRMGroupEmail.";
         public const string FirmInitiativeSkillRecord = "Firm Initiative";
         public const string IndustryInitiativeSkillRecord = "Industry Initiative";
+        public const string RequestorGamificationMessage = "Raise more requests to become the top requestor";
     }
 
     public static class ErrorMessages

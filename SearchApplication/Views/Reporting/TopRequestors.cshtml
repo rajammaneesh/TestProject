@@ -1,0 +1,35 @@
+﻿@model IEnumerable<DCode.Data.DbContexts.user>
+
+@{
+    ViewBag.Title = "Top Requestors List";
+    Layout = "~/Views/Shared/_LayoutReporting.cshtml";
+}
+
+<h2>Top Requestors List</h2>
+<table class="table table-bordered table-responsive table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FIRST_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LAST_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL_ID)
+        </th>        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FIRST_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LAST_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EMAIL_ID)
+        </td>            
+    </tr>
+}
+</table>

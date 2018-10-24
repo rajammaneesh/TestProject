@@ -259,7 +259,7 @@ namespace DCode.Services.Common
         {
             var designation = _userContext.Designation.ToLowerInvariant();
 
-            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
+            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner") || designation.Contains("principal"))
             {
                 //_userContext.Role = Enums.Role.Admin;
                 _userContext.Role = Role.Requestor;
@@ -281,7 +281,11 @@ namespace DCode.Services.Common
                 _userContext.IsCoreRoleRequestor = false;
             }
 
-            _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            if (!string.IsNullOrWhiteSpace(_userContext.LocationName))
+            {
+                _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            }
+
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
@@ -328,8 +332,8 @@ namespace DCode.Services.Common
                     return LocationEnum.Bengaluru;
                 case Constants.Mumbai:
                     return LocationEnum.Mumbai;
-                case Constants.Delhi:
-                    return LocationEnum.Delhi;
+                case Constants.Gurgaon:
+                    return LocationEnum.Gurgaon;
                 default:
                     return null;
             }
@@ -350,12 +354,12 @@ namespace DCode.Services.Common
                     menuItemsList.Add(new MenuItem() { MenuItemName = "APPROVALS", TabName = Constants.TabPermissions, NavigationUrl = "/Requestor/Permissions", ImageUrlActive = "/Content/Images/permission-icon.png", ImageUrlInactive = "/Content/Images/person-disable.png", CssClass = "permission-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Requestor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "CONTACT US", TabName = Constants.ContactUS, NavigationUrl = "/ContactUs/ContactUs", ImageUrlActive = "/Content/Images/Email-Active.png", ImageUrlInactive = "/Content/Images/Email-Inactive.png", CssClass = "contactus-icon" });
-                    break;
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "USER MANUAL", TabName = Constants.UserManual, NavigationUrl = "/Content/Documents/TechX%20Demo_v2.pdf", ImageUrlActive = "/Content/Images/download.png", ImageUrlInactive = "/Content/Images/download.png", CssClass = "contactus-icon" }); break;
                 case Role.Contributor:
                     menuItemsList.Add(new MenuItem() { MenuItemName = "MY TASKS", TabName = Constants.TabMyTasks, NavigationUrl = "/Contributor/Dashboard", ImageUrlActive = "/Content/Images/dashboard@2x.png", ImageUrlInactive = "/Content/Images/dashboard-disabled@2x.png", CssClass = "mytask-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "HISTORY", TabName = Constants.TabHistory, NavigationUrl = "/Contributor/History", ImageUrlActive = "/Content/Images/history-active.png", ImageUrlInactive = "/Content/Images/history-icon.png", CssClass = "history-icon" });
                     menuItemsList.Add(new MenuItem() { MenuItemName = "CONTACT US", TabName = Constants.ContactUS, NavigationUrl = "/ContactUs/ContactUs", ImageUrlActive = "/Content/Images/Email-Active.png", ImageUrlInactive = "/Content/Images/Email-Inactive.png", CssClass = "contactus-icon" });
-                    break;
+                    menuItemsList.Add(new MenuItem() { MenuItemName = "USER MANUAL", TabName = Constants.UserManual, NavigationUrl = "/Content/Documents/TechX%20Demo_v2.pdf", ImageUrlActive = "/Content/Images/download.png", ImageUrlInactive = "/Content/Images/download.png", CssClass = "contactus-icon" }); break;
                 default:
                     break;
             }
@@ -816,6 +820,32 @@ namespace DCode.Services.Common
            });
         }
 
+        public void UpdatingWorkLocationOfExisitingUsers()
+        {
+            var locations = _userRepository.GetAllLocations();
+            int? locationId = null;
+            var users = _userRepository.GetAllActiveUsersDetails();
+
+            users.ToList()?.ForEach(x =>
+            {
+                var userlocation = GetLocationForUser(x.EMAIL_ID);
+
+                if (userlocation != null)
+                {
+                    try
+                    {
+                        locationId = locations.Where(y => y.City.ToLower() == userlocation.ToLower())?.FirstOrDefault()?.Id;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                    _userRepository.UpdateLocationForUser(x.ID, locationId);
+                }
+            });
+        }
+
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();
@@ -861,6 +891,45 @@ namespace DCode.Services.Common
                     //        return result.Properties[propertyName][0].ToString();
                     //    }
                     //}
+                }
+            }
+            return null;
+        }
+        private string GetLocationForUser(string userName)
+        {
+            var userNameItem = userName.Split('@')?.First();
+
+            string location = string.Empty;
+
+            if (string.IsNullOrEmpty(userNameItem))
+            {
+                return null;
+            }
+
+            SearchResultCollection searchResults = null;
+            string path = string.Format(ConfigurationManager.AppSettings[Constants.LdapConnection].ToString(), userNameItem);
+            using (var directoryEntry = new DirectoryEntry(path))
+            using (var directorySearcher = new DirectorySearcher(directoryEntry))
+            {
+                directorySearcher.Filter = string.Format(Constants.SearchFilter, userNameItem);
+                searchResults = directorySearcher.FindAll();
+
+                if (searchResults.Count == 0)
+                {
+                    return null;
+                }
+
+                var propertyNames = searchResults[0].Properties.PropertyNames as List<ResultPropertyCollection>;
+
+                var propertyDescription = new StringBuilder();
+
+                foreach (SearchResult result in searchResults)
+                {
+                    if (result.Properties != null)
+                    {
+                        location = Convert.ToString(result.Properties["physicaldeliveryofficename"][0]);
+                        return location;
+                    }
                 }
             }
             return null;
