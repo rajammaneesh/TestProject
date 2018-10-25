@@ -90,7 +90,7 @@
             else if (task.TypeId >= 2)
             {
                 $scope.reviewIndex = index;
-                $scope.applyFITask(task)
+                $scope.applyFITask(task,'Beginner')
             }
 
         };
@@ -271,7 +271,7 @@
             };
         });
 
-        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal) {
+        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal, proficiency) {
             if ($scope.ValidatePermissionDetails(indexVal)) {
                 var managerEmailAddress = "";
                 if (managersEmailID != null && managersEmailID != "") {
@@ -283,7 +283,8 @@
                     data: {
                         taskId: task.Id,
                         emailAddress: managerEmailAddress,
-                        statementOfPurpose: statementOfPurpose
+                        statementOfPurpose: statementOfPurpose,
+                        proficiency: proficiency
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -311,7 +312,7 @@
             }
         }
 
-        $scope.applyFITask = function (task) {
+        $scope.applyFITask = function (task, proficiency) {
             var userEmail = "";
             if ($rootScope.userContext != null) {
                 userEmail = $rootScope.userContext.EmailId;
@@ -323,7 +324,8 @@
                     method: "POST",
                     data: {
                         taskId: task.Id,
-                        requestor: task.RequestorEmailId
+                        requestor: task.RequestorEmailId,
+                        proficiency: proficiency
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {

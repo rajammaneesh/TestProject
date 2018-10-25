@@ -17,6 +17,7 @@ namespace DCode.Data.ContributorRepository
         IEnumerable<taskskill> GetFilteredTasks(List<string> skillFilters, string offeringToSearch, int selectedTaskType, string searchText, int currentPageIndex, int recordsCount, out int totalRecords);
         IEnumerable<approvedapplicant> GetTaskHistories(int userId, int currentPageIndex, int recordsCount, out int totalRecords);
         IEnumerable<approvedapplicant> GetAssignedTask(int userId, int currentPageIndex, int recordsCount, out int totalRecordsCount);
+        int? GetProficiencyId(string proficiencyName);
     }
 
 
