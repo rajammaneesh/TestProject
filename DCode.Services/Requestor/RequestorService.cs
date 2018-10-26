@@ -79,6 +79,8 @@ namespace DCode.Services.Requestor
 
                         applicant.StatementOfPurpose = dbApplicant.STATEMENT_OF_PURPOSE ?? string.Empty;
 
+                        applicant.Proficiency = _taskRepository.GetProficiencyfromId(dbApplicant.PROFICIENCY_ID);
+
                         applicant.Comments =
                             _taskRepository
                             .GetAllCommentsOnEmailId(applicant.EmailId)
