@@ -94,7 +94,7 @@ namespace DCode.Services.Contributor
             return tasksHistory;
         }
 
-        public int ApplyTask(int taskId, string emailAddress, string statementOfPurpose, string proficiency)
+        public int ApplyTask(int taskId, string emailAddress, string statementOfPurpose, int proficiency)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace DCode.Services.Contributor
                     STATUS = ApplicantStatus.Active.ToString(),
                     STATUS_DATE = DateTime.Now,
                     STATEMENT_OF_PURPOSE = statementOfPurpose,
-                    PROFICIENCY_ID = _contributorRepository.GetProficiencyId(proficiency.ToLowerInvariant())
+                    PROFICIENCY_ID = proficiency
                 };
 
                 MapAuditFields(ActionType.Insert, taskApplicant);
@@ -169,7 +169,7 @@ namespace DCode.Services.Contributor
             }
         }
 
-        public int ApplyFITask(int taskId, string requestor, string proficiency)
+        public int ApplyFITask(int taskId, string requestor, int proficiency)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace DCode.Services.Contributor
                     STATUS = ApplicantStatus.ManagerApproved.ToString(),
                     STATUS_DATE = DateTime.Now,
                     STATEMENT_OF_PURPOSE = "Interested for Firm Initiative",
-                    PROFICIENCY_ID = _contributorRepository.GetProficiencyId(proficiency.ToLowerInvariant())
+                    PROFICIENCY_ID = proficiency
                 };
 
                 MapAuditFields(ActionType.Insert, taskApplicant);

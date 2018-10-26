@@ -45,6 +45,11 @@
             { Id: 2, Description: "Firm Initiative" },
             { Id: 3, Description: "Industry Initiative" }];
 
+        $scope.selectProfTypes = [
+            { Id: 1, Description: "Beginner" },
+            { Id: 2, Description: "Intermediate" },
+            { Id: 3, Description: "Mastery" }];
+
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
                 $scope.dashboard.showApproval = true;
@@ -90,9 +95,16 @@
             else if (task.TypeId >= 2)
             {
                 $scope.reviewIndex = index;
-                $scope.applyFITask(task,'Beginner')
+                if (undefined == task.selectedProfType || '' == task.selectedProfType)
+                {
+                    $("#ddlProfType").css("border-color", "red");
+                }
+                else
+                {
+                    $("#ddlProfType").css("border-color", "");
+                    $scope.applyFITask(task);
+                } 
             }
-
         };
 
         $scope.showTimeAddBar = function (index) {
@@ -271,7 +283,7 @@
             };
         });
 
-        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal, proficiency) {
+        $scope.applyTask = function (task, managersEmailID, statementOfPurpose, indexVal) {
             if ($scope.ValidatePermissionDetails(indexVal)) {
                 var managerEmailAddress = "";
                 if (managersEmailID != null && managersEmailID != "") {
@@ -284,7 +296,7 @@
                         taskId: task.Id,
                         emailAddress: managerEmailAddress,
                         statementOfPurpose: statementOfPurpose,
-                        proficiency: proficiency
+                        proficiency: task.selectedProfType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -312,7 +324,7 @@
             }
         }
 
-        $scope.applyFITask = function (task, proficiency) {
+        $scope.applyFITask = function (task) {
             var userEmail = "";
             if ($rootScope.userContext != null) {
                 userEmail = $rootScope.userContext.EmailId;
@@ -325,7 +337,8 @@
                     data: {
                         taskId: task.Id,
                         requestor: task.RequestorEmailId,
-                        proficiency: proficiency
+                        proficiency: proficiency,
+                        proficiency: task.selectedProfType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {

@@ -174,11 +174,5 @@ namespace DCode.Data.ContributorRepository
 
             return filteredRecords.ToList();
         }
-
-        public int? GetProficiencyId(string proficiencyName)
-        {
-            var proficiencyList = Context.Set<proficiency>().ToList();
-            return proficiencyList?.Where(x => x.Proficiency1.ToLowerInvariant() == proficiencyName)?.FirstOrDefault()?.ID;
-        }
     }
 }
