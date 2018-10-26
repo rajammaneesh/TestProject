@@ -45,6 +45,11 @@
             { Id: 2, Description: "Firm Initiative" },
             { Id: 3, Description: "Industry Initiative" }];
 
+        $scope.selectProfTypes = [
+            { Id: 1, Description: "Beginner" },
+            { Id: 2, Description: "Intermediate" },
+            { Id: 3, Description: "Expert" }];
+
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
                 $scope.dashboard.showApproval = true;
@@ -87,12 +92,16 @@
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
                 //$location.hash('div' + index);
             }
-            else if (task.TypeId >= 2)
-            {
+            else if (task.TypeId >= 2) {
                 $scope.reviewIndex = index;
-                $scope.applyFITask(task)
+                if (undefined == task.SelectedProfType || '' == task.SelectedProfType) {
+                    $("#ddlProfType").css("border-color", "red");
+                }
+                else {
+                    $("#ddlProfType").css("border-color", "");
+                    $scope.applyFITask(task);
+                }
             }
-
         };
 
         $scope.showTimeAddBar = function (index) {
@@ -101,7 +110,7 @@
             $scope.reviewIndex = index;
             //document.getElementById('divManagerEmailId' + index).get(0).focus();
             setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-                //$location.hash('div' + index);
+            //$location.hash('div' + index);
         }
 
         $scope.isShowingReview = function (index) {
@@ -203,11 +212,13 @@
                     method: "POST",
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
+                        console.log(data);
                         if (data != null) {
                             if ($scope.tasks == null) {
                                 $scope.tasks = data.Tasks;
                                 $scope.tasksGlobal = data.Tasks;
                                 $scope.tasksCount = data.Tasks.length;
+
                             }
                             else {
                                 angular.forEach(data.Tasks, function (value, index) {
@@ -231,8 +242,7 @@
         $scope.ValidatePermissionDetails = function (index) {
             var isValid = true;
             var userEmail = "";
-            if ($rootScope.userContext != null )
-            {
+            if ($rootScope.userContext != null) {
                 userEmail = $rootScope.userContext.EmailId;
             }
             if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null || $("#txtManagerEmailId" + index).val() == userEmail) {
@@ -283,7 +293,8 @@
                     data: {
                         taskId: task.Id,
                         emailAddress: managerEmailAddress,
-                        statementOfPurpose: statementOfPurpose
+                        statementOfPurpose: statementOfPurpose,
+                        proficiency: task.SelectedProfType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -316,14 +327,14 @@
             if ($rootScope.userContext != null) {
                 userEmail = $rootScope.userContext.EmailId;
             }
-            if (userEmail != task.RequestorEmailId)
-            {
+            if (userEmail != task.RequestorEmailId) {
                 $http({
                     url: "/Contributor/ApplyFITask",
                     method: "POST",
                     data: {
                         taskId: task.Id,
-                        requestor: task.RequestorEmailId
+                        requestor: task.RequestorEmailId,
+                        proficiency: task.SelectedProfType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {

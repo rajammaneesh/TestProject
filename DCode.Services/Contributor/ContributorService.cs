@@ -302,6 +302,7 @@ namespace DCode.Services.Contributor
                 if (taskObj != null)
                 {
                     taskObj.IsApplied = true;
+                    taskObj.SelectedProfType = appliedTask.PROFICIENCY_ID;
                 }
             }
 
