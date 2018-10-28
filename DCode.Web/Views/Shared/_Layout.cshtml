@@ -38,6 +38,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Google Tag Manager -->
+    <script>
+    (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W3DPBTH');</script>
+    <!-- End Google Tag Manager -->
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/Images/tech-x.ico" />
@@ -49,7 +61,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/loading-bar.css" />
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
@@ -73,6 +85,14 @@
 </head>
 
 <body ng-app="dCodeApp" class="body" ng-controller="LayoutController">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3DPBTH"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div @*style="width:100%;"*@ ng-cloak>
 
         <div id="suggestionmodel" class="modal fade" role="dialog">
@@ -115,36 +135,72 @@
                         {
                             foreach (var menuItem in menuItems)
                             {
-                                <a href="@menuItem.NavigationUrl" style="text-decoration-line:none;">
-                                    @if (@tabName == @menuItem.TabName)
-                                    {
-                                        liClass = "active-side-nav";
-                                        spanColor = "color-9acd66";
-                                    }
-                                    else
-                                    {
-                                        liClass = "";
-                                        spanColor = "";
-                                    }
-                                    <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
-                                        @if (@menuItem.MenuItemName != "CREATE NEW TASK")
+                                if (@menuItem.TabName == "User Manual")
+                                {
+                                    <a onclick="openPDF('@menuItem.NavigationUrl')" style="text-decoration-line:none;">
+                                        @if (@tabName == @menuItem.TabName)
                                         {
-                                            if (@tabName == @menuItem.TabName)
-                                            {
-                                                <img src="@menuItem.ImageUrlActive" />
-                                            }
-                                            else
-                                            {
-                                                <img src="@menuItem.ImageUrlInactive" />
-                                            }
+                                            liClass = "active-side-nav";
+                                            spanColor = "color-9acd66";
                                         }
-                                        <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
-                                        @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
+                                        else
                                         {
-                                            <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
+                                            liClass = "";
+                                            spanColor = "";
                                         }
-                                    </li>
-                                </a>
+                                        <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
+                                            @if (@menuItem.MenuItemName != "CREATE NEW TASK")
+                                            {
+                                                if (@tabName == @menuItem.TabName)
+                                                {
+                                                    <img src="@menuItem.ImageUrlActive" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="@menuItem.ImageUrlInactive" />
+                                                }
+                                            }
+                                            <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
+                                            @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
+                                            {
+                                                <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
+                                            }
+                                        </li>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@menuItem.NavigationUrl" style="text-decoration-line:none;">
+                                        @if (@tabName == @menuItem.TabName)
+                                        {
+                                            liClass = "active-side-nav";
+                                            spanColor = "color-9acd66";
+                                        }
+                                        else
+                                        {
+                                            liClass = "";
+                                            spanColor = "";
+                                        }
+                                        <li class="navbar-link padding-left-32 line-height-50 background-color-243342 margin-top-bottom-1 @menuItem.CssClass @liClass">
+                                            @if (@menuItem.MenuItemName != "CREATE NEW TASK")
+                                            {
+                                                if (@tabName == @menuItem.TabName)
+                                                {
+                                                    <img src="@menuItem.ImageUrlActive" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="@menuItem.ImageUrlInactive" />
+                                                }
+                                            }
+                                            <span class="padding-left-15 menu-text @spanColor">@menuItem.MenuItemName</span>
+                                            @if (menuItem.MenuItemName == DCode.Common.Constants.PERMISSIONS)
+                                            {
+                                                <span class="alert-icon" ng-show="permissionsCount > 0">{{permissionsCount}}</span>
+                                            }
+                                        </li>
+                                    </a>
+                                }
                             }
                         }
                     </ul>
@@ -279,7 +335,7 @@
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #37ad1ab8;">
+                        <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #82c142;">
                             <h4 class="modal-title" style="font-size: 25px;"><b>Guidelines for Gamification</b></h4>
                         </div>
                         <div class="modal-body">
@@ -310,12 +366,11 @@
         }
         <!--  gamification rules modal ends-->
 
-
     </div>
     @RenderSection("scripts", required: false)
     <script type='text/javascript'>
         $(document).ready(function () {
-          
+
             $("#datetimepicker1").datetimepicker({
                 minDate: new Date(),
                 useCurrent: false,
@@ -326,7 +381,6 @@
                 useCurrent: false,
                 format: 'MM/DD/YYYY'
             });
-
             $('.nav li a').click(function (e) {
                 $('.nav li').removeClass('active');
                 var $parent = $(this).parent();
@@ -335,10 +389,11 @@
                 }
                 e.preventDefault();
             });
-
-            $('#gamificationModal').modal('show');
-        });
+        }
+        );
+        function openPDF(tabname) {
+            window.open(tabname, '_blank');
+        }
     </script>
-
 </body>
 </html>
