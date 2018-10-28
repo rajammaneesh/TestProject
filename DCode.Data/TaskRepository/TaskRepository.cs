@@ -195,7 +195,7 @@ namespace DCode.Data.TaskRepository
         public string GetProficiencyfromId(int? proficiencyId)
         {
             var proficiencyList = Context.Set<proficiency>().ToList();
-            return proficiencyList?.Where(x => x.ID == proficiencyId)?.FirstOrDefault()?.Proficiency1;
+            return proficiencyList?.Where(x => x.ID == proficiencyId)?.FirstOrDefault()?.Proficiency;
         }
     }
 }

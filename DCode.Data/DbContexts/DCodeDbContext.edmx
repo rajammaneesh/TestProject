@@ -1243,7 +1243,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Proficiency1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Proficiency" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.FK_proficiency_Id" FromRole="proficiency" ToRole="taskapplicant" />
         </EntityType>
         <EntityType Name="taskapplicant">
@@ -1577,7 +1577,7 @@
           <EntitySetMapping Name="proficiencies">
             <EntityTypeMapping TypeName="DCodeDbContext.proficiency">
               <MappingFragment StoreEntitySet="proficiency">
-                <ScalarProperty Name="Proficiency1" ColumnName="Proficiency" />
+                <ScalarProperty Name="Proficiency" ColumnName="Proficiency" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

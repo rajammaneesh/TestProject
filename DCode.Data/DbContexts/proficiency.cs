@@ -21,7 +21,7 @@ namespace DCode.Data.DbContexts
         }
     
         public int ID { get; set; }
-        public string Proficiency1 { get; set; }
+        public string Proficiency { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<taskapplicant> taskapplicants { get; set; }
