@@ -79,6 +79,8 @@ namespace DCode.Services.Requestor
 
                         applicant.StatementOfPurpose = dbApplicant.STATEMENT_OF_PURPOSE ?? string.Empty;
 
+                        applicant.Proficiency = _taskRepository.GetProficiencyfromId(dbApplicant.PROFICIENCY_ID);
+
                         applicant.Comments =
                             _taskRepository
                             .GetAllCommentsOnEmailId(applicant.EmailId)
@@ -262,7 +264,7 @@ namespace DCode.Services.Requestor
                 var task = _taskRepository.GetTaskById(taskRequest.TaskId);
                 var offering = _commonService.GetOfferings().Where(x => x.Id == task.OFFERING_ID).Select(x => x.Description).FirstOrDefault();
                 var applicant = _requestorRepository.GetTaskApplicantByApplicantId(taskRequest.TaskApplicantId);
-                var ccMailAddress = applicant.task.CREATED_BY.ToString() + ";" + userContext.EmailId.ToString();
+                var ccMailAddress = userContext.EmailId.ToString();
                 var mailMessage = EmailHelper.SendApproveRejectNotification(applicant.user.FIRST_NAME + Constants.Space + applicant.user.LAST_NAME, applicant.task.TASK_NAME, applicant.task.PROJECT_NAME, EmailType.Approved, applicant.user.EMAIL_ID, ccMailAddress, offering);
                 var emailTracker = new EmailTracker
                 {

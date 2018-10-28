@@ -22,6 +22,7 @@ namespace DCode.Models.ResponseModels.Task
         public string Duration { get; set; }
         public bool IsApplied { get; set; }
         public bool IsRecommended { get; set; }
+        public int? SelectedProfType { get;set; }
 
         public string OfferingId { get; set; }
         public string FullName

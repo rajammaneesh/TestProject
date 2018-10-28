@@ -184,7 +184,7 @@ namespace DCode.Services.Common
                         }
                         else if ((propertyName.ToLowerInvariant().Equals(Constants.Location)))
                         {
-                            _userContext.LocationName = result.Properties[propertyName][0].ToString();
+                           _userContext.LocationName = result.Properties[propertyName][0].ToString();
                         }
 
 
@@ -259,7 +259,7 @@ namespace DCode.Services.Common
         {
             var designation = _userContext.Designation.ToLowerInvariant();
 
-            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner"))
+            if (designation.Contains("senior manager") || designation.Contains("specialist leader") || designation.Contains("director") || designation.Contains("partner") || designation.Contains("principal"))
             {
                 //_userContext.Role = Enums.Role.Admin;
                 _userContext.Role = Role.Requestor;
@@ -281,7 +281,11 @@ namespace DCode.Services.Common
                 _userContext.IsCoreRoleRequestor = false;
             }
 
-            _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            if (!string.IsNullOrWhiteSpace(_userContext.LocationName))
+            {
+                _userContext.Location = MapLocation(_userContext.LocationName.ToLowerInvariant());
+            }
+
             var dbUser = _requestorRepository.GetUserByEmailId(_userContext.EmailId);
 
             if (dbUser != null && dbUser.ID != null)
@@ -318,7 +322,7 @@ namespace DCode.Services.Common
             }
         }
 
-        private LocationEnum MapLocation(string locationName)
+        private LocationEnum? MapLocation(string locationName)
         {
             switch (locationName)
             {
@@ -331,7 +335,7 @@ namespace DCode.Services.Common
                 case Constants.Gurgaon:
                     return LocationEnum.Gurgaon;
                 default:
-                    return LocationEnum.Hyderabad;
+                    return null;
             }
         }
 
@@ -538,7 +542,7 @@ namespace DCode.Services.Common
 
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
-               
+
         public int? GetApprovedApplicantHours()
         {
             var currentUser = GetCurrentUserContext();
@@ -836,12 +840,12 @@ namespace DCode.Services.Common
                     {
 
                     }
-                    
+
                     _userRepository.UpdateLocationForUser(x.ID, locationId);
                 }
             });
         }
-        
+
         private Tuple<string, string> GetDesignationAndDepartmentForUser(string userName)
         {
             var userNameItem = userName.Split('@')?.First();

@@ -94,7 +94,7 @@ namespace DCode.Services.Contributor
             return tasksHistory;
         }
 
-        public int ApplyTask(int taskId, string emailAddress, string statementOfPurpose)
+        public int ApplyTask(int taskId, string emailAddress, string statementOfPurpose, int proficiency)
         {
             try
             {
@@ -106,7 +106,8 @@ namespace DCode.Services.Contributor
                     TASK_ID = taskId,
                     STATUS = ApplicantStatus.Active.ToString(),
                     STATUS_DATE = DateTime.Now,
-                    STATEMENT_OF_PURPOSE = statementOfPurpose
+                    STATEMENT_OF_PURPOSE = statementOfPurpose,
+                    PROFICIENCY_ID = proficiency
                 };
 
                 MapAuditFields(ActionType.Insert, taskApplicant);
@@ -168,7 +169,7 @@ namespace DCode.Services.Contributor
             }
         }
 
-        public int ApplyFITask(int taskId, string requestor)
+        public int ApplyFITask(int taskId, string requestor, int proficiency)
         {
             try
             {
@@ -180,7 +181,8 @@ namespace DCode.Services.Contributor
                     TASK_ID = taskId,
                     STATUS = ApplicantStatus.ManagerApproved.ToString(),
                     STATUS_DATE = DateTime.Now,
-                    STATEMENT_OF_PURPOSE = "Interested for Firm Initiative"
+                    STATEMENT_OF_PURPOSE = "Interested for Firm Initiative",
+                    PROFICIENCY_ID = proficiency
                 };
 
                 MapAuditFields(ActionType.Insert, taskApplicant);
@@ -300,6 +302,7 @@ namespace DCode.Services.Contributor
                 if (taskObj != null)
                 {
                     taskObj.IsApplied = true;
+                    taskObj.SelectedProfType = appliedTask.PROFICIENCY_ID;
                 }
             }
 
