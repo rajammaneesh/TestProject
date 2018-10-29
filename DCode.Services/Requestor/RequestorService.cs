@@ -17,12 +17,14 @@ using static DCode.Models.Enums.Enums;
 using DCode.Data.UserRepository;
 using DCode.Models.Email;
 using DCode.Services.Email;
+using DCode.Data.ProficiencyRepository;
 
 namespace DCode.Services.Requestor
 {
     public class RequestorService : BaseService, IRequestorService
     {
         private ITaskRepository _taskRepository;
+        private IProficiencyRepository _proficiencyRepository;
         private TaskModelFactory _taskModelFactory;
         private TaskApplicantModelFactory _taskApplicantModelFactory;
         private ApplicantModelFactory _applicantModelFactory;
@@ -79,7 +81,7 @@ namespace DCode.Services.Requestor
 
                         applicant.StatementOfPurpose = dbApplicant.STATEMENT_OF_PURPOSE ?? string.Empty;
 
-                        applicant.Proficiency = _taskRepository.GetProficiencyfromId(dbApplicant.PROFICIENCY_ID);
+                        applicant.Proficiency = _proficiencyRepository.GetProficiencyfromId(dbApplicant.PROFICIENCY_ID);
 
                         applicant.Comments =
                             _taskRepository

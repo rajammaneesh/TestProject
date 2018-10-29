@@ -1,4 +1,5 @@
 ﻿using DCode.Models.ResponseModels.Contributor;
+using DCode.Models.ResponseModels.Proficiency;
 using DCode.Models.ResponseModels.Requestor;
 using DCode.Models.ResponseModels.Task;
 using System;
@@ -18,5 +19,6 @@ namespace DCode.Services.Contributor
         TaskResponse GetAllTasks(string searchKey, int currentPageIndex, int recordsCount,string searchFilter, int selectedTaskType);
         TaskHistoryResponse GetTaskHistories(int currentPageIndex, int recordsCount);
         int ApplyFITask(int taskId,string requestor, int proficiency);
+        List<ProficienciesResponse> GetAllProficiencies();
     }
 }

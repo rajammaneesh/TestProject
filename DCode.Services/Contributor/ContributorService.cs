@@ -4,10 +4,12 @@ using DCode.Data.DbContexts;
 using DCode.Data.RequestorRepository;
 using DCode.Data.TaskRepository;
 using DCode.Data.UserRepository;
+using DCode.Data.ProficiencyRepository;
 using DCode.Models.Email;
 using DCode.Models.ResponseModels.Contributor;
 using DCode.Models.ResponseModels.Requestor;
 using DCode.Models.ResponseModels.Task;
+using DCode.Models.ResponseModels.Proficiency;
 using DCode.Services.Base;
 using DCode.Services.Common;
 using DCode.Services.Email;
@@ -34,7 +36,8 @@ namespace DCode.Services.Contributor
         private ICommonService _commonService;
         private IUserRepository _userRepository;
         private IEmailTrackerService _emailTrackerService;
-        public ContributorService(ITaskRepository taskRepository, ICommonService commonService, IContributorRepository contributorRepository, TaskSkillModelFactory taskSkillModelFactory, TaskModelFactory taskModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, IEmailTrackerService emailTrackerService)//, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository)
+        private IProficiencyRepository _profiencyRepository;
+        public ContributorService(ITaskRepository taskRepository, ICommonService commonService, IContributorRepository contributorRepository, TaskSkillModelFactory taskSkillModelFactory, TaskModelFactory taskModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, IEmailTrackerService emailTrackerService, IProficiencyRepository proficiencyRepository)//, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, )
         {
             _taskRepository = taskRepository;
             _contributorRepository = contributorRepository;
@@ -49,6 +52,7 @@ namespace DCode.Services.Contributor
             _approvedApplicantModelFactory = approvedApplicantModelFactory;
             _userRepository = userRepository;
             _emailTrackerService = emailTrackerService;
+            _profiencyRepository = proficiencyRepository;
         }
 
         public IEnumerable<Models.ResponseModels.Task.Task> GetTasksBasedOnApplicantSkills()
@@ -302,7 +306,7 @@ namespace DCode.Services.Contributor
                 if (taskObj != null)
                 {
                     taskObj.IsApplied = true;
-                    taskObj.SelectedProfType = appliedTask.PROFICIENCY_ID;
+                    taskObj.SelectedProficiencyType = appliedTask.PROFICIENCY_ID;
                 }
             }
 
@@ -340,6 +344,20 @@ namespace DCode.Services.Contributor
             }
             taskHistoryResponse.TaskHistories = tasksHistory;
             return taskHistoryResponse;
+        }
+
+        public List<ProficienciesResponse> GetAllProficiencies()
+        {
+             var proficiencyList = new List<ProficienciesResponse>();
+            var proficienciesList = _profiencyRepository.GetAllProficiencies();
+            foreach (var item in proficienciesList)
+            {
+                var proficiency = new ProficienciesResponse();
+                proficiency.Id = item.ID;
+                proficiency.Description = item.Proficiency;
+                proficiencyList.Add(proficiency);
+            }
+            return proficiencyList;
         }
     }
 }

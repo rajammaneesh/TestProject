@@ -95,5 +95,10 @@ namespace DCode.Web.Controllers
         {
             return Json(_contributorService.GetTaskHistories(currentPageIndex, recordsCount), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetAllProficiencies()
+        {
+            return Json(_contributorService.GetAllProficiencies(), JsonRequestBehavior.AllowGet);
+        }
     }
 }
