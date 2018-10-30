@@ -91,6 +91,7 @@
     <Compile Include="RequestModels\AssignTaskRequest.cs" />
     <Compile Include="ResponseModels\Contributor\AssignedTasksResponse.cs" />
     <Compile Include="ResponseModels\Common\Comments.cs" />
+    <Compile Include="ResponseModels\Proficiency\GetAllProficiencies.cs" />
     <Compile Include="ResponseModels\Requestor\PermissionsSummary.cs" />
     <Compile Include="ResponseModels\Requestor\PermissionsTask.cs" />
     <Compile Include="ResponseModels\Requestor\PermissionTaskResponse.cs" />

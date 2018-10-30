@@ -18,6 +18,7 @@ namespace DCode.Models.ResponseModels.Contributor
         public int TaskApplicantId { get; set; }
 
         public string StatementOfPurpose { get; set; }
+        public string Proficiency { get; set; }
 
         public string CreatedBy
         {

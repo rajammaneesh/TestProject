@@ -45,6 +45,26 @@
             { Id: 2, Description: "Firm Initiative" },
             { Id: 3, Description: "Industry Initiative" }];
 
+        //$scope.SelectedProficiencyType = [
+        //    { Id: 1, Description: "Beginner" },
+        //    { Id: 2, Description: "Intermediate" },
+        //    { Id: 3, Description: "Expert" }];
+        $scope.SelectedProficiencyType = [];
+        $scope.GetAllProficiencies =  function () {
+           
+            var url = "/Contributor/GetAllProficiencies";
+
+                $http({
+                    url: url,
+                    method: "POST",
+                }).success(function (data) {
+                    if (data != null) {
+                        $scope.SelectedProficiencyType = data;  
+                    }
+                }).error(function (error) {
+                });            
+        }
+
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
                 $scope.dashboard.showApproval = true;
@@ -83,25 +103,27 @@
                 $scope.divVisibiltyModel.showSummary = true;
                 $scope.divVisibiltyModel.showSuccess = false;
                 $scope.reviewIndex = index;
-                //document.getElementById('divManagerEmailId' + index).get(0).focus();
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-                //$location.hash('div' + index);
+               
             }
-            else if (task.TypeId >= 2)
-            {
+            else if (task.TypeId >= 2) {
                 $scope.reviewIndex = index;
-                $scope.applyFITask(task)
+                if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '' ) {
+                    $("#ddlProfType").css("border-color", "red");
+                }
+                else {
+                    $("#ddlProfType").css("border-color", "");
+                    $scope.applyFITask(task);
+                }
             }
-
         };
 
         $scope.showTimeAddBar = function (index) {
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
-            //document.getElementById('divManagerEmailId' + index).get(0).focus();
             setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-                //$location.hash('div' + index);
+           
         }
 
         $scope.isShowingReview = function (index) {
@@ -109,13 +131,10 @@
         };
 
         $scope.filterTasks = function () {
-            //var searchOptions1 = { ProjectName: "" };
             var searchOptions2 = { Task: { ProjectName: null } };
             if ($scope.searchBox != null) {
-                //searchOptions1.ProjectName = $scope.searchBox.text;
                 searchOptions2.Task.ProjectName = $scope.searchBox.text;
             }
-            //$scope.tasks = $filter('filter')(angular.copy($scope.tasksGlobal), searchOptions1);
             $scope.assignedTasks = $filter('filter')(angular.copy($scope.assignedTasksGlobal), searchOptions2);
         };
         $scope.reinitialiseAssignedTasksVariables = function () {
@@ -189,6 +208,7 @@
         }
 
         $scope.getTasks = function () {
+            $scope.GetAllProficiencies();
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
 
                 $scope.tasksPageIndex++;
@@ -208,6 +228,7 @@
                                 $scope.tasks = data.Tasks;
                                 $scope.tasksGlobal = data.Tasks;
                                 $scope.tasksCount = data.Tasks.length;
+
                             }
                             else {
                                 angular.forEach(data.Tasks, function (value, index) {
@@ -231,21 +252,16 @@
         $scope.ValidatePermissionDetails = function (index) {
             var isValid = true;
             var userEmail = "";
-            if ($rootScope.userContext != null )
-            {
+            if ($rootScope.userContext != null) {
                 userEmail = $rootScope.userContext.EmailId;
             }
             if ($("#txtManagerEmailId" + index).val() == "" || $("#txtManagerEmailId" + index).val() == null || $("#txtManagerEmailId" + index).val() == userEmail) {
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
-                //else {
-                //    $("#divManagerEmailId" + index).removeClass("invalid");
-                //}
+              
             else {
-                //checking email validation
-                //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
-                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
+                 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
                 if (!re.test($("#txtManagerEmailId" + index).val())) {
                     $("#divManagerEmailId" + index).addClass("invalid");
                     isValid = false;
@@ -283,7 +299,8 @@
                     data: {
                         taskId: task.Id,
                         emailAddress: managerEmailAddress,
-                        statementOfPurpose: statementOfPurpose
+                        statementOfPurpose: statementOfPurpose,
+                        proficiency: task.SelectedProficiencyType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -301,7 +318,6 @@
                             $scope.divVisibiltyModel.showSuccess = true;
                             $scope.divVisibiltyModel.showSummary = false;
                             $scope.refreshTasks();
-                            //$location.hash('divCongrats');
                             $('#divCongrats').modal('show');
                         }
                     }
@@ -316,14 +332,14 @@
             if ($rootScope.userContext != null) {
                 userEmail = $rootScope.userContext.EmailId;
             }
-            if (userEmail != task.RequestorEmailId)
-            {
+            if (userEmail != task.RequestorEmailId) {
                 $http({
                     url: "/Contributor/ApplyFITask",
                     method: "POST",
                     data: {
                         taskId: task.Id,
-                        requestor: task.RequestorEmailId
+                        requestor: task.RequestorEmailId,
+                        proficiency: task.SelectedProficiencyType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -341,7 +357,6 @@
                             $scope.divVisibiltyModel.showSuccess = true;
                             $scope.divVisibiltyModel.showSummary = false;
                             $scope.refreshTasks();
-                            //$location.hash('divCongrats');
                             $('#divCongrats').modal('show');
                         }
                     }

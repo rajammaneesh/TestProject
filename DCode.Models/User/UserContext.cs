@@ -69,7 +69,7 @@ namespace DCode.Models.User
         public int? OfferingId { get; set; }
         public int? LocationId { get; set; }
         public string LocationName { get; set; }
-        public LocationEnum Location { get; set; }
+        public LocationEnum? Location { get; set; }
 
 
 

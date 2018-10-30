@@ -27,6 +27,7 @@ namespace DCode.Web.App_Start
     using Ninject.Web.Common.WebHost;
     using DCode.Services.Email;
     using DCode.Data.EmailRepository;
+    using DCode.Data.ProficiencyRepository;
 
     public static class NinjectWebCommon
     {
@@ -101,6 +102,7 @@ namespace DCode.Web.App_Start
             kernel.Bind<IUserPointsRepository>().To<UserPointsRepository>();
             kernel.Bind<IEmailTrackerService>().To<EmailTrackerService>();
             kernel.Bind<IEmailRepository>().To<EmailRepository>();
+            kernel.Bind<IProficiencyRepository>().To<ProficiencyRepository>();
         }
 
     }

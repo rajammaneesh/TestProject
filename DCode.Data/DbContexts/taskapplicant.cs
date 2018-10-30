@@ -20,11 +20,13 @@ namespace DCode.Data.DbContexts
         public string STATEMENT_OF_PURPOSE { get; set; }
         public string STATUS { get; set; }
         public Nullable<System.DateTime> STATUS_DATE { get; set; }
+        public Nullable<int> PROFICIENCY_ID { get; set; }
         public string CREATED_BY { get; set; }
         public Nullable<System.DateTime> CREATED_ON { get; set; }
         public string UPDATED_BY { get; set; }
         public Nullable<System.DateTime> UPDATED_ON { get; set; }
     
+        public virtual proficiency proficiency { get; set; }
         public virtual user user { get; set; }
         public virtual task task { get; set; }
     }
