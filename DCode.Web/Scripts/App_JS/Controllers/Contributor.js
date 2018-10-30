@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('contributorController', ContributorController);
+        .controller('contributorController', ContributorController);
 
     ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService'];
 
@@ -50,19 +50,21 @@
         //    { Id: 2, Description: "Intermediate" },
         //    { Id: 3, Description: "Expert" }];
         $scope.SelectedProficiencyType = [];
-        $scope.GetAllProficiencies =  function () {
-           
-            var url = "/Contributor/GetAllProficiencies";
+        $scope.GetAllProficiencies = function () {
+
+            if ($scope.SelectedProficiencyType.length == 0) {
+                var url = "/Contributor/GetAllProficiencies";
 
                 $http({
                     url: url,
                     method: "POST",
                 }).success(function (data) {
                     if (data != null) {
-                        $scope.SelectedProficiencyType = data;  
+                        $scope.SelectedProficiencyType = data;
                     }
                 }).error(function (error) {
-                });            
+                });
+            }
         }
 
         $scope.controlTabsMyTasks = function (value) {
@@ -104,11 +106,11 @@
                 $scope.divVisibiltyModel.showSuccess = false;
                 $scope.reviewIndex = index;
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-               
+
             }
             else if (task.TypeId >= 2) {
                 $scope.reviewIndex = index;
-                if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '' ) {
+                if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '') {
                     $("#ddlProfType").css("border-color", "red");
                 }
                 else {
@@ -123,7 +125,7 @@
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
             setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-           
+
         }
 
         $scope.isShowingReview = function (index) {
@@ -209,8 +211,7 @@
 
         $scope.getTasks = function () {
             $scope.GetAllProficiencies();
-            if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
-
+            if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {             
                 $scope.tasksPageIndex++;
 
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
@@ -259,9 +260,9 @@
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
-              
+
             else {
-                 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
                 if (!re.test($("#txtManagerEmailId" + index).val())) {
                     $("#divManagerEmailId" + index).addClass("invalid");
                     isValid = false;
@@ -389,7 +390,7 @@
 (function () {
     'use strict';
     angular.module('dCodeApp')
-    .controller('contributorHistoryController', HistoryController);
+        .controller('contributorHistoryController', HistoryController);
 
     HistoryController.$inject = ['$scope', '$http', '$rootScope', 'UserContextService'];
 
