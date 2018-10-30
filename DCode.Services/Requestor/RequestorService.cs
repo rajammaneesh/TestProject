@@ -35,7 +35,7 @@ namespace DCode.Services.Requestor
         private ICommonService _commonService;
         private IUserRepository _userRepository;
         private IEmailTrackerService _emailTrackerService;
-        public RequestorService(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, SkillModelFactory skillModelFactory, IEmailTrackerService emailTrackerService)
+        public RequestorService(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, IRequestorRepository requestorRepository, ApplicantModelFactory applicantModelFactory, ApprovedContributorModelFactory approvedContributorModelFactory, ICommonService commonService, TaskApplicantModelFactory taskApplicantModelFactory, ApprovedApplicantModelFactory approvedApplicantModelFactory, IUserRepository userRepository, SkillModelFactory skillModelFactory, IEmailTrackerService emailTrackerService,IProficiencyRepository proficiencyRepository)
         {
             _taskRepository = taskRepository;
             _taskModelFactory = taskModelFactory;
@@ -48,6 +48,7 @@ namespace DCode.Services.Requestor
             _userRepository = userRepository;
             _skillModelFactory = skillModelFactory;
             _emailTrackerService = emailTrackerService;
+            _proficiencyRepository = proficiencyRepository;
         }
 
         public TaskApplicantsReponse GetTaskApplicantsForApproval(int selectedTaskTypeId, int currentPageIndex, int recordsCount)
