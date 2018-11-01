@@ -48,7 +48,7 @@
         //$scope.SelectedProficiencyType = [
         //    { Id: 1, Description: "Beginner" },
         //    { Id: 2, Description: "Intermediate" },
-        //    { Id: 3, Description: "Expert" }];
+        //    { Id: 3, Description: "Expert" }];  
         $scope.SelectedProficiencyType = [];
         $scope.GetAllProficiencies =  function () {
            
