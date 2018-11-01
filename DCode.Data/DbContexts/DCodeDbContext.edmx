@@ -119,6 +119,13 @@
           <Property Name="Code" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="Description" Type="longtext" Nullable="false" />
         </EntityType>
+        <EntityType Name="proficiency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Proficiency" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="service_line">
           <Key>
             <PropertyRef Name="ID" />
@@ -167,6 +174,7 @@
           <Property Name="STATEMENT_OF_PURPOSE" Type="varchar" MaxLength="500" />
           <Property Name="STATUS" Type="varchar" MaxLength="20" />
           <Property Name="STATUS_DATE" Type="datetime" Precision="0" />
+          <Property Name="PROFICIENCY_ID" Type="int" />
           <Property Name="CREATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="CREATED_ON" Type="datetime" Precision="0" />
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
@@ -337,6 +345,18 @@
             </Principal>
             <Dependent Role="portfolio_tasktype">
               <PropertyRef Name="portfolioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proficiency_Id">
+          <End Role="proficiency" Type="Self.proficiency" Multiplicity="0..1" />
+          <End Role="taskapplicants" Type="Self.taskapplicants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proficiency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="taskapplicants">
+              <PropertyRef Name="PROFICIENCY_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -521,6 +541,7 @@
           <EntitySet Name="offerings" EntityType="Self.offerings" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="portfolio_tasktype" EntityType="Self.portfolio_tasktype" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="portfolios" EntityType="Self.portfolios" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="proficiency" EntityType="Self.proficiency" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode" store:Type="Tables" />
@@ -555,6 +576,10 @@
           <AssociationSet Name="FK_Portfolio" Association="Self.FK_Portfolio">
             <End Role="portfolios" EntitySet="portfolios" />
             <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proficiency_Id" Association="Self.FK_proficiency_Id">
+            <End Role="proficiency" EntitySet="proficiency" />
+            <End Role="taskapplicants" EntitySet="taskapplicants" />
           </AssociationSet>
           <AssociationSet Name="fk_roleId_userRole" Association="Self.fk_roleId_userRole">
             <End Role="user_role" EntitySet="user_role" />
@@ -649,7 +674,6 @@
           <EntitySet Name="skills" EntityType="DCodeDbContext.skill" />
           <EntitySet Name="suggestions" EntityType="DCodeDbContext.suggestion" />
           <EntitySet Name="task_type" EntityType="DCodeDbContext.task_type" />
-          <EntitySet Name="taskapplicants" EntityType="DCodeDbContext.taskapplicant" />
           <EntitySet Name="tasks" EntityType="DCodeDbContext.task" />
           <EntitySet Name="taskskills" EntityType="DCodeDbContext.taskskill" />
           <EntitySet Name="user_locations" EntityType="DCodeDbContext.user_locations" />
@@ -700,14 +724,6 @@
             <End Role="task_type" EntitySet="task_type" />
             <End Role="task" EntitySet="tasks" />
           </AssociationSet>
-          <AssociationSet Name="taskapplicants_ibfk_1" Association="DCodeDbContext.taskapplicants_ibfk_1">
-            <End Role="user" EntitySet="users" />
-            <End Role="taskapplicant" EntitySet="taskapplicants" />
-          </AssociationSet>
-          <AssociationSet Name="taskapplicants_ibfk_2" Association="DCodeDbContext.taskapplicants_ibfk_2">
-            <End Role="task" EntitySet="tasks" />
-            <End Role="taskapplicant" EntitySet="taskapplicants" />
-          </AssociationSet>
           <AssociationSet Name="tasks_ibfk_1" Association="DCodeDbContext.tasks_ibfk_1">
             <End Role="user" EntitySet="users" />
             <End Role="task" EntitySet="tasks" />
@@ -731,6 +747,20 @@
           <AssociationSet Name="portfolio_tasktype" Association="DCodeDbContext.portfolio_tasktype">
             <End Role="portfolio" EntitySet="portfolios" />
             <End Role="task_type" EntitySet="task_type" />
+          </AssociationSet>
+          <EntitySet Name="proficiencies" EntityType="DCodeDbContext.proficiency" />
+          <EntitySet Name="taskapplicants" EntityType="DCodeDbContext.taskapplicant" />
+          <AssociationSet Name="FK_proficiency_Id" Association="DCodeDbContext.FK_proficiency_Id">
+            <End Role="proficiency" EntitySet="proficiencies" />
+            <End Role="taskapplicant" EntitySet="taskapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="taskapplicants_ibfk_1" Association="DCodeDbContext.taskapplicants_ibfk_1">
+            <End Role="user" EntitySet="users" />
+            <End Role="taskapplicant" EntitySet="taskapplicants" />
+          </AssociationSet>
+          <AssociationSet Name="taskapplicants_ibfk_2" Association="DCodeDbContext.taskapplicants_ibfk_2">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="taskapplicant" EntitySet="taskapplicants" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
@@ -893,23 +923,6 @@
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task_type" ToRole="task" />
           <NavigationProperty Name="portfolios" Relationship="DCodeDbContext.portfolio_tasktype" FromRole="task_type" ToRole="portfolio" />
         </EntityType>
-        <EntityType Name="taskapplicant">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TASK_ID" Type="Int32" Nullable="false" />
-          <Property Name="APPLICANT_ID" Type="Int32" Nullable="false" />
-          <Property Name="STATEMENT_OF_PURPOSE" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="STATUS_DATE" Type="DateTime" />
-          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CREATED_ON" Type="DateTime" />
-          <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="UPDATED_ON" Type="DateTime" />
-          <NavigationProperty Name="user" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="taskapplicant" ToRole="user" />
-          <NavigationProperty Name="task" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="taskapplicant" ToRole="task" />
-        </EntityType>
         <EntityType Name="task">
           <Key>
             <PropertyRef Name="ID" />
@@ -939,9 +952,9 @@
           <NavigationProperty Name="offering" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="task" ToRole="offering" />
           <NavigationProperty Name="service_line" Relationship="DCodeDbContext.tasks_ibfk_2" FromRole="task" ToRole="service_line" />
           <NavigationProperty Name="task_type" Relationship="DCodeDbContext.tasks_ibfk_3" FromRole="task" ToRole="task_type" />
-          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="task" ToRole="taskapplicant" />
           <NavigationProperty Name="user" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="task" ToRole="user" />
           <NavigationProperty Name="taskskills" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="task" ToRole="taskskill" />
+          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="task" ToRole="taskapplicant" />
         </EntityType>
         <EntityType Name="taskskill">
           <Key>
@@ -1022,10 +1035,10 @@
           <NavigationProperty Name="approvedapplicants" Relationship="DCodeDbContext.approvedapplicant_ibfk_1" FromRole="user" ToRole="approvedapplicant" />
           <NavigationProperty Name="notification_subscription" Relationship="DCodeDbContext.FK_USERS_NOTIFICATION_STATUS" FromRole="user" ToRole="notification_subscription" />
           <NavigationProperty Name="offering" Relationship="DCodeDbContext.fk_usr_off" FromRole="user" ToRole="offering" />
-          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="user" ToRole="task" />
           <NavigationProperty Name="user_locations" Relationship="DCodeDbContext.FK_location_ID" FromRole="user" ToRole="user_locations" />
           <NavigationProperty Name="user_points" Relationship="DCodeDbContext.fk_userId_user" FromRole="user" ToRole="user_points" />
+          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="user" ToRole="taskapplicant" />
         </EntityType>
         <Association Name="applicantskills_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
@@ -1161,30 +1174,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="taskapplicants_ibfk_1">
-          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
-          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="taskapplicant">
-              <PropertyRef Name="APPLICANT_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="taskapplicants_ibfk_2">
-          <End Type="DCodeDbContext.task" Role="task" Multiplicity="1" />
-          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="task">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="taskapplicant">
-              <PropertyRef Name="TASK_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="tasks_ibfk_1">
           <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
           <End Type="DCodeDbContext.task" Role="task" Multiplicity="*" />
@@ -1248,6 +1237,69 @@
         <Association Name="portfolio_tasktype">
           <End Type="DCodeDbContext.portfolio" Role="portfolio" Multiplicity="*" />
           <End Type="DCodeDbContext.task_type" Role="task_type" Multiplicity="*" />
+        </Association>
+        <EntityType Name="proficiency">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Proficiency1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.FK_proficiency_Id" FromRole="proficiency" ToRole="taskapplicant" />
+        </EntityType>
+        <EntityType Name="taskapplicant">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TASK_ID" Type="Int32" Nullable="false" />
+          <Property Name="APPLICANT_ID" Type="Int32" Nullable="false" />
+          <Property Name="STATEMENT_OF_PURPOSE" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS_DATE" Type="DateTime" />
+          <Property Name="PROFICIENCY_ID" Type="Int32" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_ON" Type="DateTime" />
+          <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATED_ON" Type="DateTime" />
+          <NavigationProperty Name="proficiency" Relationship="DCodeDbContext.FK_proficiency_Id" FromRole="taskapplicant" ToRole="proficiency" />
+          <NavigationProperty Name="user" Relationship="DCodeDbContext.taskapplicants_ibfk_1" FromRole="taskapplicant" ToRole="user" />
+          <NavigationProperty Name="task" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="taskapplicant" ToRole="task" />
+        </EntityType>
+        <Association Name="FK_proficiency_Id">
+          <End Type="DCodeDbContext.proficiency" Role="proficiency" Multiplicity="0..1" />
+          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proficiency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="taskapplicant">
+              <PropertyRef Name="PROFICIENCY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="taskapplicants_ibfk_1">
+          <End Type="DCodeDbContext.user" Role="user" Multiplicity="1" />
+          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="taskapplicant">
+              <PropertyRef Name="APPLICANT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="taskapplicants_ibfk_2">
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="1" />
+          <End Type="DCodeDbContext.taskapplicant" Role="taskapplicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="taskapplicant">
+              <PropertyRef Name="TASK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1412,22 +1464,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="taskapplicants">
-            <EntityTypeMapping TypeName="DCodeDbContext.taskapplicant">
-              <MappingFragment StoreEntitySet="taskapplicants">
-                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
-                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
-                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
-                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
-                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="STATEMENT_OF_PURPOSE" ColumnName="STATEMENT_OF_PURPOSE" />
-                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
-                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tasks">
             <EntityTypeMapping TypeName="DCodeDbContext.task">
               <MappingFragment StoreEntitySet="tasks">
@@ -1538,6 +1574,31 @@
               <ScalarProperty Name="Id" ColumnName="portfolioId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="proficiencies">
+            <EntityTypeMapping TypeName="DCodeDbContext.proficiency">
+              <MappingFragment StoreEntitySet="proficiency">
+                <ScalarProperty Name="Proficiency1" ColumnName="Proficiency" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taskapplicants">
+            <EntityTypeMapping TypeName="DCodeDbContext.taskapplicant">
+              <MappingFragment StoreEntitySet="taskapplicants">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="PROFICIENCY_ID" ColumnName="PROFICIENCY_ID" />
+                <ScalarProperty Name="STATUS_DATE" ColumnName="STATUS_DATE" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="STATEMENT_OF_PURPOSE" ColumnName="STATEMENT_OF_PURPOSE" />
+                <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
+                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

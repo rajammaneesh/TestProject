@@ -20,9 +20,9 @@ namespace DCode.Data.DbContexts
             this.applicantskills = new HashSet<applicantskill>();
             this.approvedapplicants = new HashSet<approvedapplicant>();
             this.notification_subscription = new HashSet<notification_subscription>();
-            this.taskapplicants = new HashSet<taskapplicant>();
             this.tasks = new HashSet<task>();
             this.user_points = new HashSet<user_points>();
+            this.taskapplicants = new HashSet<taskapplicant>();
         }
     
         public int ID { get; set; }
@@ -51,11 +51,11 @@ namespace DCode.Data.DbContexts
         public virtual ICollection<notification_subscription> notification_subscription { get; set; }
         public virtual offering offering { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<taskapplicant> taskapplicants { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<task> tasks { get; set; }
         public virtual user_locations user_locations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user_points> user_points { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<taskapplicant> taskapplicants { get; set; }
     }
 }

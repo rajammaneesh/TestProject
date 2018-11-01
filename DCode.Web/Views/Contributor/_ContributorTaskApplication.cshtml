@@ -23,7 +23,7 @@
                     </div>
                     <div class="new-style-DTM-div-33">
                         <div class="input-group new-push-to-right">
-                            <select  style="border-radius: 4px;"class="form-control" id="ddlOfferings" ng-if="taskSearch.selectedTaskType!=3" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
+                            <select style="border-radius: 4px;" class="form-control" id="ddlOfferings" ng-if="taskSearch.selectedTaskType!=3" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
                     </div>
                 </div>
@@ -81,19 +81,29 @@
                                 <div class="new-style-DTM-div-75">
                                     <p class="project-desc"><b>Task Description : </b>{{task.Details}}</p>
                                 </div>
-                                <div class="new-style-DTM-tracking-main">
-                                    <div style="float:right;">
-                                        <div style="float:left;padding-top:20px;">
-                                            <div class="add-task-button apply-btn" ng-show="!task.IsApplied" ng-click="showReviewOptions($index, task);">Apply</div>
-                                        </div>
-                                        <div style="float:left;" ng-show="task.IsRecommended && !task.IsApplied">
-                                            <div class="gift-pending back-ground-color-ffa942">RECOMMENDED</div>
-                                        </div>
-                                        <div style="float:left;" ng-show="task.IsApplied">
-                                            <div class="gift-pending back-ground-color-6dd5ab">APPLIED</div>
-                                        </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="new-style-DTM-div-33" style="margin-left:45%;">
+                                    <div class="new-span-width-span" style="padding-top: 8px;width:35%;"><span>Current Proficiency:&nbsp; </span></div>
+                                    <div class="input-group new-span-width-select">
+                                        <select class="form-control" style="border-radius: 4px;" id="ddlProfType" ng-model="task.selectedProfType" ng-options="filter.Id as filter.Description for filter in selectProfTypes" ng-change=""></select>
+                                        <div class="gray-text">Select your proficiency</div>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
+                                <div style="float:right;">
+                                    <div style="float:left;padding-top:20px;">
+                                        <div class="add-task-button apply-btn" ng-show="!task.IsApplied" ng-click="showReviewOptions($index, task);">Apply</div>
+                                    </div>
+                                    <div style="float:left;" ng-show="task.IsRecommended && !task.IsApplied">
+                                        <div class="gift-pending back-ground-color-ffa942">RECOMMENDED</div>
+                                    </div>
+                                    <div style="float:left;" ng-show="task.IsApplied">
+                                        <div class="gift-pending back-ground-color-6dd5ab">APPLIED</div>
                                     </div>
                                 </div>
+
                             </div>
                             <div style="clear:both;"></div>
                             <div>

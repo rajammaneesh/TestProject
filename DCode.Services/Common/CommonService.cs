@@ -184,7 +184,7 @@ namespace DCode.Services.Common
                         }
                         else if ((propertyName.ToLowerInvariant().Equals(Constants.Location)))
                         {
-                            _userContext.LocationName = result.Properties[propertyName][0].ToString();
+                           _userContext.LocationName = result.Properties[propertyName][0].ToString();
                         }
 
 
@@ -322,7 +322,7 @@ namespace DCode.Services.Common
             }
         }
 
-        private LocationEnum MapLocation(string locationName)
+        private LocationEnum? MapLocation(string locationName)
         {
             switch (locationName)
             {
@@ -335,7 +335,7 @@ namespace DCode.Services.Common
                 case Constants.Gurgaon:
                     return LocationEnum.Gurgaon;
                 default:
-                    return LocationEnum.Hyderabad;
+                    return null;
             }
         }
 

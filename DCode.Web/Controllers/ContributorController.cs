@@ -60,17 +60,17 @@ namespace DCode.Web.Controllers
 
 
         [AuthorizeRoute(Role.Contributor)]
-        public JsonResult ApplyTask(int taskId, string emailAddress, string statementOfPurpose)
+        public JsonResult ApplyTask(int taskId, string emailAddress, string statementOfPurpose, int proficiency)
         {
-            var result = _contributorService.ApplyTask(taskId, emailAddress, statementOfPurpose);
+            var result = _contributorService.ApplyTask(taskId, emailAddress, statementOfPurpose, proficiency);
 
             return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         [AuthorizeRoute(Role.Contributor)]
-        public JsonResult ApplyFITask(int taskId, string requestor)
+        public JsonResult ApplyFITask(int taskId, string requestor, int proficiency)
         {
-            var result = _contributorService.ApplyFITask(taskId, requestor);
+            var result = _contributorService.ApplyFITask(taskId, requestor, proficiency);
 
             return Json(result, JsonRequestBehavior.DenyGet);
         }
