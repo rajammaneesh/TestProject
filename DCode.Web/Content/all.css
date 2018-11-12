@@ -1574,6 +1574,16 @@ input.edit-task-btn.width110 {
     text-align: left;
 }
 
+.new-style-DTM-30-div {
+    width: 30%;
+    float: left;
+}
+
+.new-style-DTM-15-div {
+    width: 15%;
+    float: left;
+} 
+
 .new-style-DTM-response-txt {
     font-family: HelveticaNeue-Medium;
     font-size: 16px;
