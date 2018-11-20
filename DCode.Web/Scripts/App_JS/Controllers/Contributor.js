@@ -114,10 +114,9 @@
                 if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '') {
                     $("[id=ddlProfType]:eq(" + index + ")").css("border-color", "red");
                 }
-                //else {
-                //    $("[id=ddlProfType]:eq(" + index + ")").css("border-color", "");
-                //    $scope.applyFITask(task);
-                //}
+                else {
+                    $scope.applyFITask(task);
+                }
             }
         };
 
