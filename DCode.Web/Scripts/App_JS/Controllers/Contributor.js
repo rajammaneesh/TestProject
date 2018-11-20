@@ -112,7 +112,6 @@
                 $("[id=ddlProfType]").css("border-color", "");
                 $scope.reviewIndex = index;
                 if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '') {
-
                     $("[id=ddlProfType]:eq(" + index + ")").css("border-color", "red");
                 }
                 //else {
