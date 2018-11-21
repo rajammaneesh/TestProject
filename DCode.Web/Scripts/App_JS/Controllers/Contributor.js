@@ -109,12 +109,12 @@
 
             }
             else if (task.TypeId >= 2) {
+                $("[id=ddlProfType]").css("border-color", "");
                 $scope.reviewIndex = index;
                 if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '') {
-                    $("#ddlProfType").css("border-color", "red");
+                    $("[id=ddlProfType]:eq(" + index + ")").css("border-color", "red");
                 }
                 else {
-                    $("#ddlProfType").css("border-color", "");
                     $scope.applyFITask(task);
                 }
             }
