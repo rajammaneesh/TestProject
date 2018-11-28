@@ -282,7 +282,7 @@ namespace DCode.Services.Contributor
             IEnumerable<Models.ResponseModels.Task.Task> tasks = null;
 
             var offeringToSearch = !string.IsNullOrWhiteSpace(searchFilter)
-                && searchFilter == "M" ? user.Department.Split(' ')[0] : null;
+                && searchFilter == "M" ? user.Department.Remove(user.Department.Length - 8, 8) : null;
 
             var listOfSkills = !string.IsNullOrWhiteSpace(searchFilter)
                 && searchFilter == "R" ? user.SkillSet.Select(x => x.Value)?.ToList()
