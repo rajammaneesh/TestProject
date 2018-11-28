@@ -8,7 +8,6 @@ using System.DirectoryServices;
 using DCode.Common;
 using System.Configuration;
 using DCode.Data.DbContexts;
-using Elmah;
 using DCode.Models.Common;
 using DCode.Data.LogRepository;
 using DCode.Models.RequestModels;
@@ -20,6 +19,7 @@ using System.Text.RegularExpressions;
 using static DCode.Models.Enums.Enums;
 using System.Linq;
 using DCode.Data.UserRepository;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace DCode.Services.Common
 {
@@ -48,6 +48,8 @@ namespace DCode.Services.Common
         private ApprovedApplicantModelFactory _approvedApplicantModelFactory;
         private UserPointsModelFactory _userPointsModelFactory;
         private IUserPointsRepository _userPointsRepository;
+        private ISubOfferingRepository _subOfferingRepository;
+        private SubOfferingModelFactory _subOfferingModelFactory;
 
 
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
@@ -57,7 +59,7 @@ namespace DCode.Services.Common
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
             ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory, UserPointsModelFactory userPointsModelFactory,
             ApprovedApplicantModelFactory approvedApplicantModelFactory, PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository,
-            IApprovedApplicantRepository approvedApplicantRepository, IPortfolioRepository portfolioRepository, IUserPointsRepository userPointsRepository)
+            IApprovedApplicantRepository approvedApplicantRepository, IPortfolioRepository portfolioRepository, IUserPointsRepository userPointsRepository, SubOfferingModelFactory subOfferingModelFactory, ISubOfferingRepository subOfferingRepository)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -81,6 +83,8 @@ namespace DCode.Services.Common
             _approvedApplicantModelFactory = approvedApplicantModelFactory;
             _userPointsModelFactory = userPointsModelFactory;
             _userPointsRepository = userPointsRepository;
+            _subOfferingRepository = subOfferingRepository; _approvedApplicantRepository = approvedApplicantRepository;
+            _subOfferingModelFactory = subOfferingModelFactory;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -184,7 +188,7 @@ namespace DCode.Services.Common
                         }
                         else if ((propertyName.ToLowerInvariant().Equals(Constants.Location)))
                         {
-                           _userContext.LocationName = result.Properties[propertyName][0].ToString();
+                            _userContext.LocationName = result.Properties[propertyName][0].ToString();
                         }
 
 
@@ -320,6 +324,7 @@ namespace DCode.Services.Common
                 _userContext.UserId = dbUserres.ID;
                 _userContext.OfferingId = dbUserres.OFFERING_ID;
             }
+            ValidateAndSetODCAccess(_userContext);
         }
 
         private LocationEnum? MapLocation(string locationName)
@@ -726,6 +731,13 @@ namespace DCode.Services.Common
             return matchingOffering?.GetPracticeEmailGroupsAsList();
         }
 
+        public List<string> GetFINotificationRecipientsForSubOffering(int subofferingId)
+        {
+            var subofferings = _subOfferingRepository.GetSubOfferingById(subofferingId);
+
+            return subofferings?.GetPracticeEmailGroupsAsList();
+        }
+
         public List<string> GetDefaultConsultingMailboxes()
         {
             var offerings = GetOfferings();
@@ -934,5 +946,55 @@ namespace DCode.Services.Common
             }
             return null;
         }
+
+        /// <summary>
+        /// This method is responsible to indentify if the user is part of any specific ODC's distribution list.
+        /// If yes he will have access to additional feature specific to that ODC
+        /// </summary>
+        /// <returns></returns>
+        private void ValidateAndSetODCAccess(UserContext _userContext)
+        {
+            _userContext.AccessibleODCId = 0;
+            var odcList = ODCReferenceService.GetExistingODCList(AppDomain.CurrentDomain.BaseDirectory + Constants.ODCPath);
+            var appOutlook = new Outlook.Application();
+            var recepient = appOutlook.Session.CreateRecipient(_userContext.EmailId);
+            recepient.Resolve();
+
+            Outlook.AddressEntry addrEntry = recepient.AddressEntry;
+            if (addrEntry.Type == "EX" && odcList != null && odcList.ODCList.Any())
+            {
+                Outlook.ExchangeUser exchUser = addrEntry.GetExchangeUser();
+                Outlook.AddressEntries addrEntries = exchUser.GetMemberOfList();
+                if (addrEntries != null)
+                {
+                    foreach (Outlook.AddressEntry exaddrEntry in addrEntries)
+                    {
+                        var name = exaddrEntry.Name.ToString();
+                        foreach (var odc in odcList.ODCList)
+                        {
+                            if (odc.DistributionList.Split(new char[] { ',' }).Contains(name))
+                            {
+                                _userContext.AccessibleODCId = Convert.ToInt32(odc.OfferingId);
+                                _userContext.HasODCAccess = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method is used to get all the sub offering details by offering Id
+        /// </summary>
+        /// <param name="offeringId"></param>
+        /// <returns></returns>
+        public IEnumerable<SubOffering> GetSubOfferings(int offeringId)
+        {
+            var subofferings = _subOfferingRepository.GetSubOfferings(offeringId);
+            return _subOfferingModelFactory.CreateModelList<SubOffering>(subofferings);
+        }
+
     }
 }
+

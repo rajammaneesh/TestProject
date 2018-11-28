@@ -46,7 +46,11 @@
         <AssociationConnector Association="DCodeDbContext.FK_proficiency_Id" />
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_2" />
-      </Diagram>
+        <EntityTypeShape EntityType="DCodeDbContext.suboffering" Width="1.5" PointX="5.25" PointY="18.75" />
+        <AssociationConnector Association="DCodeDbContext.Offering_suboffering_fk" />
+        <AssociationConnector Association="DCodeDbContext.fk_usr_off1" />
+        <AssociationConnector Association="DCodeDbContext.Offering_suboffering_fk" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

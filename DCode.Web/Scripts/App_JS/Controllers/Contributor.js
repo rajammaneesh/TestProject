@@ -6,6 +6,7 @@
     ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService'];
 
     function ContributorController($scope, $http, $rootScope, $filter, $window, $anchorScroll, $location, UserContextService) {
+        $scope.showOnlyODCTask = false; //to uncheck the box by default
         $scope.userContext = null;
         $scope.taskApplicantsRecordCount = 100;
         $scope.tasksGlobal = null;
@@ -45,28 +46,6 @@
             { Id: 2, Description: "Firm Initiative" },
             { Id: 3, Description: "Industry Initiative" }];
 
-        //$scope.SelectedProficiencyType = [
-        //    { Id: 1, Description: "Beginner" },
-        //    { Id: 2, Description: "Intermediate" },
-        //    { Id: 3, Description: "Expert" }];
-        $scope.SelectedProficiencyType = [];
-        $scope.GetAllProficiencies = function () {
-
-            if ($scope.SelectedProficiencyType.length == 0) {
-                var url = "/Contributor/GetAllProficiencies";
-
-                $http({
-                    url: url,
-                    method: "POST",
-                }).success(function (data) {
-                    if (data != null) {
-                        $scope.SelectedProficiencyType = data;
-                    }
-                }).error(function (error) {
-                });
-            }
-        }
-
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
                 $scope.dashboard.showApproval = true;
@@ -105,27 +84,24 @@
                 $scope.divVisibiltyModel.showSummary = true;
                 $scope.divVisibiltyModel.showSuccess = false;
                 $scope.reviewIndex = index;
+                //document.getElementById('divManagerEmailId' + index).get(0).focus();
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-
+                //$location.hash('div' + index);
             }
             else if (task.TypeId >= 2) {
                 $scope.reviewIndex = index;
-                if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '') {
-                    $("#ddlProfType").css("border-color", "red");
-                }
-                else {
-                    $("#ddlProfType").css("border-color", "");
-                    $scope.applyFITask(task);
-                }
+                $scope.applyFITask(task)
             }
+
         };
 
         $scope.showTimeAddBar = function (index) {
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
+            //document.getElementById('divManagerEmailId' + index).get(0).focus();
             setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-
+            //$location.hash('div' + index);
         }
 
         $scope.isShowingReview = function (index) {
@@ -133,10 +109,13 @@
         };
 
         $scope.filterTasks = function () {
+            //var searchOptions1 = { ProjectName: "" };
             var searchOptions2 = { Task: { ProjectName: null } };
             if ($scope.searchBox != null) {
+                //searchOptions1.ProjectName = $scope.searchBox.text;
                 searchOptions2.Task.ProjectName = $scope.searchBox.text;
             }
+            //$scope.tasks = $filter('filter')(angular.copy($scope.tasksGlobal), searchOptions1);
             $scope.assignedTasks = $filter('filter')(angular.copy($scope.assignedTasksGlobal), searchOptions2);
         };
         $scope.reinitialiseAssignedTasksVariables = function () {
@@ -155,7 +134,6 @@
                             $scope.reinitialiseAssignedTasksVariables();
                             $scope.getAssignedTasks()
                             $scope.trackStatus.Hours = null;
-                            $scope.$emit('updateBanner', {});
                         }
                     }
 
@@ -210,8 +188,8 @@
         }
 
         $scope.getTasks = function () {
-            $scope.GetAllProficiencies();
-            if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {             
+            if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
+
                 $scope.tasksPageIndex++;
 
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
@@ -225,11 +203,31 @@
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
                         if (data != null) {
+
+                            var tempArray = [];
+                            angular.forEach(data.Tasks, function (value, index) {
+                                value.isODCTask = false;
+
+                                if (value.SubOfferingId != null && value.SubOfferingId != "" && value.SubOfferingId != 0) { //i.e. -> The task belongs to an ODC
+                                    if (value.OfferingId == $scope.accessibleODCId) { //The Person has access to the ODC
+                                        value.isODCTask = true;
+                                        tempArray.push(value);
+                                    }
+                                } else if (!$scope.showOnlyODCTask && $scope.showOnlyODCTask != undefined) //--chararora@deloitte.com, to check the value of the checkbox
+                                {
+
+                                    tempArray.push(value);
+
+                                }
+                            });
+
+                            data.Tasks = tempArray;
+
+
                             if ($scope.tasks == null) {
                                 $scope.tasks = data.Tasks;
                                 $scope.tasksGlobal = data.Tasks;
                                 $scope.tasksCount = data.Tasks.length;
-
                             }
                             else {
                                 angular.forEach(data.Tasks, function (value, index) {
@@ -260,8 +258,12 @@
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
-
+            //else {
+            //    $("#divManagerEmailId" + index).removeClass("invalid");
+            //}
             else {
+                //checking email validation
+                //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
                 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
                 if (!re.test($("#txtManagerEmailId" + index).val())) {
                     $("#divManagerEmailId" + index).addClass("invalid");
@@ -300,8 +302,7 @@
                     data: {
                         taskId: task.Id,
                         emailAddress: managerEmailAddress,
-                        statementOfPurpose: statementOfPurpose,
-                        proficiency: task.SelectedProficiencyType
+                        statementOfPurpose: statementOfPurpose
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -319,6 +320,7 @@
                             $scope.divVisibiltyModel.showSuccess = true;
                             $scope.divVisibiltyModel.showSummary = false;
                             $scope.refreshTasks();
+                            //$location.hash('divCongrats');
                             $('#divCongrats').modal('show');
                         }
                     }
@@ -327,6 +329,41 @@
                 });
             }
         }
+
+        //Summary
+        //Function is used to indentify if the logged in user has accces to any ODC.
+        $scope.checkODCAccess = function () {
+            $rootScope.$watch('userContext', function () {
+                if ($rootScope.userContext != null) {
+                    $scope.accessibleODCId = $rootScope.userContext.AccessibleODCId;
+                    $scope.hasODCAccess = $rootScope.userContext.HasODCAccess;
+                }
+                $scope.divVisibiltyModel.showCreateODCTask = $scope.hasODCAccess;
+                $scope.getODCList();
+            });
+        }
+
+        //Summary
+        //Get the available ODCList.
+        $scope.getODCList = function () {
+            $http({
+                url: "/Common/GetODCList",
+                method: "GET"
+            }).success(function (data, status, config) {
+                if (data != null) {
+                    $scope.ODCList = data.ODCList;
+                    for (var i = 0; i < data.ODCList.length; i++) {
+                        if (data.ODCList[i].OfferingId == $scope.accessibleODCId) {
+                            $scope.accessibleODCName = data.ODCList[i].Name;
+                        }
+                    }
+                    console.log(data);
+                }
+            }).error(function (error) {
+                $scope.ODCList = [];
+            });
+        }
+
 
         $scope.applyFITask = function (task) {
             var userEmail = "";
@@ -339,8 +376,7 @@
                     method: "POST",
                     data: {
                         taskId: task.Id,
-                        requestor: task.RequestorEmailId,
-                        proficiency: task.SelectedProficiencyType
+                        requestor: task.RequestorEmailId
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -358,6 +394,7 @@
                             $scope.divVisibiltyModel.showSuccess = true;
                             $scope.divVisibiltyModel.showSummary = false;
                             $scope.refreshTasks();
+                            //$location.hash('divCongrats');
                             $('#divCongrats').modal('show');
                         }
                     }
@@ -377,8 +414,10 @@
         $scope.onLoad = function () {
             //$scope.getTasks();
             //$scope.getAssignedTasks();
+            $scope.checkODCAccess();
         }
         $scope.onLoad();
+
 
         $scope.CloseModal = function () {
             $('#divCongrats').modal('toggle');

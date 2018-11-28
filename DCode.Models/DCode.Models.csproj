@@ -81,6 +81,7 @@
     <Compile Include="ResponseModels\Common\PortfolioOffering.cs" />
     <Compile Include="ResponseModels\Common\ServiceLine.cs" />
     <Compile Include="ResponseModels\Common\Skill.cs" />
+    <Compile Include="ResponseModels\Common\SubOffering.cs" />
     <Compile Include="ResponseModels\Common\TaskType.cs" />
     <Compile Include="ResponseModels\Common\UserPoints.cs" />
     <Compile Include="ResponseModels\Contributor\ApprovedContributor.cs" />

@@ -168,6 +168,9 @@
     <Compile Include="DbContexts\skill.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\suboffering.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContexts\suggestion.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
@@ -204,6 +207,8 @@
     <Compile Include="EmailRepository\IEmailRepository.cs" />
     <Compile Include="LogRepository\ILogRepository.cs" />
     <Compile Include="LogRepository\LogRepository.cs" />
+    <Compile Include="MetadataRepository\ISubOfferingRepository.cs" />
+    <Compile Include="MetadataRepository\SubOfferingRepository.cs" />
     <Compile Include="MetadataRepository\UserPointsRepository.cs" />
     <Compile Include="MetadataRepository\IUserPointsRepository.cs" />
     <Compile Include="MetadataRepository\IApprovedApplicantRepository.cs" />

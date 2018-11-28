@@ -26,6 +26,13 @@
                             <select style="border-radius: 4px;" class="form-control" id="ddlOfferings" ng-if="taskSearch.selectedTaskType!=3" ng-model="taskSearch.searchFilter" ng-options="filter.Id as filter.Description for filter in searchFilters" ng-change="refreshTasksBasedonInput()"></select>
                         </div>
                     </div>
+                    <!--ADDED CHECKBOX FOR SHOW ONLY ODC TASKS-->
+                    <div class="new-style-DTM-div-33" ng-show="hasODCAccess">
+                        <div class="input-group new-push-to-left" style="padding-top:8px;">
+                            <input type="checkbox" id="checkboxODCTask" ng-model="showOnlyODCTask" class="form-control ODCCheckBox" ng-change="refreshTasksBasedonInput()"><label class="ODCCheckBoxLabel">Show Only ODC Tasks</label>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
                 </div>
                 <div style="clear:both"></div>
 
@@ -39,7 +46,7 @@
             <div class="background-color-ecf0f1" infinite-scroll='getTasks()' infinite-scroll-distance='0'
                  infinite-scroll-container="'#contTaskAppDiv'">
                 <div class="project-details" ng-repeat="task in tasks track by $index">
-                    <div class="new-style-DTM-padding-no-bottom-20" id="div{{$index}}">
+                    <div ng-class="task.isODCTask ? 'new-style-ODC-DTM-padding-no-bottom-20':'new-style-DTM-padding-no-bottom-20'" id="div{{$index}}">
                         <div>
                             <div class="project-title new-style-DTM-div-75">
                                 <span class="heading">{{task.ProjectName}}</span><span class="postedBy"> posted by </span> <span class="heading">{{task.FullName}}</span>
@@ -78,8 +85,13 @@
                             <div>&nbsp;</div>
                             <div style="clear:both;"></div>
                             <div>
-                                <div class="new-style-DTM-div-75">
+                                <div class="new-style-DTM-div-25">
                                     <p class="project-desc"><b>Task Description : </b>{{task.Details}}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="new-style-DTM-div-25">
+                                    <p class="project-desc"><b>Offering : </b>{{task.Offering}}</p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -87,7 +99,7 @@
                                 <div class="new-style-DTM-div-33" style="margin-left:45%;">
                                     <div class="new-span-width-span" style="padding-top: 8px;width:35%;"><span>Current Proficiency:&nbsp; </span></div>
                                     <div class="input-group new-span-width-select">
-                                        <select class="form-control" style="border-radius: 4px;" id="ddlProfType" ng-model="task.SelectedProficiencyType" ng-options="filter.Id as filter.Description for filter in SelectedProficiencyType"  ng-disabled="task.IsApplied"></select>
+                                        <select class="form-control" style="border-radius: 4px;" id="ddlProfType" ng-model="task.SelectedProficiencyType" ng-options="filter.Id as filter.Description for filter in SelectedProficiencyType" ng-disabled="task.IsApplied"></select>
                                         <div class="gray-text">Select your proficiency</div>
                                     </div>
                                     <div style="clear: both;"></div>

@@ -264,5 +264,25 @@ namespace DCode.Web.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// Get all the subofferings by offeringId
+        /// </summary>
+        /// <param name="offeringId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetAllSubOfferings(int offeringId)
+        {
+            return Json(_commonService.GetSubOfferings(offeringId), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Get all the ODC list
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetODCList()
+        {
+            return Json(ODCReferenceService.GetExistingODCList(Server.MapPath("~/" + Constants.ODCPath)), JsonRequestBehavior.AllowGet);
+        }
     }
 }

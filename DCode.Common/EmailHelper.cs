@@ -53,6 +53,7 @@ namespace DCode.Common
 
                     SmtpServer.Port = 25;
                     SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
+                    SmtpServer.UseDefaultCredentials = true;
                     SmtpServer.Send(mailMessage);
                 }
             }
@@ -155,16 +156,24 @@ namespace DCode.Common
             }
         }
 
-        public static MailMessage PostNewFINotification(string taskName, string hours, string description, string startDateTime, string ccMailAddress, List<string> bccMailAddress, string offering)
+        public static MailMessage PostNewFINotification(string taskName, string hours, string description, string startDateTime, string ccMailAddress, List<string> bccMailAddress, string offering, string odcMailFooterText, string odcMailHeaderImage)
         {
-            var htmlBody = GetEmail(PathGeneratorType.Server);
+            var htmlBody = GetEmail(PathGeneratorType.Server, odcMailHeaderImage);
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
             inlineDeloitteLogo.ContentId = Guid.NewGuid().ToString();
             using (var mailMessage = new MailMessage())
             {
                 mailMessage.Subject = string.Format(Constants.DCodeNewFINotification, taskName);
                 mailMessage.IsBodyHtml = true;
-                var textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering);
+                var textBody = string.Empty;
+                if (!string.IsNullOrEmpty(odcMailFooterText) && !string.IsNullOrEmpty(odcMailHeaderImage))
+                {
+                    textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering, odcMailFooterText);
+                }
+                else
+                {
+                    textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering, Constants.TeamTechX);
+                }
                 mailMessage.Body = string.Format(htmlBody, "All", textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
                 using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
                 {
@@ -202,7 +211,13 @@ namespace DCode.Common
             }
         }
 
-        public static string GetEmail(PathGeneratorType generator)
+        /// <summary>
+        /// Get the EMail body
+        /// </summary>
+        /// <param name="generator"></param>
+        /// <param name="odcMailHeaderImage"> Optional Parameter : ODC Specific Image is present, included</param>
+        /// <returns></returns>
+        public static string GetEmail(PathGeneratorType generator, string odcMailHeaderImage = null)
         {
             var pathGeneratorFactory = new AssetPathGeneratorFactory();
 
@@ -210,7 +225,14 @@ namespace DCode.Common
 
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
-            inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath));
+            if (string.IsNullOrEmpty(odcMailHeaderImage))
+            {
+                inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath));
+            }
+            else
+            {
+                inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(odcMailHeaderImage));
+            }
 
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
 

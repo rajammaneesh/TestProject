@@ -39,6 +39,7 @@ namespace DCode.Services.Task
         public int UpsertTask(TaskRequest taskRequest)
         {
             var result = 0;
+            var isODCTask = false;
             if (taskRequest.ActionType == ActionType.Insert)
             {
                 taskRequest.WBSCode = string.IsNullOrWhiteSpace(taskRequest.WBSCode)
@@ -80,10 +81,29 @@ namespace DCode.Services.Task
                     && result == 2)
                 {
                     var currentUser = _commonService.GetCurrentUserContext();
+                    var offeringRecipients = new List<string>();
 
-                    var offeringRecipients = _commonService.GetFINotificationRecipientsForOffering(
-                        Convert.ToInt32(taskRequest.SelectedOffering));
-
+                    var odcMailFooterText = string.Empty;
+                    var odcMailHeaderImage = string.Empty;
+                    
+                    //If  the task is created for a sub offering, then fethc the maill list for the selected sub offering id
+                    if (!string.IsNullOrEmpty(taskRequest.SelectedSubOffering) && Convert.ToInt32(taskRequest.SelectedSubOffering) > 0)
+                    {
+                        offeringRecipients = _commonService.GetFINotificationRecipientsForSubOffering(
+                        Convert.ToInt32(taskRequest.SelectedSubOffering));
+                        isODCTask = true;
+                        var odc = ODCReferenceService.GetExistingODCByOfferingId(AppDomain.CurrentDomain.BaseDirectory + Constants.ODCPath, taskRequest.SelectedOffering);
+                        if (odc != null)
+                        {
+                            odcMailFooterText = odc.MailFooterText;
+                            odcMailHeaderImage = odc.MailHeaderImage;
+                        }
+                    }
+                    else
+                    {
+                        offeringRecipients = _commonService.GetFINotificationRecipientsForOffering(
+                           Convert.ToInt32(taskRequest.SelectedOffering));
+                    }
                     offeringRecipients = offeringRecipients != null && offeringRecipients.Any()
                         ? offeringRecipients
                         : _commonService.GetDefaultConsultingMailboxes();
@@ -99,7 +119,7 @@ namespace DCode.Services.Task
                         taskRequest.OnBoardingDate,
                         currentUser.EmailId,
                        offeringRecipients,
-                       offering);
+                       offering, odcMailFooterText, odcMailHeaderImage);
                     var emailTracker = new EmailTracker
                     {
                         ToAddresses = ConfigurationManager.AppSettings["DcodeEmailId"],
