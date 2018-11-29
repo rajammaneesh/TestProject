@@ -499,11 +499,16 @@
         $scope.test = function () {
             console.log($scope.taskRequest.DueDate);
         };
+        //Summary
+        //This function is responsible to load either the deloitte TechX fields or the ODC fields
         $scope.showDetailsDiv = function (hasODCAccess) {
             $scope.divVisibiltyModel.showDetails = true;
             $scope.hasODCAccess = hasODCAccess;
             if (hasODCAccess) {
                 $scope.filterTaskTypesByODC();
+            } else {
+                $scope.getAllTaskTypes();
+                $rootScope.logoImageName = "tech-x-logo.png";
             }
             $scope.divVisibiltyModel.showCreate = false;
             $scope.divVisibiltyModel.showSummary = false;
@@ -879,13 +884,14 @@
                 if ($rootScope.userContext != null) {
                     $scope.accessibleODCId = $rootScope.userContext.AccessibleODCId;
                     $scope.hasODCAccess = $rootScope.userContext.HasODCAccess;
+                    $scope.divVisibiltyModel.showCreateODCTask = $scope.hasODCAccess;
+                    $scope.showTaskCardsOrTaskDetails();
                 }
-                $scope.divVisibiltyModel.showCreateODCTask = $scope.hasODCAccess;
-                $scope.showTaskCardsOrTaskDetails();
             });
         }
 
         $scope.showTaskCardsOrTaskDetails = function () {
+            $rootScope.logoImageName = "tech-x-logo.png"; //By deafult show the regular logo
             if ($scope.hasODCAccess) {
                 $scope.getODCListAndShowCards();
             } else {
