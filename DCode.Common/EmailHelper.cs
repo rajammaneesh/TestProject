@@ -53,7 +53,6 @@ namespace DCode.Common
 
                     SmtpServer.Port = 25;
                     SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings[Constants.DcodeEmailId], ConfigurationManager.AppSettings[Constants.DcodeEmailPwd]);
-                    SmtpServer.UseDefaultCredentials = true;
                     SmtpServer.Send(mailMessage);
                 }
             }
