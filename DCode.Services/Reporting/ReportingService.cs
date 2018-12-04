@@ -95,7 +95,7 @@ namespace DCode.Services.Reporting
 
         public void UpdateDailySiteVisitCount()
         {
-            //_dailyUsageStatisticsRepository.UpsertDailyStatistics();
+            _dailyUsageStatisticsRepository.UpsertDailyStatistics();
         }
 
         public DatabaseTable ExecuteDbQuery(string query)

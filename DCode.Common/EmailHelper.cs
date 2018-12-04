@@ -165,14 +165,9 @@ namespace DCode.Common
                 mailMessage.Subject = string.Format(Constants.DCodeNewFINotification, taskName);
                 mailMessage.IsBodyHtml = true;
                 var textBody = string.Empty;
-                if (!string.IsNullOrEmpty(odcMailFooterText) && !string.IsNullOrEmpty(odcMailHeaderImage))
-                {
-                    textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering, odcMailFooterText);
-                }
-                else
-                {
-                    textBody = string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering, Constants.TeamTechX);
-                }
+                textBody = !string.IsNullOrEmpty(odcMailFooterText) && !string.IsNullOrEmpty(odcMailHeaderImage)
+                    ? string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering, odcMailFooterText)
+                    : string.Format(Constants.PostNewFIBody, taskName, hours, startDateTime, description, offering, Constants.TeamTechX);
                 mailMessage.Body = string.Format(htmlBody, "All", textBody, inlineDeloitteLogo.ContentId, inlineDCodeLogo.ContentId);
                 using (var view = AlternateView.CreateAlternateViewFromString(mailMessage.Body, null, Constants.TextOrHtmlFormat))
                 {
@@ -224,14 +219,9 @@ namespace DCode.Common
 
             string htmlBody = File.ReadAllText(pathGenerator.GeneratePath(Constants.EmailTemplatePath));
 
-            if (string.IsNullOrEmpty(odcMailHeaderImage))
-            {
-                inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath));
-            }
-            else
-            {
-                inlineDCodeLogo = new LinkedResource(pathGenerator.GeneratePath(odcMailHeaderImage));
-            }
+            inlineDCodeLogo = string.IsNullOrEmpty(odcMailHeaderImage)
+                ? new LinkedResource(pathGenerator.GeneratePath(Constants.DCodeLogoPath))
+                : new LinkedResource(pathGenerator.GeneratePath(odcMailHeaderImage));
 
             inlineDCodeLogo.ContentId = Guid.NewGuid().ToString();
 

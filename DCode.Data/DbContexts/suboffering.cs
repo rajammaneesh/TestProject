@@ -11,10 +11,15 @@ namespace DCode.Data.DbContexts
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
+    
     public partial class suboffering
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public suboffering()
+        {
+            this.task_suboffering_map = new HashSet<task_suboffering_map>();
+        }
+    
         public int ID { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
@@ -22,20 +27,7 @@ namespace DCode.Data.DbContexts
         public string Practice_Email_Group { get; set; }
     
         public virtual offering offering { get; set; }
-
-        public List<string> GetRmEmailsAsList()
-        {
-            return SplitEmailsToList(Practice_Email_Group);
-        }
-
-        public List<string> GetPracticeEmailGroupsAsList()
-        {
-            return SplitEmailsToList(Practice_Email_Group);
-        }
-
-        private List<string> SplitEmailsToList(string emailString)
-        {
-            return emailString?.Split(';')?.ToList();
-        }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<task_suboffering_map> task_suboffering_map { get; set; }
     }
 }

@@ -977,7 +977,6 @@
                             break;
                         }
                     }
-                    console.log(data);
                 }
             }).error(function (error) {
                 $scope.ODCList = [];

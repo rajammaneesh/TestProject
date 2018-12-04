@@ -67,6 +67,8 @@
     <Compile Include="Email\Notification.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Management\IDataManagement.cs" />
+    <Compile Include="ODC\ExistingODCList.cs" />
+    <Compile Include="ODC\ODC.cs" />
     <Compile Include="Reporting\IReportingExecutor.cs" />
     <Compile Include="RequestModels\ApplicantRequest.cs" />
     <Compile Include="RequestModels\ApproveTaskRequest.cs" />

@@ -73,9 +73,24 @@ namespace DCode.Services.ModelFactory
                 task.TaskName = input.TASK_NAME;
                 task.Offering = input.offering?.Description;
                 task.OfferingId = Convert.ToString(input.OFFERING_ID);
-                task.SubOfferingId = Convert.ToString(input.SUB_OFFERING_ID);
+                task.SubOfferingId = Convert.ToString(GetOfferingIdFromTaskSubofferingId(input.task_suboffering_map));
             }
             return task;
+        }
+
+        /// <summary>
+        /// Get the sub offering Id from task_suboffering_map
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        private int GetOfferingIdFromTaskSubofferingId(ICollection<task_suboffering_map> collection)
+        {
+            int? subOfferingId = 0;
+            foreach(var mapItem in collection)
+            {
+                subOfferingId = mapItem.SUB_OFFERING_ID;
+            }
+            return subOfferingId.Value;
         }
 
         private string ConvertTaskSkillsToString(ICollection<taskskill> collection)
@@ -133,7 +148,6 @@ namespace DCode.Services.ModelFactory
                 dbTask.TASK_TYPE_ID = Convert.ToInt32(modelTask.SelectedTaskType);
                 dbTask.SERVICE_LINE_ID = 1; //Dummy value, to suppress foreign key excption. Need to be removed once schema updated
                 dbTask.OFFERING_ID = Convert.ToInt32(modelTask.SelectedOffering);
-                dbTask.SUB_OFFERING_ID = Convert.ToInt32(modelTask.SelectedSubOffering);
 
                 if (Convert.ToDateTime(modelTask.DueDate) < DateTime.Today)
                 {
@@ -186,5 +200,6 @@ namespace DCode.Services.ModelFactory
             }
             return modelList as IEnumerable<TModel>;
         }
+
     }
 }

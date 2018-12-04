@@ -4,6 +4,7 @@ using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
 using static DCode.Models.Enums.Enums;
+using System.Linq;
 
 namespace DCode.Services.ModelFactory
 {
@@ -45,8 +46,12 @@ namespace DCode.Services.ModelFactory
             task.Hours = input.task.HOURS;
             task.Offering = input.task.offering.Code;
             task.OfferingId = Convert.ToString(input.task.offering.Id);
-            task.SubOfferingId = Convert.ToString(input.task.SUB_OFFERING_ID);
 
+            //Load the subofferingId only if mapping has an entry
+            if (input.task.task_suboffering_map.Any())
+            {
+                task.SubOfferingId = Convert.ToString(input.task.task_suboffering_map.FirstOrDefault().SUB_OFFERING_ID);
+            }
             return task;
         }
 

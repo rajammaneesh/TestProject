@@ -104,6 +104,7 @@ namespace DCode.Web.App_Start
             kernel.Bind<IEmailRepository>().To<EmailRepository>();
             kernel.Bind<IProficiencyRepository>().To<ProficiencyRepository>();
             kernel.Bind<ISubOfferingRepository>().To<SubOfferingRepository>();
+            kernel.Bind<IODCService>().To<ODCService>();
         }
 
     }

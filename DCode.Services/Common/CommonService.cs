@@ -50,6 +50,7 @@ namespace DCode.Services.Common
         private IUserPointsRepository _userPointsRepository;
         private ISubOfferingRepository _subOfferingRepository;
         private SubOfferingModelFactory _subOfferingModelFactory;
+        private IODCService _odcService;
 
 
         public CommonService(ITaskRepository taskRepository, UserContext userContext, ILogRepository logRepository,
@@ -59,7 +60,7 @@ namespace DCode.Services.Common
             IServiceLineRepository serviceLineRepository, ServiceLineModelFactory serviceLineModelFactory,
             ITaskTypeRepository taskTypeRepository, TaskTypeModelFactory taskTypeModelFactory, OfferingModelFactory offeringModelFactory, UserPointsModelFactory userPointsModelFactory,
             ApprovedApplicantModelFactory approvedApplicantModelFactory, PortfolioModelFactory portfolioModelFactory, IOfferingRepository offeringRepository,
-            IApprovedApplicantRepository approvedApplicantRepository, IPortfolioRepository portfolioRepository, IUserPointsRepository userPointsRepository, SubOfferingModelFactory subOfferingModelFactory, ISubOfferingRepository subOfferingRepository)
+            IApprovedApplicantRepository approvedApplicantRepository, IPortfolioRepository portfolioRepository, IUserPointsRepository userPointsRepository, SubOfferingModelFactory subOfferingModelFactory, ISubOfferingRepository subOfferingRepository, IODCService odcService)
         {
             _taskRepository = taskRepository;
             _logModelFactory = logModelFactory;
@@ -85,6 +86,7 @@ namespace DCode.Services.Common
             _userPointsRepository = userPointsRepository;
             _subOfferingRepository = subOfferingRepository; _approvedApplicantRepository = approvedApplicantRepository;
             _subOfferingModelFactory = subOfferingModelFactory;
+            _odcService = odcService;
         }
 
         public UserContext GetCurrentUserContext(string userName = null)
@@ -324,7 +326,7 @@ namespace DCode.Services.Common
                 _userContext.UserId = dbUserres.ID;
                 _userContext.OfferingId = dbUserres.OFFERING_ID;
             }
-            ValidateAndSetODCAccess(_userContext);
+            _odcService.SetODCAccess(_userContext);
         }
 
         private LocationEnum? MapLocation(string locationName)
@@ -735,7 +737,7 @@ namespace DCode.Services.Common
         {
             var subofferings = _subOfferingRepository.GetSubOfferingById(subofferingId);
 
-            return subofferings?.GetPracticeEmailGroupsAsList();
+            return subofferings?.Practice_Email_Group.Split(';').ToList();
         }
 
         public List<string> GetDefaultConsultingMailboxes()
@@ -947,42 +949,7 @@ namespace DCode.Services.Common
             return null;
         }
 
-        /// <summary>
-        /// This method is responsible to indentify if the user is part of any specific ODC's distribution list.
-        /// If yes he will have access to additional feature specific to that ODC
-        /// </summary>
-        /// <returns></returns>
-        private void ValidateAndSetODCAccess(UserContext _userContext)
-        {
-            _userContext.AccessibleODCId = 0;
-            var odcList = ODCReferenceService.GetExistingODCList(AppDomain.CurrentDomain.BaseDirectory + Constants.ODCPath);
-            var appOutlook = new Outlook.Application();
-            var recepient = appOutlook.Session.CreateRecipient(_userContext.EmailId);
-            recepient.Resolve();
-
-            Outlook.AddressEntry addrEntry = recepient.AddressEntry;
-            if (addrEntry.Type == "EX" && odcList != null && odcList.ODCList.Any())
-            {
-                Outlook.ExchangeUser exchUser = addrEntry.GetExchangeUser();
-                Outlook.AddressEntries addrEntries = exchUser.GetMemberOfList();
-                if (addrEntries != null)
-                {
-                    foreach (Outlook.AddressEntry exaddrEntry in addrEntries)
-                    {
-                        var name = exaddrEntry.Name.ToString();
-                        foreach (var odc in odcList.ODCList)
-                        {
-                            if (odc.DistributionList.Split(new char[] { ',' }).Contains(name))
-                            {
-                                _userContext.AccessibleODCId = Convert.ToInt32(odc.OfferingId);
-                                _userContext.HasODCAccess = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        
 
         /// <summary>
         /// This method is used to get all the sub offering details by offering Id

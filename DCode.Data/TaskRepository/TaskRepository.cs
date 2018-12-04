@@ -20,12 +20,23 @@ namespace DCode.Data.TaskRepository
             _context = context;
         }
 
-        public int InsertTask(task task, IEnumerable<taskskill> taskSkills)
+        /// <summary>
+        /// This method is used to insert a task with skills and suboffering map
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="taskSkills"></param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        public int InsertTask(task task, IEnumerable<taskskill> taskSkills, task_suboffering_map map)
         {
             var insertedTask = Context.Set<task>().Add(task);
             foreach (var skill in taskSkills)
             {
                 Context.Set<taskskill>().Add(skill);
+            }
+            if (map != null)
+            {
+                Context.Set<task_suboffering_map>().Add(map);
             }
             return Context.SaveChanges();
         }

@@ -84,9 +84,7 @@
                 $scope.divVisibiltyModel.showSummary = true;
                 $scope.divVisibiltyModel.showSuccess = false;
                 $scope.reviewIndex = index;
-                //document.getElementById('divManagerEmailId' + index).get(0).focus();
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-                //$location.hash('div' + index);
             }
             else if (task.TypeId >= 2) {
                 $scope.reviewIndex = index;
@@ -99,9 +97,7 @@
             $scope.divVisibiltyModel.showSummary = true;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
-            //document.getElementById('divManagerEmailId' + index).get(0).focus();
             setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
-            //$location.hash('div' + index);
         }
 
         $scope.isShowingReview = function (index) {
@@ -109,13 +105,10 @@
         };
 
         $scope.filterTasks = function () {
-            //var searchOptions1 = { ProjectName: "" };
             var searchOptions2 = { Task: { ProjectName: null } };
             if ($scope.searchBox != null) {
-                //searchOptions1.ProjectName = $scope.searchBox.text;
                 searchOptions2.Task.ProjectName = $scope.searchBox.text;
             }
-            //$scope.tasks = $filter('filter')(angular.copy($scope.tasksGlobal), searchOptions1);
             $scope.assignedTasks = $filter('filter')(angular.copy($scope.assignedTasksGlobal), searchOptions2);
         };
         $scope.reinitialiseAssignedTasksVariables = function () {
@@ -213,11 +206,8 @@
                                         value.isODCTask = true;
                                         tempArray.push(value);
                                     }
-                                } else if (!$scope.showOnlyODCTask && $scope.showOnlyODCTask != undefined) //--chararora@deloitte.com, to check the value of the checkbox
-                                {
-
+                                } else if (!$scope.showOnlyODCTask && $scope.showOnlyODCTask != undefined) {//to check the value of the checkbox
                                     tempArray.push(value);
-
                                 }
                             });
 
@@ -357,7 +347,6 @@
                             $scope.accessibleODCName = data.ODCList[i].Name;
                         }
                     }
-                    console.log(data);
                 }
             }).error(function (error) {
                 $scope.ODCList = [];

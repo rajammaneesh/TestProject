@@ -20,6 +20,7 @@ namespace DCode.Data.DbContexts
             this.approvedapplicants = new HashSet<approvedapplicant>();
             this.taskskills = new HashSet<taskskill>();
             this.taskapplicants = new HashSet<taskapplicant>();
+            this.task_suboffering_map = new HashSet<task_suboffering_map>();
         }
     
         public int ID { get; set; }
@@ -43,7 +44,6 @@ namespace DCode.Data.DbContexts
         public Nullable<System.DateTime> CREATED_ON { get; set; }
         public string UPDATED_BY { get; set; }
         public Nullable<System.DateTime> UPDATED_ON { get; set; }
-        public Nullable<int> SUB_OFFERING_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<approvedapplicant> approvedapplicants { get; set; }
@@ -55,7 +55,7 @@ namespace DCode.Data.DbContexts
         public virtual ICollection<taskskill> taskskills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<taskapplicant> taskapplicants { get; set; }
-
-        //public virtual suboffering suboffering { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<task_suboffering_map> task_suboffering_map { get; set; }
     }
 }

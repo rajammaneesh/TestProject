@@ -49,6 +49,7 @@ namespace DCode.Data.DbContexts
         public virtual DbSet<proficiency> proficiencies { get; set; }
         public virtual DbSet<taskapplicant> taskapplicants { get; set; }
         public virtual DbSet<suboffering> subofferings { get; set; }
+        public virtual DbSet<task_suboffering_map> task_suboffering_map { get; set; }
     
         public virtual ObjectResult<elmah_GetErrorsXml_Result> elmah_GetErrorsXml(string app, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

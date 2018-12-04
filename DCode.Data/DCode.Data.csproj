@@ -184,6 +184,9 @@
     <Compile Include="DbContexts\taskskill.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbContexts\task_suboffering_map.cs">
+      <DependentUpon>DCodeDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbContexts\task_type.cs">
       <DependentUpon>DCodeDbContext.tt</DependentUpon>
     </Compile>
