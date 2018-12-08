@@ -54,5 +54,9 @@ namespace DCode.Services.Common
         string GetRequestorEvents();
 
         void UpdatingWorkLocationOfExisitingUsers();
+
+        IEnumerable<SubOffering> GetSubOfferings(int offeringId);
+
+        List<string> GetFINotificationRecipientsForSubOffering(int subOfferigId);
     }
 }

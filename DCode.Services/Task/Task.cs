@@ -22,11 +22,13 @@ namespace DCode.Services.Task
         private TaskModelFactory _taskModelFactory;
         private TaskSkillModelFactory _taskSkillModelFactory;
         private SkillModelFactory _skillModelFactory;
+        private TaskSubOfferingMapModelFactory _taskSubOfferingMapModelFactory;
 
         private ICommonService _commonService;
         private IEmailTrackerService _emailTrackerService;
+        private IODCService _odcService;
 
-        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService, IEmailTrackerService emailTrackerService)
+        public Task(ITaskRepository taskRepository, TaskModelFactory taskModelFactory, TaskSkillModelFactory taskSkillModelFactory, SkillModelFactory skillModelFactory, ICommonService commonService, IEmailTrackerService emailTrackerService, TaskSubOfferingMapModelFactory taskSubOfferingMapModelFactory, IODCService odcService)
         {
             _taskRepository = taskRepository;
             _taskModelFactory = taskModelFactory;
@@ -34,11 +36,14 @@ namespace DCode.Services.Task
             _skillModelFactory = skillModelFactory;
             _commonService = commonService;
             _emailTrackerService = emailTrackerService;
+            _taskSubOfferingMapModelFactory = taskSubOfferingMapModelFactory;
+            _odcService = odcService;
         }
 
         public int UpsertTask(TaskRequest taskRequest)
         {
             var result = 0;
+            var isODCTask = false;
             if (taskRequest.ActionType == ActionType.Insert)
             {
                 taskRequest.WBSCode = string.IsNullOrWhiteSpace(taskRequest.WBSCode)
@@ -74,16 +79,43 @@ namespace DCode.Services.Task
                 {
                     MapAuditFields<taskskill>(ActionType.Insert, dbTaskSkill);
                 }
-                result = _taskRepository.InsertTask(dbTask, dbTaskSkills);
+
+                //Get the model for Task_suboffering map
+                var subOfferingMap = _taskSubOfferingMapModelFactory.CreateModel<task_suboffering_map>(taskRequest.SelectedSubOffering);
+                if (subOfferingMap != null)
+                {
+                    MapAuditFields<task_suboffering_map>(ActionType.Insert, subOfferingMap);
+                }
+
+                result = _taskRepository.InsertTask(dbTask, dbTaskSkills, subOfferingMap);
 
                 if (taskRequest.SelectedTaskType == "2"
                     && result == 2)
                 {
                     var currentUser = _commonService.GetCurrentUserContext();
+                    var offeringRecipients = new List<string>();
 
-                    var offeringRecipients = _commonService.GetFINotificationRecipientsForOffering(
-                        Convert.ToInt32(taskRequest.SelectedOffering));
+                    var odcMailFooterText = string.Empty;
+                    var odcMailHeaderImage = string.Empty;
 
+                    //If  the task is created for a sub offering, then fethc the maill list for the selected sub offering id
+                    if (!string.IsNullOrEmpty(taskRequest.SelectedSubOffering) && Convert.ToInt32(taskRequest.SelectedSubOffering) > 0)
+                    {
+                        offeringRecipients = _commonService.GetFINotificationRecipientsForSubOffering(
+                        Convert.ToInt32(taskRequest.SelectedSubOffering));
+                        isODCTask = true;
+                        var odc = _odcService.GetExistingODCByOfferingId(AppDomain.CurrentDomain.BaseDirectory + Constants.ODCPath, taskRequest.SelectedOffering);
+                        if (odc != null)
+                        {
+                            odcMailFooterText = odc.MailFooterText;
+                            odcMailHeaderImage = odc.MailHeaderImage;
+                        }
+                    }
+                    else
+                    {
+                        offeringRecipients = _commonService.GetFINotificationRecipientsForOffering(
+                           Convert.ToInt32(taskRequest.SelectedOffering));
+                    }
                     offeringRecipients = offeringRecipients != null && offeringRecipients.Any()
                         ? offeringRecipients
                         : _commonService.GetDefaultConsultingMailboxes();
@@ -99,7 +131,7 @@ namespace DCode.Services.Task
                         taskRequest.OnBoardingDate,
                         currentUser.EmailId,
                        offeringRecipients,
-                       offering);
+                       offering, odcMailFooterText, odcMailHeaderImage);
                     var emailTracker = new EmailTracker
                     {
                         ToAddresses = ConfigurationManager.AppSettings["DcodeEmailId"],

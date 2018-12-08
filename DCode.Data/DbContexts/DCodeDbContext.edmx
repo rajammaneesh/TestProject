@@ -147,6 +147,16 @@
           <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
           <Property Name="UPDATED_ON" Type="datetime" Precision="0" />
         </EntityType>
+        <EntityType Name="subofferings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="OfferingsId" Type="int" Nullable="false" />
+          <Property Name="Practice_Email_Group" Type="longtext" />
+        </EntityType>
         <EntityType Name="suggestion">
           <Key>
             <PropertyRef Name="Id" />
@@ -155,6 +165,18 @@
           <Property Name="description" Type="varchar" MaxLength="255" />
           <Property Name="details" Type="varchar" MaxLength="255" />
           <Property Name="user" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="task_suboffering_map">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TASK_ID" Type="int" Nullable="false" />
+          <Property Name="SUB_OFFERING_ID" Type="int" Nullable="false" />
+          <Property Name="CREATED_BY" Type="varchar" MaxLength="100" />
+          <Property Name="CREATED_ON" Type="datetime" Precision="0" />
+          <Property Name="UPDATED_BY" Type="varchar" MaxLength="100" />
+          <Property Name="UPDATED_ON" Type="datetime" Precision="0" />
         </EntityType>
         <EntityType Name="task_type">
           <Key>
@@ -372,6 +394,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SubofferingId_task_suboffering_map">
+          <End Role="subofferings" Type="Self.subofferings" Multiplicity="1" />
+          <End Role="task_suboffering_map" Type="Self.task_suboffering_map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subofferings">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="task_suboffering_map">
+              <PropertyRef Name="SUB_OFFERING_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_task_suboffering_map">
+          <End Role="tasks" Type="Self.tasks" Multiplicity="1" />
+          <End Role="task_suboffering_map" Type="Self.task_suboffering_map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="task_suboffering_map">
+              <PropertyRef Name="TASK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TaskType">
           <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
           <End Role="portfolio_tasktype" Type="Self.portfolio_tasktype" Multiplicity="*" />
@@ -419,6 +465,18 @@
             </Principal>
             <Dependent Role="users">
               <PropertyRef Name="OFFERING_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Offering_suboffering_fk">
+          <End Role="offerings" Type="Self.offerings" Multiplicity="1" />
+          <End Role="subofferings" Type="Self.subofferings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offerings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="subofferings">
+              <PropertyRef Name="OfferingsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -544,7 +602,9 @@
           <EntitySet Name="proficiency" EntityType="Self.proficiency" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="service_line" EntityType="Self.service_line" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="skills" EntityType="Self.skills" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="subofferings" EntityType="Self.subofferings" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="suggestion" EntityType="Self.suggestion" Schema="dcode" store:Type="Tables" />
+          <EntitySet Name="task_suboffering_map" EntityType="Self.task_suboffering_map" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="task_type" EntityType="Self.task_type" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="taskapplicants" EntityType="Self.taskapplicants" Schema="dcode" store:Type="Tables" />
           <EntitySet Name="tasks" EntityType="Self.tasks" Schema="dcode" store:Type="Tables" />
@@ -585,6 +645,14 @@
             <End Role="user_role" EntitySet="user_role" />
             <End Role="user_points" EntitySet="user_points" />
           </AssociationSet>
+          <AssociationSet Name="FK_SubofferingId_task_suboffering_map" Association="Self.FK_SubofferingId_task_suboffering_map">
+            <End Role="subofferings" EntitySet="subofferings" />
+            <End Role="task_suboffering_map" EntitySet="task_suboffering_map" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_task_suboffering_map" Association="Self.FK_Task_task_suboffering_map">
+            <End Role="tasks" EntitySet="tasks" />
+            <End Role="task_suboffering_map" EntitySet="task_suboffering_map" />
+          </AssociationSet>
           <AssociationSet Name="FK_TaskType" Association="Self.FK_TaskType">
             <End Role="task_type" EntitySet="task_type" />
             <End Role="portfolio_tasktype" EntitySet="portfolio_tasktype" />
@@ -600,6 +668,10 @@
           <AssociationSet Name="fk_usr_off" Association="Self.fk_usr_off">
             <End Role="offerings" EntitySet="offerings" />
             <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="Offering_suboffering_fk" Association="Self.Offering_suboffering_fk">
+            <End Role="offerings" EntitySet="offerings" />
+            <End Role="subofferings" EntitySet="subofferings" />
           </AssociationSet>
           <AssociationSet Name="PORT_OFFR_FK" Association="Self.PORT_OFFR_FK">
             <End Role="portfolios" EntitySet="portfolios" />
@@ -762,6 +834,20 @@
             <End Role="task" EntitySet="tasks" />
             <End Role="taskapplicant" EntitySet="taskapplicants" />
           </AssociationSet>
+          <EntitySet Name="subofferings" EntityType="DCodeDbContext.suboffering" />
+          <AssociationSet Name="Offering_suboffering_fk" Association="DCodeDbContext.Offering_suboffering_fk">
+            <End Role="offering" EntitySet="offerings" />
+            <End Role="suboffering" EntitySet="subofferings" />
+          </AssociationSet>
+          <EntitySet Name="task_suboffering_map" EntityType="DCodeDbContext.task_suboffering_map" />
+          <AssociationSet Name="FK_SubofferingId_task_suboffering_map" Association="DCodeDbContext.FK_SubofferingId_task_suboffering_map">
+            <End Role="suboffering" EntitySet="subofferings" />
+            <End Role="task_suboffering_map" EntitySet="task_suboffering_map" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_task_suboffering_map" Association="DCodeDbContext.FK_Task_task_suboffering_map">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="task_suboffering_map" EntitySet="task_suboffering_map" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="elmah_GetErrorsXml_Result" />
         <EntityType Name="applicantskill">
@@ -869,6 +955,7 @@
           <NavigationProperty Name="users" Relationship="DCodeDbContext.fk_usr_off" FromRole="offering" ToRole="user" />
           <NavigationProperty Name="portfolio" Relationship="DCodeDbContext.PORT_OFFR_FK" FromRole="offering" ToRole="portfolio" />
           <NavigationProperty Name="tasks" Relationship="DCodeDbContext.tasks_ibfk_4" FromRole="offering" ToRole="task" />
+          <NavigationProperty Name="subofferings" Relationship="DCodeDbContext.Offering_suboffering_fk" FromRole="offering" ToRole="suboffering" />
         </EntityType>
         <EntityType Name="portfolio">
           <Key>
@@ -955,6 +1042,7 @@
           <NavigationProperty Name="user" Relationship="DCodeDbContext.tasks_ibfk_1" FromRole="task" ToRole="user" />
           <NavigationProperty Name="taskskills" Relationship="DCodeDbContext.taskskills_ibfk_1" FromRole="task" ToRole="taskskill" />
           <NavigationProperty Name="taskapplicants" Relationship="DCodeDbContext.taskapplicants_ibfk_2" FromRole="task" ToRole="taskapplicant" />
+          <NavigationProperty Name="task_suboffering_map" Relationship="DCodeDbContext.FK_Task_task_suboffering_map" FromRole="task" ToRole="task_suboffering_map" />
         </EntityType>
         <EntityType Name="taskskill">
           <Key>
@@ -1301,6 +1389,68 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="suboffering">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OfferingsId" Type="Int32" Nullable="false" />
+          <Property Name="Practice_Email_Group" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="offering" Relationship="DCodeDbContext.Offering_suboffering_fk" FromRole="suboffering" ToRole="offering" />
+          <NavigationProperty Name="task_suboffering_map" Relationship="DCodeDbContext.FK_SubofferingId_task_suboffering_map" FromRole="suboffering" ToRole="task_suboffering_map" />
+        </EntityType>
+        <Association Name="Offering_suboffering_fk">
+          <End Type="DCodeDbContext.offering" Role="offering" Multiplicity="1" />
+          <End Type="DCodeDbContext.suboffering" Role="suboffering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="offering">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="suboffering">
+              <PropertyRef Name="OfferingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="task_suboffering_map">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TASK_ID" Type="Int32" Nullable="false" />
+          <Property Name="SUB_OFFERING_ID" Type="Int32" Nullable="false" />
+          <Property Name="CREATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREATED_ON" Type="DateTime" />
+          <Property Name="UPDATED_BY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATED_ON" Type="DateTime" />
+          <NavigationProperty Name="suboffering" Relationship="DCodeDbContext.FK_SubofferingId_task_suboffering_map" FromRole="task_suboffering_map" ToRole="suboffering" />
+          <NavigationProperty Name="task" Relationship="DCodeDbContext.FK_Task_task_suboffering_map" FromRole="task_suboffering_map" ToRole="task" />
+        </EntityType>
+        <Association Name="FK_SubofferingId_task_suboffering_map">
+          <End Type="DCodeDbContext.suboffering" Role="suboffering" Multiplicity="1" />
+          <End Type="DCodeDbContext.task_suboffering_map" Role="task_suboffering_map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suboffering">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="task_suboffering_map">
+              <PropertyRef Name="SUB_OFFERING_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_task_suboffering_map">
+          <End Type="DCodeDbContext.task" Role="task" Multiplicity="1" />
+          <End Type="DCodeDbContext.task_suboffering_map" Role="task_suboffering_map" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="task_suboffering_map">
+              <PropertyRef Name="TASK_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1594,6 +1744,30 @@
                 <ScalarProperty Name="STATUS" ColumnName="STATUS" />
                 <ScalarProperty Name="STATEMENT_OF_PURPOSE" ColumnName="STATEMENT_OF_PURPOSE" />
                 <ScalarProperty Name="APPLICANT_ID" ColumnName="APPLICANT_ID" />
+                <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subofferings">
+            <EntityTypeMapping TypeName="DCodeDbContext.suboffering">
+              <MappingFragment StoreEntitySet="subofferings">
+                <ScalarProperty Name="Practice_Email_Group" ColumnName="Practice_Email_Group" />
+                <ScalarProperty Name="OfferingsId" ColumnName="OfferingsId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_suboffering_map">
+            <EntityTypeMapping TypeName="DCodeDbContext.task_suboffering_map">
+              <MappingFragment StoreEntitySet="task_suboffering_map">
+                <ScalarProperty Name="UPDATED_ON" ColumnName="UPDATED_ON" />
+                <ScalarProperty Name="UPDATED_BY" ColumnName="UPDATED_BY" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="SUB_OFFERING_ID" ColumnName="SUB_OFFERING_ID" />
                 <ScalarProperty Name="TASK_ID" ColumnName="TASK_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

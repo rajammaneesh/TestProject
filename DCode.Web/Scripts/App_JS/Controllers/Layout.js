@@ -15,6 +15,7 @@
         $rootScope.permissionsCount = null;
         $scope.gamificationStats = null;
         $scope.gamificationBannerContent = null;
+        $rootScope.logoImageName = "tech-x-logo.png";
 
         $scope.navigateToProfile = function () {
             location.href = '/Profile/Profile';

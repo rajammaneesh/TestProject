@@ -19,6 +19,7 @@ namespace DCode.Data.DbContexts
         {
             this.users = new HashSet<user>();
             this.tasks = new HashSet<task>();
+            this.subofferings = new HashSet<suboffering>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace DCode.Data.DbContexts
         public virtual portfolio portfolio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<task> tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<suboffering> subofferings { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DCode.Services.ModelFactory.CommonFactory;
 using System;
 using System.Collections.Generic;
 using static DCode.Models.Enums.Enums;
+using System.Linq;
 
 namespace DCode.Services.ModelFactory
 {
@@ -44,6 +45,13 @@ namespace DCode.Services.ModelFactory
             task.Id = input.task.ID;
             task.Hours = input.task.HOURS;
             task.Offering = input.task.offering.Code;
+            task.OfferingId = Convert.ToString(input.task.offering.Id);
+
+            //Load the subofferingId only if mapping has an entry
+            if (input.task.task_suboffering_map.Any())
+            {
+                task.SubOfferingId = Convert.ToString(input.task.task_suboffering_map.FirstOrDefault().SUB_OFFERING_ID);
+            }
             return task;
         }
 
@@ -59,7 +67,7 @@ namespace DCode.Services.ModelFactory
 
         public IEnumerable<TModel> CreateModelList<TModel>(IEnumerable<taskskill> inputList) where TModel : class
         {
-            if(typeof(TModel) == typeof(Models.ResponseModels.Task.Task))
+            if (typeof(TModel) == typeof(Models.ResponseModels.Task.Task))
             {
                 return TranslateToTaskList(inputList) as IEnumerable<TModel>;
             }
@@ -69,7 +77,7 @@ namespace DCode.Services.ModelFactory
         private IEnumerable<Models.ResponseModels.Task.Task> TranslateToTaskList(IEnumerable<taskskill> inputList)
         {
             var taskList = new List<Models.ResponseModels.Task.Task>();
-            foreach(var task in inputList)
+            foreach (var task in inputList)
             {
                 var dbtask = CreateModel<Models.ResponseModels.Task.Task>(task);
                 taskList.Add(dbtask);

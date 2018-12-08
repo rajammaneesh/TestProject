@@ -46,7 +46,10 @@ namespace DCode.Web
                 new OfferingRepository(new MetadataDbContext()),
                 new ApprovedApplicantRepository(new MetadataDbContext()),
                 new PortfolioRepository(new MetadataDbContext()),
-                new UserPointsRepository(new MetadataDbContext())
+                new UserPointsRepository(new MetadataDbContext()),
+                new Services.ModelFactory.SubOfferingModelFactory(),
+                new SubOfferingRepository(new MetadataDbContext()),
+                new ODCService()
                 );
 
 

@@ -24,5 +24,6 @@ namespace DCode.Models.RequestModels
         public int TaskType { get; set; }
         public string SelectedOffering { get; set; }
         public string SelectedServiceLine { get; set; }
+        public string SelectedSubOffering { get; set; }
     }
 }
