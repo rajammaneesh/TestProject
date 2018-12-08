@@ -46,6 +46,28 @@
             { Id: 2, Description: "Firm Initiative" },
             { Id: 3, Description: "Industry Initiative" }];
 
+        //$scope.SelectedProficiencyType = [
+        //    { Id: 1, Description: "Beginner" },
+        //    { Id: 2, Description: "Intermediate" },
+        //    { Id: 3, Description: "Expert" }];
+        $scope.SelectedProficiencyType = [];
+        $scope.GetAllProficiencies = function () {
+
+            if ($scope.SelectedProficiencyType.length == 0) {
+                var url = "/Contributor/GetAllProficiencies";
+
+                $http({
+                    url: url,
+                    method: "POST",
+                }).success(function (data) {
+                    if (data != null) {
+                        $scope.SelectedProficiencyType = data;
+                    }
+                }).error(function (error) {
+                });
+            }
+        }
+
         $scope.controlTabsMyTasks = function (value) {
             if (value == 'approval') {
                 $scope.dashboard.showApproval = true;
@@ -85,12 +107,18 @@
                 $scope.divVisibiltyModel.showSuccess = false;
                 $scope.reviewIndex = index;
                 setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
+
             }
             else if (task.TypeId >= 2) {
+                $("[id=ddlProfType]").css("border-color", "");
                 $scope.reviewIndex = index;
-                $scope.applyFITask(task)
+                if (task.SelectedProficiencyType == undefined || task.SelectedProficiencyType == '') {
+                    $("[id=ddlProfType]:eq(" + index + ")").css("border-color", "red");
+                }
+                else {
+                    $scope.applyFITask(task);
+                }
             }
-
         };
 
         $scope.showTimeAddBar = function (index) {
@@ -98,6 +126,7 @@
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.reviewIndex = index;
             setTimeout(function () { $('#txtManagerEmailId' + index).focus() }, 1);
+
         }
 
         $scope.isShowingReview = function (index) {
@@ -127,6 +156,7 @@
                             $scope.reinitialiseAssignedTasksVariables();
                             $scope.getAssignedTasks()
                             $scope.trackStatus.Hours = null;
+                            $scope.$emit('updateBanner', {});
                         }
                     }
 
@@ -181,8 +211,8 @@
         }
 
         $scope.getTasks = function () {
+            $scope.GetAllProficiencies();
             if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
-
                 $scope.tasksPageIndex++;
 
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
@@ -218,6 +248,7 @@
                                 $scope.tasks = data.Tasks;
                                 $scope.tasksGlobal = data.Tasks;
                                 $scope.tasksCount = data.Tasks.length;
+
                             }
                             else {
                                 angular.forEach(data.Tasks, function (value, index) {
@@ -248,12 +279,8 @@
                 $("#divManagerEmailId" + index).addClass("invalid");
                 isValid = false;
             }
-            //else {
-            //    $("#divManagerEmailId" + index).removeClass("invalid");
-            //}
+
             else {
-                //checking email validation
-                //var regex = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+@('@')deloitte\.com$/i;
                 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((deloitte.com))$/igm;
                 if (!re.test($("#txtManagerEmailId" + index).val())) {
                     $("#divManagerEmailId" + index).addClass("invalid");
@@ -292,7 +319,8 @@
                     data: {
                         taskId: task.Id,
                         emailAddress: managerEmailAddress,
-                        statementOfPurpose: statementOfPurpose
+                        statementOfPurpose: statementOfPurpose,
+                        proficiency: task.SelectedProficiencyType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -310,7 +338,6 @@
                             $scope.divVisibiltyModel.showSuccess = true;
                             $scope.divVisibiltyModel.showSummary = false;
                             $scope.refreshTasks();
-                            //$location.hash('divCongrats');
                             $('#divCongrats').modal('show');
                         }
                     }
@@ -365,7 +392,8 @@
                     method: "POST",
                     data: {
                         taskId: task.Id,
-                        requestor: task.RequestorEmailId
+                        requestor: task.RequestorEmailId,
+                        proficiency: task.SelectedProficiencyType
                     }
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
@@ -383,7 +411,6 @@
                             $scope.divVisibiltyModel.showSuccess = true;
                             $scope.divVisibiltyModel.showSummary = false;
                             $scope.refreshTasks();
-                            //$location.hash('divCongrats');
                             $('#divCongrats').modal('show');
                         }
                     }
@@ -406,7 +433,6 @@
             $scope.checkODCAccess();
         }
         $scope.onLoad();
-
 
         $scope.CloseModal = function () {
             $('#divCongrats').modal('toggle');
