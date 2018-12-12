@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="DCodeDbContext.elmah_error" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="DCodeDbContext.email_tracker" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="DCodeDbContext.log" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="DCodeDbContext.notification_subscription" Width="1.5" PointX="7.5" PointY="37.125" />
+        <EntityTypeShape EntityType="DCodeDbContext.notification_subscription" Width="1.5" PointX="8" PointY="24.5" />
         <EntityTypeShape EntityType="DCodeDbContext.offering" Width="1.5" PointX="3" PointY="13.375" />
         <EntityTypeShape EntityType="DCodeDbContext.portfolio" Width="1.5" PointX="0.75" PointY="15.125" />
         <EntityTypeShape EntityType="DCodeDbContext.service_line" Width="1.5" PointX="8.25" PointY="21.5" />
@@ -46,7 +46,13 @@
         <AssociationConnector Association="DCodeDbContext.FK_proficiency_Id" />
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_1" />
         <AssociationConnector Association="DCodeDbContext.taskapplicants_ibfk_2" />
-      </Diagram>
+        <EntityTypeShape EntityType="DCodeDbContext.suboffering" Width="1.5" PointX="5.25" PointY="18.75" />
+        <AssociationConnector Association="DCodeDbContext.Offering_suboffering_fk" />
+        <AssociationConnector Association="DCodeDbContext.fk_usr_off1" />
+        <EntityTypeShape EntityType="DCodeDbContext.task_suboffering_map" Width="1.5" PointX="15.75" PointY="19" />
+        <AssociationConnector Association="DCodeDbContext.FK_SubofferingId_task_suboffering_map" />
+        <AssociationConnector Association="DCodeDbContext.FK_Task_task_suboffering_map" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

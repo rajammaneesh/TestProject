@@ -338,7 +338,6 @@
                     task.Status = "Closed";
                     $scope.refreshTasks();
                     $scope.$broadcast('refresh');
-                    $scope.$emit('updateBanner', {});
                     //$location.hash('divReviewSuccess');
                 }
 
@@ -406,7 +405,7 @@
             };
         $scope.showDetails = false;
         $scope.showSummary = false;
-        $scope.divVisibiltyModel = { showCreate: false, showDetails: false, showSummary: false, showSuccess: false };
+        $scope.divVisibiltyModel = { showCreate: false, showDetails: false, showSummary: false, showSuccess: false, showCreateODCTask: false };
         $scope.skills = [];
         $scope.serviceLines = [];
         $scope.offerings = [$scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }];
@@ -432,7 +431,8 @@
                     SkillSet: [],
                     IsRewardsEnabled: "",
                     SelectedOffering: -1,
-                    SelectedTaskType: -1
+                    SelectedTaskType: -1,
+                    SelectedSubOffering: -1
                 };
         }
 
@@ -499,14 +499,46 @@
         $scope.test = function () {
             console.log($scope.taskRequest.DueDate);
         };
-        $scope.showDetailsDiv = function () {
+        //Summary
+        //This function is responsible to load either the deloitte TechX fields or the ODC fields
+        $scope.showDetailsDiv = function (hasODCAccess) {
             $scope.divVisibiltyModel.showDetails = true;
-
+            $scope.hasODCAccess = hasODCAccess;
+            if (hasODCAccess) {
+                $scope.filterTaskTypesByODC();
+            } else {
+                $scope.getAllTaskTypes();
+                $rootScope.logoImageName = "tech-x-logo.png";
+            }
             $scope.divVisibiltyModel.showCreate = false;
             $scope.divVisibiltyModel.showSummary = false;
             $scope.divVisibiltyModel.showSuccess = false;
             $scope.InitializeTaskRequest();
         };
+
+        //Summary
+        //This function is called if the user is in ODC and clicks on the "Create New Task"
+        $scope.filterTaskTypesByODC = function () {
+            if ($scope.accessibleODCId) { //If ODC access is present
+                //FInd the excluded list of TaskTypes.
+                var exTaskTypes;
+                angular.forEach($scope.ODCList, function (value, key) {
+                    if (value.OfferingId == $scope.accessibleODCId) {
+                        if (value.ExcludeTaskTypeList.indexOf(',') != -1) {
+                            exTaskTypes = value.ExcludeTaskTypeList.split(',');
+                        } else {
+                            exTaskTypes = value.ExcludeTaskTypeList;
+                        }
+                        $rootScope.logoImageName = value.Logo;
+                    }
+                });
+
+                //Change the tasktype dropdown model now
+                $scope.taskTypes = $scope.taskTypes.filter(function (e) {
+                    return this.indexOf(e.Id.toString()) == -1;
+                }, exTaskTypes);
+            }
+        }
 
         $('#txtHr').keydown(function (e) {
             var order = e.which;
@@ -641,8 +673,24 @@
                 //$scope.ServiceLineValidation = false;
             }
 
+            if ($scope.divVisibiltyModel.showCreateODCTask && $scope.hasODCAccess) {
+                if ($scope.taskRequest.SelectedSubOffering == null || $scope.taskRequest.SelectedSubOffering <= 0) {
+                    $("#divSubOffering").addClass("invalid");
+                    if (!focusSet) {
+                        focusSet = true;
+                        $('#ddlSubOffering').focus();
+                    }
+                    isValid = false;
+                    $scope.isValidSubOffering = false;
+                } else {
+                    $scope.isValidSubOffering = true;
+                }
+            } else {
+                $scope.taskRequest.SelectedSubOffering = null;
+            }
+
             //validating task Type
-            if ($scope.taskRequest.SelectedTaskType == null || $scope.taskRequest.SelectedTaskType <=0) {
+            if ($scope.taskRequest.SelectedTaskType == null || $scope.taskRequest.SelectedTaskType <= 0) {
                 $("#divTaskType").addClass("invalid");
                 if (!focusSet) {
                     focusSet = true;
@@ -813,17 +861,43 @@
             $scope.divVisibiltyModel.showCreate = false;
         }
 
-        $scope.isFirstTimeUser = function () {
-            var isFirstTimeUser = false;
+        $scope.isFirstTimeUser = function (hasODCAccess) {
+            //If The requstor belongs to an ODC, then better to show 2 cards
+            if (hasODCAccess) {
+                $scope.divVisibiltyModel.showCreate = true; //data; TODO: check this.
+                $scope.divVisibiltyModel.showDetails = false;//!data;
+                return;
+            }
             $http({
                 url: "/Requestor/IsFirstTimeUserForNewTask",
                 method: "GET",
             }).success(function (data, status, headers, config) {
-                $scope.divVisibiltyModel.showCreate = data;
-                $scope.divVisibiltyModel.showDetails = !data;
+                $scope.divVisibiltyModel.showCreate = data; //data; TODO: check this.
+                $scope.divVisibiltyModel.showDetails = !data;//!data;
+                
             }).error(function (error) {
             });
         };
+
+        $scope.checkODCAccess = function () {
+            $rootScope.$watch('userContext', function () {
+                if ($rootScope.userContext != null) {
+                    $scope.accessibleODCId = $rootScope.userContext.AccessibleODCId;
+                    $scope.hasODCAccess = $rootScope.userContext.HasODCAccess;
+                    $scope.divVisibiltyModel.showCreateODCTask = $scope.hasODCAccess;
+                    $scope.showTaskCardsOrTaskDetails();
+                }
+            });
+        }
+
+        $scope.showTaskCardsOrTaskDetails = function () {
+            $rootScope.logoImageName = "tech-x-logo.png"; //By deafult show the regular logo
+            if ($scope.hasODCAccess) {
+                $scope.getODCListAndShowCards();
+            } else {
+                $scope.isFirstTimeUser(false); //has no ODC access
+            }
+        }
 
         //$("#txtWBSCode").focusout(function () {
         //    $scope.GetWBSValidation();
@@ -841,8 +915,10 @@
                 var test = data;
                 if (data != null) {
                     $scope.successClick();
+                    //commented this to show the tast and project values in the success page.
+                    //$scope.taskRequest = null;
                     $scope.$broadcast('angucomplete-alt:clearInput', 'skillsetNewTask');
-                    $scope.$emit('updateBanner', {});
+
                 }
             }).error(function (error) {
             });
@@ -861,6 +937,54 @@
             });
         }
 
+        //Summary
+        //This function is used to pull out all the subofferings by Offering
+        $scope.getSubOfferingsByOfferingId = function (Id) {
+            $http({
+                url: "/Common/GetAllSubOfferings?offeringId=" + Id,
+                method: "GET"
+            }).success(function (data, status, config) {
+                if (data != null) {
+                    $scope.subOfferings = data;
+                    $scope.subOfferings.unshift({ OfferingId: -1, Id: -1, Description: "-- select --" });
+                    $scope.taskRequest.SelectedSubOffering = -1;
+                }
+            }).error(function (error) {
+                $scope.subOfferings = [];
+            });
+           
+        }
+        //SUmmary
+        //This function decides whether to show the cards or directly show the task details form
+        $scope.getODCListAndShowCards = function () {
+            $http({
+                url: "/Common/GetODCList",
+                method: "GET",
+                async : false //intentionally kept
+            }).success(function (data, status, config) {
+                if (data != null) {
+                    $scope.ODCList = data.ODCList;
+                    for (var i = 0; i < data.ODCList.length; i++) {
+                        if (data.ODCList[i].OfferingId == $scope.accessibleODCId) {
+                            $scope.accessibleODCName = data.ODCList[i].Name;
+                            $scope.showTechX = data.ODCList[i].ShowTechX;
+
+                            if ($scope.showTechX == '0') {
+                                $scope.showDetailsDiv(true);
+                            } else {
+                                $scope.isFirstTimeUser(true);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }).error(function (error) {
+                $scope.ODCList = [];
+            });
+            $scope.taskRequest.SelectedSubOffering = -1;
+        }
+
+
         $scope.getAllOfferings = function (Id) {
             $http({
                 url: "/Common/GetPortfolioOfferings?taskTypeId=" + Id,
@@ -869,11 +993,17 @@
 
                 if (data != null) {
                     $scope.offerings = data;
-                    if ($scope.offerings != null)
+                    if ($scope.offerings != null) {
                         $scope.offerings.unshift({ PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" });
+                        //Only if ODC access is present and the task is created from ODC section
+                        if ($scope.divVisibiltyModel.showCreateODCTask && $scope.hasODCAccess) {
+                            $scope.taskRequest.SelectedOffering = $scope.accessibleODCId;
+                            $scope.getSubOfferingsByOfferingId($scope.accessibleODCId);
+                        }
+                    }
                 }
-                }).error(function (error) {
-                    $scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }
+            }).error(function (error) {
+                $scope.offerings = { PortfolioId: -1, OfferingId: -1, OfferingCode: "-- select --", DisplayName: "-- select --" }
             });
         }
 
@@ -881,7 +1011,8 @@
             var reqObj = $scope.task;
             $http({
                 url: "/Common/GetTaskTypes",
-                method: "GET"
+                method: "GET",
+                async:false
             }).success(function (data, status, config) {
 
                 if (data != null) {
@@ -889,15 +1020,15 @@
                     if ($scope.taskTypes != null)
                         $scope.taskTypes.unshift({ Id: -1, Description: "-- select --" });
                 }
-                }).error(function (error) {
-                    $scope.taskTypes = { Id: -1, Description: "-- select --" };
+            }).error(function (error) {
+                $scope.taskTypes = { Id: -1, Description: "-- select --" };
             });
         }
 
         $scope.onLoad = function () {
-            $scope.isFirstTimeUser();
             $scope.getAllSkills();
             $scope.getAllTaskTypes();
+            $scope.checkODCAccess();
         }
         $scope.onLoad();
 

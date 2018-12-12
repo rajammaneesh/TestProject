@@ -6,6 +6,7 @@
     ContributorController.$inject = ['$scope', '$http', '$rootScope', '$filter', '$window', '$anchorScroll', '$location', 'UserContextService'];
 
     function ContributorController($scope, $http, $rootScope, $filter, $window, $anchorScroll, $location, UserContextService) {
+        $scope.showOnlyODCTask = false; //to uncheck the box by default
         $scope.userContext = null;
         $scope.taskApplicantsRecordCount = 100;
         $scope.tasksGlobal = null;
@@ -211,7 +212,7 @@
 
         $scope.getTasks = function () {
             $scope.GetAllProficiencies();
-            if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {             
+            if ($scope.tasks == null || ($scope.tasks.length < $scope.tasksTotalRecords)) {
                 $scope.tasksPageIndex++;
 
                 var searchKey = $scope.taskSearch.text != null ? $scope.taskSearch.text : '';
@@ -225,6 +226,24 @@
                 }).success(function (data, status, headers, config) {
                     if (data != undefined) {
                         if (data != null) {
+
+                            var tempArray = [];
+                            angular.forEach(data.Tasks, function (value, index) {
+                                value.isODCTask = false;
+
+                                if (value.SubOfferingId != null && value.SubOfferingId != "" && value.SubOfferingId != 0) { //i.e. -> The task belongs to an ODC
+                                    if (value.OfferingId == $scope.accessibleODCId) { //The Person has access to the ODC
+                                        value.isODCTask = true;
+                                        tempArray.push(value);
+                                    }
+                                } else if (!$scope.showOnlyODCTask && $scope.showOnlyODCTask != undefined) {//to check the value of the checkbox
+                                    tempArray.push(value);
+                                }
+                            });
+
+                            data.Tasks = tempArray;
+
+
                             if ($scope.tasks == null) {
                                 $scope.tasks = data.Tasks;
                                 $scope.tasksGlobal = data.Tasks;
@@ -328,6 +347,40 @@
             }
         }
 
+        //Summary
+        //Function is used to indentify if the logged in user has accces to any ODC.
+        $scope.checkODCAccess = function () {
+            $rootScope.$watch('userContext', function () {
+                if ($rootScope.userContext != null) {
+                    $scope.accessibleODCId = $rootScope.userContext.AccessibleODCId;
+                    $scope.hasODCAccess = $rootScope.userContext.HasODCAccess;
+                }
+                $scope.divVisibiltyModel.showCreateODCTask = $scope.hasODCAccess;
+                $scope.getODCList();
+            });
+        }
+
+        //Summary
+        //Get the available ODCList.
+        $scope.getODCList = function () {
+            $http({
+                url: "/Common/GetODCList",
+                method: "GET"
+            }).success(function (data, status, config) {
+                if (data != null) {
+                    $scope.ODCList = data.ODCList;
+                    for (var i = 0; i < data.ODCList.length; i++) {
+                        if (data.ODCList[i].OfferingId == $scope.accessibleODCId) {
+                            $scope.accessibleODCName = data.ODCList[i].Name;
+                        }
+                    }
+                }
+            }).error(function (error) {
+                $scope.ODCList = [];
+            });
+        }
+
+
         $scope.applyFITask = function (task) {
             var userEmail = "";
             if ($rootScope.userContext != null) {
@@ -377,6 +430,7 @@
         $scope.onLoad = function () {
             //$scope.getTasks();
             //$scope.getAssignedTasks();
+            $scope.checkODCAccess();
         }
         $scope.onLoad();
 

@@ -9,7 +9,7 @@ namespace DCode.Data.TaskRepository
 {
     public interface ITaskRepository
     {
-        int InsertTask(task task, IEnumerable<taskskill> taskSkills);
+        int InsertTask(task task, IEnumerable<taskskill> taskSkills, task_suboffering_map map);
         task GetTaskById(int id);
         int UpdateTask(task task);
         int CloseTask(int taskId);

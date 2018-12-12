@@ -20,16 +20,31 @@
     <div class="new-style-DTM-renderbody-inner">
         <div class="new-style-DTM-main-inner-body">
             <div style="padding:20px;" ng-show="divVisibiltyModel.showCreate">
-                <div class="new-style-DTM-new-task-background">
+                <div ng-class="divVisibiltyModel.showCreateODCTask ? 'new-style-DTM-new-task-background-left' : 'new-style-DTM-new-task-background'">
                     <div>
                         <h3 class="dark-grey-blue font-size-24">Let's start with creating a task!</h3>
-                    </div>
+                    </div>  
                     <div>
                         <p style="color:darkgrey;">You can create a task as per your project requirement. You can post your task requirement with specific skill set required to complete the task. You can short list the candidates based on the applicant skill set and choose the right resource to accomplish the task.</p>
                     </div>
                     <div>
                         <div class="new-style-DTM-create-btn-side">&nbsp;</div>
-                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="showDetailsDiv()">CREATE NEW TASK</div>
+                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="showDetailsDiv(false)">CREATE NEW TASK</div>
+                        <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
+
+                    </div>
+                </div>
+                <div class="new-style-DTM-new-task-background-right" ng-show="divVisibiltyModel.showCreateODCTask">
+                    <div>
+                        <h3 class="dark-grey-blue font-size-24">Let's start with creating a task for {{accessibleODCName}}</h3>
+                    </div>
+                    <div>
+                        <p style="color:darkgrey;">Tech X identifies you that you are part of {{accessibleODCName}}. If your task is generic and doesnt need ODC security, you need not create the tasks from here.
+                       You can create a task as per your project requirement. You can post your task requirement with specific skill set required to complete the task. </p>
+                    </div>
+                    <div>
+                        <div class="new-style-DTM-create-btn-side">&nbsp;</div>
+                        <div class="new-style-DTM-create-new-task-btn new-style-DTM-create-btn-center" ng-click="showDetailsDiv(true)">CREATE NEW TASK FOR {{accessibleODCName | uppercase}}</div>
                         <div class="new-style-DTM-create-btn-side-bottom">&nbsp;</div>
 
                     </div>
@@ -45,7 +60,7 @@
                         <p>Review applications in <span ng-click="navigateMyTasks()" class="color-8e44ad link-text">My Tasks.</span></p>
                     </div>
                     <div>
-                        Want to create a new task? <span ng-click="showDetailsDiv()" class="color-8e44ad link-text">Create New Task</span>
+                        Want to create a new task? <span ng-click="cancelClick();InitializeTaskRequest();showTaskCardsOrTaskDetails();" class="color-8e44ad link-text">Create New Task</span>
                     </div>
                 </div>
             </div>
@@ -88,8 +103,8 @@
                                     <span class="requiredField" ng-hide="taskRequest.SelectedTaskType>1">*</span>
                                 </h3>
                                 <div class="form-group datepicker">
-                                    <div id="taskSkill" style="width:95%;" class="input-group search-wbs-code" >
-                                        <div class="skill-set" >
+                                    <div id="taskSkill" style="width:95%;" class="input-group search-wbs-code">
+                                        <div class="skill-set">
                                             <div class="new-style-DTM-search"
                                                  style="padding-top:0px;position: absolute;width: 90%;max-height: 200px;background: white;overflow-y: auto;z-index: 999 !important;">
 
@@ -127,14 +142,14 @@
                                 </h3>
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" style="width:100%;" id="divServiceLine">
-                                        <select class="form-control" id="ddlServiceLine" ng-model="taskRequest.SelectedOffering" ng-options="offering.OfferingId as offering.DisplayName for offering in offerings" @*required*@></select>
+                                        <select class="form-control" id="ddlServiceLine" ng-disabled="divVisibiltyModel.showCreateODCTask && hasODCAccess" ng-model="taskRequest.SelectedOffering" ng-options="offering.OfferingId as offering.DisplayName for offering in offerings" @*required*@></select>
                                     </div>
                                     <span class="error" ng-if="taskRequest.SelectedTaskType <= 0">Select Task Type</span>
                                     <span class="error" ng-if="taskRequest.SelectedTaskType > 2">Select Industry</span>
                                     <span class="error" ng-if="taskRequest.SelectedTaskType <= 2">Select Offering</span>
                                 </div>
                             </div>
-                            <div class="new-style-DTM-space-column">&nbsp;</div>                            
+                            <div class="new-style-DTM-space-column">&nbsp;</div>
                             <div class="new-style-DTM-main-column">
                                 <h3>
                                     <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">WBS Code</span>
@@ -143,7 +158,7 @@
                                 <div class="form-group datepicker">
                                     <div class="input-group search-wbs-code" id="divWBSCode" style="width:100%;">
                                         <input type="text" id="txtWBSCode" class="form-control" ng-model="taskRequest.WBSCode" placeholder="WBS Code (XXX00000-00-00-00-0000)" @*required*@>
-                                        <span style="font-style:italic;font-size:10px;">XYI, LPX and DCI codes not allowed.</span>
+                                        <span style="font-style:italic;font-size:10px;"></span>
                                     </div>
                                     <span class="error">Invalid WBS Code</span>
                                 </div>
@@ -162,99 +177,107 @@
 
                                 </div>
                             </div>
-                            <div class="new-style-DTM-space-column">&nbsp;</div>
+                        </div>
+                        <div style="width:100%;" ng-show="divVisibiltyModel.showCreateODCTask && hasODCAccess">
                             <div class="new-style-DTM-main-column">
+                                <h3>
+                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Sub-Offering</span>
+                                    <span class="requiredField">*</span>
+                                </h3>
+                                <div class="input-group" style="width:100%;" id="divSubOffering">
+                                    <select class="form-control" id="ddlSubOffering" ng-model="taskRequest.SelectedSubOffering" ng-options="sub.Id as sub.Description for sub in subOfferings" @*required*@></select>
+                                </div>
+                                <span class="error " ng-if="isValidSubOffering==false">Select Sub Offering</span>
+                            </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div style="width:100%;">
+                                <div class="new-style-DTM-description">
+                                    <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Description</h3>
+                                    <div style="width:100%;">
+                                        <textarea class="form-control" rows="3" maxlength="250" ng-model="taskRequest.Description" placeholder="Add Description" style="resize:none;"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="gray-text" style="font-style:italic;">char limit:250</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div style="clear:both;"></div>
+                            <div style="width:100%;padding-bottom:30px;">
+                                <div class="new-style-DTM-main-column">
+                                    <h3>
+                                        <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Start Date</span>
+                                        <span class="requiredField">*</span>
+
+                                    </h3>
+                                    <div class="form-group datepicker">
+                                        <div class="input-group date" id="datetimepicker1">
+                                            <input type="text" id="txtStartDate" class="form-control" ng-model="taskRequest.OnBoardingDate" @*onkeydown="return false"*@ @*required*@>
+                                            <span class="input-group-addon" ng-click="RemoveStartDateValidation();">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <span class="error">Invalid Start Date</span>
+
+                                    </div>
+                                </div>
+                                <div class="new-style-DTM-space-column">&nbsp;</div>
+                                <div class="new-style-DTM-main-column">
+                                    <h3>
+                                        <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Due Date</span>
+                                        <span class="requiredField">*</span>
+
+                                    </h3>
+                                    <div class="form-group datepicker">
+                                        <div class="input-group date" id="datetimepicker2">
+                                            <input type="text" id="txtDueDate" class="form-control" ng-model="taskRequest.DueDate" @*onkeydown="return false"*@ @*required*@>
+                                            <span class="input-group-addon" ng-click="RemoveDueDateValidation();">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
+                                    </div>
+                                </div>
+                                <div class="new-style-DTM-space-column">&nbsp;</div>
+                                <div class="new-style-DTM-main-column">
+                                    <h3>
+                                        <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Total Hours</span>
+                                        <span class="requiredField">*</span>
+
+                                    </h3>
+                                    <div class="form-group datepicker">
+
+                                        <div id="divHours">
+                                            <input type="number" min="1" id="txtHr" ng-keypress="DontAllowPlus();" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" @*required*@>
+                                        </div>
+                                        <span class="error">Invalid Hours</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div>&nbsp;</div>
+                            <div style="clear:both;"></div>
+                            <div style="width:100%;">
+                                <div style="float:right;padding-right:50px;">
+                                    <div style="float:left;">
+                                        <div class="review-btn font-size-16 cancel link" ng-show="divVisibiltyModel.showCreate" ng-click="cancelClick()">CANCEL</div>
+                                    </div>
+                                    <div class="new-style-DTM-space-column"></div>
+                                    <div>
+                                        <button type="submit" class="review-btn link" ng-click="reviewClick()">REVIEW TASK</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+
+                            <div>
+                                <br />
                                 &nbsp;
                             </div>
                         </div>
-                        <div style="clear:both;"></div>
-                        <div style="width:100%;">
-                            <div class="new-style-DTM-description">
-                                <h3 class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Description</h3>
-                                <div style="width:100%;">
-                                    <textarea class="form-control" rows="3" maxlength="250" ng-model="taskRequest.Description" placeholder="Add Description" style="resize:none;"></textarea>
-                                </div>
-                                <div>
-                                    <label class="gray-text" style="font-style:italic;">char limit:250</label>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div style="clear:both;"></div>
-                        <div style="width:100%;padding-bottom:30px;">
-                            <div class="new-style-DTM-main-column">
-                                <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Start Date</span>
-                                    <span class="requiredField">*</span>
-
-                                </h3>
-                                <div class="form-group datepicker">
-                                    <div class="input-group date" id="datetimepicker1">
-                                        <input type="text" id="txtStartDate" class="form-control" ng-model="taskRequest.OnBoardingDate" @*onkeydown="return false"*@ @*required*@>
-                                        <span class="input-group-addon" ng-click="RemoveStartDateValidation();">
-                                            <span  class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                    <span class="error">Invalid Start Date</span>
-
-                                </div>
-                            </div>
-                            <div class="new-style-DTM-space-column">&nbsp;</div>
-                            <div class="new-style-DTM-main-column">
-                                <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Due Date</span>
-                                    <span class="requiredField">*</span>
-
-                                </h3>
-                                <div class="form-group datepicker">
-                                    <div class="input-group date" id="datetimepicker2">
-                                        <input type="text" id="txtDueDate" class="form-control" ng-model="taskRequest.DueDate" @*onkeydown="return false"*@ @*required*@>
-                                        <span class="input-group-addon" ng-click="RemoveDueDateValidation();" >
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                    <span class="error" id="spanInvalidDate">Due Date cannot be on or before On Boarding Date</span>
-                                </div>
-                            </div>
-                            <div class="new-style-DTM-space-column">&nbsp;</div>
-                            <div class="new-style-DTM-main-column">
-                                <h3>
-                                    <span class="task-fld-title font-helveticaNeue-medium heading Recommended-number">Total Hours</span>
-                                    <span class="requiredField">*</span>
-
-                                </h3>
-                                <div class="form-group datepicker">
-
-                                    <div id="divHours">
-                                        <input type="number" min="1" id="txtHr" ng-keypress="DontAllowPlus();" class="form-control" ng-model="taskRequest.Hours" placeholder="Add Hours" @*required*@>
-                                    </div>
-                                    <span class="error">Invalid Hours</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="clear:both;"></div>
-                        <div>&nbsp;</div>
-                        <div style="clear:both;"></div>
-                        <div style="width:100%;">
-                            <div style="float:right;padding-right:50px;">
-                                <div style="float:left;">
-                                    <div class="review-btn font-size-16 cancel link" ng-show="divVisibiltyModel.showCreate" ng-click="cancelClick()">CANCEL</div>
-                                </div>
-                                <div class="new-style-DTM-space-column"></div>
-                                <div>
-                                    <button type="submit" class="review-btn link" ng-click="reviewClick()">REVIEW TASK</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="clear:both;"></div>
-
-                        <div>
-                            <br />
-                            &nbsp;
-                        </div>
-                    </div>
-                </form>
+</form>
             </div>
             <div style="padding:20px;" ng-show="divVisibiltyModel.showSummary">
                 <div class="project-details" style="padding:20px;">

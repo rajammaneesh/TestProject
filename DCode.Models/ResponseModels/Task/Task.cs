@@ -25,6 +25,8 @@ namespace DCode.Models.ResponseModels.Task
         public int? SelectedProficiencyType { get;set; }
 
         public string OfferingId { get; set; }
+        public string SubOffering { get; set; }
+        public string SubOfferingId { get; set; }
         public string FullName
         {
             get

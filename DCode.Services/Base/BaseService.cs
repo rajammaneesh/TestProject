@@ -66,6 +66,12 @@ namespace DCode.Services.Base
                     entity.CREATED_BY = userContext.EmailId;
                     entity.CREATED_ON = DateTime.Now;
                 }
+                if (typeof(TEntity) == typeof(task_suboffering_map))
+                {
+                    var entity = model as task_suboffering_map;
+                    entity.CREATED_BY = userContext.EmailId;
+                    entity.CREATED_ON = DateTime.Now;
+                }
             }
             else if (userContext != null && action == ActionType.Update)
             {

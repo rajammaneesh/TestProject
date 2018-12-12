@@ -4,6 +4,8 @@ using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
+using Microsoft.Office.Interop.Outlook;
+using System;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
@@ -17,11 +19,12 @@ namespace DCode.Web.Controllers
 
         private IReportingService _reportingService;
 
-
-        public CommonController(ICommonService commonService, IReportingService reportingService)
+        private IODCService _odcService;
+        public CommonController(ICommonService commonService, IReportingService reportingService, IODCService odcService)
         {
             _commonService = commonService;
             _reportingService = reportingService;
+            _odcService = odcService;
         }
         // GET: Common
         public ActionResult Index()
@@ -263,6 +266,54 @@ namespace DCode.Web.Controllers
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Get all the subofferings by offeringId
+        /// </summary>
+        /// <param name="offeringId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetAllSubOfferings(int offeringId)
+        {
+            return Json(_commonService.GetSubOfferings(offeringId), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Get all the ODC list
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetODCList()
+        {
+            return Json(_odcService.GetExistingODCList(Server.MapPath("~/" + Constants.ODCPath)), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Action method to test the MSExchangeserver access
+        /// </summary>
+        /// <returns></returns>
+        public string TestMSExchangeAccess()
+        {
+            var result = string.Empty;
+            var appOutlook = new Application();
+            var recepient = appOutlook.Session.CreateRecipient(Convert.ToString( ConfigurationManager.AppSettings["DcodeEmailId"]));
+            recepient.Resolve();
+
+            var addrEntry = recepient.AddressEntry;
+            if (addrEntry.Type == "EX")
+            {
+                ExchangeUser exchUser = addrEntry.GetExchangeUser();
+                AddressEntries addrEntries = exchUser.GetMemberOfList();
+                if (addrEntries != null)
+                {
+                    foreach (AddressEntry exaddrEntry in addrEntries)
+                    {
+                        result+= exaddrEntry.Name.ToString() + " ,";
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

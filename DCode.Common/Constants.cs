@@ -74,7 +74,7 @@ namespace DCode.Common
         public static string ReviewBody = "Your task <b>{0}</b> under project <b>{1}</b> for the offering <b>{2}</b> is reviewed and closed.<br/><br/>Regards,<br/>TechX Team";
         public static string ApplyBody = "<b>{0}</b> has requested to be assigned for <b>{1}</b> under project <b>{2}</b> from the <b>{5}</b> offering for <b>{3}</b> starting <b>{4}</b>.<br/>He/she requires your permission to get assigned on this task.<br/>Kindly approve.<br/><br/>Regards,<br/>TechX Team";
         public static string ApplyFIBody = "<b>{0}</b> has requested to be assigned for the Firm Initiative <b>{1}</b> from the <b>{4}</b> offering for <b>{2}</b> hours starting <b>{3}</b>.<br/><br/>Regards,<br/>TechX Team";
-        public static string PostNewFIBody = "A New Firm Initiative <b>{0}</b> from the <b>{4}</b> offering has been added to the TechX portal for <b>{1}</b> hours starting <b>{2}</b> by the lead (cc'ed).<br/><br/>Description {3} <br/><br/>Please apply for the task through TechX <br/><br/>Regards,<br/>TechX Team";
+        public static string PostNewFIBody = "A New Firm Initiative <b>{0}</b> from the <b>{4}</b> offering has been added to the TechX portal for <b>{1}</b> hours starting <b>{2}</b> by the lead (cc'ed).<br/><br/>Description {3} <br/><br/>Please apply for the task through TechX <br/><br/>Regards,<br/>{5} Team";
         public static string ClientServiceNotificationBody = "New Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the <b>{0}</b> skillset.{1}<br/><br/>Regards,<br/>TechX Team";
         public static string FirmInitiativeNotificationBody = "New Firm Initiatives have been added to the  <a href=\"http://techx/\">TechX</a> portal for the offering <b>{1}</b>.{0}<br/><br/>Regards,<br/>TechX Team";
         public static string CollectiveClientServiceTasksNotificationBody = "New Client Service Tasks have been added to the  <a href=\"http://techx/\">TechX</a> portal for the <b>{1}</b> offering.{0}<br/><br/>Regards,<br/>TechX Team";
@@ -86,6 +86,8 @@ namespace DCode.Common
         public const string FirmInitiativeSkillRecord = "Firm Initiative";
         public const string IndustryInitiativeSkillRecord = "Industry Initiative";
         public const string RequestorGamificationMessage = "Raise more requests to become the top requestor";
+        public const string TeamTechX = "TechX";
+        public const string ODCPath = "ODC/Master_ODCList.xml";
     }
 
     public static class ErrorMessages

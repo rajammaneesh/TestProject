@@ -20,6 +20,7 @@ namespace DCode.Data.DbContexts
             this.approvedapplicants = new HashSet<approvedapplicant>();
             this.taskskills = new HashSet<taskskill>();
             this.taskapplicants = new HashSet<taskapplicant>();
+            this.task_suboffering_map = new HashSet<task_suboffering_map>();
         }
     
         public int ID { get; set; }
@@ -54,5 +55,7 @@ namespace DCode.Data.DbContexts
         public virtual ICollection<taskskill> taskskills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<taskapplicant> taskapplicants { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<task_suboffering_map> task_suboffering_map { get; set; }
     }
 }

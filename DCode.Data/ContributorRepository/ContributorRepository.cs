@@ -168,6 +168,9 @@ namespace DCode.Data.ContributorRepository
 
             query.Include(x => x.task.offering).Load();
 
+            //Load the suboffering map
+            query.Include(x => x.task.task_suboffering_map).Load();
+
             totalRecords = query.Count();
 
             var filteredRecords = query.OrderByDescending(x => x.CREATED_ON).Skip((currentPageIndex - 1) * recordsCount).Take(recordsCount);
