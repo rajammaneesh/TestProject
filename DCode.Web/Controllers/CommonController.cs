@@ -4,9 +4,9 @@ using DCode.Models.User;
 using DCode.Services.Common;
 using DCode.Services.Reporting;
 using DCode.Web.Models;
-using Microsoft.Office.Interop.Outlook;
-using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web.Mvc;
 using static DCode.Models.Enums.Enums;
@@ -289,27 +289,30 @@ namespace DCode.Web.Controllers
         }
 
         /// <summary>
-        /// Action method to test the MSExchangeserver access
+        /// Action method to test the whether a user belongs to a distribution list or not.
         /// </summary>
         /// <returns></returns>
         public string TestMSExchangeAccess()
         {
             var result = string.Empty;
-            var appOutlook = new Application();
-            var recepient = appOutlook.Session.CreateRecipient(Convert.ToString( ConfigurationManager.AppSettings["DcodeEmailId"]));
-            recepient.Resolve();
+            string isPartOf = "-{0} is part of {1}-", isNotPartOf = "-{0} is not part of {1}-";
+            
+            // set up domain context
+            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, Constants.UserDomain);
 
-            var addrEntry = recepient.AddressEntry;
-            if (addrEntry.Type == "EX")
+            // find a user
+            var userId = ((UserContext)SessionHelper.Retrieve(Constants.UserContext)).EmailId;
+            UserPrincipal user = UserPrincipal.FindByIdentity(ctx, userId);
+
+            // find the group in question
+            var groupNames = new List<string> { "US India MM Program", "US India HCA Program", "US India WGS Program" };
+            foreach (var groupName in groupNames)
             {
-                ExchangeUser exchUser = addrEntry.GetExchangeUser();
-                AddressEntries addrEntries = exchUser.GetMemberOfList();
-                if (addrEntries != null)
+                GroupPrincipal group = GroupPrincipal.FindByIdentity(ctx, groupName);
+                if (user != null)
                 {
-                    foreach (AddressEntry exaddrEntry in addrEntries)
-                    {
-                        result+= exaddrEntry.Name.ToString() + " ,";
-                    }
+                    // check if user is member of that group
+                    result += user.IsMemberOf(group) ? string.Format(isPartOf, userId, groupName) : string.Format(isNotPartOf, userId, groupName);
                 }
             }
 
