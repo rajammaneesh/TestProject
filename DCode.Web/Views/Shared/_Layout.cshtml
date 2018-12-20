@@ -40,13 +40,13 @@
 <head>
     <!-- Google Tag Manager -->
     <script>
-    (function (w, d, s, l, i) {
-        w[l] = w[l] || []; w[l].push({
-            'gtm.start':
-                new Date().getTime(), event: 'gtm.js'
-        }); var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-W3DPBTH');</script>
     <!-- End Google Tag Manager -->
 
@@ -227,28 +227,16 @@
         </div>
         <div class="new-style-DTM-layout-renderbody">
             <div class="row" style="margin-left: 0px;">
-                <div class="new-style-DTM-layout-logo col-sm-10">
-                    @*<div style="height:200px; width:200px">*@
-                    <div @*style="float:left;width:80%;"*@>
+                <div class="new-style-DTM-layout-logo col-sm-12">
+                   
+                    <div>
                         <img src="~/Content/Images/tech-x-logo.png" class="new-style-DTM-layout-logo-image pull-left logo">
                     </div>
                     <div class="new-style-DTM-layout-mobile-menu">
-                        <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;" @*class="pull-left logo"*@ onclick="openNav()">
+                        <img src="~/Content/Images/MenuImage.png" style="height:50px;width:50px;"  onclick="openNav()">
                     </div>
                 </div>
-                <div class="col-sm-2" style="padding-top:33px;">
-                    <div class="circle" ng-show="gamificationStats!=null">
-                        <img src="~/Content/Images/trophy64px(1).png" style="margin-top:10px;" />
-                        @* <a href="#section_4"></a>*@
-                        <p>{{gamificationStats}}</p>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="marquee">
-                <p>{{gamificationBannerContent}}</p>
-            </div>
+            
 
             <div style="width:100%;">
                 @RenderBody()
@@ -328,42 +316,42 @@
         </div>
 
         <!-- Below is the modal to bedisplayed on load to show the gamification rules-->
-        @if (showModal)
-        {
-            <div class="modal fade" id="gamificationModal" role="dialog">
-                <div class="modal-dialog" style="margin-top:8%;">
+        @*@if (showModal)
+            {
+                <div class="modal fade" id="gamificationModal" role="dialog">
+                    <div class="modal-dialog" style="margin-top:8%;">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #82c142;">
-                            <h4 class="modal-title" style="font-size: 25px;"><b>Guidelines for Gamification</b></h4>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color: orange;font-size: medium;">
-                                Greetings!
-                            </p>
-                            <p>
-                                Glad to have you onboard! TechX gamification is officially underway and you stand a chance to win some exciting prizes….<a onclick="expandGmfModal()" style="cursor: pointer;">
-                                    Click Here
-                                </a> to know more.
-                            </p>
-                            <div id="expandGmfModal" style="display:none;">
-                                <ul>
-                                    <li typeof="disc">Great time to login to TechX. Now stand a chance to win exciting prizes!</li>
-                                    <li typeof="disc">Requestors can earn loyalty points and Contributors can earn hours of contribution</li>
-                                    <li typeof="disc">More request raised and closed better chance to win</li>
-                                    <li typeof="disc">Both Requestors and Contributors stand a chance to win amazing prizes like Amazon Echo, Vantage Points, etc</li>
-                                </ul>
+
+                        <div class="modal-content">
+                            <div class="modal-header" style="text-align: center;color: #f5f5f5;background-color: #82c142;">
+                                <h4 class="modal-title" style="font-size: 25px;"><b>Guidelines for Gamification</b></h4>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color: orange;font-size: medium;">
+                                    Greetings!
+                                </p>
+                                <p>
+                                    Glad to have you onboard! TechX gamification is officially underway and you stand a chance to win some exciting prizes….<a onclick="expandGmfModal()" style="cursor: pointer;">
+                                        Click Here
+                                    </a> to know more.
+                                </p>
+                                <div id="expandGmfModal" style="display:none;">
+                                    <ul>
+                                        <li typeof="disc">Great time to login to TechX. Now stand a chance to win exciting prizes!</li>
+                                        <li typeof="disc">Requestors can earn loyalty points and Contributors can earn hours of contribution</li>
+                                        <li typeof="disc">More request raised and closed better chance to win</li>
+                                        <li typeof="disc">Both Requestors and Contributors stand a chance to win amazing prizes like Amazon Echo, Vantage Points, etc</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="text-align: center;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
-                        <div class="modal-footer" style="text-align: center;">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
-        }
+            }*@
         <!--  gamification rules modal ends-->
 
     </div>

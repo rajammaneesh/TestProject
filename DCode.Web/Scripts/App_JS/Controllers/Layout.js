@@ -13,8 +13,7 @@
         $scope.tabName = null;
         $scope.userContext = null;
         $rootScope.permissionsCount = null;
-        $scope.gamificationStats = null;
-        $scope.gamificationBannerContent = null;
+       
 
         $scope.navigateToProfile = function () {
             location.href = '/Profile/Profile';
@@ -67,31 +66,7 @@
             });
         }
 
-        $scope.GetGamificationStats = function () {
-            $http({
-                url: "/Common/GetGamificationStats",
-                method: "GET"
-            }).success(function (data, status, headers, config) {
-                if (data != null) {
-                    $scope.gamificationStats = data;
-                }
-            }).error(function (error) {
-                $scope.gamificationStats = null;
-            });
-        }
-
-        $scope.GetGamificationBanner = function () {
-            $http({
-                url: "/Common/GetBannerMessage",
-                method: "GET"
-            }).success(function (data, status, headers, config) {
-                if (data != null) {
-                    $scope.gamificationBannerContent = data;
-                }
-            }).error(function (error) {
-                $scope.gamificationBannerContent = null;
-            });
-        }
+       
 
         $scope.ResetSuccess = function () {
             $scope.successMessage = null;
@@ -154,22 +129,19 @@
         });
 
         $scope.$on('updateBanner', function (event, args) {
-            $scope.GetGamificationStats();
+            
             $scope.GetGamificationBanner();
         });
 
         $scope.onLoad = function () {
             $scope.userContext = $rootScope.userContext;
             $scope.GetPermissionsCount();
-            $scope.GetGamificationStats();
+           
             $scope.GetGamificationBanner();
 
             $scope.SetModalLoaded();
 
-            $rootScope.$on('cfpLoadingBar:completed', function () {
-                $('#gamificationModal').modal('show');
-                $('#gamificationModal').attr('id', 'gamificationModal1');
-            });
+          
         }
     }
 })();

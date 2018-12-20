@@ -543,19 +543,7 @@ namespace DCode.Services.Common
             return _offeringModelFactory.CreateModelList<Offering>(offerings);
         }
 
-        public int? GetApprovedApplicantHours()
-        {
-            var currentUser = GetCurrentUserContext();
-
-            var applicants = _approvedApplicantRepository.GetApprovedApplicants();
-
-            var hoursWorked = _approvedApplicantModelFactory.CreateModelList<ApprovedApplicant>(applicants)
-                ?.Where(x => x.APPLICANT_ID == currentUser.UserId);
-
-            var sumOfHoursWorked = hoursWorked.Sum(x => x.HOURS_WORKED);
-
-            return sumOfHoursWorked.HasValue ? Convert.ToInt32(sumOfHoursWorked) : (int?)null;
-        }
+    
 
         //public int? GetUserPoints()
         //{

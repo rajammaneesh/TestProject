@@ -100,12 +100,6 @@ namespace DCode.Web.Controllers
             return Json(user, JsonRequestBehavior.DenyGet);
         }
 
-        public void TestElmah()
-        {
-            var i = 0;
-            var j = 2 / i;
-        }
-
         public JsonResult GetDbLogs()
         {
             return Json(_commonService.GetDBLogs(), JsonRequestBehavior.AllowGet);
@@ -217,41 +211,7 @@ namespace DCode.Web.Controllers
             _commonService.UpdatingWorkLocationOfExisitingUsers();
             return Json("done", JsonRequestBehavior.AllowGet);
         }
-        [HttpGet]
-        public JsonResult GetBannerMessage()
-        {
-            var currentUser = _commonService.GetCurrentUserContext();
-
-            if (currentUser.Role == Role.Requestor)
-            {
-                //  var message = _commonService.GetRequestorEvents();
-                var message = Constants.RequestorGamificationMessage;
-
-                return Json(message, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(null, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult GetGamificationStats()
-        {
-            var currentUser = _commonService.GetCurrentUserContext();
-
-            if (currentUser.Role == Role.Contributor)
-            {
-                var hours = _commonService.GetApprovedApplicantHours();
-
-                return Json($"{ hours ?? 0} hours", JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                var points = _commonService.GetUserPoints();
-
-                return Json($"{ points ?? 0} points", JsonRequestBehavior.AllowGet);
-            }
-        }
-
+        
         [HttpGet]
         public JsonResult SetModalLoaded()
         {
