@@ -88,6 +88,7 @@ namespace DCode.Common
         public const string RequestorGamificationMessage = "Raise more requests to become the top requestor";
         public const string TeamTechX = "TechX";
         public const string ODCPath = "ODC/Master_ODCList.xml";
+        public const string UserDomain = "US";
     }
 
     public static class ErrorMessages

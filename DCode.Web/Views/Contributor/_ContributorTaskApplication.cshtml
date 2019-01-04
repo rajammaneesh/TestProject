@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <!--ADDED CHECKBOX FOR SHOW ONLY ODC TASKS-->
-                    <div class="new-style-DTM-div-33" ng-show="hasODCAccess">
+                    <div class="new-style-DTM-div-33" ng-show="hasODCAccess && taskSearch.selectedTaskType!=3">
                         <div class="input-group new-push-to-left" style="padding-top:8px;">
                             <input type="checkbox" id="checkboxODCTask" ng-model="showOnlyODCTask" class="form-control ODCCheckBox" ng-change="refreshTasksBasedonInput()"><label class="ODCCheckBoxLabel">Show Only ODC Tasks</label>
                         </div>

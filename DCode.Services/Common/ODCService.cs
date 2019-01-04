@@ -1,12 +1,10 @@
 ﻿using DCode.Common;
 using DCode.Models.ODC;
 using System;
-using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Xml.Serialization;
-using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace DCode.Services.Common
 {
@@ -52,28 +50,24 @@ namespace DCode.Services.Common
         {
             _userContext.AccessibleODCId = 0;
             var odcList = GetExistingODCList(AppDomain.CurrentDomain.BaseDirectory + Constants.ODCPath);
-            var appOutlook = new Microsoft.Office.Interop.Outlook.Application();
-            var recepient = appOutlook.Session.CreateRecipient(_userContext.EmailId);
-            recepient.Resolve();
+            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, Constants.UserDomain);
 
-            Outlook.AddressEntry addrEntry = recepient.AddressEntry;
-            if (addrEntry.Type == "EX" && odcList != null && odcList.ODCList.Any())
+            // find a user
+            UserPrincipal user = UserPrincipal.FindByIdentity(ctx, _userContext.EmailId);
+
+            foreach (var odc in odcList.ODCList)
             {
-                Outlook.ExchangeUser exchUser = addrEntry.GetExchangeUser();
-                Outlook.AddressEntries addrEntries = exchUser.GetMemberOfList();
-                if (addrEntries != null)
+                foreach (var groupName in odc.DistributionList.Split(new char[] { ',' }))
                 {
-                    foreach (Outlook.AddressEntry exaddrEntry in addrEntries)
+                    GroupPrincipal group = GroupPrincipal.FindByIdentity(ctx, groupName);
+                    if (user != null && group != null)
                     {
-                        var name = exaddrEntry.Name.ToString();
-                        foreach (var odc in odcList.ODCList)
+                        // check if user is member of that group
+                        if (user.IsMemberOf(group))
                         {
-                            if (odc.DistributionList.Split(new char[] { ',' }).Contains(name))
-                            {
-                                _userContext.AccessibleODCId = Convert.ToInt32(odc.OfferingId);
-                                _userContext.HasODCAccess = true;
-                                break;
-                            }
+                            _userContext.AccessibleODCId = Convert.ToInt32(odc.OfferingId);
+                            _userContext.HasODCAccess = true;
+                            break;
                         }
                     }
                 }
