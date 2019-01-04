@@ -291,7 +291,6 @@
     <Content Include="Content\Images\ODC\Anthem\Anthem-x-circle-logo.png" />
     <Content Include="Content\Images\ODC\Anthem\Anthem-x-logo-black-bg.png" />
     <Content Include="Content\Images\ODC\Anthem\Anthem-x-logo.png" />
-    <Content Include="ODC\Master_ODCList.xml" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
