@@ -10,6 +10,7 @@ namespace DCode.Web.Controllers
         // GET: Error
         public ActionResult Index()
         {
+            TempData[Constants.ErrorRedirectType] = ErrorRedirectType.MyGigsRedirect;
 
             var redirectType = TempData[Constants.ErrorRedirectType] != null
                 ? (ErrorRedirectType)TempData[Constants.ErrorRedirectType]

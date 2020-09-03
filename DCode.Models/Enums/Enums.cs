@@ -47,6 +47,9 @@ namespace DCode.Models.Enums
             [Description("You are unauthorized to view this page")]
             Unauthorized,
 
+            [Description("Hello Practitioner! Please access the <a href='https://www.freelancer.com/deloitte/'>MyGigs</a> site henceforth.")]
+            MyGigsRedirect,
+
             [Description("An unknown error occurred while processing your request.")]
             Unknown
         }
