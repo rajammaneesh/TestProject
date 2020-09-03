@@ -16,11 +16,17 @@ namespace DCode.Web
             //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             //);
 
+            //   routes.MapRoute(
+            //    name: "Default",
+            //    url: "{*any}",
+            //    defaults: new { controller = "Error", action = "Index", id = UrlParameter.Optional }
+            //);
+
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                 name: "Default",
+                 url: "{controller}/{action}/{id}",
+                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+             );
 
             routes.MapRoute(
                 name: "ErrorPage",
